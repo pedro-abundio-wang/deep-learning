@@ -60,5 +60,5 @@ def load_extra_datasets():
     noisy_moons = sklearn.datasets.make_moons(n_samples=N, noise=.2)
     blobs = sklearn.datasets.make_blobs(n_samples=N, random_state=5, n_features=2, centers=6)
     gaussian_quantiles = sklearn.datasets.make_gaussian_quantiles(mean=None, cov=0.5, n_samples=N, n_features=2, n_classes=2, shuffle=True, random_state=None)
-    no_structure = np.random.rand(N, 2), np.random.rand(N, 2)
+    no_structure = np.random.rand(N, 2), np.random.randint(0, 2, N)
     return noisy_circles, noisy_moons, blobs, gaussian_quantiles, no_structure
