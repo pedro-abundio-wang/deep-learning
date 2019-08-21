@@ -13,6 +13,7 @@ def linear_activation_forward_test_case():
     A_prev = np.random.randn(3,2)
     W = np.random.randn(1,3)
     b = np.random.randn(1,1)
+    
     return A_prev, W, b
 
 def L_model_forward_test_case():
@@ -42,6 +43,7 @@ def linear_backward_test_case():
     W = np.random.randn(1,3)
     b = np.random.randn(1,1)
     linear_cache = (A, W, b)
+    
     return dZ, linear_cache
 
 def linear_activation_backward_test_case():
