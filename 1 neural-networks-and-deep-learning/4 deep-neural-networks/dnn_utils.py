@@ -37,7 +37,7 @@ def relu(Z):
     return A, cache
 
 
-def relu_backward(dA, cache):
+def relu_backward(dA, activation_cache):
     """
     Implement the backward propagation for a single RELU unit.
 
@@ -49,7 +49,7 @@ def relu_backward(dA, cache):
     dZ -- Gradient of the cost with respect to Z
     """
     
-    Z = cache
+    Z = activation_cache
     dZ = np.array(dA, copy=True) # just converting dz to a correct object.
     
     # When z <= 0, you should set dz to 0 as well. 
@@ -59,7 +59,7 @@ def relu_backward(dA, cache):
     
     return dZ
 
-def sigmoid_backward(dA, cache):
+def sigmoid_backward(dA, activation_cache):
     """
     Implement the backward propagation for a single SIGMOID unit.
 
@@ -71,7 +71,7 @@ def sigmoid_backward(dA, cache):
     dZ -- Gradient of the cost with respect to Z
     """
     
-    Z = cache
+    Z = activation_cache
     
     s = 1/(1+np.exp(-Z))
     dZ = dA * s * (1-s)

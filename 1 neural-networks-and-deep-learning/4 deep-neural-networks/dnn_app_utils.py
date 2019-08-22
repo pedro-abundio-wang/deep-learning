@@ -40,7 +40,7 @@ def relu(Z):
     return A, cache
 
 
-def relu_backward(dA, cache):
+def relu_backward(dA, activation_cache):
     """
     Implement the backward propagation for a single RELU unit.
 
@@ -52,7 +52,7 @@ def relu_backward(dA, cache):
     dZ -- Gradient of the cost with respect to Z
     """
     
-    Z = cache
+    Z = activation_cache
     dZ = np.array(dA, copy=True) # just converting dz to a correct object.
     
     # When z <= 0, you should set dz to 0 as well. 
@@ -62,7 +62,7 @@ def relu_backward(dA, cache):
     
     return dZ
 
-def sigmoid_backward(dA, cache):
+def sigmoid_backward(dA, activation_cache):
     """
     Implement the backward propagation for a single SIGMOID unit.
 
@@ -74,7 +74,7 @@ def sigmoid_backward(dA, cache):
     dZ -- Gradient of the cost with respect to Z
     """
     
-    Z = cache
+    Z = activation_cache
     
     s = 1/(1+np.exp(-Z))
     dZ = dA * s * (1-s)
@@ -152,7 +152,7 @@ def initialize_parameters_deep(layer_dims):
     L = len(layer_dims)            # number of layers in the network
 
     for l in range(1, L):
-        parameters['W' + str(l)] = np.random.randn(layer_dims[l], layer_dims[l-1]) / np.sqrt(layer_dims[l-1]) #*0.01
+        parameters['W' + str(l)] = np.random.randn(layer_dims[l], layer_dims[l-1]) / np.sqrt(layer_dims[l-1]) # *0.01
         parameters['b' + str(l)] = np.zeros((layer_dims[l], 1))
         
         assert(parameters['W' + str(l)].shape == (layer_dims[l], layer_dims[l-1]))
@@ -161,7 +161,7 @@ def initialize_parameters_deep(layer_dims):
         
     return parameters
 
-def linear_forward(A, W, b):
+def linear_forward(A_prev, W, b):
     """
     Implement the linear part of a layer's forward propagation.
 
@@ -175,10 +175,10 @@ def linear_forward(A, W, b):
     cache -- a python dictionary containing "A", "W" and "b" ; stored for computing the backward pass efficiently
     """
     
-    Z = W.dot(A) + b
+    Z = np.dot(W, A_prev) + b
     
-    assert(Z.shape == (W.shape[0], A.shape[1]))
-    cache = (A, W, b)
+    assert(Z.shape == (W.shape[0], A_prev.shape[1]))
+    cache = (A_prev, W, b)
     
     return Z, cache
 
@@ -261,14 +261,14 @@ def compute_cost(AL, Y):
     m = Y.shape[1]
 
     # Compute loss from aL and y.
-    cost = (1./m) * (-np.dot(Y,np.log(AL).T) - np.dot(1-Y, np.log(1-AL).T))
+    cost = -(1./m) * (np.dot(Y,np.log(AL).T) + np.dot(1-Y, np.log(1-AL).T))
     
     cost = np.squeeze(cost)      # To make sure your cost's shape is what we expect (e.g. this turns [[17]] into 17).
     assert(cost.shape == ())
     
     return cost
 
-def linear_backward(dZ, cache):
+def linear_backward(dZ, linear_cache):
     """
     Implement the linear portion of backward propagation for a single layer (layer l)
 
@@ -281,7 +281,7 @@ def linear_backward(dZ, cache):
     dW -- Gradient of the cost with respect to W (current layer l), same shape as W
     db -- Gradient of the cost with respect to b (current layer l), same shape as b
     """
-    A_prev, W, b = cache
+    A_prev, W, b = linear_cache
     m = A_prev.shape[1]
 
     dW = 1./m * np.dot(dZ,A_prev.T)
@@ -382,7 +382,7 @@ def update_parameters(parameters, grads, learning_rate):
         
     return parameters
 
-def predict(X, y, parameters):
+def predict(X, Y, parameters):
     """
     This function is used to predict the results of a  L-layer neural network.
     
@@ -400,37 +400,15 @@ def predict(X, y, parameters):
     
     # Forward propagation
     probas, caches = L_model_forward(X, parameters)
-
     
     # convert probas to 0/1 predictions
     for i in range(0, probas.shape[1]):
-        if probas[0,i] > 0.5:
-            p[0,i] = 1
+        if probas[:,i] > 0.5:
+            p[:,i] = 1
         else:
-            p[0,i] = 0
+            p[:,i] = 0
     
-    #print results
-    #print ("predictions: " + str(p))
-    #print ("true labels: " + str(y))
-    print("Accuracy: "  + str(np.sum((p == y)/m)))
+    
+    print("Accuracy: "  + str(np.sum((p == Y)/m)))
         
     return p
-
-def print_mislabeled_images(classes, X, y, p):
-    """
-    Plots images where predictions and truth were different.
-    X -- dataset
-    y -- true labels
-    p -- predictions
-    """
-    a = p + y
-    mislabeled_indices = np.asarray(np.where(a == 1))
-    plt.rcParams['figure.figsize'] = (40.0, 40.0) # set default size of plots
-    num_images = len(mislabeled_indices[0])
-    for i in range(num_images):
-        index = mislabeled_indices[1][i]
-        
-        plt.subplot(2, num_images, i + 1)
-        plt.imshow(X[:,index].reshape(64,64,3), interpolation='nearest')
-        plt.axis('off')
-        plt.title("Prediction: " + classes[int(p[0,index])].decode("utf-8") + " \n Class: " + classes[y[0,index]].decode("utf-8"))
