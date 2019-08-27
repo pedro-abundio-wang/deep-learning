@@ -210,8 +210,8 @@
   Each filter is: f[l] x f[l] x nc[l-1]
 
   Activations:
-      a[l] is     nH[l] x nW[l] x nc[l]
-      A[l] is m x nH[l] x nW[l] x nc[l]   # In batch or minbatch training
+      a[l]:     nH[l] x nW[l] x nc[l]
+      A[l]: m x nH[l] x nW[l] x nc[l]   # In batch or minbatch training
 
   Weights: f[l] * f[l] * nc[l-1] * nc[l]
   bias:    (1, 1, 1, nc[l])
@@ -240,7 +240,7 @@
       - `n3 = 7`, `nc3 = 40`
   - Forth layer (Fully connected Softmax)
     - `a3 = 7x7x40 = 1960`  as a vector..
-- In the last example you seen that the image are getting smaller after each layer and thats the trend now.
+- In the last example you seen that the image are getting smaller after each layer.
 - Types of layer in a convolutional network:
   - Convolution. 		`#Conv`
   - Pooling      `#Pool`
