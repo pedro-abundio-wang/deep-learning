@@ -1,6 +1,10 @@
 # Sequence Models
 
+This is the fifth and final course of the deep learning specialization at [Coursera](https://www.coursera.org/specializations/deep-learning) which is moderated by [deeplearning.ai](http://deeplearning.ai/). The course is taught by Andrew Ng.
+
+## Table of contents
 * [Sequence Models](#sequence-models)
+   * [Table of contents](#table-of-contents)
    * [Course summary](#course-summary)
    * [Recurrent Neural Networks](#recurrent-neural-networks)
       * [Why sequence models](#why-sequence-models)
@@ -48,13 +52,16 @@
 
 
 ## Course summary
+Here are the course summary as its given on the course [link](https://www.coursera.org/learn/nlp-sequence-models):
 
-> This course will teach you how to build models for natural language, audio, and other sequence data. Thanks to deep learning, sequence algorithms are working far better than just two years ago, and this is enabling numerous exciting applications in speech recognition, music synthesis, chatbots, machine translation, natural language understanding, and many others.
+> This course will teach you how to build models for natural language, audio, and other sequence data. Thanks to deep learning, sequence algorithms are working far better than just two years ago, and this is enabling numerous exciting applications in speech recognition, music synthesis, chatbots, machine translation, natural language understanding, and many others. 
 >
 > You will:
 > - Understand how to build and train Recurrent Neural Networks (RNNs), and commonly-used variants such as GRUs and LSTMs.
-> - Be able to apply sequence models to natural language problems, including text synthesis.
+> - Be able to apply sequence models to natural language problems, including text synthesis. 
 > - Be able to apply sequence models to audio applications, including speech recognition and music synthesis.
+>
+> This is the fifth and final course of the Deep Learning Specialization.
 
 
 
@@ -138,10 +145,13 @@
   - In this problem T<sub>x</sub> = T<sub>y</sub>. In other problems where they aren't equal, the RNN architecture may be different.
   - a<sup><0></sup> is usually initialized with zeros, but some others may initialize it randomly in some cases.
   - There are three weight matrices here: W<sub>ax</sub>, W<sub>aa</sub>, and W<sub>ya</sub> with shapes:
-    - W<sub>ax</sub>: (NumberOfHiddenNeurons, n<sub>x</sub>)
-    - W<sub>aa</sub>: (NumberOfHiddenNeurons, NumberOfHiddenNeurons)
-    - W<sub>ya</sub>: (n<sub>y</sub>, NumberOfHiddenNeurons)
+    - W<sub>ax</sub>: (NoOfHiddenNeurons, n<sub>x</sub>)
+    - W<sub>aa</sub>: (NoOfHiddenNeurons, NoOfHiddenNeurons)
+    - W<sub>ya</sub>: (n<sub>y</sub>, NoOfHiddenNeurons)
 - The weight matrix W<sub>aa</sub> is the memory the RNN is trying to maintain from the previous layers.
+- A lot of papers and books write the same architecture this way:  
+  ![](Images/03.png)
+  - It's harder to interpreter. It's easier to roll this drawings to the unrolled version.
 - In the discussed RNN architecture,  the current output y&#770;<sup>\<t></sup> depends on the previous inputs and activations.
 - Let's have this example 'He Said, "Teddy Roosevelt was a great president"'. In this example Teddy is a person name but we know that from the word **president** that came after Teddy not from **He** and **said** that were before it.
 - So limitation of the discussed architecture is that it can not learn from elements later in the sequence. To address this problem we will later discuss **Bidirectional RNN**  (BRNN).
@@ -153,8 +163,8 @@
     ![](Images/05.png)
   - w<sub>a</sub> is w<sub>aa</sub> and w<sub>ax</sub> stacked horizontally.
   - [a<sup>\<t-1></sup>, x<sup>\<t></sup>] is a<sup>\<t-1></sup> and x<sup>\<t></sup> stacked vertically.
-  - w<sub>a</sub> shape: (NumberOfHiddenNeurons, NumberOfHiddenNeurons + n<sub>x</sub>)
-  - [a<sup>\<t-1></sup>, x<sup>\<t></sup>] shape: (NumberOfHiddenNeurons + n<sub>x</sub>, 1)
+  - w<sub>a</sub> shape: (NoOfHiddenNeurons, NoOfHiddenNeurons + n<sub>x</sub>)
+  - [a<sup>\<t-1></sup>, x<sup>\<t></sup>] shape: (NoOfHiddenNeurons + n<sub>x</sub>, 1)
 
 ### Backpropagation through time
 - Let's see how backpropagation works with the RNN architecture.
@@ -229,7 +239,7 @@
   - Pros:
     1. There will be no `<UNK>` token - it can create any word.
   - Cons:
-    1. The main disadvantage is that you end up with much longer sequences.
+    1. The main disadvantage is that you end up with much longer sequences. 
     2. Character-level language models are not as good as word-level language models at capturing long range dependencies between how the the earlier parts of the sentence also affect the later part of the sentence.
     3. Also more computationally expensive and harder to train.
 - The trend Andrew has seen in NLP is that for the most part, a word-level language model is still used, but as computers get faster there are more and more applications where people are, at least in some special cases, starting to look at more character-level models. Also, they are used in specialized applications where you might need to deal with unknown words or other vocabulary words a lot. Or they are also used in more specialized applications where you have a more specialized vocabulary.
@@ -277,7 +287,7 @@
     - Use LSTM/GRU networks.
       - Most popular.
       - We will discuss it next.
-
+ 
 ### Gated Recurrent Unit (GRU)
 - GRU is an RNN type that can help solve the vanishing gradient problem and can remember the long-term dependencies.
 
@@ -395,7 +405,7 @@
   - Each word column will be a 300-dimensional vector which will be the representation.
   - We will use the notation **e**<sub>5391</sub> to describe **man** word features vector.
   - Now, if we return to the examples we described again:
-    -  "I want a glass of **orange** ______"
+    -  "I want a glass of **orange** ______" 
     -  I want a glass of **apple** ______
   - Orange and apple now share a lot of similar features which makes it easier for an algorithm to generalize between them.
   - We call this representation **Word embeddings**.
@@ -494,10 +504,10 @@
        - "<u>orange</u>"
     4. Nearby 1 word.
        - "<u>glass</u>" word is near juice.
-       - This is the idea of **skip grams** model.
+       - This is the idea of **skip grams** model. 
        - The idea is much simpler and works remarkably well.
        - We will talk about this in the next section.
-- Researchers found that if you really want to build a _language model_, it's natural to use the last few words as a context. But if your main goal is really to learn a _word embedding_, then you can use all of these other contexts and they will result in very meaningful work embeddings as well.
+- Researchers found that if you really want to build a _language model_, it's natural to use the last few words as a context. But if your main goal is really to learn a _word embedding_, then you can use all of these other contexts and they will result in very meaningful work embeddings as well. 
 - To summarize, the language modeling problem poses a machines learning problem where you input the context (like the last four words) and predict some target words. And posing that problem allows you to learn good word embeddings.
 
 #### Word2Vec
@@ -505,7 +515,7 @@
   - For example, we have the sentence: "I want a glass of orange juice to go along with my cereal"
   - We will choose **context** and **target**.
   - The target is chosen randomly based on a window with a specific size.
-
+   
     | Context | Target | How far |
     | ------- | ------ | ------- |
     | orange  | juice  | +1      |
@@ -583,7 +593,7 @@
   - The `log(0)` problem, which might occur if there are no pairs for the given target and context values.
   - Giving not too much weight for stop words like "is", "the", and "this" which occur many times.
   - Giving not too little weight for infrequent words.
-- **Theta** and **e** are symmetric which helps getting the final word embedding.
+- **Theta** and **e** are symmetric which helps getting the final word embedding. 
 
 - _Conclusions on word embeddings:_
   - If this is your first try, you should try to download a pre-trained model that has been made and actually works best.
@@ -684,7 +694,7 @@
   - In language model: P(y<sup>\<1></sup>, ..., y<sup>\<Ty></sup>)
   - In machine translation: P(y<sup>\<1></sup>, ..., y<sup>\<Ty></sup> | x<sup>\<1></sup>, ..., x<sup>\<Tx></sup>)
 - What we don't want in machine translation model, is not to sample the output at random. This may provide some choices as an output. Sometimes you may sample a bad output.
-  - Example:
+  - Example: 
     - X = "Jane visite l’Afrique en septembre."
     - Y may be:
       - Jane is visiting Africa in September.
@@ -745,9 +755,9 @@
   - Our model that has produced not a good result.
   - We now want to know who to blame - the RNN or the beam search.
   - To do that, we calculate P(y<sup>*</sup> | X) and P(y&#770; | X). There are two cases:
-    - Case 1 (P(y<sup>*</sup> | X)  > P(y&#770; | X)):
+    - Case 1 (P(y<sup>*</sup> | X)  > P(y&#770; | X)): 
       - Conclusion: Beam search is at fault.
-    - Case 2 (P(y<sup>*</sup> | X)  <= P(y&#770; | X)):
+    - Case 2 (P(y<sup>*</sup> | X)  <= P(y&#770; | X)): 
       - Conclusion: RNN model is at fault.
 - The error analysis process is as following:
   - You choose N error examples and make the following table:   
@@ -778,7 +788,7 @@
   - Y2 = "There is a cat on the mat."
   - Suppose that the machine outputs: "the cat the cat on the mat."
   - The bigrams in the machine output:
-
+  
     | Pairs      | Count | Count clip |
     | ---------- | ----- | ---------- |
     | the cat    | 2     | 1 (Y1)     |
@@ -797,12 +807,12 @@
     - For example if we want BLEU for 4, we compute P<sub>1</sub>, P<sub>2</sub>, P<sub>3</sub>, P<sub>4</sub> and then average them and take the exp.
   - **BP** is called **BP penalty** which stands for brevity penalty. It turns out that if a machine outputs a small number of words it will get a better score so we need to handle that.   
     ![](Images/62.png)
-- BLEU score has several open source implementations.
+- BLEU score has several open source implementations. 
 - It is used in a variety of systems like machine translation and image captioning.
 
 #### Attention Model Intuition
 - So far we were using sequence to sequence models with an encoder and decoders. There is a technique called _attention_ which makes these models even better.
-- The attention idea has been one of the most influential ideas in deep learning.
+- The attention idea has been one of the most influential ideas in deep learning. 
 - The problem of long sequences:
   - Given this model, inputs, and outputs.   
     ![](Images/63.png)
@@ -845,7 +855,7 @@
     ![](Images/72.png)
   - Now we need to know how to calculate e<sup>\<t, t'></sup>. We will compute e using a small neural network (usually 1-layer, because we will need to compute this a lot):   
     ![](Images/73.png)
-    - s<sup>\<t-1></sup> is the hidden state of the RNN s, and a<sup>\<t'></sup> is the activation of the other bidirectional RNN.
+    - s<sup>\<t-1></sup> is the hidden state of the RNN s, and a<sup>\<t'></sup> is the activation of the other bidirectional RNN. 
 - One of the disadvantages of this algorithm is that it takes quadratic time or quadratic cost to run.
 - One fun way to see how attention works is by visualizing the attention weights:   
   ![](Images/74.png)
@@ -872,7 +882,7 @@
   - Research papers have around 300 - 3000 hours of training data while the best commercial systems are now trained on over 100,000 hours of audio.
 - You can build an accurate speech recognition system using the attention model that we have descried in the previous section:   
   ![](Images/77.png)
-- One of the methods that seem to work well is _CTC cost_ which stands for "Connectionist temporal classification"
+- One of the methods that seem to work well is _CTC cost_ which stands for "Connectionist temporal classification" 
   - To explain this let's say that Y = "the quick brown fox"
   - We are going to use an RNN with input, output structure:   
     ![](Images/78.png)
