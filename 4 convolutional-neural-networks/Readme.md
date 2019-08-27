@@ -297,8 +297,6 @@
   - Fifth layer (Softmax)
     - Number of neurons is 10 if we need to identify for example the 10 digits.
 - Hint a Conv1 and Pool1 is treated as one layer.
-- Some statistics about the last example:
-  - ![](Images/03.png)
 - Hyperparameters are a lot. For choosing the value of each you should follow the guideline that we will discuss later or check the literature and takes some ideas and numbers from it.
 - Usually the input size decreases over layers while the number of filters increases.
 - A CNN usually consists of one or more convolution (Not just one as the shown examples) followed by a pooling.
@@ -311,9 +309,7 @@
   - Parameter sharing.
     - A feature detector (such as a vertical edge detector) that's useful in one part of the image is probably useful in another part of the image.
   - sparsity of connections.
-    - In each layer, each output value depends only on a small number of inputs which makes it translation invariance.
-- Putting it all together:
-  - ![](Images/04.png)
+    - In each layer, each output value depends only on a small number of inputs.
 
 ## Deep convolutional models: case studies
 
@@ -322,7 +318,6 @@
 ### Why look at case studies?
 
 - We learned about Conv layer, pooling layer, and fully connected layers. It turns out that computer vision researchers spent the past few years on how to put these layers together.
-- To get some intuitions you have to see the examples that has been made.
 - Some neural networks architecture that works well in some tasks can also work well in other tasks.
 - Here are some classical CNN networks:
   - **LeNet-5**
@@ -345,7 +340,7 @@
   - The dimensions of the image decreases as the number of channels increases.
   - `Conv ==> Pool ==> Conv ==> Pool ==> FC ==> FC ==> softmax` this type of arrangement is quite common.
   - The activation function used in the paper was Sigmoid and Tanh. Modern implementation uses RELU in most of the cases.
-  - [[LeCun et al., 1998. Gradient-based learning applied to document recognition]](http://ieeexplore.ieee.org/document/726791/?reload=true)
+  - [[LeCun et al., 1998. Gradient-based learning applied to document recognition]](http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf)
 
 - **AlexNet**
 
