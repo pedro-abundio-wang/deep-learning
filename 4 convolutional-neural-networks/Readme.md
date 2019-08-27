@@ -209,8 +209,9 @@
 
   Each filter is: f[l] x f[l] x nc[l-1]
 
-  Activations: a[l] is     nH[l] x nW[l] x nc[l]
-  		         A[l] is m x nH[l] x nW[l] x nc[l]   # In batch or minbatch training
+  Activations:
+      a[l] is     nH[l] x nW[l] x nc[l]
+      A[l] is m x nH[l] x nW[l] x nc[l]   # In batch or minbatch training
 
   Weights: f[l] * f[l] * nc[l-1] * nc[l]
   bias:    (1, 1, 1, nc[l])
