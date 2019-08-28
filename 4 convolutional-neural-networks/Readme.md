@@ -371,6 +371,8 @@
 
   - [[Krizhevsky et al., 2012. ImageNet classification with deep convolutional neural networks]](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
 
+  - [[Understanding AlexNet]](https://www.learnopencv.com/understanding-alexnet/)
+
 - **VGG-16**
 
   - A modification for AlexNet.
@@ -380,6 +382,7 @@
     - MAX-POOL = 2 X 2 , s = 2
   - Here are the architecture:
     - ![](Images/07.png)
+    - ![](Images/vgg16.png)
   - This network is large even by modern standards. It has around 138 million parameters.
     - Most of the parameters are in the fully connected layers.
   - It has a total memory of 96MB per image for only forward propagation!
@@ -397,9 +400,12 @@
 - **Residual block**
   - ResNets are built out of some Residual blocks.
   - ![](Images/08.png)
+  - ![](Images/03.png)
   - They add a shortcut/skip connection before the second activation.
   - The authors of this block find that you can train a deeper NNs using stacking this block.
   - [[He et al., 2015. Deep residual networks for image recognition]](https://arxiv.org/abs/1512.03385)
+  - [[Advanced Topics in Deep Convolutional Neural Networks]](https://www.topbots.com/advanced-topics-deep-convolutional-neural-networks/)
+  - [[CNN Residual nets]](http://datahacker.rs/014-cnn-residual-nets/)
 - **Residual Network**
   - Are a NN that consists of some Residual blocks.
   - ![](Images/09.png)
@@ -408,7 +414,6 @@
   - On the left is the normal NN and on the right are the ResNet. As you can see the performance of ResNet increases as the network goes deeper.
   - In some cases going deeper won't effect the performance and that depends on the problem on your hand.
   - Some people are trying to train 1000 layer now which isn't used in practice.
-  - [He et al., 2015. Deep residual networks for image recognition]
 
 ### Why ResNets work
 
