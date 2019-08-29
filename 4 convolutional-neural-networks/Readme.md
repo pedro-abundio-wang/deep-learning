@@ -404,7 +404,6 @@
   - They add a shortcut/skip connection before the second activation.
   - The authors of this block find that you can train a deeper NNs using stacking this block.
   - [[He et al., 2015. Deep residual networks for image recognition]](https://arxiv.org/abs/1512.03385)
-  - [[Advanced Topics in Deep Convolutional Neural Networks]](https://www.topbots.com/advanced-topics-deep-convolutional-neural-networks/)
   - [[CNN Residual nets]](http://datahacker.rs/014-cnn-residual-nets/)
 - **Residual Network**
   - Are a NN that consists of some Residual blocks.
@@ -433,8 +432,9 @@
   - Then:
 
     - ```
-      a[l+2] = g( z[l+2] + a[l] )
-      	   = g( W[l+2] a[l+1] + b[l+2] + a[l] )
+      a[l+2]
+      = g( z[l+2] + a[l] )
+      = g( W[l+2] a[l+1] + b[l+2] + a[l] )
       ```
 
   - Then if we are using L2 regularization for example, `W[l+2]` will be zero. Lets say that `b[l+2]` will be zero too.
@@ -447,8 +447,8 @@
 
   - Hint: dimensions of z[l+2] and a[l] have to be the same in resNets. In case they have different dimensions what we put a matrix parameters (Which can be learned or fixed)
 
-    - `a[l+2] = g( z[l+2] + ws * a[l] ) # The added Ws should make the dimensions equal`
-    - ws also can be a zero padding.
+    - `a[l+2] = g( z[l+2] + Ws * a[l] ) # The added Ws should make the dimensions equal`
+    - Ws also can be a zero padding.
 
 - Using a skip-connection helps the gradient to backpropagate and thus helps you to train deeper networks
 
@@ -466,7 +466,6 @@
 - Useful concept (**Spectrum of Depth**):
 
   - ![](Images/12.png)
-  - Taken from [icml.cc/2016/tutorials/icml2016_tutorial_deep_residual_networks_kaiminghe.pdf](icml.cc/2016/tutorials/icml2016_tutorial_deep_residual_networks_kaiminghe.pdf)
 
 - Residual blocks types:
 
@@ -569,6 +568,7 @@
 - A lot of deep learning researchers are opening sourcing their code into Internet on sites like [Github](Github.com).
 - If you see a research paper and you want to build over it, the first thing you should do is to look for an open source implementation for this paper.
 - Some advantage of doing this is that you might download the network implementation along with its parameters/weights. The author might have used multiple GPUs and spent some weeks to reach this result and its right in front of you after you download it.
+- [[Advanced Topics in Deep Convolutional Neural Networks]](https://www.topbots.com/advanced-topics-deep-convolutional-neural-networks/)
 
 ### Transfer Learning
 
