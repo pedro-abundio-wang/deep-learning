@@ -493,8 +493,6 @@
     - Conv: `1x1x32` 5 filters.     `# The 1 x 1 Conv`
     - Output: `6x6x5`
 
-- The Network in Network is proposed in [Lin et al., 2013. Network in network]
-
 - It has been used in a lot of modern CNN implementations like ResNet and Inception models.
 
 - A 1 x 1 convolution is useful when:
@@ -506,7 +504,7 @@
 
 - Replace fully connected layers with 1 x 1 convolutions as Yann LeCun believes they are the same.
 
-  - > In Convolutional Nets, there is no such thing as "fully-connected layers". There are only convolution layers with 1x1 convolution kernels and a full connection table. [Yann LeCun](https://www.facebook.com/yann.lecun/posts/10152820758292143)
+  - > In Convolutional Nets, there is no such thing as "fully-connected layers". There are only convolution layers with 1x1 convolution kernels and a full connection table.
 
 - [[Lin et al., 2013. Network in network]](https://arxiv.org/abs/1312.4400)
 
