@@ -517,7 +517,6 @@
   - Hint that max-pool are same here.
   - Input to the inception module are 28 x 28 x 192 and the output are 28 x 28 x 256
   - We have done all the Convs and pools we might want and will let the NN learn and decide which it want to use most.
-  - [[Szegedy et al. 2014. Going deeper with convolutions]](https://arxiv.org/abs/1409.4842)
 - The problem of computational cost in Inception model:
   - If we have just focused on a 5 x 5 Conv that we have done in the last example.
   - There are 32 same filters of 5 x 5, and the input are 28 x 28 x 192.
@@ -543,13 +542,12 @@
 - It turns out that the 1 x 1 Conv won't hurt the performance.
 - **Inception module**, dimensions reduction version:
   - ![](Images/14.png)
-- Example of inception model in Keras:
-  - ![](Images/inception_block1a.png)
 
 ### Inception network (GoogleNet)
 
 - The inception network consist of concatenated blocks of the Inception module.
-- The name inception was taken from a *meme* image which was taken from **Inception movie**
+- GoogLeNet incarnation of the Inception architecture (following)
+- ![](Images/googleNet.png)
 - Here are the full model:
   - ![](Images/15.png)
 - Some times a Max-Pool block is used before the inception module to reduce the dimensions of the inputs.
@@ -566,7 +564,6 @@
 - A lot of deep learning researchers are opening sourcing their code into Internet on sites like [Github](Github.com).
 - If you see a research paper and you want to build over it, the first thing you should do is to look for an open source implementation for this paper.
 - Some advantage of doing this is that you might download the network implementation along with its parameters/weights. The author might have used multiple GPUs and spent some weeks to reach this result and its right in front of you after you download it.
-- [[Advanced Topics in Deep Convolutional Neural Networks]](https://www.topbots.com/advanced-topics-deep-convolutional-neural-networks/)
 
 ### Transfer Learning
 
