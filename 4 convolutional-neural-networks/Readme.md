@@ -373,6 +373,8 @@
 
   - [[Understanding AlexNet]](https://www.learnopencv.com/understanding-alexnet/)
 
+  - [[Difference between Local Response Normalization and Batch Normalization]](https://towardsdatascience.com/difference-between-local-response-normalization-and-batch-normalization-272308c034ac)
+
 - **VGG-16**
 
   - A modification for AlexNet.
@@ -546,8 +548,6 @@
 ### Inception network (GoogleNet)
 
 - The inception network consist of concatenated blocks of the Inception module.
-- GoogLeNet incarnation of the Inception architecture (following)
-- ![](Images/googleNet.png)
 - Here are the full model:
   - ![](Images/15.png)
 - Some times a Max-Pool block is used before the inception module to reduce the dimensions of the inputs.
