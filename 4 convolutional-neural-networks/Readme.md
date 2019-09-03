@@ -604,6 +604,8 @@
 - Implementing distortions during training:
   - You can use a different CPU thread to make you a distorted mini batches while you are training your NN.
 - Data Augmentation has also some hyperparameters. A good place to start is to find an open source data augmentation implementation and then use it or fine tune these hyperparameters.
+- [[Data Augmentation]](http://www.deeplearningessentials.science/dataAugmentation/)
+- [[Fancy PCA (Data Augmentation) with Scikit-Image]](https://deshanadesai.github.io/notes/Fancy-PCA-with-Scikit-Image)
 
 ### State of Computer Vision
 
@@ -622,6 +624,7 @@
     - This can give you a push by 2%
     - But this will slow down your production by the number of the ensembles. Also it takes more memory as it saves all the models in the memory.
     - People use this in competitions but few uses this in a real production.
+    - [[Ensemble Learning Methods for Deep Learning Neural Networks]](https://machinelearningmastery.com/ensemble-methods-for-deep-learning-neural-networks/)
   - Multi-crop at test time.
     - Run classifier on multiple versions of test versions and average results.
     - There is a technique called 10 crops that uses this.
@@ -712,7 +715,7 @@
   - ```
     L(y',y) = {
       			(y1'-y1)^2 + (y2'-y2)^2 + ...           if y1 = 1
-      			(y1'-y1)^2						if y1 = 0
+      			(y1'-y1)^2						                  if y1 = 0
     		}
     ```
 
@@ -728,7 +731,7 @@
 
   - ```
     Y = [
-      		THereIsAface				# Probability of face is presented 0 or 1
+      		ThereIsAface				# Probability of face is presented 0 or 1
       		l1x,
       		l1y,
       		....,
@@ -768,7 +771,7 @@
 - **Convolution implementation of sliding windows**:
   - First lets consider that the Conv net you trained is like this (No FC all is conv layers):
     - ![](Images/20.png)
-  - Say now we have a 16 x 16 x 3 image that we need to apply the sliding windows in. By the normal implementation that have been mentioned in the section before this, we would run this Conv net four times each rectangle size will be 16 x 16.
+  - Say now we have a 16 x 16 x 3 image that we need to apply the sliding windows in. By the normal implementation that have been mentioned in the section before this, we would run this Conv net four times.
   - The convolution implementation will be as follows:
     - ![](Images/21.png)
   - Simply we have feed the image into the same Conv net we have trained.
@@ -776,7 +779,6 @@
   - Its more efficient because it now shares the computations of the four times needed.
   - Another example would be:
     - ![](Images/22.png)
-  - This example has a total of 16 sliding windows that shares the computation together.
   - [[Sermanet et al., 2014, OverFeat: Integrated recognition, localization and detection using convolutional networks]](https://arxiv.org/abs/1312.6229)
 - The weakness of the algorithm is that the position of the rectangle wont be so accurate. Maybe none of the rectangles is exactly on the object you want to recognize.
   - ![](Images/23.png)
