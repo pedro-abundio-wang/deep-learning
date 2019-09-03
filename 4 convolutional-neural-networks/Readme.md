@@ -714,9 +714,9 @@
 
   - ```
     L(y',y) = {
-      			(y1'-y1)^2 + (y2'-y2)^2 + ...           if y1 = 1
-      			(y1'-y1)^2						                  if y1 = 0
-    		}
+      (y1'-y1)^2 + (y2'-y2)^2 + ...           if y1 = 1
+      (y1'-y1)^2						                  if y1 = 0
+    }
     ```
 
   - In practice we use logistic regression for `pc`, log likely hood loss for classes, and squared error for the bounding box.
