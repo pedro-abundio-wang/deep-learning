@@ -661,12 +661,12 @@
 
   - ```
     Y = [
-      		Pc				# Probability of an object is presented
-      		bx				# Bounding box
-      		by				# Bounding box
-      		bh				# Bounding box
-      		bw				# Bounding box
-      		c1				# The classes
+      		Pc        # Probability of an object is presented
+      		bx        # Bounding box
+      		by        # Bounding box
+      		bh        # Bounding box
+      		bw        # Bounding box
+      		c1        # The classes
       		c2
       		...
     ]
@@ -753,7 +753,6 @@
 - Disadvantage of sliding window is the computation time.
 - In the era of machine learning before deep learning, people used a hand crafted linear classifiers that classifies the object and then use the sliding window technique. The linear classier make it a cheap computation. But in the deep learning era that is so  computational expensive due to the complexity of the deep learning model.
 - To solve this problem, we can implement the sliding windows with a ***Convolutional approach***.
-- One other idea is to compress your deep learning model.
 
 ### Convolutional Implementation of Sliding Windows
 
