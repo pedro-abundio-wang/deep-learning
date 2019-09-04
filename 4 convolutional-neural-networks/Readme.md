@@ -103,26 +103,26 @@
   - Filter would be like this
 
     ```
-    1	1	1
-    0	0	0
+     1	 1	 1
+     0	 0	 0
     -1	-1	-1
     ```
 
 - There are a lot of ways we can put number inside the horizontal or vertical edge detections. For example here are the vertical **Sobel** filter (The idea is taking care of the middle row):
 
-  ```
-  1	0	-1
-  2	0	-2
-  1	0	-1
-  ```
+    ```
+    1	0	-1
+    2	0	-2
+    1	0	-1
+    ```
 
 - Also something called **Scharr** filter (The idea is taking great care of the middle row):
 
-  ```
-  3	0	-3
-  10	0	-10
-  3	0	-3
-  ```
+    ```
+     3	0	-3
+    10	0	-10
+     3	0	-3
+    ```
 
 - What we learned in the deep learning is that we don't need to hand craft these numbers, we can treat them as weights and then learn them. It can learn horizontal, vertical, angled, or any edge type automatically rather than getting them by hand.
 
@@ -142,9 +142,9 @@
 - If n = 6, f = 3, and p = 1 Then the output image will have `n+2p-f+1 = 6+2-3+1 = 6`. We maintain the size of the image.
 - Same convolutions is a convolution with a padding so that output size is the same as the input size. Its given by the equation:
 
-  ```
-  P = (f-1) / 2
-  ```
+    ```
+    P = (f-1) / 2
+    ```
 
 - In computer vision f is usually odd. Some of the reasons is that its have a center value.
 
@@ -619,16 +619,8 @@
 - We will see in the next chapter that because the object detection has less data, a more complex NN architectures will be presented.
 - Tips for doing well on benchmarks/winning competitions:
   - Ensembling.
-    - Train several networks independently and average their outputs. Merging down some classifiers.
-    - After you decide the best architecture for your problem, initialize some of that randomly and train them independently.
-    - This can give you a push by 2%
-    - But this will slow down your production by the number of the ensembles. Also it takes more memory as it saves all the models in the memory.
-    - People use this in competitions but few uses this in a real production.
     - [[Ensemble Learning Methods for Deep Learning Neural Networks]](https://machinelearningmastery.com/ensemble-methods-for-deep-learning-neural-networks/)
-  - Multi-crop at test time.
-    - Run classifier on multiple versions of test versions and average results.
-    - There is a technique called 10 crops that uses this.
-    - This can give you a better result in the production.
+  - Multi-crop at test time.(10 crops)
 - Use open source code
   - Use architectures of networks published in the literature.
   - Use open source implementations if possible.
