@@ -674,40 +674,40 @@
 
   - Example (Object is present):
 
-    - ```
-      Y = [
-        		1		# Object is present
-        		0
-        		0
-        		100
-        		100
-        		0
-        		1
-        		0
-      ]
-      ```
+  - ```
+    Y = [
+          1       # Object is present
+          0
+          0
+          100
+          100
+          0
+          1
+          0
+    ]
+    ```
 
   - Example (When object isn't presented):
 
-    - ```
-      Y = [
-        		0		# Object isn't presented
-        		?		# ? means we dont care with other values
-        		?
-        		?
-        		?
-        		?
-        		?
-        		?
-      ]
-      ```
+  - ```
+    Y = [
+          0		# Object isn't presented
+          ?		# ? means we dont care with other values
+          ?
+          ?
+          ?
+          ?
+          ?
+          ?
+    ]
+    ```
 
 - The loss function for the Y we have created (Example of the square error):
 
   - ```
     L(y',y) = {
-      (y1'-y1)^2 + (y2'-y2)^2 + ...           if y1 = 1
-      (y1'-y1)^2						                  if y1 = 0
+      (y1'-y1)^2 + (y2'-y2)^2 + ...    if y1 = 1
+      (y1'-y1)^2                       if y1 = 0
     }
     ```
 
