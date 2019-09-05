@@ -1,7 +1,5 @@
 # Improving Deep Neural Networks: Hyperparameter tuning, Regularization and Optimization
 
-This is the second course of the deep learning specialization at [Coursera](https://www.coursera.org/specializations/deep-learning) which is moderated by [DeepLearning.ai](http://deeplearning.ai/). The course is taught by Andrew Ng.
-
 ## Table of contents
 
 * [Improving Deep Neural Networks: Hyperparameter tuning, Regularization and Optimization](#improving-deep-neural-networks-hyperparameter-tuning-regularization-and-optimization)
@@ -52,14 +50,14 @@ This is the second course of the deep learning specialization at [Coursera](http
 
 Here are the course summary as its given on the course [link](https://www.coursera.org/learn/deep-neural-network):
 
-> This course will teach you the "magic" of getting deep learning to work well. Rather than the deep learning process being a black box, you will understand what drives performance, and be able to more systematically get good results. You will also learn TensorFlow. 
+> This course will teach you the "magic" of getting deep learning to work well. Rather than the deep learning process being a black box, you will understand what drives performance, and be able to more systematically get good results. You will also learn TensorFlow.
 >
-> After 3 weeks, you will: 
-> - Understand industry best-practices for building deep learning applications. 
-> - Be able to effectively use the common neural network "tricks", including initialization, L2 and dropout regularization, Batch normalization, gradient checking, 
-> - Be able to implement and apply a variety of optimization algorithms, such as mini-batch gradient descent, Momentum, RMSprop and Adam, and check for their convergence. 
+> After 3 weeks, you will:
+> - Understand industry best-practices for building deep learning applications.
+> - Be able to effectively use the common neural network "tricks", including initialization, L2 and dropout regularization, Batch normalization, gradient checking,
+> - Be able to implement and apply a variety of optimization algorithms, such as mini-batch gradient descent, Momentum, RMSprop and Adam, and check for their convergence.
 > - Understand new best-practices for the deep learning era of how to set up train/dev/test sets and analyze bias/variance
-> - Be able to implement a neural network in TensorFlow. 
+> - Be able to implement a neural network in TensorFlow.
 >
 > This is the second course of the Deep Learning Specialization.
 
@@ -160,7 +158,7 @@ Here are the course summary as its given on the course [link](https://www.course
     - ```
       w[l] = w[l] - learning_rate * dw[l]
            = w[l] - learning_rate * ((from back propagation) + lambda/m * w[l])
-           = w[l] - (learning_rate*lambda/m) * w[l] - learning_rate * (from back propagation) 
+           = w[l] - (learning_rate*lambda/m) * w[l] - learning_rate * (from back propagation)
            = (1 - (learning_rate*lambda)/m) * w[l] - learning_rate * (from back propagation)
       ```
 
@@ -178,7 +176,7 @@ Here are some intuitions:
   - Intuition 2 (with _tanh_ activation function):
      - If `lambda` is too large, w's will be small (close to zero) - will use the linear part of the _tanh_ activation function, so we will go from non linear activation to _roughly_ linear which would make the NN a _roughly_ linear classifier.
      - If `lambda` good enough it will just make some of _tanh_ activations _roughly_ linear which will prevent overfitting.
-     
+
 _**Implementation tip**_: if you implement gradient descent, one of the steps to debug gradient descent is to plot the cost function J as a function of the number of iterations of gradient descent and you want to see that the cost function J decreases **monotonically** after every elevation of gradient descent with regularization. If you plot the old definition of J (no regularization) then you might not see it decrease monotonically.
 
 
@@ -264,7 +262,7 @@ _**Implementation tip**_: if you implement gradient descent, one of the steps to
   - Then, if we have 2 hidden units per layer and x1 = x2 = 1, we result in:
 
     ```
-    if W[l] = [1.5   0] 
+    if W[l] = [1.5   0]
               [0   1.5] (l != L because of different dimensions in the output layer)
     Y' = W[L] [1.5  0]^(L-1) X = 1.5^L 	# which will be very large
               [0  1.5]
@@ -331,7 +329,7 @@ _**Implementation tip**_: if you implement gradient descent, one of the steps to
 - Use gradient checking only for debugging.
 - If algorithm fails grad check, look at components to try to identify the bug.
 - Don't forget to add `lamda/(2m) * sum(W[l])` to `J` if you are using L1 or L2 regularization.
-- Gradient checking doesn't work with dropout because J is not consistent. 
+- Gradient checking doesn't work with dropout because J is not consistent.
   - You can first turn off dropout (set `keep_prob = 1.0`), run gradient checking and then turn on dropout again.
 - Run gradient checking at random initialization and train the network for a while maybe there's a bug which can be seen when w's and b's become larger (further from 0) and can't be seen on the first iteration (when w's and b's are very small).
 
@@ -347,7 +345,7 @@ _**Implementation tip**_: if you implement gradient descent, one of the steps to
 
 - Don't intialize to values that are too large
 
-- He initialization works well for networks with ReLU activations. 
+- He initialization works well for networks with ReLU activations.
 
 ### Regularization summary
 
@@ -367,7 +365,7 @@ Implications of L2-regularization on:
     - There are extra terms in the gradients with respect to weight matrices
   - weights:
     - weights end up smaller ("weight decay") - are pushed to smaller values.
-    
+
 #### 2. Dropout   
 **What you should remember about dropout:**   
 - Dropout is a regularization technique.
@@ -500,7 +498,7 @@ Implications of L2-regularization on:
   on iteration t:
   	# can be mini-batch or batch gradient descent
   	compute dw, db on current mini-batch                
-  			
+
   	vdW = beta * vdW + (1 - beta) * dW
   	vdb = beta * vdb + (1 - beta) * db
   	W = W - learning_rate * vdW
@@ -520,7 +518,7 @@ Implications of L2-regularization on:
   on iteration t:
   	# can be mini-batch or batch gradient descent
   	compute dw, db on current mini-batch
-  	
+
   	sdW = (beta * sdW) + (1 - beta) * dW^2  # squaring is element-wise
   	sdb = (beta * sdb) + (1 - beta) * db^2  # squaring is element-wise
   	W = W - learning_rate * dW / sqrt(sdW)
@@ -545,19 +543,19 @@ Implications of L2-regularization on:
   on iteration t:
   	# can be mini-batch or batch gradient descent
   	compute dw, db on current mini-batch                
-  			
+
   	vdW = (beta1 * vdW) + (1 - beta1) * dW     # momentum
   	vdb = (beta1 * vdb) + (1 - beta1) * db     # momentum
-  			
+
   	sdW = (beta2 * sdW) + (1 - beta2) * dW^2   # RMSprop
   	sdb = (beta2 * sdb) + (1 - beta2) * db^2   # RMSprop
-  			
+
   	vdW = vdW / (1 - beta1^t)      # fixing bias
   	vdb = vdb / (1 - beta1^t)      # fixing bias
-  			
+
   	sdW = sdW / (1 - beta2^t)      # fixing bias
   	sdb = sdb / (1 - beta2^t)      # fixing bias
-  					
+
   	W = W - learning_rate * vdW / (sqrt(sdW) + epsilon)
   	b = B - learning_rate * vdb / (sqrt(sdb) + epsilon)
   ```
@@ -635,7 +633,7 @@ Implications of L2-regularization on:
     beta = 1 - 10^r   # because 1 - beta = 10^r
     ```
 
-### Hyperparameters tuning in practice: Pandas vs. Caviar 
+### Hyperparameters tuning in practice: Pandas vs. Caviar
 
 - Intuitions about hyperparameter settings from one application area may or may not transfer to a different one.
 - If you don't have much computational resources you can use the "babysitting model":
@@ -793,8 +791,8 @@ Implications of L2-regularization on:
     ```python
     import numpy as np
     import tensorflow as tf
-    
-    
+
+
     w = tf.Variable(0, dtype=tf.float32)                 # creating a variable w
     cost = tf.add(tf.add(w**2, tf.multiply(-10.0, w)), 25.0)        # can be written as this - cost = w**2 - 10*w + 25
     train = tf.train.GradientDescentOptimizer(0.01).minimize(cost)
@@ -817,8 +815,8 @@ Implications of L2-regularization on:
     ```python
     import numpy as np
     import tensorflow as tf
-    
-    
+
+
     coefficients = np.array([[1.], [-10.], [25.]])
 
     x = tf.placeholder(tf.float32, [3, 1])

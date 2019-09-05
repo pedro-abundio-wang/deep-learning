@@ -779,7 +779,7 @@
 
 - A better algorithm than the one described in the last section is the [YOLO algorithm](https://arxiv.org/abs/1506.02640).
 
-- YOLO stands for *you only look once* and was developed back in 2015.
+- [[Real-time Object Detection with YOLO, YOLOv2 and now YOLOv3]](https://medium.com/@jonathan_hui/real-time-object-detection-with-yolo-yolov2-28b1b93e2088)
 
 - Yolo Algorithm:
 

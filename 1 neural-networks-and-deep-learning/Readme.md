@@ -1,7 +1,5 @@
 # Neural Networks and Deep Learning
 
-This is the first course of the deep learning specialization at [Coursera](https://www.coursera.org/specializations/deep-learning) which is moderated by [DeepLearning.ai](http://deeplearning.ai/). The course is taught by Andrew Ng.
-
 ## Table of contents
 
 * [Neural Networks and Deep Learning](#neural-networks-and-deep-learning)
@@ -75,7 +73,7 @@ Here are the course summary as its given on the course [link](https://www.course
 - Actually, when w⋅x+b=0 the perceptron outputs 0.
 - Disadvantage of perceptron is that it only output binary values and if we try to give small change in weight and bais then perceptron can flip the output. We need some system which can modify the output slightly according to small change in weight and bias. Here comes sigmoid function in picture.
 - If we change perceptron with a sigmoid function, then we can make slight change in output.
-- e.g. output in perceptron = 0, you slightly changed weight and bias, output becomes = 1 but actual output is 0.7. In case of sigmoid, output1 = 0, slight change in weight and bias, output = 0.7. 
+- e.g. output in perceptron = 0, you slightly changed weight and bias, output becomes = 1 but actual output is 0.7. In case of sigmoid, output1 = 0, slight change in weight and bias, output = 0.7.
 - If we apply sigmoid activation function then Single neuron will act as Logistic Regression.
 -  we can understand difference between perceptron and sigmoid function by looking at sigmoid function graph.
 
