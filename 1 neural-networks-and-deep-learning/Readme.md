@@ -47,8 +47,6 @@
 
 ## Course summary
 
-Here are the course summary as its given on the course [link](https://www.coursera.org/learn/neural-networks-deep-learning):
-
 > If you want to break into cutting-edge AI, this course will help you do so. Deep learning engineers are highly sought after, and mastering deep learning will give you numerous new career opportunities. Deep learning is also a new "superpower" that will let you build AI systems that just weren't possible a few years ago.
 >
 > In this course, you will learn the foundations of deep learning. When you finish this class, you will:
