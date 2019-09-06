@@ -661,14 +661,14 @@
 
   - ```
     Y = [
-      		Pc        # Probability of an object is presented
-      		bx        # Bounding box
-      		by        # Bounding box
-      		bh        # Bounding box
-      		bw        # Bounding box
-      		c1        # The classes
-      		c2
-      		...
+          Pc        # Probability of an object is presented
+          bx        # Bounding box
+          by        # Bounding box
+          bh        # Bounding box
+          bw        # Bounding box
+          c1        # The classes
+          c2
+          ...
     ]
     ```
 
@@ -691,7 +691,7 @@
 
   - ```
     Y = [
-          0		# Object isn't presented
+          0		# Object isn't present
           ?		# ? means we dont care with other values
           ?
           ?
@@ -706,8 +706,8 @@
 
   - ```
     L(y',y) = {
-      (y1'-y1)^2 + (y2'-y2)^2 + ...    if y1 = 1
-      (y1'-y1)^2                       if y1 = 0
+          (y1'-y1)^2 + (y2'-y2)^2 + ...    if y1 = 1
+          (y1'-y1)^2                       if y1 = 0
     }
     ```
 
@@ -723,18 +723,20 @@
 
   - ```
     Y = [
-      		ThereIsAface				# Probability of face is presented 0 or 1
-      		l1x,
-      		l1y,
-      		....,
-      		l64x,
-      		l64y
+          ThereIsAFace      # Probability of face is presented 0 or 1
+          l1x,
+          l1y,
+          ....,
+          l64x,
+          l64y
     ]
     ```
 
+- Hint, in your labeled data, if `l1x,l1y` is the left corner of left eye, all other `l1x,l1y` of the other examples has to be the same.
+
 - Another application is when you need to get the skeleton of the person using different landmarks/points in the person which helps in some applications.
 
-- Hint, in your labeled data, if `l1x,l1y` is the left corner of left eye, all other `l1x,l1y` of the other examples has to be the same.
+- ![](Images/sl3.png)
 
 ### Object Detection
 
@@ -841,9 +843,6 @@
     - ![](Images/28.png)
 - So Previously, each object in training image is assigned to grid cell that contains that object's midpoint.
 - With two anchor boxes, Each object in training image is assigned to grid cell that contains object's midpoint and anchor box for the grid cell with <u>highest IoU</u>. You have to check where your object should be based on its rectangle closest to which anchor box.
-- Example of data:
-  - ![](Images/29.png)
-  - Where the car was near the anchor 2 than anchor 1.
 - You may have two or more anchor boxes but you should know their shapes.
   - how do you choose the anchor boxes and people used to just choose them by hand. Maybe five or ten anchor box shapes that spans a variety  of shapes that cover the types of objects you seem to detect frequently.
   - You may also use a k-means algorithm on your dataset to specify that.
