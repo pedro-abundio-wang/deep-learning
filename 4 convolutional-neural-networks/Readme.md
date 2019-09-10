@@ -194,28 +194,28 @@
 - Hint: no matter the size of the input, the number of the parameters is same if filter size is same. That makes it less prone to overfitting.
 - Here are some notations we will use. If layer l is a conv layer:
 
-  ```
-  Hyperparameters
-  f[l] = filter size
-  p[l] = padding	# Default is zero
-  s[l] = stride
-  nc[l] = number of filters
+    ```
+    Hyperparameters
+    f[l] = filter size
+    p[l] = padding	# Default is zero
+    s[l] = stride
+    nc[l] = number of filters
 
-  Input:  nH[l-1] x nW[l-1] x nc[l-1]
-  Output: nH[l] x nW[l] x nc[l]
-  Where
-      nH[l] = (nH[l-1] + 2p[l] - f[l] / s[l]) + 1
-      nW[l] = (nW[l-1] + 2p[l] - f[l] / s[l]) + 1
+    Input:  nH[l-1] x nW[l-1] x nc[l-1]
+    Output: nH[l] x nW[l] x nc[l]
+    Where
+        nH[l] = (nH[l-1] + 2p[l] - f[l] / s[l]) + 1
+        nW[l] = (nW[l-1] + 2p[l] - f[l] / s[l]) + 1
 
-  Each filter is: f[l] x f[l] x nc[l-1]
+    Each filter is: f[l] x f[l] x nc[l-1]
 
-  Activations:
-      a[l]:     nH[l] x nW[l] x nc[l]
-      A[l]: m x nH[l] x nW[l] x nc[l]   # In batch or minbatch training
+    Activations:
+        a[l]:     nH[l] x nW[l] x nc[l]
+        A[l]: m x nH[l] x nW[l] x nc[l]   # In batch or minbatch training
 
-  Weights: f[l] * f[l] * nc[l-1] * nc[l]
-  bias:    (1, 1, 1, nc[l])
-  ```
+    Weights: f[l] * f[l] * nc[l-1] * nc[l]
+    bias:    (1, 1, 1, nc[l])
+    ```
 
 ### A simple convolution network example
 
@@ -870,8 +870,6 @@
 
 - Your dataset could be an image with a multiple labels and a rectangle for each label, we should go to your dataset and make the shape and values of Y like we agreed.
 
-  - An example:
-    - ![](Images/30.png)
   - We first initialize all of them to zeros and ?, then for each label and rectangle choose its closest grid point then the shape to fill it and then the best anchor point based on the IOU. so that the shape of Y for one image should be `[HeightOfGrid, WidthOfGrid,16]`
 
 - Train the labeled images on a Conv net. you should receive an output of `[HeightOfGrid, WidthOfGrid,16]` for our case.
@@ -1058,7 +1056,8 @@
   - https://github.com/allanzelener/YAD2K
   - https://github.com/thtrieu/darkflow
   - https://pjreddie.com/darknet/yolo/
-
+  - https://medium.com/tech2xplore/quick-yolov2-implementation-for-object-detection-9073502bfe26/
+  
 ### Region Proposals (R-CNN)
 
 - R-CNN is an algorithm that also makes an object detection.
