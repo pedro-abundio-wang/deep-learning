@@ -1174,7 +1174,7 @@
     - A linear function followed by a non linear function.
   - Convolutional layer.
   - Pooling layer.
-  - Normalisation layer.
+  - Normalization layer.
     - A batch normalization layer.
   - Flatten layer
     - Flatten a matrix into vector.
