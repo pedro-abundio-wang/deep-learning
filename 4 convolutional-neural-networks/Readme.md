@@ -888,176 +888,12 @@
 
 - [YOLO9000 Better, faster, stronger](https://arxiv.org/abs/1612.08242)
 
-  - Summary:
-
-  - ```
-    ________________________________________________________________________________________
-    Layer (type)                     Output Shape          Param #     Connected to                
-    ========================================================================================
-    input_1 (InputLayer)             (None, 608, 608, 3)   0                                 
-    ________________________________________________________________________________________
-    conv2d_1 (Conv2D)                (None, 608, 608, 32)  864         input_1[0][0]         
-    ________________________________________________________________________________________
-    batch_normalization_1 (BatchNorm (None, 608, 608, 32)  128         conv2d_1[0][0]       
-    ________________________________________________________________________________________
-    leaky_re_lu_1 (LeakyReLU)        (None, 608, 608, 32)  0     batch_normalization_1[0][0]
-    ________________________________________________________________________________________
-    max_pooling2d_1 (MaxPooling2D)   (None, 304, 304, 32)  0           leaky_re_lu_1[0][0]   
-    ________________________________________________________________________________________
-    conv2d_2 (Conv2D)                (None, 304, 304, 64)  18432       max_pooling2d_1[0][0]
-    ________________________________________________________________________________________
-    batch_normalization_2 (BatchNorm (None, 304, 304, 64)  256         conv2d_2[0][0]       
-    ________________________________________________________________________________________
-    leaky_re_lu_2 (LeakyReLU)        (None, 304, 304, 64)  0     batch_normalization_2[0][0]
-    _______________________________________________________________________________________
-    max_pooling2d_2 (MaxPooling2D)   (None, 152, 152, 64)  0           leaky_re_lu_2[0][0]   
-    ________________________________________________________________________________________
-    conv2d_3 (Conv2D)                (None, 152, 152, 128) 73728       max_pooling2d_2[0][0]
-    ________________________________________________________________________________________
-    batch_normalization_3 (BatchNorm (None, 152, 152, 128) 512         conv2d_3[0][0]       
-    ________________________________________________________________________________________
-    leaky_re_lu_3 (LeakyReLU)        (None, 152, 152, 128) 0     batch_normalization_3[0][0]
-    ________________________________________________________________________________________
-    conv2d_4 (Conv2D)                (None, 152, 152, 64)  8192        leaky_re_lu_3[0][0]   
-    ________________________________________________________________________________________
-    batch_normalization_4 (BatchNorm (None, 152, 152, 64)  256         conv2d_4[0][0]       
-    ________________________________________________________________________________________
-    leaky_re_lu_4 (LeakyReLU)        (None, 152, 152, 64)  0     batch_normalization_4[0][0]
-    ________________________________________________________________________________________
-    conv2d_5 (Conv2D)                (None, 152, 152, 128) 73728       leaky_re_lu_4[0][0]   
-    ________________________________________________________________________________________
-    batch_normalization_5 (BatchNorm (None, 152, 152, 128) 512         conv2d_5[0][0]       
-    ________________________________________________________________________________________
-    leaky_re_lu_5 (LeakyReLU)        (None, 152, 152, 128) 0     batch_normalization_5[0][0]
-    ________________________________________________________________________________________
-    max_pooling2d_3 (MaxPooling2D)   (None, 76, 76, 128)   0           leaky_re_lu_5[0][0]   
-    ________________________________________________________________________________________
-    conv2d_6 (Conv2D)                (None, 76, 76, 256)   294912      max_pooling2d_3[0][0]
-    _______________________________________________________________________________________
-    batch_normalization_6 (BatchNorm (None, 76, 76, 256)   1024        conv2d_6[0][0]       
-    ________________________________________________________________________________________
-    leaky_re_lu_6 (LeakyReLU)        (None, 76, 76, 256)   0     batch_normalization_6[0][0]
-    _______________________________________________________________________________________
-    conv2d_7 (Conv2D)                (None, 76, 76, 128)   32768       leaky_re_lu_6[0][0]   
-    ________________________________________________________________________________________
-    batch_normalization_7 (BatchNorm (None, 76, 76, 128)   512         conv2d_7[0][0]       
-    _______________________________________________________________________________________
-    leaky_re_lu_7 (LeakyReLU)        (None, 76, 76, 128)   0     batch_normalization_7[0][0]
-    ________________________________________________________________________________________
-    conv2d_8 (Conv2D)                (None, 76, 76, 256)   294912      leaky_re_lu_7[0][0]   
-    ________________________________________________________________________________________
-    batch_normalization_8 (BatchNorm (None, 76, 76, 256)   1024        conv2d_8[0][0]       
-    ________________________________________________________________________________________
-    leaky_re_lu_8 (LeakyReLU)        (None, 76, 76, 256)   0     batch_normalization_8[0][0]
-    ________________________________________________________________________________________
-    max_pooling2d_4 (MaxPooling2D)   (None, 38, 38, 256)   0           leaky_re_lu_8[0][0]   
-    ________________________________________________________________________________________
-    conv2d_9 (Conv2D)                (None, 38, 38, 512)   1179648     max_pooling2d_4[0][0]
-    ________________________________________________________________________________________
-    batch_normalization_9 (BatchNorm (None, 38, 38, 512)   2048        conv2d_9[0][0]       
-    ________________________________________________________________________________________
-    leaky_re_lu_9 (LeakyReLU)        (None, 38, 38, 512)   0     batch_normalization_9[0][0]
-    ________________________________________________________________________________________
-    conv2d_10 (Conv2D)               (None, 38, 38, 256)   131072      leaky_re_lu_9[0][0]   
-    ________________________________________________________________________________________
-    batch_normalization_10 (BatchNor (None, 38, 38, 256)   1024        conv2d_10[0][0]       
-    ________________________________________________________________________________________
-    leaky_re_lu_10 (LeakyReLU)       (None, 38, 38, 256)   0    batch_normalization_10[0][0]
-    ________________________________________________________________________________________
-    conv2d_11 (Conv2D)               (None, 38, 38, 512)   1179648    leaky_re_lu_10[0][0]   
-    ________________________________________________________________________________________
-    batch_normalization_11 (BatchNor (None, 38, 38, 512)   2048        conv2d_11[0][0]       
-    ________________________________________________________________________________________
-    leaky_re_lu_11 (LeakyReLU)       (None, 38, 38, 512)   0    batch_normalization_11[0][0]
-    _______________________________________________________________________________________
-    conv2d_12 (Conv2D)               (None, 38, 38, 256)   131072      leaky_re_lu_11[0][0]
-    ________________________________________________________________________________________
-    batch_normalization_12 (BatchNor (None, 38, 38, 256)   1024        conv2d_12[0][0]       
-    ________________________________________________________________________________________
-    leaky_re_lu_12 (LeakyReLU)       (None, 38, 38, 256)   0   batch_normalization_12[0][0]
-    ________________________________________________________________________________________
-    conv2d_13 (Conv2D)               (None, 38, 38, 512)   1179648     leaky_re_lu_12[0][0]
-    ________________________________________________________________________________________
-    batch_normalization_13 (BatchNor (None, 38, 38, 512)   2048        conv2d_13[0][0]       
-    ________________________________________________________________________________________
-    leaky_re_lu_13 (LeakyReLU)       (None, 38, 38, 512)   0    batch_normalization_13[0][0]
-    ________________________________________________________________________________________
-    max_pooling2d_5 (MaxPooling2D)   (None, 19, 19, 512)   0           leaky_re_lu_13[0][0]
-    _______________________________________________________________________________________
-    conv2d_14 (Conv2D)               (None, 19, 19, 1024)  4718592     max_pooling2d_5[0][0]
-    ________________________________________________________________________________________
-    batch_normalization_14 (BatchNor (None, 19, 19, 1024)  4096        conv2d_14[0][0]       
-    ________________________________________________________________________________________
-    leaky_re_lu_14 (LeakyReLU)       (None, 19, 19, 1024)  0    batch_normalization_14[0][0]
-    ________________________________________________________________________________________
-    conv2d_15 (Conv2D)               (None, 19, 19, 512)   524288      leaky_re_lu_14[0][0]
-    ________________________________________________________________________________________
-    batch_normalization_15 (BatchNor (None, 19, 19, 512)   2048        conv2d_15[0][0]       
-    ________________________________________________________________________________________
-    leaky_re_lu_15 (LeakyReLU)       (None, 19, 19, 512)   0    batch_normalization_15[0][0]
-    ________________________________________________________________________________________
-    conv2d_16 (Conv2D)               (None, 19, 19, 1024)  4718592     leaky_re_lu_15[0][0]
-    ________________________________________________________________________________________
-    batch_normalization_16 (BatchNor (None, 19, 19, 1024)  4096        conv2d_16[0][0]       
-    ________________________________________________________________________________________
-    leaky_re_lu_16 (LeakyReLU)       (None, 19, 19, 1024)  0    batch_normalization_16[0][0]
-    ________________________________________________________________________________________
-    conv2d_17 (Conv2D)               (None, 19, 19, 512)   524288      leaky_re_lu_16[0][0]
-    ________________________________________________________________________________________
-    batch_normalization_17 (BatchNor (None, 19, 19, 512)   2048        conv2d_17[0][0]       
-    ________________________________________________________________________________________
-    leaky_re_lu_17 (LeakyReLU)       (None, 19, 19, 512)   0    batch_normalization_17[0][0]
-    _______________________________________________________________________________________
-    conv2d_18 (Conv2D)               (None, 19, 19, 1024)  4718592     leaky_re_lu_17[0][0]
-    ________________________________________________________________________________________
-    batch_normalization_18 (BatchNor (None, 19, 19, 1024)  4096        conv2d_18[0][0]       
-    ________________________________________________________________________________________
-    leaky_re_lu_18 (LeakyReLU)       (None, 19, 19, 1024)  0    batch_normalization_18[0][0]
-    ________________________________________________________________________________________
-    conv2d_19 (Conv2D)               (None, 19, 19, 1024)  9437184     leaky_re_lu_18[0][0]
-    ________________________________________________________________________________________
-    batch_normalization_19 (BatchNor (None, 19, 19, 1024)  4096        conv2d_19[0][0]       
-    ________________________________________________________________________________________
-    conv2d_21 (Conv2D)               (None, 38, 38, 64)    32768       leaky_re_lu_13[0][0]
-    ________________________________________________________________________________________
-    leaky_re_lu_19 (LeakyReLU)       (None, 19, 19, 1024)  0    batch_normalization_19[0][0]
-    ________________________________________________________________________________________
-    batch_normalization_21 (BatchNor (None, 38, 38, 64)    256         conv2d_21[0][0]       
-    ________________________________________________________________________________________
-    conv2d_20 (Conv2D)               (None, 19, 19, 1024)  9437184     leaky_re_lu_19[0][0]
-    ________________________________________________________________________________________
-    leaky_re_lu_21 (LeakyReLU)       (None, 38, 38, 64)    0    batch_normalization_21[0][0]
-    ________________________________________________________________________________________
-    batch_normalization_20 (BatchNor (None, 19, 19, 1024)  4096        conv2d_20[0][0]       
-    ________________________________________________________________________________________
-    space_to_depth_x2 (Lambda)       (None, 19, 19, 256)   0           leaky_re_lu_21[0][0]
-    ________________________________________________________________________________________
-    leaky_re_lu_20 (LeakyReLU)       (None, 19, 19, 1024)  0    batch_normalization_20[0][0]
-    ________________________________________________________________________________________
-    concatenate_1 (Concatenate)      (None, 19, 19, 1280)  0         space_to_depth_x2[0][0]
-                                                                      leaky_re_lu_20[0][0]
-    ________________________________________________________________________________________
-    conv2d_22 (Conv2D)               (None, 19, 19, 1024)  11796480    concatenate_1[0][0]   
-    ________________________________________________________________________________________
-    batch_normalization_22 (BatchNor (None, 19, 19, 1024)  4096        conv2d_22[0][0]       
-    ________________________________________________________________________________________
-    leaky_re_lu_22 (LeakyReLU)       (None, 19, 19, 1024)  0    batch_normalization_22[0][0]
-    ________________________________________________________________________________________
-    conv2d_23 (Conv2D)               (None, 19, 19, 425)   435625      leaky_re_lu_22[0][0]
-    ===============================================================================================
-    Total params: 50,983,561
-    Trainable params: 50,962,889
-    Non-trainable params: 20,672
-    _______________________________________________________________________________________________
-    ```
-
 - You can find implementations for YOLO here:
 
-  - https://github.com/allanzelener/YAD2K
-  - https://github.com/thtrieu/darkflow
-  - https://pjreddie.com/darknet/yolo/
-  - https://medium.com/tech2xplore/quick-yolov2-implementation-for-object-detection-9073502bfe26/
-  
+    - https://github.com/allanzelener/YAD2K/
+    - https://github.com/thtrieu/darkflow/
+    - https://pjreddie.com/darknet/yolo/
+
 ### Region Proposals (R-CNN)
 
 - R-CNN is an algorithm that also makes an object detection.
@@ -1114,7 +950,7 @@
 #### What is face recognition?
 
 - Face recognition system identifies a person's face. It can work on both images or videos.
-- **<u>Liveness detection</u>** within a video face recognition system prevents the network from identifying a face in an image. It can be learned by supervised deep learning using a dataset for live human and in-live human and sequence learning.
+- **<u>Liveness detection</u>** within a video face recognition system prevents the network from identifying a face in an image. It can be learned by supervised deep learning using a dataset for live human and sequence learning.
 - Face verification vs. face recognition:
   - Verification:
     - Input: image, name/ID. (1 : 1)
@@ -1153,6 +989,7 @@
 
 - Triplet Loss is one of the loss functions we can use to solve the similarity distance in a Siamese network.
 - Our learning objective in the triplet loss function is to get the distance between an **Anchor** image and a **positive** or a **negative** image.
+  - ![](Images/30.png)
   - Positive means same person, while negative means different person.
 - The triplet name came from that we are comparing an anchor A with a positive P and a negative N image.
 - Formally we want:
@@ -1189,8 +1026,8 @@
 - Learning the similarity function another way:
   - ![](Images/36.png)
   - The final layer is a sigmoid layer.
-  - `Y' = wi * Sigmoid ( f(x(i)) - f(x(j)) ) + b` where the subtraction is the Manhattan distance between f(x(i)) and f(x(j))
-  - Some other similarities can be Euclidean and Ki square similarity.
+  - The subtraction is the Manhattan distance between f(x(i)) and f(x(j))
+  - Some other similarities can be Euclidean.
   - The NN here is Siamese means the top and bottom convs has the same parameters.
 - The paper for this work: [[Taigman et. al., 2014. DeepFace closing the gap to human level performance]](https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Taigman_DeepFace_Closing_the_2014_CVPR_paper.html)
 - A good performance/deployment trick:
@@ -1218,7 +1055,7 @@
   - Given this AlexNet like Conv net:
     - ![](Images/38.png)
   - Pick a unit in layer l. Find the nine image patches that maximize the unit's activation.
-    - Notice that a hidden unit in layer one will see relatively small portion of NN, so if you plotted it it will match a small image in the shallower layers while it will get larger image in deeper layers.
+    - Notice that a hidden unit in layer one will see relatively small portion of NN, so if you plotted it, it will match a small image in the shallower layers while it will get larger image in deeper layers.
   - Repeat for other units and layers.
   - It turns out that layer 1 are learning the low level representations like colors and edges.
 - You will find out that each layer are learning more complex representations.
@@ -1227,7 +1064,7 @@
 - [[Zeiler and Fergus., 2013, Visualizing and understanding convolutional networks]](https://arxiv.org/abs/1311.2901)
 - A good explanation on how to get **receptive field** given a layer:
   - ![](Images/receptiveField.png)
-  - From [A guide to receptive field arithmetic for Convolutional Neural Networks](https://medium.com/@nikasa1889/a-guide-to-receptive-field-arithmetic-for-convolutional-neural-networks-e0f514068807)
+  - [A guide to receptive field arithmetic for Convolutional Neural Networks](https://medium.com/@nikasa1889/a-guide-to-receptive-field-arithmetic-for-convolutional-neural-networks-e0f514068807)
 
 #### Cost Function
 
@@ -1278,9 +1115,11 @@
     - In this matrix each cell will tell us how correlated is a channel to another channel.
   - To populate the matrix we use these equations to compute style matrix of the style image and the generated image.
     - ![](Images/43.png)
+    - ![](Images/29.png)
+    - ![](Images/04.png)
     - As it appears its the sum of the multiplication of each member in the matrix.
 - To compute gram matrix efficiently:
-  - Reshape activation from H X W X C to HW X C
+  - Reshape activation from H * W * C to HW * C
   - Name the reshaped activation F.
   - `G[l] = F * F.T`
 - Finally the cost function will be as following:
@@ -1352,14 +1191,3 @@
 - To choose the Keras backend you should go to `$HOME/.keras/keras.json` and change the file to the desired backend like Theano or Tensorflow or whatever backend you want.
 - After you create the model you can run it in a tensorflow session without compiling, training, and testing capabilities.
 - You can save your model with `model_save` and load your model using `model_load ` This will save your whole trained model to disk with the trained weights.
-
-
-
-
-
-
-
-
-<br><br>
-<br><br>
-These Notes were made by [Mahmoud Badry](mailto:mma18@fayoum.edu.eg) @2017
