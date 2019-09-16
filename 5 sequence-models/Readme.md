@@ -1,8 +1,6 @@
 # Sequence Models
 
-## Table of contents
 * [Sequence Models](#sequence-models)
-   * [Table of contents](#table-of-contents)
    * [Course summary](#course-summary)
    * [Recurrent Neural Networks](#recurrent-neural-networks)
       * [Why sequence models](#why-sequence-models)
@@ -143,9 +141,9 @@ Here are the course summary as its given on the course [link](https://www.course
   - In this problem T<sub>x</sub> = T<sub>y</sub>. In other problems where they aren't equal, the RNN architecture may be different.
   - a<sup><0></sup> is usually initialized with zeros, but some others may initialize it randomly in some cases.
   - There are three weight matrices here: W<sub>ax</sub>, W<sub>aa</sub>, and W<sub>ya</sub> with shapes:
-    - W<sub>ax</sub>: (NoOfHiddenNeurons, n<sub>x</sub>)
-    - W<sub>aa</sub>: (NoOfHiddenNeurons, NoOfHiddenNeurons)
-    - W<sub>ya</sub>: (n<sub>y</sub>, NoOfHiddenNeurons)
+    - W<sub>ax</sub>: (NumberOfHiddenNeurons, n<sub>x</sub>)
+    - W<sub>aa</sub>: (NumberOfHiddenNeurons, NumberOfHiddenNeurons)
+    - W<sub>ya</sub>: (n<sub>y</sub>, NumberOfHiddenNeurons)
 - The weight matrix W<sub>aa</sub> is the memory the RNN is trying to maintain from the previous layers.
 - A lot of papers and books write the same architecture this way:  
   ![](Images/03.png)
@@ -161,8 +159,8 @@ Here are the course summary as its given on the course [link](https://www.course
     ![](Images/05.png)
   - w<sub>a</sub> is w<sub>aa</sub> and w<sub>ax</sub> stacked horizontally.
   - [a<sup>\<t-1></sup>, x<sup>\<t></sup>] is a<sup>\<t-1></sup> and x<sup>\<t></sup> stacked vertically.
-  - w<sub>a</sub> shape: (NoOfHiddenNeurons, NoOfHiddenNeurons + n<sub>x</sub>)
-  - [a<sup>\<t-1></sup>, x<sup>\<t></sup>] shape: (NoOfHiddenNeurons + n<sub>x</sub>, 1)
+  - w<sub>a</sub> shape: (NumberOfHiddenNeurons, NumberOfHiddenNeurons + n<sub>x</sub>)
+  - [a<sup>\<t-1></sup>, x<sup>\<t></sup>] shape: (NumberOfHiddenNeurons + n<sub>x</sub>, 1)
 
 ### Backpropagation through time
 - Let's see how backpropagation works with the RNN architecture.
