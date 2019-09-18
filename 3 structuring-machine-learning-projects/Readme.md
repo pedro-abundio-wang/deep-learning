@@ -1,9 +1,6 @@
 # Structuring Machine Learning Projects
 
-## Table of contents
-
 * [Structuring Machine Learning Projects](#structuring-machine-learning-projects)
-   * [Table of contents](#table-of-contents)
    * [Course summary](#course-summary)
    * [ML Strategy 1](#ml-strategy-1)
       * [Why ML Strategy](#why-ml-strategy)
@@ -32,9 +29,7 @@
 
 ## Course summary
 
-Here are the course summary as its given on the course [link](https://www.coursera.org/learn/machine-learning-projects):
-
-> You will learn how to build a successful machine learning project. If you aspire to be a technical leader in AI, and know how to set direction for your team's work, this course will show you how.
+> You will learn how to build a successful machine learning project. If you aspire to be a technical leader in AI, and know how to set direction for your team's work, this course will show you how. 
 >
 > Much of this content has never been taught elsewhere, and is drawn from my experience building and shipping many deep learning products. This course also has two "flight simulators" that let you practice decision-making as a machine learning project leader. This provides "industry experience" that you might otherwise get only after years of ML work experience.
 >
@@ -46,7 +41,7 @@ Here are the course summary as its given on the course [link](https://www.course
 >
 > I've seen teams waste months or years through not understanding the principles taught in this course. I hope this two week course will save you months of time.
 >
-> This is a standalone course, and you can take this so long as you have basic machine learning knowledge. This is the third course in the Deep Learning Specialization.
+> This is a standalone course, and you can take this so long as you have basic machine learning knowledge.
 
 
 
@@ -76,9 +71,9 @@ Here are the course summary as its given on the course [link](https://www.course
   2. Fit dev set well on cost function.
      - If its not achieved you could try regularization, bigger training set...
   3. Fit test set well on cost function.
-     - If its not achieved you could try bigger dev. set...
+     - If its not achieved you could try bigger dev set...
   4. Performs well in real world.
-     - If its not achieved you could try change dev. set, change cost function...
+     - If its not achieved you could try change dev set, change cost function...
 
 ### Single number evaluation metric
 

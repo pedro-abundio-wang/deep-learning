@@ -1,9 +1,6 @@
 # Neural Networks and Deep Learning
 
-## Table of contents
-
 * [Neural Networks and Deep Learning](#neural-networks-and-deep-learning)
-   * [Table of contents](#table-of-contents)
    * [Course summary](#course-summary)
    * [Introduction to deep learning](#introduction-to-deep-learning)
       * [What is a (Neural Network) NN?](#what-is-a-neural-network-nn)
