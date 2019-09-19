@@ -2,7 +2,7 @@
 
 * [Structuring Machine Learning Projects](#structuring-machine-learning-projects)
    * [Course summary](#course-summary)
-   * [ML Strategy 1](#ml-strategy-1)
+   * [ML Strategy](#ml-strategy)
       * [Why ML Strategy](#why-ml-strategy)
       * [Orthogonalization](#orthogonalization)
       * [Single number evaluation metric](#single-number-evaluation-metric)
@@ -15,7 +15,6 @@
       * [Understanding human-level performance](#understanding-human-level-performance)
       * [Surpassing human-level performance](#surpassing-human-level-performance)
       * [Improving your model performance](#improving-your-model-performance)
-   * [ML Strategy 2](#ml-strategy-2)
       * [Carrying out error analysis](#carrying-out-error-analysis)
       * [Cleaning up incorrectly labeled data](#cleaning-up-incorrectly-labeled-data)
       * [Build your first system quickly, then iterate](#build-your-first-system-quickly-then-iterate)
@@ -29,7 +28,7 @@
 
 ## Course summary
 
-> You will learn how to build a successful machine learning project. If you aspire to be a technical leader in AI, and know how to set direction for your team's work, this course will show you how. 
+> You will learn how to build a successful machine learning project. If you aspire to be a technical leader in AI, and know how to set direction for your team's work, this course will show you how.
 >
 > Much of this content has never been taught elsewhere, and is drawn from my experience building and shipping many deep learning products. This course also has two "flight simulators" that let you practice decision-making as a machine learning project leader. This provides "industry experience" that you might otherwise get only after years of ML work experience.
 >
@@ -43,9 +42,7 @@
 >
 > This is a standalone course, and you can take this so long as you have basic machine learning knowledge.
 
-
-
-## ML Strategy 
+## ML Strategy
 
 ### Why ML Strategy
 
@@ -424,4 +421,3 @@
   - Key question: Do you have sufficient data to learn a function of the **complexity** needed to map x to y?
   - Use ML/DL to learn some individual components.
   - When applying supervised learning you should carefully choose what types of X to Y mappings you want to learn depending on what task you can get data for.
-
