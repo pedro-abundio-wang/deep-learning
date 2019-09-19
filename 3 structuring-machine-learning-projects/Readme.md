@@ -25,6 +25,11 @@
       * [Multi-task learning](#multi-task-learning)
       * [What is end-to-end deep learning?](#what-is-end-to-end-deep-learning)
       * [Whether to use end-to-end deep learning](#whether-to-use-end-to-end-deep-learning)
+   * [How to read deep learning papers](#how-to-read-deep-learning-papers)
+      * [Read research papers](#read-research-papers)
+      * [Read one paper multiple passes](#read-one-paper-multiple-passes)
+      * [Try to answer question](#try-to-answer-question)
+      * [About math code and long-term goals](#about-math-code-and-long-term-goals)
 
 ## Course summary
 
@@ -32,7 +37,7 @@
 >
 > Much of this content has never been taught elsewhere, and is drawn from my experience building and shipping many deep learning products. This course also has two "flight simulators" that let you practice decision-making as a machine learning project leader. This provides "industry experience" that you might otherwise get only after years of ML work experience.
 >
-> After 2 weeks, you will:
+> You will:
 > - Understand how to diagnose errors in a machine learning system, and
 > - Be able to prioritize the most promising directions for reducing error
 > - Understand complex ML settings, such as mismatched training/test sets, and comparing to and/or surpassing human-level performance
@@ -421,3 +426,30 @@
   - Key question: Do you have sufficient data to learn a function of the **complexity** needed to map x to y?
   - Use ML/DL to learn some individual components.
   - When applying supervised learning you should carefully choose what types of X to Y mappings you want to learn depending on what task you can get data for.
+
+## How to read deep learning papers
+
+### Read research papers
+
+- Compile list of papers (medium/blog posts), maybe 5-20(farmiliar) papers or 50-100 papers(master)
+- Skip around list
+
+### Read one paper multiple passes
+
+- Title + Abstract + Figures
+- Intro + Conclusion + Figures + Skip rest
+- Read rest but skip maths
+- Read whole thing but skip the parts that don't make sense
+
+### Try to answer question
+
+- What did authors try to accomplish ?
+- What are the key elements of the approach ?
+- What can you use yourself ?
+- What other references do you want to follow ?
+
+### About math code and long-term goals
+
+- math: re-derive from scratch
+- code: run open-source code, re-implement it from scratch
+- long-term goals: 2 or 3 papers per week (2 or 3 years)

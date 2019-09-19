@@ -54,8 +54,6 @@
 >
 > This course also teaches you how Deep Learning actually works, rather than presenting only a cursory or surface-level description. So after completing it, you will be able to apply deep learning to a your own applications. If you are looking for a job in AI, after this course you will also be able to answer basic interview questions.
 
-
-
 ## Introduction to deep learning
 
 > Be able to explain the major trends driving the rise of deep learning, and understand where and how it is applied today.
@@ -66,20 +64,15 @@
 - Basically a single neuron will calculate weighted sum of input(W.T*X) and then we can set a threshold to predict output in a perceptron. If weighted sum of input cross the threshold, perceptron fires and if not then perceptron doesn't predict.
 - Perceptron can take real values input or boolean values.
 - Actually, when w⋅x+b=0 the perceptron outputs 0.
-- Disadvantage of perceptron is that it only output binary values and if we try to give small change in weight and bais then perceptron can flip the output. We need some system which can modify the output slightly according to small change in weight and bias. Here comes sigmoid function in picture.
+- Disadvantage of perceptron is that it only output binary values and if we try to give small change in weight and bais then perceptron can flip the output. We need some system which can modify the output slightly according to small change in weight and bias.
 - If we change perceptron with a sigmoid function, then we can make slight change in output.
-- e.g. output in perceptron = 0, you slightly changed weight and bias, output becomes = 1 but actual output is 0.7. In case of sigmoid, output1 = 0, slight change in weight and bias, output = 0.7.
 - If we apply sigmoid activation function then Single neuron will act as Logistic Regression.
--  we can understand difference between perceptron and sigmoid function by looking at sigmoid function graph.
-
 - Simple NN graph:
   - ![](Images/Others/01.jpg)
-  - Image taken from [tutorialspoint.com](http://www.tutorialspoint.com/)
 - RELU stands for rectified linear unit is the most popular activation function right now that makes deep NNs train faster now.
 - Hidden layers predicts connection between inputs automatically, thats what deep learning is good at.
 - Deep NN consists of more hidden layers (Deeper layers)
   - ![](Images/Others/02.png)
-  - Image taken from [opennn.net](http://www.opennn.net/)
 - Each Input will be connected to the hidden layer and the NN will decide the connections.
 - Supervised learning means we have the (X,Y) and we need to get the function that maps X to Y.
 
@@ -89,10 +82,9 @@
   - CNN or convolutional neural networks (Useful in computer vision)
   - RNN or Recurrent neural networks (Useful in Speech recognition or NLP)
   - Standard NN (Useful for Structured data)
-  - Hybrid/custom NN or a Collection of NNs types
 - Structured data is like the databases and tables.
 - Unstructured data is like images, video, audio, and text.
-- Structured data gives more money because companies relies on prediction on its big data.
+- Structured data (like advertising) gives more money because companies relies on prediction on its big data.
 
 ### Why is deep learning taking off?
 
@@ -110,12 +102,9 @@
      - GPUs.
      - Powerful CPUs.
      - Distributed computing.
-     - ASICs
   3. Algorithm:
      1. Creative algorithms has appeared that changed the way NN works.
         - For example using RELU function is so much better than using SIGMOID function in training a NN because it helps with the vanishing gradient problem.
-
-  ​
 
 ## Neural Networks Basics
 
@@ -125,7 +114,6 @@
 
 - Mainly he is talking about how to do a logistic regression to make a binary classifier.
   - ![log](Images/Others/03.png)
-  - Image taken from [3.bp.blogspot.com](http://3.bp.blogspot.com)
 - He talked about an example of knowing if the current image contains a cat or not.
 - Here are some notations:
   - `M is the number of training vectors`
@@ -146,18 +134,18 @@
   - If x is a vector: `y = w(transpose)x + b`
   - If we need y to be in between 0 and 1 (probability): `y = sigmoid(w(transpose)x + b)`
   - In some notations this might be used: `y = sigmoid(w(transpose)x)`
-    - While `b` is `w0` of `w` and we add `x0 = 1`. but we won't use this notation in the course (Andrew said that the first notation is better).
+    - While `b` is `w0` of `w` and we add `x0 = 1`. but we won't use this notation in the course.
 - In binary classification `Y` has to be between `0` and `1`.
 - In the last equation `w` is a vector of `Nx` and `b` is a real number
 
 ### Logistic regression cost function
 
 - First loss function would be the square root error:  `L(y',y) = 1/2 (y' - y)^2`
-  - But we won't use this notation because it leads us to optimization problem which is non convex, means it contains local optimum points.
+  - But we won't use this notation because it leads us to optimization problem which is neural saturated, means it leads learning slow.
 - This is the function that we will use: `L(y',y) = - (y*log(y') + (1-y)*log(1-y'))`
 - To explain the last function lets see:
   - if `y = 1` ==> `L(y',1) = -log(y')`  ==> we want `y'` to be the largest   ==> `y`' biggest value is 1
-  - if `y = 0` ==> `L(y',0) = -log(1-y')` ==> we want `1-y'` to be the largest ==> `y'` to be smaller as possible because it can only has 1 value.
+  - if `y = 0` ==> `L(y',0) = -log(1-y')` ==> we want `1-y'` to be the largest ==> `y'` to be smaller as possible, `y`' smallest value is 0.
 - Then the Cost function will be: `J(w,b) = (1/m) * Sum(L(y'[i],y[i]))`
 - The loss function computes the error for a single training example; the cost function is the average of the loss functions of the entire training set.
 
@@ -171,8 +159,6 @@
   where alpha is the learning rate and `dw` is the derivative of `w` (Change to `w`)
   The derivative is also the slope of `w`
 - Looks like greedy algorithms. the derivative give us the direction to improve our parameters.
-
-
 - The actual equations we will implement:
   - `w = w - alpha * d(J(w,b) / dw)`        (how much the function slopes in the w direction)
   - `b = b - alpha * d(J(w,b) / db)`        (how much the function slopes in the d direction)
@@ -687,11 +673,3 @@
 - Ian worked with [OpenAI.com](https://openai.com/) and Google on ML and NN applications.
 - Ian tells all who wants to get into AI to get a Ph.D. or post your code on Github and the companies will find you.
 - Ian thinks that we need to start anticipating security problems with ML now and make sure that these algorithms are secure from the start instead of trying to patch it in retroactively years later.
-
-
-
-
-
-<br><br>
-<br><br>
-These Notes were made by [Mahmoud Badry](mailto:mma18@fayoum.edu.eg) @2017
