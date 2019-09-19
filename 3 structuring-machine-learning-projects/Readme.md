@@ -45,7 +45,7 @@
 
 
 
-## ML Strategy 1
+## ML Strategy 
 
 ### Why ML Strategy
 
@@ -190,13 +190,12 @@
 - You might have multiple human-level performances based on the human experience. Then you choose the human-level performance (proxy for Bayes error) that is more suitable for the system you're trying to build.
 - Improving deep learning algorithms is harder once you reach a human-level performance.
 - Summary of bias/variance with human-level performance:
-  1. human-level error (proxy for Bayes error)
+  1. training error
      - Calculate `avoidable bias = training error - human-level error`
      - If **avoidable bias** difference is the bigger, then it's *bias* problem and you should use a strategy for **bias** resolving.
-  2. training error
+  2. dev error
      - Calculate `variance = dev error - training error`
      - If **variance** difference is bigger, then you should use a strategy for **variance** resolving.
-  3. Dev error
 - So having an estimate of human-level performance gives you an estimate of Bayes error. And this allows you to more quickly make decisions as to whether you should focus on trying to reduce a bias or trying to reduce the variance of your algorithm.
 - These techniques will tend to work well until you surpass human-level performance, whereupon you might no longer have a good estimate of Bayes error that still helps you make this decision really clearly.
 
@@ -222,13 +221,9 @@
      - Train longer/better optimization algorithm (like Momentum, RMSprop, Adam).
      - Find better NN architecture/hyperparameters search.
   4. If **variance** is large you have these options:
-     - Get more training data.
-     - Regularization (L2, Dropout, data augmentation).
+     - Get more training data (data augmentation).
+     - Regularization (L2, Dropout).
      - Find better NN architecture/hyperparameters search.
-
-
-
-## ML Strategy 2
 
 ### Carrying out error analysis
 
@@ -245,12 +240,12 @@
 
   | Image        | Dog    | Great Cats | blurry  | Instagram filters |    Comments    |
   | ------------ | ------ | ---------- | ------- | ----------------- |--------------- |
-  | 1            | ✓      |            |         | ✓                 |  Pitbull       |
+  | 1            | ✓      |            |         | ✓                 |                |
   | 2            | ✓      |            | ✓       | ✓                 |                |
   | 3            |        |            |         |                   |Rainy day at zoo|
   | 4            |        | ✓          |         |                   |                |
   | ....         |        |            |         |                   |                |
-  | **% totals** | **8%** | **43%**    | **61%** |      **12%**      |                |
+  | **% totals** | **8%** | **30%**    | **50%** |      **12%**      |                |
 - In the last example you will decide to work on great cats or blurry images to improve your performance.
 - This quick counting procedure, which you can often do in, at most, small numbers of hours can really help you make much better prioritization decisions, and understand how promising different approaches are to work on.
 
@@ -266,7 +261,7 @@
   | 3            |        |            |         |            |          |
   | 4            |        | ✓          |         |            |          |
   | ....         |        |            |         |            |          |
-  | **% totals** | **8%** | **43%**    | **61%** | **6%**     |          |
+  | **% totals** | **8%** | **36%**    | **50%** | **6%**     |          |
   - Then:
     - If overall dev set error: 10%
       - Then errors due to incorrect data: 0.6%
@@ -289,10 +284,10 @@
 
 - A lot of teams are working with deep learning applications that have training sets that are different from the dev/test sets due to the hunger of deep learning to data.
 - There are some strategies to follow up when training set distribution differs from dev/test sets distribution.
-  - Option one (not recommended): shuffle all the data together and extract randomly training and dev/test sets.
+  - Option (not recommended): shuffle all the data together and extract randomly training and dev/test sets.
     - Advantages: all the sets now come from the same distribution.
     - Disadvantages: the other (real world) distribution that was in the dev/test sets will occur less in the new dev/test sets and that might be not what you want to achieve.
-  - Option two: take some of the dev/test set examples and add them to the training set.
+  - Option: take some of the dev/test set examples and add them to the training set.
     - Advantages: the distribution you care about is your target now.
     - Disadvantage: the distributions in training and dev/test sets are now different. But you will get a better performance over a long time.
 
@@ -349,9 +344,8 @@
 - Apply the knowledge you took in a task A and apply it in another task B.
 - For example, you have trained a cat classifier with a lot of data, you can use the part of the trained NN it to solve x-ray classification problem.
 - To do transfer learning, delete the last layer of NN and it's weights and:
-  1. Option 1: if you have a small data set - keep all the other weights as a fixed weights. Add a new last layer(-s) and initialize the new layer weights and feed the new data to the NN and learn the new weights.
-  2. Option 2: if you have enough data you can retrain all the weights.
-- Option 1 and 2 are called **fine-tuning** and training on task A called **pretraining**.
+  1. Option: if you have a small data set - keep all the other weights as a fixed weights. Add a new last layer(-s) and initialize the new layer weights and feed the new data to the NN and learn the new weights.
+  2. Option: if you have enough data you can retrain all the weights.
 - When transfer learning make sense:
   - Task A and B have the same input X (e.g. image, audio).
   - You have a lot of data for the task A you are transferring from and relatively less data for the task B your transferring to.
@@ -385,7 +379,7 @@
 ### What is end-to-end deep learning?
 
 - Some systems have multiple stages to implement. An end-to-end deep learning system implements all these stages with a single NN.
-- Example 1:
+- Example:
   - Speech recognition system:
     ```
     Audio ---> Features --> Phonemes --> Words --> Transcript    # non-end-to-end system
@@ -393,7 +387,7 @@
     ```
   - End-to-end deep learning gives data more freedom, it might not use phonemes when training!
 - To build the end-to-end deep learning system that works well, we need a big dataset (more data then in non end-to-end system). If we have a small dataset the ordinary implementation could work just fine.
-- Example 2:
+- Example:
   - Face recognition system:
     ```
     Image ---------------------> Face recognition    # end-to-end deep learning system
@@ -403,14 +397,14 @@
   - In the second implementation, it's a two steps approach where both parts are implemented using deep learning.
   - Its working well because it's harder to get a lot of pictures with people in front of the camera than getting faces of people and compare them.
   - In the second implementation at the last step, the NN takes two faces as an input and outputs if the two faces are the same person or not.
-- Example 3:
+- Example:
   - Machine translation system:
     ```
     English --> Text analysis --> ... --> French    # non-end-to-end system
     English ----------------------------> French    # end-to-end deep learning system - best approach
     ```
   - Here end-to-end deep leaning system works better because we have enough data to build it.
-- Example 4:
+- Example:
   - Estimating child's age from the x-ray picture of a hand:
   ```
   Image --> Bones --> Age    # non-end-to-end system - best approach for now
@@ -431,12 +425,3 @@
   - Use ML/DL to learn some individual components.
   - When applying supervised learning you should carefully choose what types of X to Y mappings you want to learn depending on what task you can get data for.
 
-
-
-
-
-
-
-<br><br>
-<br><br>
-These Notes were made by [Mahmoud Badry](mailto:mma18@fayoum.edu.eg) @2017
