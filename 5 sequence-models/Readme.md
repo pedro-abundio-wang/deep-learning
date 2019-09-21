@@ -48,7 +48,6 @@
 
 
 ## Course summary
-Here are the course summary as its given on the course [link](https://www.coursera.org/learn/nlp-sequence-models):
 
 > This course will teach you how to build models for natural language, audio, and other sequence data. Thanks to deep learning, sequence algorithms are working far better than just two years ago, and this is enabling numerous exciting applications in speech recognition, music synthesis, chatbots, machine translation, natural language understanding, and many others.
 >
@@ -57,9 +56,6 @@ Here are the course summary as its given on the course [link](https://www.course
 > - Be able to apply sequence models to natural language problems, including text synthesis.
 > - Be able to apply sequence models to audio applications, including speech recognition and music synthesis.
 >
-> This is the fifth and final course of the Deep Learning Specialization.
-
-
 
 ## Recurrent Neural Networks
 
@@ -137,7 +133,7 @@ Here are the course summary as its given on the course [link](https://www.course
     - Using a feature sharing like in CNNs can significantly reduce the number of parameters in your model. That's what we will do in RNNs.
 - Recurrent neural network doesn't have either of the two mentioned problems.
 - Lets build a RNN that solves **name entity recognition** task:   
-    ![](Images/02.png)
+    ![](Images/02.jpeg)
   - In this problem T<sub>x</sub> = T<sub>y</sub>. In other problems where they aren't equal, the RNN architecture may be different.
   - a<sup><0></sup> is usually initialized with zeros, but some others may initialize it randomly in some cases.
   - There are three weight matrices here: W<sub>ax</sub>, W<sub>aa</sub>, and W<sub>ya</sub> with shapes:
@@ -152,7 +148,7 @@ Here are the course summary as its given on the course [link](https://www.course
 - Let's have this example 'He Said, "Teddy Roosevelt was a great president"'. In this example Teddy is a person name but we know that from the word **president** that came after Teddy not from **He** and **said** that were before it.
 - So limitation of the discussed architecture is that it can not learn from elements later in the sequence. To address this problem we will later discuss **Bidirectional RNN**  (BRNN).
 - Now let's discuss the forward propagation equations on the discussed architecture:   
-    ![](Images/04.png)
+    ![](Images/04.jpeg)
   - The activation function of a is usually tanh or ReLU and for y depends on your task choosing some activation functions like sigmoid and softmax. In name entity recognition task we will use sigmoid because we only have two classes.
 - In order to help us develop complex RNN architectures, the last equations needs to be simplified a bit.
 - **Simplified RNN notation**:   
@@ -165,15 +161,9 @@ Here are the course summary as its given on the course [link](https://www.course
 ### Backpropagation through time
 - Let's see how backpropagation works with the RNN architecture.
 - Usually deep learning frameworks do backpropagation automatically for you. But it's useful to know how it works in RNNs.
-- Here is the graph:   
-  ![](Images/06.png)
-  - Where w<sub>a</sub>, b<sub>a</sub>, w<sub>y</sub>, and b<sub>y</sub> are shared across each element in a sequence.
-- We will use the cross-entropy loss function:   
-  ![](Images/07.png)
-  - Where the first equation is the loss for one example and the loss for the whole sequence is given by the summation over all the calculated single example losses.
-- Graph with losses:   
-  ![](Images/08.png)
-- The backpropagation here is called **backpropagation through time** because we pass activation `a` from one sequence element to another like backwards in time.
+- Graph
+- ![](Images/08.png)
+- The backpropagation here is called **backpropagation through time** because we pass activation from one sequence element to another like backwards in time.
 
 ### Different types of RNNs
 - So far we have seen only one RNN architecture in which T<sub>x</sub> equals T<sub>Y</sub>. In some other problems, they may not equal so we need different architectures.
@@ -188,8 +178,8 @@ Here are the course summary as its given on the course [link](https://www.course
 - There are another interesting architecture in **Many To Many**. Applications like machine translation inputs and outputs sequences have different lengths in most of the cases. So an alternative _Many To Many_ architecture that fits the translation would be as follows:   
   ![](Images/12.png)
   - There are an encoder and a decoder parts in this architecture. The encoder encodes the input sequence into one matrix and feed it to the decoder to generate the outputs. Encoder and decoder have different weight matrices.
-- Summary of RNN types:   
-   ![](Images/12_different_types_of_rnn.jpg)
+- Summary of RNN types:
+   ![](Images/12_different_types_of_rnn.png)
 - There is another architecture which is the **attention** architecture which we will talk about in chapter 3.
 
 ### Language model and sequence generation
@@ -207,7 +197,7 @@ Here are the course summary as its given on the course [link](https://www.course
   - Put an end of sentence token `<EOS>` with the vocabulary and include it with each converted sentence. Also, use the token `<UNK>` for the unknown words.
 - Given the sentence "Cats average 15 hours of sleep a day. `<EOS>`"
   - In training time we will use this:   
-    ![](Images/13.png)
+    ![](Images/13.jpeg)
   - The loss function is defined by cross-entropy loss:   
     ![](Images/14.png)
     - `i`  is for all elements in the corpus, `t` - for all timesteps.
@@ -287,8 +277,10 @@ Here are the course summary as its given on the course [link](https://www.course
 ### Gated Recurrent Unit (GRU)
 - GRU is an RNN type that can help solve the vanishing gradient problem and can remember the long-term dependencies.
 
-- The basic RNN unit can be visualized to be like this:   
-  ![](Images/17.png)
+- The basic RNN unit can be visualized to be like this:
+
+- ![](Images/04-a.png)
+- ![](Images/04.png)
 
 - We will represent the GRU with a similar drawings.
 
@@ -297,7 +289,7 @@ Here are the course summary as its given on the course [link](https://www.course
 - In GRUs, C<sup>\<t></sup> = a<sup>\<t></sup>
 
 - Equations of the GRUs:   
-  ![](Images/18.png)
+  - ![](Images/18.png)
   - The update gate is between 0 and 1
     - To understand GRUs imagine that the update gate is either 0 or 1 most of the time.
   - So we update the memory cell based on the update cell and the previous cell.
@@ -321,7 +313,7 @@ Here are the course summary as its given on the course [link](https://www.course
       | full    | ..                         | ..              |
 - Drawing for the GRUs   
   ![](Images/19.png)
-  - Drawings like in http://colah.github.io/posts/2015-08-Understanding-LSTMs/ is so popular and makes it easier to understand GRUs and LSTMs. But Andrew Ng finds it's better to look at the equations.
+  - Drawings like in [Understanding-LSTMs](http://colah.github.io/posts/2015-08-Understanding-LSTMs/) is so popular and makes it easier to understand GRUs and LSTMs. But it's better to look at the equations.
 - Because the update gate U is usually a small number like 0.00001, GRUs doesn't suffer the vanishing gradient problem.
   - In the equation this makes C<sup>\<t></sup> = C<sup>\<t-1></sup> in a lot of cases.
 - Shapes:
@@ -376,7 +368,7 @@ Here are the course summary as its given on the course [link](https://www.course
 ### Back propagation with RNNs
 - > In modern deep learning frameworks, you only have to implement the forward pass, and the framework takes care of the backward pass, so most deep learning engineers do not need to bother with the details of the backward pass. If however you are an expert in calculus and want to see the details of backprop in RNNs, you can work through this optional portion of the notebook.
 
-- The quote is taken from this [notebook](https://www.coursera.org/learn/nlp-sequence-models/notebook/X20PE/building-a-recurrent-neural-network-step-by-step). If you want the details of the back propagation with programming notes look at the linked notebook.
+- If you want the details of the back propagation with programming notes look at the notebook.
 
 ## Natural Language Processing & Word Embeddings
 
@@ -396,7 +388,7 @@ Here are the course summary as its given on the course [link](https://www.course
     - A similar example "I want a glass of **apple** ______", a model won't easily predict **juice** here if it wasn't trained on it. And if so the two examples aren't related although orange and apple are similar.
   - Inner product between any one-hot encoding vector is zero. Also, the distances between them are the same.
 - So, instead of a one-hot presentation, won't it be nice if we can learn a featurized representation with each of these words: man, woman, king, queen, apple, and orange?   
-  ![](Images/28.png)
+  ![](Images/28.jpg)
   - Each word will have a, for example, 300 features with a type of float point number.
   - Each word column will be a 300-dimensional vector which will be the representation.
   - We will use the notation **e**<sub>5391</sub> to describe **man** word features vector.
@@ -675,7 +667,7 @@ Here are the course summary as its given on the course [link](https://www.course
 - An architecture similar to the mentioned above works for image captioning problem:
   - In this problem X is an image, while Y is a sentence (caption).
   - The model architecture image:   
-    ![](Images/54.png)
+    ![](Images/54.jpeg)
   - The architecture uses a pretrained CNN (like AlexNet) as an encoder for the image, and the decoder is an RNN.
   - Ideas are from the following papers (they share similar ideas):
     - [Maoet et. al., 2014. Deep captioning with multimodal recurrent neural networks](https://arxiv.org/abs/1412.6632)
@@ -830,8 +822,9 @@ Here are the course summary as its given on the course [link](https://www.course
   - Attention weights are used to specify which words are needed when to generate a word. So to generate "jane" we will look at "jane", "visite", "l'Afrique"   
     ![](Images/66.png)
   - alpha<sup>\<1,1></sup>, alpha<sup>\<1,2></sup>, and alpha<sup>\<1,3></sup> are the attention weights being used.
-  - And so to generate any word there will be a set of attention weights that controls which words we are looking at right now.   
-    ![](Images/67.png)
+  - And so to generate any word there will be a set of attention weights that controls which words we are looking at right now.
+
+    ![](Images/67.jpg)
 
 #### Attention Model
 - Lets formalize the intuition from the last section into the exact details on how this can be implemented.
@@ -911,7 +904,7 @@ Here are the course summary as its given on the course [link](https://www.course
     - The vertical lines in the audio clip represent moment just after the trigger word. The corresponding to this will be 1.
   - One disadvantage of this creates a very imbalanced training set. There will be a lot of zeros and few ones.
   - A hack to solve this is to make an output a few ones for several times or for a fixed period of time before reverting back to zero.  
-    ![](Images/81.png)  
+    ![](Images/81.jpg)
     ![](Images/85.png)
 
 
@@ -927,9 +920,3 @@ Here are the course summary as its given on the course [link](https://www.course
 - What one "Attention" step does to calculate the attention variables &alpha;<sup>`<t, t>`</sup>, which are used to compute the context variable context<sup>`<t>`</sup> for each timestep in the output (t=1, ..., T<sub>y</sub>).
   ![](Images/84.png)
   - The diagram uses a `RepeatVector` node to copy s<sup>`<t-1>`</sup>'s value T<sub>x</sub> times, and then `Concatenation` to concatenate s<sup>`<t-1>`</sup> and a<sup>`<t>`</sup> to compute e<sup>`<t, t>`</sup>, which is then passed through a softmax to compute &alpha;<sup>`<t, t>`</sup>.
-
-
-
-<br><br>
-<br><br>
-These Notes were made by [Mahmoud Badry](mailto:mma18@fayoum.edu.eg) @2018

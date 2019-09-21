@@ -1,9 +1,6 @@
 # Improving Deep Neural Networks: Hyperparameter tuning, Regularization and Optimization
 
-## Table of contents
-
 * [Improving Deep Neural Networks: Hyperparameter tuning, Regularization and Optimization](#improving-deep-neural-networks-hyperparameter-tuning-regularization-and-optimization)
-   * [Table of contents](#table-of-contents)
    * [Course summary](#course-summary)
    * [Practical aspects of Deep Learning](#practical-aspects-of-deep-learning)
       * [Train / Dev / Test sets](#train--dev--test-sets)
@@ -44,24 +41,19 @@
       * [Training a Softmax classifier](#training-a-softmax-classifier)
       * [Deep learning frameworks](#deep-learning-frameworks)
       * [TensorFlow](#tensorflow)
-   * [Extra Notes](#extra-notes)
 
 ## Course summary
 
-Here are the course summary as its given on the course [link](https://www.coursera.org/learn/deep-neural-network):
-
 > This course will teach you the "magic" of getting deep learning to work well. Rather than the deep learning process being a black box, you will understand what drives performance, and be able to more systematically get good results. You will also learn TensorFlow.
 >
-> After 3 weeks, you will:
+> You will:
+>
 > - Understand industry best-practices for building deep learning applications.
 > - Be able to effectively use the common neural network "tricks", including initialization, L2 and dropout regularization, Batch normalization, gradient checking,
 > - Be able to implement and apply a variety of optimization algorithms, such as mini-batch gradient descent, Momentum, RMSprop and Adam, and check for their convergence.
 > - Understand new best-practices for the deep learning era of how to set up train/dev/test sets and analyze bias/variance
 > - Be able to implement a neural network in TensorFlow.
 >
-> This is the second course of the Deep Learning Specialization.
-
-
 
 ## Practical aspects of Deep Learning
 
@@ -525,11 +517,9 @@ Implications of L2-regularization on:
   	b = B - learning_rate * db / sqrt(sdb)
   ```
 - RMSprop will make the cost function move slower on the vertical direction and faster on the horizontal direction in the following example:
-    ![](Images/06-_RMSprop.png)
 - Ensure that `sdW` is not zero by adding a small value `epsilon` (e.g. `epsilon = 10^-8`) to it:   
    `W = W - learning_rate * dW / (sqrt(sdW) + epsilon)`
 - With RMSprop you can increase your learning rate.
-- Developed by Geoffrey Hinton and firstly introduced on [Coursera.org](https://www.coursera.org/) course.
 
 ### Adam optimization algorithm
 
@@ -755,8 +745,6 @@ Implications of L2-regularization on:
   ```
   Y_hat * (1 - Y_hat)
   ```
-- Example:
-    ![](Images/07-_softmax.png)
 
 ### Deep learning frameworks
 
@@ -865,24 +853,3 @@ _**Side notes:**_
   ```
 - For 3-layer NN, it is important to note that the forward propagation stops at `Z3`. The reason is that in TensorFlow the last linear layer output is given as input to the function computing the loss. Therefore, you don't need `A3`!
 - To reset the graph use `tf.reset_default_graph()`
-
-## Extra Notes
-
-- If you want a good papers in deep learning look at the ICLR proceedings (Or NIPS proceedings) and that will give you a really good view of the field.
-- Who is Yuanqing Lin?
-  - Head of Baidu research.
-  - First one to win ImageNet
-  - Works in PaddlePaddle deep learning platform.
-
-
-
-
-
-
-
-
-
-
-<br><br>
-<br><br>
-These Notes were made by [Mahmoud Badry](mailto:mma18@fayoum.edu.eg) @2017

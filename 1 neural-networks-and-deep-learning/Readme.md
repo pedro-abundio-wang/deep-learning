@@ -40,7 +40,6 @@
       * [Forward and Backward Propagation](#forward-and-backward-propagation)
       * [Parameters vs Hyperparameters](#parameters-vs-hyperparameters)
       * [What does this have to do with the brain](#what-does-this-have-to-do-with-the-brain)
-   * [Extra: Ian Goodfellow interview](#extra-ian-goodfellow-interview)
 
 ## Course summary
 
@@ -183,7 +182,8 @@
 
 ### Computation graph
 
-- Its a graph that organizes the computation from left to right.
+- [computation graph](https://colah.github.io/posts/2015-08-Backprop/)
+- Its a graph that organizes the computation from bottom to top.
   - ![](Images/02.png)
 
 ### Derivatives with a Computation Graph
@@ -191,9 +191,8 @@
 - Calculus chain rule says:
   If `x -> y -> z`          (x effect y and y effects z)
   Then `d(z)/d(x) = d(z)/d(y) * d(y)/d(x)`
-- The video illustrates a big example.
   - ![](Images/03.png)
-- We compute the derivatives on a graph from right to left and it will be a lot more easier.
+- We compute the derivatives on a graph from top to bottom and it will be a lot more easier.
 - `dvar` means the derivatives of a final output variable with respect to various intermediate quantities.
 
 ### Logistic Regression Gradient Descent
@@ -290,7 +289,7 @@
 - In NumPy, `obj.reshape(1,4)` changes the shape of the matrix by broadcasting the values.
 - Reshape is cheap in calculations so put it everywhere you're not sure about the calculations.
 - Broadcasting works when you do a matrix operation with matrices that doesn't match for the operation, in this case NumPy automatically makes the shapes ready for the operation by broadcasting the values.
-- In general principle of broadcasting. If you have an (m,n) matrix and you add(+) or subtract(-) or multiply(*) or divide(/) with a (1,n) matrix, then this will copy it m times into an (m,n) matrix. The same with if you use those operations with a (m , 1) matrix, then this will copy it n times into (m, n) matrix. And then apply the addition, subtraction, and multiplication of division element wise.
+- In general principle of broadcasting. If you have an (m,n) matrix and you add or subtract or multiply() or divide with a (1,n) matrix, then this will copy it m times into an (m,n) matrix. The same with if you use those operations with a (m , 1) matrix, then this will copy it n times into (m, n) matrix. And then apply the addition, subtraction, and multiplication of division element wise.
 - Some tricks to eliminate all the strange bugs in the code:
   - If you didn't specify the shape of a vector, it will take a shape of `(m,)` and the transpose operation won't work. You have to reshape it to `(m, 1)`
   - Try to not use the rank one matrix in ANN
@@ -325,8 +324,6 @@
 - Preprocessing the dataset is important.
 - Tuning the learning rate (which is an example of a "hyperparameter") can make a big difference to the algorithm.
 - [kaggle.com](kaggle.com) is a good place for datasets and competitions.
-- [Pieter Abbeel](https://www2.eecs.berkeley.edu/Faculty/Homepages/abbeel.html) is one of the best in deep reinforcement learning.
-
 
 ## Shallow neural networks
 
@@ -367,7 +364,9 @@
 ### Computing a Neural Network's Output
 
 - Equations of Hidden layers:
-  - ![](Images/05.png)
+  - ![](Images/05-a.png)
+  - ![](Images/05-b.png)
+  - ![](Images/05-c.png)
 - Here are some informations about the last image:
   - `noOfHiddenNeurons = 4`
   - `Nx = 3`
@@ -467,16 +466,20 @@
 
   ```
   g(z)  = np.maximum(0,z)
-  g'(z) = { 0  if z < 0
-            1  if z >= 0  }
+  g'(z) = {
+    0  if z < 0
+    1  if z >= 0
+  }
   ```
 
 - Derivation of leaky RELU activation function:
 
   ```
   g(z)  = np.maximum(0.01 * z, z)
-  g'(z) = { 0.01  if z < 0
-            1     if z >= 0   }
+  g'(z) = {
+    0.01  if z < 0
+    1     if z >= 0
+  }
   ```
 
 ### Gradient descent for Neural Networks
@@ -523,7 +526,8 @@
   # Hint there are transposes with multiplication because to keep dimensions correct
   ```
 - How we derived the 6 equations of the backpropagation:   
-  ![](Images/06.png)
+  ![](Images/06-a.png)
+  ![](Images/06-b.png)
 
 ### Random Initialization
 
@@ -602,8 +606,6 @@
   - 2) Audio recognition application:
       - Audio ==> Low level sound features like (sss,bb) ==> Phonemes ==> Words ==> Sentences
 - Neural Researchers think that deep neural networks "think" like brains (simple ==> complex)
-- Circuit theory and deep learning:
-  - ![](Images/07.png)
 - When starting on an application don't start directly by dozens of hidden layers. Try the simplest solutions (e.g. Logistic Regression), then try the shallow neural network and so on.
 
 ### Building blocks of deep neural networks
@@ -663,13 +665,3 @@
 - Deep learning in Andrew's opinion is very good at learning very flexible, complex functions to learn X to Y mappings, to learn input-output mappings (supervised learning).
 - The field of computer vision has taken a bit more inspiration from the human brains then other disciplines that also apply deep learning.
 - NN is a small representation of how brain work. The most near model of human brain is in the computer vision (CNN)
-
-## Extra: Ian Goodfellow interview
-
-- Ian is one of the world's most visible deep learning researchers.
-- Ian is mainly working with generative models. He is the creator of GANs.
-- We need to stabilize GANs. Stabilized GANs can become the best generative models.
-- Ian wrote the first textbook on the modern version of deep learning with Yoshua Bengio and Aaron Courville.
-- Ian worked with [OpenAI.com](https://openai.com/) and Google on ML and NN applications.
-- Ian tells all who wants to get into AI to get a Ph.D. or post your code on Github and the companies will find you.
-- Ian thinks that we need to start anticipating security problems with ML now and make sure that these algorithms are secure from the start instead of trying to patch it in retroactively years later.
