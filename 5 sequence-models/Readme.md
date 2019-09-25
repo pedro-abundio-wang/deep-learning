@@ -490,7 +490,7 @@
        - "<u>a glass of orange</u>" and "<u>to go along with</u>"
     3. Last 1 word.
        - "<u>orange</u>"
-    4. Nearby 1 word.
+    4. Nearby word.
        - "<u>glass</u>" word is near juice.
        - This is the idea of **skip grams** model.
        - The idea is much simpler and works remarkably well.
@@ -526,13 +526,13 @@
   - Here we are summing 10,000 numbers which corresponds to the number of words in our vocabulary.
   - If this number is larger say 1 million, the computation will become very slow.
 - One of the solutions for the last problem is to use "**Hierarchical softmax classifier**" which works as a tree classifier.   
-  ![](Images/40.png)
+  ![](Images/40.jpg)
 - In practice, the hierarchical softmax classifier doesn't use a balanced tree like the drawn one. Common words are at the top and less common are at the bottom.
 - How to sample the context **c**?
   - One way is to choose the context by random from your corpus.
   - If you have done it that way, there will be frequent words like "the, of, a, and, to, .." that can dominate other words like "orange, apple, durian,..."
   - In practice, we don't take the context uniformly random, instead there are some heuristics to balance the common words and the non-common words.
-- word2vec paper includes 2 ideas of learning word embeddings. One is skip-gram model and another is CBoW (continuous bag-of-words).
+- word2vec paper includes ideas of learning word embeddings. One is skip-gram model and another is CBoW (continuous bag-of-words).
 
 #### Negative Sampling
 - Negative sampling allows you to do something similar to the skip-gram model, but with a much more efficient learning algorithm. We will create a different learning problem.
