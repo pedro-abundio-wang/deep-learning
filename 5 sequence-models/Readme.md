@@ -414,8 +414,8 @@
   1. Learn word embeddings from large text corpus (1-100 billion of words).
      - Or download pre-trained embedding online.
   2. Transfer embedding to new task with the smaller training set (say, 100k words).
-  3. Optional: continue to finetune the word embeddings with new data.
-     - You bother doing this if your smaller training set (from step 2) is big enough.
+  3. Optional: continue to finetune the word embeddings with data.
+     - You bother doing this if your training set is big enough.
 - Word embeddings tend to make the biggest difference when the task you're trying to carry out has a relatively smaller training set.
 - Also, one of the advantages of using word embeddings is that it reduces the size of the input!
   - 10,000 one hot compared to 300 features vector.
@@ -438,11 +438,11 @@
   - So the difference is about the gender in both.   
     ![](Images/33.png)
     - This vector represents the gender.
-    - This drawing is a 2D visualization of the 4D vector that has been extracted by a t-SNE algorithm. It's a drawing just for visualization. Don't rely on the t-SNE algorithm for finding parallels.
+    - This drawing is a visualization has been extracted by a t-SNE algorithm. It's a drawing just for visualization. Don't rely on the t-SNE algorithm for finding parallels.
   - So we can reformulate the problem to find:
     - e<sub>Man</sub> - e<sub>Woman</sub> ≈ e<sub>King</sub> - e<sub>??</sub>
   - It can also be represented mathematically by:   
-    ![](Images/34.png)
+    - argmax<sub>w</sub> sim(e<sub>w</sub>, e<sub>king</sub> - e<sub>man</sub> + e<sub>woman</sub>)
   - It turns out that e<sub>Queen</sub> is the best solution here that gets the the similar vector.
 - Cosine similarity - the most commonly used similarity function:
   - Equation:   
@@ -457,7 +457,6 @@
 - Let's take an example:
   - Suppose we are using 10,000 words as our vocabulary (plus <UNK> token).
   - The algorithm should create a matrix `E` of the shape (300, 10000) in case we are extracting 300 features.   
-    ![](Images/36.png)
   - If O<sub>6257</sub> is the one hot encoding of the word **orange** of shape (10000, 1), then   
     _np.dot(`E`,O<sub>6257</sub>) = e<sub>6257</sub>_ which shape is (300, 1).
   - Generally _np.dot(`E`, O<sub>j</sub>) = e<sub>j</sub>_
