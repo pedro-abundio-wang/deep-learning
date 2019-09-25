@@ -475,7 +475,8 @@
   - We want to build a language model so that we can predict the next word.
   - So we use this neural network to learn the language model   
     ![](Images/38.png)
-    - We get e<sub>j</sub> by `np.dot(`E`,o<sub>j</sub>)`
+    ![](Images/38-a.png)
+    - We get e<sub>j</sub> by np.dot(E, o<sub>j</sub>)
     - NN layer has parameters `W1` and `b1` while softmax layer has parameters `W2` and `b2`
     - Input dimension is (300*6, 1) if the window size is 6 (six previous words).
     - Here we are optimizing `E` matrix and layers parameters. We need to maximize the likelihood to predict the next word given the context (previous words).
