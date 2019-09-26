@@ -1,11 +1,11 @@
 # Neural Networks and Deep Learning
 
 * [Neural Networks and Deep Learning](#neural-networks-and-deep-learning)
-   * [Course summary](#course-summary)
+   * [Introduction](#Introduction)
    * [Introduction to deep learning](#introduction-to-deep-learning)
       * [What is a (Neural Network) NN?](#what-is-a-neural-network-nn)
       * [Supervised learning with neural networks](#supervised-learning-with-neural-networks)
-      * [Why is deep learning taking off?](#why-is-deep-learning-taking-off)
+      * [Scale drives machine learning progress](#Scale-drives-machine-learning-progress)
    * [Neural Networks Basics](#neural-networks-basics)
       * [Binary classification](#binary-classification)
       * [Logistic regression](#logistic-regression)
@@ -41,17 +41,18 @@
       * [Parameters vs Hyperparameters](#parameters-vs-hyperparameters)
       * [What does this have to do with the brain](#what-does-this-have-to-do-with-the-brain)
 
-## Course summary
+## Introduction
 
-> If you want to break into cutting-edge AI, this course will help you do so. Deep learning engineers are highly sought after, and mastering deep learning will give you numerous new career opportunities. Deep learning is also a new "superpower" that will let you build AI systems that just weren't possible a few years ago.
+> If you want to break into cutting-edge AI, this note will help you do so. Deep learning engineers are highly sought after, and mastering deep learning will give you numerous new career opportunities. Deep learning is also a new "superpower" that will let you build AI systems that just weren't possible a few years ago.
 >
-> In this course, you will learn the foundations of deep learning. When you finish this class, you will:
+> You will learn the foundations of deep learning. When you finish this class, you will:
+>
 > - Understand the major technology trends driving Deep Learning
 > - Be able to build, train and apply fully connected deep neural networks
 > - Know how to implement efficient (vectorized) neural networks
 > - Understand the key parameters in a neural network's architecture
 >
-> This course also teaches you how Deep Learning actually works, rather than presenting only a cursory or surface-level description. So after completing it, you will be able to apply deep learning to a your own applications. If you are looking for a job in AI, after this course you will also be able to answer basic interview questions.
+> This note also teaches you how Deep Learning actually works, rather than presenting only a cursory or surface-level description. So after completing it, you will be able to apply deep learning to a your own applications. If you are looking for a job in AI, after reading this note you will also be able to answer basic interview questions.
 
 ## Introduction to deep learning
 
@@ -85,25 +86,28 @@
 - Unstructured data is like images, video, audio, and text.
 - Structured data (like advertising) gives more money because companies relies on prediction on its big data.
 
-### Why is deep learning taking off?
+### Scale drives machine learning progress
 
-- Deep learning is taking off for 3 reasons:
-  1. Data:
-     - Using this image we can conclude:
-       - ![](Images/11.png)
-     - For small data NN can perform as Linear regression or SVM (Support vector machine)
-     - For big data a small NN is better that SVM
-     - For big data a big NN is better that a medium NN is better that small NN.
-     - Hopefully we have a lot of data because the world is using the computer a little bit more
-       - Mobiles
-       - IOT (Internet of things)
-  2. Computation:
-     - GPUs.
-     - Powerful CPUs.
-     - Distributed computing.
-  3. Algorithm:
-     1. Creative algorithms has appeared that changed the way NN works.
-        - For example using RELU function is so much better than using SIGMOID function in training a NN because it helps with the vanishing gradient problem.
+Many of the ideas of deep learning (neural networks) have been around for decades. Why are these ideas taking off now?
+
+Three of the biggest drivers of recent progress have been:
+
+  - Data availability:
+    - People are now spending more time on digital devices (laptops, mobile devices). Their digital activities generate huge amounts of data that we can feed to our learning algorithms.
+
+  - Computational scale:
+    - We started just a few years ago, techniques (like GPUs/Powerful CPUs/Distributed computing) to be able to train neural networks that are big enough to take advantage of the huge datasets we now have.
+
+  - Algorithm:
+    - Creative algorithms has appeared that changed the way NN works. For example using RELU function is so much better than using Sigmoid function in training a NN because it helps with the vanishing gradient problem.
+
+![](Images/11.png)
+
+In detail, even as you accumulate more data, usually the performance of older learning algorithms, such as logistic regression or support vector machine, “plateaus.” This means its learning curve “flattens out,” and the algorithm stops improving even as you give it more data. It was as if the older algorithms didn’t know what to do with all the data we now have.
+
+If you train a small neutral network (NN) on the same supervised learning task, you might get slightly better performance. Here, by “Small NN” we mean a neural network with only a small number of hidden units/layers/parameters.
+
+Finally, if you train larger and larger neural networks, you can obtain even better performance.
 
 ## Neural Networks Basics
 
