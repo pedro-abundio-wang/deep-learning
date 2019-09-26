@@ -1,9 +1,9 @@
 # Structuring Machine Learning Projects
 
 * [Structuring Machine Learning Projects](#structuring-machine-learning-projects)
-   * [Course summary](#course-summary)
-   * [ML Strategy](#ml-strategy)
-      * [Why ML Strategy](#why-ml-strategy)
+   * [Introduction](#Introduction)
+   * [Machine Learning Strategy](#Machine-Learning-Strategy)
+      * [Why Machine Learning Strategy](#Why-Machine-Learning-Strategy)
       * [Orthogonalization](#orthogonalization)
       * [Single number evaluation metric](#single-number-evaluation-metric)
       * [Satisfying and Optimizing metric](#satisfying-and-optimizing-metric)
@@ -31,37 +31,43 @@
       * [Try to answer question](#try-to-answer-question)
       * [About math code and long-term goals](#about-math-code-and-long-term-goals)
 
-## Course summary
+## Introduction
 
-> You will learn how to build a successful machine learning project. If you aspire to be a technical leader in AI, and know how to set direction for your team's work, this course will show you how.
->
-> Much of this content has never been taught elsewhere, and is drawn from my experience building and shipping many deep learning products. This course also has two "flight simulators" that let you practice decision-making as a machine learning project leader. This provides "industry experience" that you might otherwise get only after years of ML work experience.
+> You will learn how to build a successful machine learning project. If you aspire to be a technical leader in AI, and know how to set direction for your team's work.
 >
 > You will:
-> - Understand how to diagnose errors in a machine learning system, and
+> - Understand how to diagnose errors in a machine learning system
 > - Be able to prioritize the most promising directions for reducing error
 > - Understand complex ML settings, such as mismatched training/test sets, and comparing to and/or surpassing human-level performance
 > - Know how to apply end-to-end learning, transfer learning, and multi-task learning
 >
-> I've seen teams waste months or years through not understanding the principles taught in this course. I hope this two week course will save you months of time.
->
-> This is a standalone course, and you can take this so long as you have basic machine learning knowledge.
 
-## ML Strategy
+## Machine Learning Strategy
 
-### Why ML Strategy
+### Why Machine Learning Strategy
 
-- You have a lot of ideas for how to improve the accuracy of your deep learning system:
-  - Collect more data.
-  - Collect more diverse training set.
-  - Train algorithm longer with gradient descent.
+Say you’re building a startup that will provide an endless stream of cat pictures to cat lovers.
+
+![](Images/01.png)
+
+You use a neural network to build a computer vision system for detecting cats in pictures.
+
+But tragically, your learning algorithm’s accuracy is not yet good enough. You are under tremendous pressure to improve your cat detector. What do you do?
+
+You and your team have a lot of ideas for how to improve the accuracy of your deep learning system:
+
+  - Get more data: Collect more pictures of cats.
+  - Collect a more diverse training set. For example, pictures of cats in unusual positions; cats with unusual coloration; pictures shot with a variety of camera settings; ….
+  - Train the algorithm longer, by running more gradient descent iterations.
   - Try different optimization algorithm (e.g. Adam).
-  - Try bigger network.
-  - Try smaller network.
-  - Try dropout.
-  - Add L2 regularization.
-  - Change network architecture (activation functions, # of hidden units, etc.)
-- This course will give you some strategies to help analyze your problem to go in a direction that will help you get better results.
+  - Try a bigger neural network, with more layers/hidden units/parameters.
+  - Try a smaller neural network.
+  - Try adding regularization (such as L2 regularization or dropout).
+  - Change the neural network architecture (activation function, number of hidden units, etc.)
+  
+- If you choose well among these possible directions, you’ll build the leading cat picture platform, and lead your company to success. If you choose poorly, you might waste months. How do you proceed?
+
+- Machine learning strategy will tell you how. Most machine learning problems leave clues that tell you what’s useful to try, and what’s not useful to try. Learning to read those clues will save you months or years of development time.
 
 ### Orthogonalization
 
