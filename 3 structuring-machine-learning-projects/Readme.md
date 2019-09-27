@@ -87,6 +87,11 @@ Machine learning strategy will tell you how. Most machine learning problems leav
 ### Single number evaluation metric
 
 - Its better and faster to set a single number evaluation metric for your project before you start it.
+
+Classification accuracy is an example of a single-number evaluation metric : You run your classifier on the dev set (or test set), and get back a single number about what fraction of examples it classified correctly. According to this metric, if classifier A obtains 97% accuracy, and classifier B obtains 90% accuracy, then we judge classifier A to be superior.
+
+In contrast, Precision and Recall is not a single-number evaluation metric: It gives two numbers for assessing your classifier. Having multiple-number evaluation metrics makes it harder to compare algorithms. Suppose your algorithms perform as follows:
+
 - Difference between precision and recall (in cat classification example):
   - Suppose we run the classifier on 10 images which are 5 cats and 5 non-cats. The classifier identifies that there are 4 cats, but it identified 1 wrong cat.
   - Confusion matrix:
@@ -143,9 +148,9 @@ You figure out that the pictures users are uploading have a different look than 
 Before the modern era of big data, it was a common rule in machine learning to use a random 70%/30% split to form your training and test sets. This practice can work, but it’s a bad idea in more and more applications where the training distribution (website images in our example above) is different from the distribution you ultimately care about (mobile phone images).
 
 We usually define:
-- Training set — Which you run your learning algorithm on.
-- Dev (development) set — Which you use to tune parameters, select features, and make other decisions regarding the learning algorithm. Sometimes also called the hold-out cross validation set .
-- Test set — which you use to evaluate the performance of the algorithm, but not to make any decisions regarding what learning algorithm or parameters to use.
+	- Training set — Which you run your learning algorithm on.
+	- Dev (development) set — Which you use to tune parameters, select features, and make other decisions regarding the learning algorithm. Sometimes also called the hold-out cross validation set .
+	- Test set — which you use to evaluate the performance of the algorithm, but not to make any decisions regarding what learning algorithm or parameters to use.
 
 Once you define a dev set (development set) and test set, your team will try a lot of ideas, such as different learning algorithm parameters, to see what works best. The dev and test sets allow your team to quickly see how well your algorithm is doing.
 
@@ -177,18 +182,17 @@ As an example, suppose your team develops a system that works well on the dev se
 
 But if the dev and test sets come from different distributions, then your options are less clear. Several things could have gone wrong:
 
-1. You had overfit to the dev set.
-2. The test set is harder than the dev set. So your algorithm might be doing as well as could be expected, and no further significant improvement is possible.
-3. The test set is not necessarily harder, but just different, from the dev set. So what works well on the dev set just does not work well on the test set. In this case, a lot of your work to improve dev set performance might be wasted effort.
+	- You had overfit to the dev set.
+	- The test set is harder than the dev set. So your algorithm might be doing as well as could be expected, and no further significant improvement is possible.
+	- The test set is not necessarily harder, but just different, from the dev set. So what works well on the dev set just does not work well on the test set. In this case, a lot of your work to improve dev set performance might be wasted effort.
 
 Working on machine learning applications is hard enough. Having mismatched dev and test sets introduces additional uncertainty about whether improving on the dev set distribution also improves test set performance. Having mismatched dev and test sets makes it harder to figure out what is and isn’t working, and thus makes it harder to prioritize what to work on.
 
 If you are working on a 3rd party benchmark problem, their creator might have specified dev and test sets that come from different distributions. Luck, rather than skill, will have a greater impact on your performance on such benchmarks compared to if the dev and test sets come from the same distribution. It is an important research problem to develop learning algorithms that are trained on one distribution and generalize well to another. But if your goal is to make progress on a specific machine learning application rather than make research progress, I recommend trying to choose dev and test sets that are drawn from the same distribution. This will make your team more efficient.
 
-### How large do the dev/test sets need to be?
+### Size of the dev and test sets
 
 - An old way of splitting the data was 70% training, 30% test or 60% training, 20% dev, 20% test.
-- The old way was valid for a number of examples ~ <100000
 - In the modern deep learning if you have a million or more examples a reasonable split would be 98% training, 1% dev, 1% test.
 
 The dev set should be large enough to detect differences between algorithms that you are trying out. For example, if classifier A has an accuracy of 90.0% and classifier B has an accuracy of 90.1%, then a dev set of 100 examples would not be able to detect this 0.1% difference. Compared to other machine learning problems I’ve seen, a 100 example dev set is small. Dev sets with sizes from 1,000 to 10,000 examples are common. With 10,000 examples, you will have a good chance of detecting an improvement of 0.1%.
