@@ -435,27 +435,23 @@ Machine learning strategy will tell you how. Most machine learning problems leav
 
 ## How to read deep learning papers
 
-### Read research papers
+- Read research papers
+	- Compile list of papers (medium/blog posts), maybe 5-20(farmiliar) papers or 50-100 papers(master)
+	- Skip around list
 
-- Compile list of papers (medium/blog posts), maybe 5-20(farmiliar) papers or 50-100 papers(master)
-- Skip around list
+- Read one paper multiple passes
+	- Title + Abstract + Figures
+	- Intro + Conclusion + Figures + Skip related work + Skip rest
+	- Read the paper but skip maths
+	- Read the whole thing but skip the parts that don't make sense
 
-### Read one paper multiple passes
+- Try to answer question
+	- What did authors try to accomplish ?
+	- What weres the key elements of the approach ?
+	- What can you use yourself ?
+	- What other reference do you want to follow ?
 
-- Title + Abstract + Figures
-- Intro + Conclusion + Figures + Skip rest
-- Read rest but skip maths
-- Read whole thing but skip the parts that don't make sense
-
-### Try to answer question
-
-- What did authors try to accomplish ?
-- What are the key elements of the approach ?
-- What can you use yourself ?
-- What other references do you want to follow ?
-
-### About math code and long-term goals
-
-- math: re-derive from scratch
-- code: run open-source code, re-implement it from scratch
-- long-term goals: 2 or 3 papers per week (2 or 3 years)
+- About math, code and long term goals
+	- math: rederive from scratch
+	- code: run open source code, reimplement from scratch
+	- long term goals: 2 or 3 papers per week (2 or 3 years)
