@@ -46,41 +46,31 @@
 
 Let’s start with the house price prediction example. Suppose that you have a dataset with six houses and we know the price and the size of these houses. We want to fit a function to predict the price of these houses with respect to its size.
 
-<p align="center">
-  ![](Images/12.png)
-</p>
+![](Images/12.png)
 
 We will put a straight line through these data points. Since we know that our prices cannot be negative, we end up with a horizontal line that passes through 0.
 
-<p align="center">
-  ![](Images/13.png)
-</p>
+![](Images/13.png)
 
 The blue line is the function for predicting the price of the house as a function of its size. You can think of this function as a very simple neural network.
 
-The input to the neural network is the size of a house, denoted by \(x\), which goes into a single neuron and then outputs the predicted price, which we denote by \(y\).
+The input to the neural network is the size of a house, denoted by `x`, which goes into a single neuron and then outputs the predicted price, which we denote by `y`.
 
-<p align="center">
-  ![](Images/14.png)
-</p>
+![](Images/14.png)
 
 If this is a neural network with a single neuron, a much larger neural network is formed by taking many of the single neurons and stacking them together.
 
 A basic Neural Network with more features is ilustrated in the following image.
 
-<p align="center">
-  ![](Images/15.jpg)
-</p>
+![](Images/15.jpg)
 
 ### Supervised learning with neural networks
 
-In supervised learning, we have some input \(x\), and we want to learn a function mapping to some output \(y\). Just like in the house price prediction application our input were some features of a home and our goal was to estimate the price of a home \(y\).
+In supervised learning, we have some input `x`, and we want to learn a function mapping to some output `y`. Just like in the house price prediction application our input were some features of a home and our goal was to estimate the price of a home `y`.
 
 Here are some other fields where neural networks have been applied very effectively.
 
-<p align="center">
-  ![](Images/16.png)
-</p>
+![](Images/16.png)
 
 We might input an image and want to output an index from one to a thousand, trying to tell if this picture might be one of a thousand different image classes. This can be used for photo tagging.
 
@@ -90,9 +80,7 @@ Machine translation has also made huge strikes thanks to deep learning where now
 
 Different types of neural networks are useful for different applications.
 
-<p align="center">
-  ![](Images/17.png)
-</p>
+![](Images/17.png)
 
   - In the real estate application, we use a universally **Standard Neural Network** architecture.
   - For image applications we’ll often use **Convolutional Neural Network (CNN)**.
@@ -107,15 +95,11 @@ Structured Data means basically databases of data. In house price prediction, yo
 
 In predicting whether or not a user will click on an ad, we might have information about the user, such as the age, some information about the ad, and then labels that you’re trying to predict.
 
-<p align="center">
-  ![](Images/18.png)
-</p>
+![](Images/18.png)
 
 Structured data means, that each of the features, such as a size of the house, the number of bedrooms, or the age of a user, have a very well-defined meaning. In contrast, unstructured data refers to things like audio, raw audio, or images where you might want to recognize what’s in the image or text. Here, the features might be the pixel values in an image or the individual words in a piece of text.
 
-<p align="center">
-  ![](Images/19.png)
-</p>
+![](Images/19.png)
 
 Neural networks, computers are now much better at interpreting unstructured data as compared to just a few years ago. This creates opportunities for many new exciting applications that use speech recognition, image recognition, natural language processing of text.
 
@@ -125,9 +109,7 @@ Many of the ideas of deep learning (neural networks) have been around for decade
 
 If we plot the performance of traditional learning algorithms such as Support Vector Machine or Logistic Regression as a function of the amount of data. We will get the following curve. In detail, even as you accumulate more data, usually the performance of traditional learning algorithms, plateaus. This means its learning curve flattens out, and the algorithm stops improving even as you give it more data. It was as if the traditional learning algorithms didn’t know what to do with all the data we now have.
 
-<p align="center">
-  ![](Images/11.png)
-</p>
+![](Images/11.png)
 
 With neural networks, it turns out that if you train a very large neural network then its performance often keeps getting better and better.
 
@@ -144,9 +126,7 @@ Three of the biggest drivers of recent progress have been:
 
 To conclude, often you have an idea for a neural network architecture and you want to implement it in code. Fast computation is important because the process of training a neural network is very iterative and can be time-consuming. Implementing our idea then lets us run an experiment which tells us how well our neural network does. Then, by looking at it, you go back to change the details of our neural network and then you go around this circle over and over, until we get the desired performance.
 
-<p align="center">
-  ![](Images/20.png)
-</p>
+![](Images/20.png)
 
 ## Neural Networks Basics
 
@@ -154,9 +134,7 @@ To conclude, often you have an idea for a neural network architecture and you wa
 
 Binary classification is the task of classifying elements of a given set into two classification.
 
-<p align="center">
-  ![](Images/21.png)
-</p>
+![](Images/21.png)
 
 A binary classification problem:
 
@@ -167,23 +145,17 @@ In binary classification, our goal is to learn a classifier that can input an im
 
 Image representation in a computer
 
-The computer stores 3 separate matrices corresponding to the red, green and blue (RGB) color channels of the image. If the input image is 64 by 64 pixels, then we would have three 64 by 64 matrices corresponding to the red, green and blue pixel intensity values for our image. For a 64 by 64 image – the total dimension of this vector will be \(n\)<sub>\(x\)</sub> = 64 * 64 * 3 = 12288.
+The computer stores 3 separate matrices corresponding to the red, green and blue (RGB) color channels of the image. If the input image is 64 by 64 pixels, then we would have three 64 by 64 matrices corresponding to the red, green and blue pixel intensity values for our image. For a 64 by 64 image – the total dimension of this vector will be $n<sub>x</sub> = 64 * 64 * 3 = 12288$.
 
-<p align="center">
-  ![](Images/22.png)
-</p>
+![](Images/22.png)
 
 Notation that we will follow is shown in the table below:
 
-<p align="center">
-  ![](Images/23.png)
-</p>
+![](Images/23.png)
 
 ### Logistic regression
 
-Logistic regression is a supervised learning algorithm that we can use when labels are either 0 or 1 and this is the so-called Binary Classification Problem. An input feature vector \(X\) may correspond to an image that we want to recognize as either a cat picture (1) or a non-cat picture (0). That is, we want an algorithm to output the prediction which is an estimate of \(y\):
-
-
+Logistic regression is a supervised learning algorithm that we can use when labels are either 0 or 1 and this is the so-called **Binary Classification Problem**. An input feature vector x may correspond to an image that we want to recognize as either a cat picture (1) or a non-cat picture (0). That is, we want an algorithm to output the prediction which is an estimate of y:
 
 - Algorithm is used for classification algorithm of 2 classes.
 - Equations:
