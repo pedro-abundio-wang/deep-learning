@@ -1,3 +1,6 @@
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 # Neural Networks and Deep Learning
 
 * [Neural Networks and Deep Learning](#neural-networks-and-deep-learning)
@@ -145,7 +148,7 @@ In binary classification, our goal is to learn a classifier that can input an im
 
 Image representation in a computer
 
-The computer stores 3 separate matrices corresponding to the red, green and blue (RGB) color channels of the image. If the input image is 64 by 64 pixels, then we would have three 64 by 64 matrices corresponding to the red, green and blue pixel intensity values for our image. For a 64 by 64 image – the total dimension of this vector will be $n<sub>x</sub> = 64 * 64 * 3 = 12288$.
+The computer stores 3 separate matrices corresponding to the red, green and blue (RGB) color channels of the image. If the input image is 64 by 64 pixels, then we would have three 64 by 64 matrices corresponding to the red, green and blue pixel intensity values for our image. For a 64 by 64 image – the total dimension of this vector will be 64 * 64 * 3 = 12288.
 
 ![](Images/22.png)
 
@@ -155,7 +158,12 @@ Notation that we will follow is shown in the table below:
 
 ### Logistic regression
 
-Logistic regression is a supervised learning algorithm that we can use when labels are either 0 or 1 and this is the so-called **Binary Classification Problem**. An input feature vector x may correspond to an image that we want to recognize as either a cat picture (1) or a non-cat picture (0). That is, we want an algorithm to output the prediction which is an estimate of y:
+Logistic regression is a supervised learning algorithm that we can use when labels are either 0 or 1 and this is the so-called **Binary Classification Problem**. An input feature vector `x` may correspond to an image that we want to recognize as either a cat picture (1) or a non-cat picture (0). That is, we want an algorithm to output the prediction which is an estimate of `y`:
+
+\(\hat{y}= P\left ( y=1|x \right) \\x\in \mathbb{R}^{n_x}\)
+
+\(\mathrm{Parameters}: w \in R^{n_x}, b \in \mathbb{R}\)
+
 
 - Algorithm is used for classification algorithm of 2 classes.
 - Equations:
@@ -704,7 +712,7 @@ Logistic regression is a supervised learning algorithm that we can use when labe
 
 
 - Hidden layers predicts connection between inputs automatically, thats what deep learning is good at.
-  - ![](Images/Others/01.jpg)
+  - ![](Images/01.jpg)
 - Deep Neural Network consists of more hidden layers
-  - ![](Images/Others/02.png)
+  - ![](Images/07.png)
 - Each Input will be connected to the hidden layer and the NN will decide the connections.
