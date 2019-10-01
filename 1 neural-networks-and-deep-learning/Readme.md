@@ -1,9 +1,8 @@
 # Neural Networks and Deep Learning
 
 * [Neural Networks and Deep Learning](#neural-networks-and-deep-learning)
-   * [Introduction](#Introduction)
-   * [Introduction to deep learning](#introduction-to-deep-learning)
-      * [What is a (Neural Network) NN?](#what-is-a-neural-network-nn)
+    * [Introduction to deep learning](#introduction-to-deep-learning)
+      * [What is a Neural Network](#what-is-a-neural-network)
       * [Supervised learning with neural networks](#supervised-learning-with-neural-networks)
       * [Scale drives machine learning progress](#Scale-drives-machine-learning-progress)
    * [Neural Networks Basics](#neural-networks-basics)
@@ -41,54 +40,78 @@
       * [Parameters vs Hyperparameters](#parameters-vs-hyperparameters)
       * [What does this have to do with the brain](#what-does-this-have-to-do-with-the-brain)
 
-## Introduction
-
-> If you want to break into cutting-edge AI, this note will help you do so. Deep learning engineers are highly sought after, and mastering deep learning will give you numerous new career opportunities. Deep learning is also a new "superpower" that will let you build AI systems that just weren't possible a few years ago.
->
-> You will learn the foundations of deep learning. When you finish this class, you will:
->
-> - Understand the major technology trends driving Deep Learning
-> - Be able to build, train and apply fully connected deep neural networks
-> - Know how to implement efficient (vectorized) neural networks
-> - Understand the key parameters in a neural network's architecture
->
-> This note also teaches you how Deep Learning actually works, rather than presenting only a cursory or surface-level description. So after completing it, you will be able to apply deep learning to a your own applications. If you are looking for a job in AI, after reading this note you will also be able to answer basic interview questions.
-
 ## Introduction to deep learning
 
-> Be able to explain the major trends driving the rise of deep learning, and understand where and how it is applied today.
+### What is a Neural Network
 
-### What is a (Neural Network) NN?
+Let’s start with the house price prediction example. Suppose that you have a dataset with six houses and we know the price and the size of these houses. We want to fit a function to predict the price of these houses with respect to its size.
 
-- Single neuron == linear regression without applying activation(perceptron)
-- Basically a single neuron will calculate weighted sum of input(W.T*X) and then we can set a threshold to predict output in a perceptron. If weighted sum of input cross the threshold, perceptron fires and if not then perceptron doesn't predict.
-- Perceptron can take real values input or boolean values.
-- Actually, when w⋅x+b=0 the perceptron outputs 0.
-- Disadvantage of perceptron is that it only output binary values and if we try to give small change in weight and bais then perceptron can flip the output. We need some system which can modify the output slightly according to small change in weight and bias.
-- If we change perceptron with a sigmoid function, then we can make slight change in output.
-- If we apply sigmoid activation function then Single neuron will act as Logistic Regression.
-- Simple NN graph:
-  - ![](Images/Others/01.jpg)
-- RELU stands for rectified linear unit is the most popular activation function right now that makes deep NNs train faster now.
-- Hidden layers predicts connection between inputs automatically, thats what deep learning is good at.
-- Deep NN consists of more hidden layers (Deeper layers)
-  - ![](Images/Others/02.png)
-- Each Input will be connected to the hidden layer and the NN will decide the connections.
-- Supervised learning means we have the (X,Y) and we need to get the function that maps X to Y.
+![](Images/12.png)
+
+We will put a straight line through these data points. Since we know that our prices cannot be negative, we end up with a horizontal line that passes through 0.
+
+![](Images/13.png)
+
+The blue line is the function for predicting the price of the house as a function of its size. You can think of this function as a very simple neural network.
+
+The input to the neural network is the size of a house, denoted by x, which goes into a single neuron and then outputs the predicted price, which we denote by y.
+
+![](Images/14.png)
+
+If this is a neural network with a single neuron, a much larger neural network is formed by taking many of the single neurons and stacking them together.
+
+A basic Neural Network with more features is ilustrated in the following image.
+
+![](Images/15.jpg)
 
 ### Supervised learning with neural networks
 
-- Different types of neural networks for supervised learning which includes:
-  - CNN or convolutional neural networks (Useful in computer vision)
-  - RNN or Recurrent neural networks (Useful in Speech recognition or NLP)
-  - Standard NN (Useful for Structured data)
-- Structured data is like the databases and tables.
-- Unstructured data is like images, video, audio, and text.
-- Structured data (like advertising) gives more money because companies relies on prediction on its big data.
+In supervised learning, we have some input x, and we want to learn a function mapping to some output y. Just like in the house price prediction application our input were some features of a home and our goal was to estimate the price of a home y.
+
+Here are some other fields where neural networks have been applied very effectively.
+
+![](Images/16.png)
+
+We might input an image and want to output an index from one to a thousand, trying to tell if this picture might be one of a thousand different image classes. This can be used for photo tagging.
+
+The recent progress in speech recognition has also been very exciting. Now you can input an audio clip to a neural network and can have it output a text transcript.
+
+Machine translation has also made huge strikes thanks to deep learning where now you can have a neural network input an English sentence and directly output a Chinese sentence.
+
+Different types of neural networks are useful for different applications.
+
+![](Images/17.png)
+
+  - In the real estate application, we use a universally **Standard Neural Network** architecture.
+  - For image applications we’ll often use **Convolutional Neural Network (CNN)**.
+  - Audio is most naturally represented as a one-dimensional time series or as a one-dimensional temporal sequence. Hence, for a sequence data, we often use **Recurrent Neural Network (RNN)**.
+  - Language, English and Chinese, the alphabets or the words come one at a time and language is also represented as a sequence data. **Recurrent Neural Network (RNN)** are often used for these applications.
+
+Structured and Unstructured Data
+
+Machine learning is applied to both Structured Data and Unstructured Data.
+
+Structured Data means basically databases of data. In house price prediction, you might have a database or the column that tells you the size and the number of bedrooms.
+
+In predicting whether or not a user will click on an ad, we might have information about the user, such as the age, some information about the ad, and then labels that you’re trying to predict.
+
+![](Images/18.png)
+
+Structured data means, that each of the features, such as a size of the house, the number of bedrooms, or the age of a user, have a very well-defined meaning. In contrast, unstructured data refers to things like audio, raw audio, or images where you might want to recognize what’s in the image or text. Here, the features might be the pixel values in an image or the individual words in a piece of text.
+
+![](Images/19.png)
+
+Neural networks, computers are now much better at interpreting unstructured data as compared to just a few years ago. This creates opportunities for many new exciting applications that use speech recognition, image recognition, natural language processing of text.
 
 ### Scale drives machine learning progress
 
 Many of the ideas of deep learning (neural networks) have been around for decades. Why are these ideas taking off now?
+
+If we plot the performance of traditional learning algorithms such as Support Vector Machine or Logistic Regression as a function of the amount of data. We will get the following curve. In detail, even as you accumulate more data, usually the performance of traditional learning algorithms, plateaus. This means its learning curve flattens out, and the algorithm stops improving even as you give it more data. It was as if the traditional learning algorithms didn’t know what to do with all the data we now have.
+
+![](Images/11.png)
+
+With neural networks, it turns out that if you train a very large neural network then its performance often keeps getting better and better.
 
 Three of the biggest drivers of recent progress have been:
 
@@ -99,15 +122,11 @@ Three of the biggest drivers of recent progress have been:
     - We started just a few years ago, techniques (like GPUs/Powerful CPUs/Distributed computing) to be able to train neural networks that are big enough to take advantage of the huge datasets we now have.
 
   - Algorithm:
-    - Creative algorithms has appeared that changed the way NN works. For example using RELU function is so much better than using Sigmoid function in training a NN because it helps with the vanishing gradient problem.
+    - Creative algorithms has appeared that changed the way NN works. Using **RELU function** is so much better than using **Sigmoid function** in training a NN.
 
-![](Images/11.png)
+To conclude, often you have an idea for a neural network architecture and you want to implement it in code. Fast computation is important because the process of training a neural network is very iterative and can be time-consuming. Implementing our idea then lets us run an experiment which tells us how well our neural network does. Then, by looking at it, you go back to change the details of our neural network and then you go around this circle over and over, until we get the desired performance.
 
-In detail, even as you accumulate more data, usually the performance of older learning algorithms, such as logistic regression or support vector machine, “plateaus.” This means its learning curve “flattens out,” and the algorithm stops improving even as you give it more data. It was as if the older algorithms didn’t know what to do with all the data we now have.
-
-If you train a small neutral network (NN) on the same supervised learning task, you might get slightly better performance. Here, by “Small NN” we mean a neural network with only a small number of hidden units/layers/parameters.
-
-Finally, if you train larger and larger neural networks, you can obtain even better performance.
+![](Images/20.png)
 
 ## Neural Networks Basics
 
@@ -669,3 +688,16 @@ Finally, if you train larger and larger neural networks, you can obtain even bet
 - Deep learning in Andrew's opinion is very good at learning very flexible, complex functions to learn X to Y mappings, to learn input-output mappings (supervised learning).
 - The field of computer vision has taken a bit more inspiration from the human brains then other disciplines that also apply deep learning.
 - NN is a small representation of how brain work. The most near model of human brain is in the computer vision (CNN)
+
+
+
+
+
+
+
+
+- Hidden layers predicts connection between inputs automatically, thats what deep learning is good at.
+  - ![](Images/Others/01.jpg)
+- Deep Neural Network consists of more hidden layers
+  - ![](Images/Others/02.png)
+- Each Input will be connected to the hidden layer and the NN will decide the connections.
