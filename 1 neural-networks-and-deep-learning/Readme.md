@@ -1,6 +1,3 @@
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 # Neural Networks and Deep Learning
 
 * [Neural Networks and Deep Learning](#neural-networks-and-deep-learning)
@@ -49,7 +46,7 @@
 
 Let’s start with the house price prediction example. Suppose that you have a dataset with six houses and we know the price and the size of these houses. We want to fit a function to predict the price of these houses with respect to its size.
 
-![](Images/12.png)
+<center>![](Images/12.png)</center>
 
 We will put a straight line through these data points. Since we know that our prices cannot be negative, we end up with a horizontal line that passes through 0.
 
