@@ -54,7 +54,7 @@ We will put a straight line through these data points. Since we know that our pr
 
 The blue line is the function for predicting the price of the house as a function of its size. You can think of this function as a very simple neural network.
 
-The input to the neural network is the size of a house, denoted by `x`, which goes into a single neuron and then outputs the predicted price, which we denote by `y`.
+The input to the neural network is the size of a house, denoted by 𝑥, which goes into a single neuron and then outputs the predicted price, which we denote by 𝑦.
 
 ![](Images/14.png)
 
@@ -66,7 +66,7 @@ A basic Neural Network with more features is ilustrated in the following image.
 
 ### Supervised learning with neural networks
 
-In supervised learning, we have some input `x`, and we want to learn a function mapping to some output `y`. Just like in the house price prediction application our input were some features of a home and our goal was to estimate the price of a home `y`.
+In supervised learning, we have some input 𝑥, and we want to learn a function mapping to some output 𝑦. Just like in the house price prediction application our input were some features of a home and our goal was to estimate the price of a home 𝑦.
 
 Here are some other fields where neural networks have been applied very effectively.
 
@@ -138,10 +138,10 @@ Binary classification is the task of classifying elements of a given set into tw
 
 A binary classification problem:
 
-  - We have an input image x and the output y is a label to recognize the image.
+  - We have an input image 𝑥 and the output 𝑦 is a label to recognize the image.
   - 1 means cat is on an image, 0 means that a non-cat object is on an image.
 
-In binary classification, our goal is to learn a classifier that can input an image represented by its feature vector x and predict whether the corresponding label is 1 or 0. That is, whether this is a cat image or a non-cat image.
+In binary classification, our goal is to learn a classifier that can input an image represented by its feature vector 𝑥 and predict whether the corresponding label is 1 or 0. That is, whether this is a cat image or a non-cat image.
 
 Image representation in a computer
 
@@ -155,21 +155,30 @@ Notation that we will follow is shown in the table below:
 
 ### Logistic regression
 
-Logistic regression is a supervised learning algorithm that we can use when labels are either 0 or 1 and this is the so-called **Binary Classification Problem**. An input feature vector `x` may correspond to an image that we want to recognize as either a cat picture (1) or a non-cat picture (0). That is, we want an algorithm to output the prediction which is an estimate of `y`:
+Logistic regression is a supervised learning algorithm that we can use when labels are either 0 or 1 and this is the so-called **Binary Classification Problem**. An input feature vector 𝑥 may correspond to an image that we want to recognize as either a cat picture (1) or a non-cat picture (0). That is, we want an algorithm to output the prediction which is an estimate of 𝑦:
 
-More formally, we want 𝑦̂  to be the chance that 𝑦 is equal to 1, given the input features 𝑥. In other words, if 𝑥 is a picture, we want 𝑦 to tell us what is the chance that this is a cat picture.
+![](Images/24.png)
 
-The  is an 𝑛𝑥 – dimensional vector. The parameters od logistic regression are 𝑤, which is also an 𝑛𝑥 – dimensional vector together with 𝑏 wich is a real number.
+More formally, we want 𝑦̂ to be the chance that 𝑦 is equal to 1, given the input features 𝑥. In other words, if 𝑥 is a picture, we want 𝑦 to tell us what is the chance that this is a cat picture.
 
-Given an input 𝑥 and the parameters  𝑤 and 𝑏,  how do we generate the output 𝑦̂ ? One thing we could try, that doesn’t work, would be to have: 𝑦̂ =𝑤𝑇𝑥+𝑏 which is a linear function of the input and in fact, this is what we use if we were doing Linear Regression.
+The 𝑥 is an 𝑛<sup>𝑥</sup> – dimensional vector. The parameters of logistic regression are 𝑤, which is also an 𝑛<sup>𝑥</sup> – dimensional vector together with 𝑏 wich is a real number.
 
-However, this is not a very good algorithm for binary classification, because we want 𝑦̂  to be the chance that 𝑦 is equal to 1, so 𝑦̂  should be between 0 and 1.
+Given an input 𝑥 and the parameters  𝑤 and 𝑏, how do we generate the output 𝑦̂, One thing we could try, that doesn’t work, would be to have: 𝑦̂ = 𝑤<sup>𝑇</sup>𝑥 + 𝑏 which is a linear function of the input and in fact, this is what we use if we were doing Linear Regression.
 
-It is difficult to enforce this because \(w^{T}x+b \) can be much bigger than 1 or can even be negative which doesn’t make sense for a probability that we want to be in a range between 0 and 1. We can conclude that we need a function which will transform 𝑦̂ =𝑤𝑇𝑥+𝑏 to be in a range between 0 and 1.  
+However, this is not a very good algorithm for binary classification, because we want 𝑦̂ to be the chance that 𝑦 is equal to 1, so 𝑦̂ should be between 0 and 1.
 
-Let’s see one function that can help us do that. In logistic regression, the output is going to be the Sigmoid Function. We can see that it goes smoothly from  0 up to 1.
+It is difficult to enforce this because 𝑤<sup>𝑇</sup>𝑥 + 𝑏 can be much bigger than 1 or can even be negative which doesn’t make sense for a probability that we want to be in a range between 0 and 1. We can conclude that we need a function which will transform 𝑦̂ = 𝑤<sup>𝑇</sup>𝑥 + 𝑏 to be in a range between 0 and 1.
 
+Let’s see one function that can help us do that. In logistic regression, the output is going to be the **Sigmoid Function**. We can see that it goes smoothly from  0 up to 1.
 
+![](Images/25.jpeg)
+
+  - use 𝑧 to denote the following quantity 𝑤<sup>𝑇</sup>𝑥 + 𝑏.
+  - we have: 𝑦̂ = 𝜎(𝑤<sup>𝑇</sup>𝑥 + 𝑏).
+  - if 𝑧 is a large positive number: 𝜎(𝑧) ≈ 1
+  - if 𝑧 is a large negative number: 𝜎(𝑧) ≈ 0
+
+When we implement logistic regression, our job is to try to learn parameters 𝑤 and 𝑏, so that 𝑦̂  becomes a good estimate of the chance of 𝑦 being equal to 1.
 
 ### Logistic regression cost function
 
