@@ -46,7 +46,7 @@
 
 Let’s start with the house price prediction example. Suppose that you have a dataset with six houses and we know the price and the size of these houses. We want to fit a function to predict the price of these houses with respect to its size.
 
-<center>![](Images/12.png)</center>
+![](Images/12.png)center>
 
 We will put a straight line through these data points. Since we know that our prices cannot be negative, we end up with a horizontal line that passes through 0.
 
@@ -157,20 +157,19 @@ Notation that we will follow is shown in the table below:
 
 Logistic regression is a supervised learning algorithm that we can use when labels are either 0 or 1 and this is the so-called **Binary Classification Problem**. An input feature vector `x` may correspond to an image that we want to recognize as either a cat picture (1) or a non-cat picture (0). That is, we want an algorithm to output the prediction which is an estimate of `y`:
 
-\(\hat{y}= P\left ( y=1|x \right) \\x\in \mathbb{R}^{n_x}\)
+More formally, we want 𝑦̂  to be the chance that 𝑦 is equal to 1, given the input features 𝑥. In other words, if 𝑥 is a picture, we want 𝑦 to tell us what is the chance that this is a cat picture.
 
-\(\mathrm{Parameters}: w \in R^{n_x}, b \in \mathbb{R}\)
+The  is an 𝑛𝑥 – dimensional vector. The parameters od logistic regression are 𝑤, which is also an 𝑛𝑥 – dimensional vector together with 𝑏 wich is a real number.
+
+Given an input 𝑥 and the parameters  𝑤 and 𝑏,  how do we generate the output 𝑦̂ ? One thing we could try, that doesn’t work, would be to have: 𝑦̂ =𝑤𝑇𝑥+𝑏 which is a linear function of the input and in fact, this is what we use if we were doing Linear Regression.
+
+However, this is not a very good algorithm for binary classification, because we want 𝑦̂  to be the chance that 𝑦 is equal to 1, so 𝑦̂  should be between 0 and 1.
+
+It is difficult to enforce this because \(w^{T}x+b \) can be much bigger than 1 or can even be negative which doesn’t make sense for a probability that we want to be in a range between 0 and 1. We can conclude that we need a function which will transform 𝑦̂ =𝑤𝑇𝑥+𝑏 to be in a range between 0 and 1.  
+
+Let’s see one function that can help us do that. In logistic regression, the output is going to be the Sigmoid Function. We can see that it goes smoothly from  0 up to 1.
 
 
-- Algorithm is used for classification algorithm of 2 classes.
-- Equations:
-  - Simple equation:	`y = wx + b`
-  - If x is a vector: `y = w(transpose)x + b`
-  - If we need y to be in between 0 and 1 (probability): `y = sigmoid(w(transpose)x + b)`
-  - In some notations this might be used: `y = sigmoid(w(transpose)x)`
-    - While `b` is `w0` of `w` and we add `x0 = 1`. but we won't use this notation in the course.
-- In binary classification `Y` has to be between `0` and `1`.
-- In the last equation `w` is a vector of `Nx` and `b` is a real number
 
 ### Logistic regression cost function
 
