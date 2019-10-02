@@ -10,8 +10,6 @@
       * [Logistic regression](#logistic-regression)
       * [Logistic regression cost function](#logistic-regression-cost-function)
       * [Gradient Descent](#gradient-descent)
-      * [Derivatives](#derivatives)
-      * [More Derivatives examples](#more-derivatives-examples)
       * [Computation graph](#computation-graph)
       * [Derivatives with a Computation Graph](#derivatives-with-a-computation-graph)
       * [Logistic Regression Gradient Descent](#logistic-regression-gradient-descent)
@@ -46,7 +44,7 @@
 
 Let’s start with the house price prediction example. Suppose that you have a dataset with six houses and we know the price and the size of these houses. We want to fit a function to predict the price of these houses with respect to its size.
 
-![](Images/12.png)center>
+![](Images/12.png)
 
 We will put a straight line through these data points. Since we know that our prices cannot be negative, we end up with a horizontal line that passes through 0.
 
@@ -182,66 +180,167 @@ When we implement logistic regression, our job is to try to learn parameters �
 
 ### Logistic regression cost function
 
-- First loss function would be the square root error:  `L(y',y) = 1/2 (y' - y)^2`
-  - But we won't use this notation because it leads us to optimization problem which is neural saturated, means it leads learning slow.
-- This is the function that we will use: `L(y',y) = - (y*log(y') + (1-y)*log(1-y'))`
-- To explain the last function lets see:
-  - if `y = 1` ==> `L(y',1) = -log(y')`  ==> we want `y'` to be the largest   ==> `y`' biggest value is 1
-  - if `y = 0` ==> `L(y',0) = -log(1-y')` ==> we want `1-y'` to be the largest ==> `y'` to be smaller as possible, `y`' smallest value is 0.
-- Then the Cost function will be: `J(w,b) = (1/m) * Sum(L(y'[i],y[i]))`
-- The loss function computes the error for a single training example; the cost function is the average of the loss functions of the entire training set.
+First, to train parameters 𝑤 and 𝑏 of a logistic regression model we need to define a **cost function**.
+
+Given a training set of 𝑚 training examples, we want to find parameters 𝑤 and 𝑏, so that 𝑦̂ is as close to 𝑦 (ground truth).
+
+Here, we will use (𝑖) superscript to index different training examples.
+
+Henceforth, we will use **loss (error) function** to measure how well our algorithm is doing. The loss function is applied only to a single training sample, and commonly used loss function is a **squared error**:
+
+![](Images/26.png)
+
+In logistic regression squared error loss function is not an optimal choice. It results in an optimization problem which is not convex, and the gradient descent algorithm may not work well, it may not converge optimally.
+
+In terms of a surface, the surface is convex if, loosely speaking, it looks like a parabola. If you have a ball and let it roll along the surface, that surface is convex if that ball is guaranteed to always end up at the same point in the end. However, if the surface has bumps, then, depending on where you drop the ball from, it might get stuck somewhere else. That surface is then non-convex.
+
+![](Images/27.png)
+
+To be sure that we will get to the global optimum, we will use following loss function:
+
+![](Images/28.png)
+
+It will give us a convex optimization problem and it is therefore much easier to be optimized.
+
+To understand why this is a good choice, let’s see these two cases:
+
+![](Images/29.png)
+
+A cost function measures how well our parameters 𝑤 and 𝑏 are doing on the entire training set :
+
+![](Images/30.png)
+
+  - Cost function 𝐽 is defined as an average of a sum of loss functions of all training examples.
+  - Cost function is a function of parameters 𝑤 and 𝑏.
+
+In cost function diagram, the horizontal axes represent our spatial parameters, 𝑤 and 𝑏. In practice, 𝑤 can be of a much higher dimension, but for the purposes of plotting, we will illustrate 𝑤 and 𝑏 as scalars.
+
+The cost function 𝐽(𝑤,𝑏) is then some surface above these horizontal axes 𝑤 and 𝑏. So, the height of the surface represents the value of 𝐽(𝑤,𝑏) at a certain point. Our goal will be to minimize function 𝐽, and to find parameters 𝑤 and 𝑏.
 
 ### Gradient Descent
 
-- We want to predict `w` and `b` that minimize the cost function.
-- Our cost function is convex.
-- First we initialize `w` and `b` to 0,0 or initialize them to a random value in the convex function and then try to improve the values the reach minimum value.
-- In Logistic regression people always use 0,0 instead of random.
-- The gradient decent algorithm repeats: `w = w - alpha * dw`
-  where alpha is the learning rate and `dw` is the derivative of `w` (Change to `w`)
-  The derivative is also the slope of `w`
-- Looks like greedy algorithms. the derivative give us the direction to improve our parameters.
-- The actual equations we will implement:
-  - `w = w - alpha * d(J(w,b) / dw)`        (how much the function slopes in the w direction)
-  - `b = b - alpha * d(J(w,b) / db)`        (how much the function slopes in the d direction)
+Gradient Descent is an algorithm that tries to minimize the cost function 𝐽(𝑤,𝑏) and to find optimal values for 𝑤 and 𝑏.
 
-### Derivatives
+For the purpose of illustration we will use 𝐽(𝑤), function that we want to minimize, as a function of one variable. To make this easier to draw, we are going to ignore 𝑏 for now, just to make this a one-dimensional plot instead of a high-dimensional plot.
 
-- We will talk about some of required calculus.
-- You don't need to be a calculus geek to master deep learning but you'll need some skills from it.
-- Derivative of a linear line is its slope.
-  - ex. `f(a) = 3a`                    `d(f(a))/d(a) = 3`
-  - if `a = 2` then `f(a) = 6`
-  - if we move a a little bit `a = 2.001` then `f(a) = 6.003` means that we multiplied the derivative (Slope) to the moved area and added it to the last result.
+Gradient Descent starts at an initial parameter and begins to take values in the steepest downhill direction. Function 𝐽(𝑤,𝑏) is convex, so no matter where we initialize, we should get to the same point or roughly the same point.
 
-### More Derivatives examples
+After a single step, it ends up a little bit down and closer to a global otpimum because it is trying to take a step downhill in the direction of steepest descent or quickly down low as possible.
 
-- `f(a) = a^2`  ==> `d(f(a))/d(a) = 2a`
-  - `a = 2`  ==> `f(a) = 4`
-  - `a = 2.0001` ==> `f(a) = 4.0004` approx.
-- `f(a) = a^3`  ==> `d(f(a))/d(a) = 3a^2`
-- `f(a) = log(a)`  ==> `d(f(a))/d(a) = 1/a`
-- To conclude, Derivative is the slope and slope is different in different points in the function thats why the derivative is a function.
+After a fixed number of iterations of Gradient Descent, hopefully, will converge to the global optimum or get close to the global optimum.
+
+The learning rate 𝛼 controls how big step we take on each iteration of Gradient Descent.
+
+![](Images/31.jpeg)
+
+If the derivative is positive, 𝑤 gets updated as 𝑤 minus a learning rate 𝛼 times the derivative 𝑑𝑤.
+
+We know that the derivative is positive, so we end up subtracting from 𝑤 and taking a step to the left. Here, Gradient Descent would make your algorithm slowly decrease the parameter if you have started off with this large value of 𝑤.
+
+Next, when the derivative is negative (left side of the convex function),  the Gradient Descent update would subtract 𝛼 times a negative number, and so we end up slowly increasing 𝑤 and we are making 𝑤 bigger and bigger with each successive iteration of Gradient Descent.
+
+So, whether you initialize 𝑤 on the left or on the right, Gradient Descent would move you towards this global minimum.
+
+![](Images/32.png)
 
 ### Computation graph
 
-- [computation graph](https://colah.github.io/posts/2015-08-Backprop/)
-- Its a graph that organizes the computation from bottom to top.
-  - ![](Images/02.png)
+Let’s say that we’re trying to compute a function 𝐽, which is a function of three variables 𝑎, 𝑏, and 𝑐 and let’s say that function 𝐽 is 3(𝑎 + 𝑏𝑐).
+
+![](Images/40.png)
+
+Computation of this function has actually three distinct steps:
+
+  - Compute 𝑏𝑐 and store it in the variable 𝑢, so 𝑢 = 𝑏𝑐
+  - Compute 𝑣 = 𝑎 + 𝑢,
+  - Output 𝐽 is 3𝑣.
+
+Let’s summarize:
+
+![](Images/41.png)
+
+In this simple example we see that, through a left-to-right pass, you can compute the value of 𝐽.
 
 ### Derivatives with a Computation Graph
 
-- Calculus chain rule says:
-  If `x -> y -> z`          (x effect y and y effects z)
-  Then `d(z)/d(x) = d(z)/d(y) * d(y)/d(x)`
-  - ![](Images/03.png)
-- We compute the derivatives on a graph from top to bottom and it will be a lot more easier.
-- `dvar` means the derivatives of a final output variable with respect to various intermediate quantities.
+How to figure out derivative calculations of the function 𝐽.
+
+Now we want using a computation graph to compute the derivative of 𝐽 with respect to 𝑣. Let’s get back to our picture, but with concrete parameters.
+
+![](Images/42.png)
+
+First, let’s see the final change of value 𝐽 if we change 𝑣 value a little bit:
+
+![](Images/43.png)
+
+We can get the same result if we know calculus:
+
+![](Images/44.png)
+
+We emphasize that calculation of d𝐽/d𝑣 is one step of a back propagation. The following picture depicts **forward propagation** as well as **backward propagation**:
+
+![](Images/45.png)
+
+Next, what is d𝐽/d𝑎. If we increase 𝑎 from 5 to 5.001, 𝑣 will increase to 11.001 and 𝐽 will increase to 33.003. So, the increase to 𝐽 is the three times the increase to 𝑎 so that means this derivative is equal to 3.
+
+![](Images/46.png)
+
+One way to break this down is to say that if we change 𝑎, that would change 𝑣 and through changing 𝑣 that would change 𝐽. By increasing 𝑎, how much 𝐽 changed is also determined by d𝑣/d𝑎. This is called a **chain rule** in calculus:
+
+![](Images/49.png)
+
+Now, let’s calculate derivative d𝐽/d𝑢.
+
+![](Images/47.png)
+
+Finally, we have to find the most important values: value of d𝐽/d𝑏 and d𝐽/d𝑐. Let’s calculate them:
+
+![](Images/48.png)
 
 ### Logistic Regression Gradient Descent
 
-- In the video he discussed the derivatives of gradient decent example for one sample with two features `x1` and `x2`.
-  - ![](Images/04.png)
+Why do we need a computation graph? To answer this question, we have to check how the computation for our neural network is organized. There are two important principles in neural network computation:
+
+  - Forward pass or forward propagation step
+  - Backward pass or backpropagation step
+
+During NN’s **forward propagation step** we compute the output of our neural network. In a binary classification case, our neural network output is defined by a variable and it can have any value from [0,1] interval.
+
+In order to actually train our neural network (find parameters 𝑤 and 𝑏 as local optima of our cost function) we have to conduct a **backpropagation step**. In this way, we can compute gradients or compute derivatives. With this information, we are able to implement gradient descent algorithm for finding optimal values of 𝑤 and 𝑏. That way we can train our neural network and expect that it will do well on a classification task.
+
+A computation graph is a systematic and easy way to represent our neural network and it is used to better understand (or compute) derivatives or neural network output.
+
+The computation graph of a logistic regression looks like the following:
+
+![](Images/04.png)
+
+In this example, we only have two features 𝑥<sub>1</sub> and 𝑥<sub>2</sub>. In order to compute 𝑧, we will need to input 𝑤<sub>1</sub>, 𝑤<sub>2</sub> and 𝑏 in addition to the feature values 𝑥<sub>1</sub> and 𝑥<sub>2</sub>
+
+![](Images/33.png)
+
+After that, we can compute our 𝑦̂ (equals sigma of 𝑧)
+
+![](Images/34.png)
+
+Finally, we are able to compute our loss function.
+
+![](Images/39.png)
+
+To reduce our loss function (remember right now we are talking only about one data sample) we have to update our 𝑤 and 𝑏 parameters. So, first we have to compute the loss using forward propagation step. After this, we go in the opposite direction (backward propagation step) to compute the derivatives.
+
+![](Images/35.png)
+
+Having computed 𝑑𝑎, we can go backwards and compute 𝑑𝑧:
+
+![](Images/36.png)
+
+The final step in back propagation is to go back to compute amount of change of our parameters 𝑤 and 𝑏:
+
+![](Images/37.png)
+
+To conclude, if we want to do gradient descent with respect to just this one training example, we would do the following updates
+
+![](Images/38.png)
 
 ### Gradient Descent on m Examples
 
@@ -721,3 +820,10 @@ When we implement logistic regression, our job is to try to learn parameters �
 - Deep Neural Network consists of more hidden layers
   - ![](Images/07.png)
 - Each Input will be connected to the hidden layer and the NN will decide the connections.
+
+
+- [computation graph](https://colah.github.io/posts/2015-08-Backprop/)
+- Its a graph that organizes the computation from bottom to top.
+  - ![](Images/02.png)
+
+- ![](Images/03.png)
