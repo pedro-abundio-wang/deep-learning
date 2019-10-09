@@ -48,17 +48,20 @@ Let’s start with the house price prediction example. Suppose that you have a d
   <img src="Images/12.png">
 </div>
 
-![](Images/12.png)
-
 We will put a straight line through these data points. Since we know that our prices cannot be negative, we end up with a horizontal line that passes through 0.
 
-![](Images/13.png)
+<div align="center">
+  <img src="Images/13.png">
+</div>
 
 The blue line is the function for predicting the price of the house as a function of its size. You can think of this function as a very simple neural network.
 
 The input to the neural network is the size of a house, denoted by 𝑥, which goes into a single neuron and then outputs the predicted price, which we denote by 𝑦.
 
-![](Images/14.png)
+
+<div align="center">
+  <img src="Images/14.png">
+</div>
 
 If this is a neural network with a single neuron, a much larger neural network is formed by taking many of the single neurons and stacking them together.
 
@@ -97,11 +100,15 @@ Structured Data means basically databases of data. In house price prediction, yo
 
 In predicting whether or not a user will click on an ad, we might have information about the user, such as the age, some information about the ad, and then labels that you’re trying to predict.
 
-![](Images/18.png)
+<div align="center">
+  <img src="Images/18.png">
+</div>
 
 Structured data means, that each of the features, such as a size of the house, the number of bedrooms, or the age of a user, have a very well-defined meaning. In contrast, unstructured data refers to things like audio, raw audio, or images where you might want to recognize what’s in the image or text. Here, the features might be the pixel values in an image or the individual words in a piece of text.
 
-![](Images/19.png)
+<div align="center">
+  <img src="Images/19.png">
+</div>
 
 Neural networks, computers are now much better at interpreting unstructured data as compared to just a few years ago. This creates opportunities for many new exciting applications that use speech recognition, image recognition, natural language processing of text.
 
@@ -111,7 +118,9 @@ Many of the ideas of deep learning (neural networks) have been around for decade
 
 If we plot the performance of traditional learning algorithms such as Support Vector Machine or Logistic Regression as a function of the amount of data. We will get the following curve. In detail, even as you accumulate more data, usually the performance of traditional learning algorithms, plateaus. This means its learning curve flattens out, and the algorithm stops improving even as you give it more data. It was as if the traditional learning algorithms didn’t know what to do with all the data we now have.
 
-![](Images/11.png)
+<div align="center">
+  <img src="Images/11.png">
+</div>
 
 With neural networks, it turns out that if you train a very large neural network then its performance often keeps getting better and better.
 
@@ -128,7 +137,9 @@ Three of the biggest drivers of recent progress have been:
 
 To conclude, often you have an idea for a neural network architecture and you want to implement it in code. Fast computation is important because the process of training a neural network is very iterative and can be time-consuming. Implementing our idea then lets us run an experiment which tells us how well our neural network does. Then, by looking at it, you go back to change the details of our neural network and then you go around this circle over and over, until we get the desired performance.
 
-![](Images/20.png)
+<div align="center">
+  <img src="Images/20.png">
+</div>
 
 ## Neural Networks Basics
 
@@ -173,7 +184,9 @@ It is difficult to enforce this because 𝑤<sup>𝑇</sup>𝑥 + 𝑏 can be mu
 
 Let’s see one function that can help us do that. In logistic regression, the output is going to be the **Sigmoid Function**. We can see that it goes smoothly from  0 up to 1.
 
-![](Images/25.jpeg)
+<div align="center">
+  <img src="Images/25.jpeg">
+</div>
 
   - use 𝑧 to denote the following quantity 𝑤<sup>𝑇</sup>𝑥 + 𝑏.
   - we have: 𝑦̂ = 𝜎(𝑤<sup>𝑇</sup>𝑥 + 𝑏).
@@ -348,86 +361,91 @@ To conclude, if we want to do gradient descent with respect to just this one tra
 
 ### Gradient Descent on m Examples
 
-- Lets say we have these variables:
+The cost function is the average of our loss function, when the algorithm outputs 𝑎<sup>(𝑖)</sup> for the pair (𝑥<sup>(𝑖)</sup>,𝑦<sup>(𝑖)</sup>).
 
-  ```
-  	X1                  Feature
-  	X2                  Feature
-  	W1                  Weight of the first feature.
-  	W2                  Weight of the second feature.
-  	B                   Logistic Regression parameter.
-  	M                   Number of training examples
-  	Y(i)                Expected output of i
-  ```
+![](Images/50.png)
 
-- So we have:
-  ![](Images/09.png)
+Here 𝑎<sup>(𝑖)</sup> is the prediction on the 𝑖-th training example which is sigmoid of 𝑧<sup>(𝑖)</sup>, were 𝑧<sup>(𝑖)</sup> = 𝑤<sup>𝑇</sup>𝑥<sup>(𝑖)</sup> + 𝑏
 
-- Then from right to left we will calculate derivations compared to the result:
+![](Images/51.png)
 
-  ```
-  	d(a)  = d(l)/d(a) = -(y/a) + ((1-y)/(1-a))
-  	d(z)  = d(l)/d(z) = a - y
-  	d(W1) = X1 * d(z)
-  	d(W2) = X2 * d(z)
-  	d(B)  = d(z)
-  ```
+The derivative with respect to 𝑤<sub>1</sub> of the overall cost function, is the average of derivatives with respect to 𝑤<sub>1</sub> of the individual loss term,
 
-- From the above we can conclude the logistic regression pseudo code:
+![](Images/52.png)
 
-  ```
-  	J = 0; dw1 = 0; dw2 =0; db = 0;                 # Devs.
-  	w1 = 0; w2 = 0; b=0;							# Weights
-  	for i = 1 to m
-  		# Forward pass
-  		z(i) = W1*x1(i) + W2*x2(i) + b
-  		a(i) = Sigmoid(z(i))
-  		J += (Y(i)*log(a(i)) + (1-Y(i))*log(1-a(i)))
+and to calculate the derivative d𝑤<sub>1</sub> we compute,
 
-  		# Backward pass
-  		dz(i) = a(i) - Y(i)
-  		dw1 += dz(i) * x1(i)
-  		dw2 += dz(i) * x2(i)
-  		db  += dz(i)
-  	J /= m
-  	dw1/= m
-  	dw2/= m
-  	db/= m
+![](Images/53.png)
 
-  	# Gradient descent
-  	w1 = w1 - alpha * dw1
-  	w2 = w2 - alpha * dw2
-  	b = b - alpha * db
-  ```
+This gives us the overall gradient that we can use to implement logistic regression.
 
-- The above code should run for some iterations to minimize error.
+To implement Logistic Regression, here is what we can do, if 𝑛=2, were 𝑛 is our number of features and 𝑚 is a number of samples.
 
-- So there will be two inner loops to implement the logistic regression.
+![](Images/54.png)
 
-- Vectorization is so important on deep learning to reduce loops. In the last code we can make the whole loop in one step using vectorization!
+After leaving the inner for loop, we need to divide 𝐽, d𝑤<sub>1</sub>, d𝑤<sub>2</sub> and 𝑏 by 𝑚, because we are computing their average.
+
+![](Images/55.png)
+
+After finishing all these calculations, to implement one step of a gradient descent, we need to update our parameters 𝑤<sub>1</sub>, 𝑤<sub>2</sub>, and 𝑏.
+
+![](Images/57.png)
+
+It turns out there are two weaknesses with our calculations as we’ve implemented it here.
+
+To implement logistic regression this way, we need to write two for loops (loop over 𝑚 training samples and 𝑛 features).
+
+When implementing deep learning algorithms, having explicit for loops makes our algorithm run less efficient. Especially on larger datasets, which we must avoid. For this, we use what we call vectorization.
+
+The above code should run for some iterations to minimize error. So there will be two inner loops to implement the logistic regression. Vectorization is so important on deep learning to reduce loops. In the last code we can make the whole loop in one step using vectorization!
 
 ### Vectorization
 
-- Deep learning shines when the dataset are big. However for loops will make you wait a lot for a result. Thats why we need vectorization to get rid of some of our for loops.
-- NumPy library (dot) function is using vectorization by default.
-- The vectorization can be done on CPU or GPU thought the SIMD operation. But its faster on GPU.
-- Whenever possible avoid for loops.
-- Most of the NumPy library methods are vectorized version.
+A vectorization is basically the art of getting rid of explicit for loops whenever possible. With the help of vectorization, operations are applied to whole arrays instead of individual elements. The rule of thumb to remember is to avoid using explicit loops in your code. Deep learning algorithms tend to shine when trained on large datasets, so it’s important that your code runs quickly. Otherwise, your code might take a long time to get your result.
+
+![](Images/58.png)
 
 ### Vectorizing Logistic Regression
 
-- We will implement Logistic Regression using one for loop then without any for loop.
-- As an input we have a matrix `X` and its `[Nx, m]` and a matrix `Y` and its `[Ny, m]`.
-- We will then compute at instance `[z1,z2...zm] = W' * X + [b,b,...b]`. This can be written in python as:
+When we are programming Logistic Regression or Neural Networks we should avoid explicit 𝑓𝑜𝑟 loops. It’s not always possible, but when we can, we should use built-in functions or find some other ways to compute it. Vectorizing the implementation of Logistic Regression  makes the code highly efficient. We will see how we can use this technique to compute gradient descent without using even a single 𝑓𝑜𝑟 loop.
 
-    		Z = np.dot(W.T,X) + b    # Vectorization, then broadcasting, Z shape is (1, m)
-    		A = 1 / 1 + np.exp(-Z)   # Vectorization, A shape is (1, m)
+Now, we will examine the forward propagation step of logistic regression. If we have 𝑚 training examples, to make a prediction on the first example we need to compute 𝑧 and the activation function 𝑎 as follows:
 
-- Vectorizing Logistic Regression's Gradient Output:
+![](Images/60.png)
 
-   			dz = A - Y                  # Vectorization, dz shape is (1, m)
-   			dw = np.dot(X, dz.T) / m    # Vectorization, dw shape is (Nx, 1)
-   			db = dz.sum() / m           # Vectorization, dz shape is (1, 1)
+To make prediction on the second training example we need to compute this:
+
+![](Images/61.png)
+
+The same is with prediction of third training example:
+
+![](Images/62.png)
+
+So if we have 𝑚 training examples we need to do these calculations 𝑚 times. In order to carry out the forward propagation step, which means to compute these predictions for all 𝑚 training examples, there is a way to do this without needing an explicit for loop.
+
+We will stack all training examples horizontally in a matrix 𝐗, so that every column in matrix 𝐗 represents one training example:
+
+![](Images/63.png)
+
+Notice that matrix 𝜔 is a 𝑛<sub>𝑥</sub> × 1 matrix (or a column vector), so when we transpose it we get 𝜔<sup>𝑇</sup> which is a 1 × 𝑛<sub>𝑥</sub> matrix (or a row vector) so multiplying  𝜔<sup>𝑇</sup> with 𝐗 we get a 1 × 𝑚 matrix. Then we add a 1 × 𝑚 matrix 𝑏 to obtain 𝐙.
+
+We will define matrix 𝐙 by placing all 𝑧<sup>(𝑖)</sup> values in a row vector:
+
+![](Images/64.png)
+
+![](Images/65.png)
+
+![](Images/66.png)
+
+![](Images/67.png)
+
+![](Images/68.png)
+
+![](Images/69.png)
+
+![](Images/70.png)
+
+![](Images/71.png)
 
 ### Notes on Python and NumPy
 
@@ -831,3 +849,6 @@ To conclude, if we want to do gradient descent with respect to just this one tra
   - ![](Images/02.png)
 
 - ![](Images/03.png)
+
+- So we have:
+  ![](Images/09.png)

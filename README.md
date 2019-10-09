@@ -37,3 +37,7 @@
   ![](img/tensorflow-cuda-cudnn-version.png)
 
   [https://www.tensorflow.org/install/source](https://www.tensorflow.org/install/source)
+
+  **Conda Install**
+
+  
