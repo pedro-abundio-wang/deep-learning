@@ -44,6 +44,10 @@
 
 Let’s start with the house price prediction example. Suppose that you have a dataset with six houses and we know the price and the size of these houses. We want to fit a function to predict the price of these houses with respect to its size.
 
+<div align="center">
+  <img src="Images/12.png">
+</div>
+
 ![](Images/12.png)
 
 We will put a straight line through these data points. Since we know that our prices cannot be negative, we end up with a horizontal line that passes through 0.
