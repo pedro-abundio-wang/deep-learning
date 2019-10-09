@@ -513,7 +513,7 @@ One way to motivate linear regression with the mean squared error loss function 
 
 ![](Images/81.png)
 
-Thus, we can now write out the **likelihood** of seeing a particular 𝑦 for a given 𝑥 via
+Thus, we can now write out the **likelihood estimators** of seeing a particular 𝑦 for a given 𝑥 via
 
 ![](Images/82.png)
 
@@ -521,11 +521,11 @@ Now, according to the **maximum likelihood principle**, the best values of 𝑏 
 
 ![](Images/83.png)
 
-Estimators chosen according to the maximum likelihood principle are called **Maximum Likelihood Estimators**. While, maximizing the product of many exponential functions, might look difficult, we can simplify things significantly, without changing the objective, by maximizing the log of the likelihood instead.
+Estimators chosen according to the maximum likelihood principle are called **Maximum Likelihood Estimators**. While, maximizing the product of many exponential functions, might look difficult, we can simplify things significantly, without changing the objective, by maximizing the **log** of the likelihood instead.
 
 ![](Images/84.png)
 
-Now we just need one more assumption: that 𝜎 is some fixed constant. Thus we can ignore the first term because it doesn’t depend on 𝑤 or 𝑏. Now the second term is identical to the squared error objective introduced earlier, but for the multiplicative constant 1/𝜎<sup>2</sup>. Fortunately, the solution does not depend on 𝜎. It follows that minimizing squared error is equvalent to maximum likelihood estimation of a linear model under the assumption of additive Gaussian noise.
+Now we just need one more assumption: that 𝜎 is some fixed constant. Thus we can ignore the first term because it doesn’t depend on 𝑤 or 𝑏. Now the second term is identical to the **squared error** objective, but for the multiplicative constant 1/𝜎<sup>2</sup>. Fortunately, the solution does not depend on 𝜎. It follows that minimizing squared error is equvalent to maximum likelihood estimation of a linear model under the assumption of additive Gaussian noise.
 
 ![](Images/85.png)
 
