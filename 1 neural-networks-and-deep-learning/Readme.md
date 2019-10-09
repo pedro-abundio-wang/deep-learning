@@ -433,19 +433,59 @@ We will define matrix 𝐙 by placing all 𝑧<sup>(𝑖)</sup> values in a row 
 
 ![](Images/64.png)
 
+In Python, we can easily implement the calculation of a matrix 𝐙:
+
 ![](Images/65.png)
+
+As we can see 𝑏 is defined as a scalar. When you add this vector to this real number, Python automatically takes this real number 𝑏 and expands it out to the 1 × 𝑚 row vector. This operation is called **broadcasting**.
+
+Matrix 𝐀 is defined as a 1 × 𝑚, wich we also got by stacking horizontaly values 𝑎<sup>(𝑖)</sup> as we did with matrix 𝐙:
 
 ![](Images/66.png)
 
+In Python, we can also calculate matrix 𝐀 with one line of code as follows (if we have defined sigmoid function as above):
+
 ![](Images/67.png)
+
+For the gradient computation we had to compute detivative 𝑑𝑧 for every training example:
 
 ![](Images/68.png)
 
+In the same way, we have defined previous variables, now we will define matrix 𝐝𝐙, where we will stack all 𝑑𝑧<sup>(𝑖)</sup> variables horizontally, dimension of this matrix 𝐝𝐙 is 1 × 𝑚 or alternativly a 𝑚 dimensional row vector.
+
 ![](Images/69.png)
+
+As we know that matrices 𝐀 and 𝐘 are defined as follows:
 
 ![](Images/70.png)
 
+We can see that 𝐝𝐙 below, all values in 𝐝𝐙 can be computed at the same time.
+
 ![](Images/71.png)
+
+To implement Logistic Regression on code we did this:
+
+![](Images/72.png)
+
+This code was non-vectorized and highly inefficent so we need to transform it. First, using vectorization, we can transform equations (∗) and (∗∗) into one equation:
+
+<div align="center">
+  <img src="Images/73.png">
+</div>
+
+The cost function is:
+
+![](Images/74.png)
+
+The derivatives are:
+
+![](Images/75.png)
+
+To calculate 𝑤 and 𝑏 we will still need following 𝑓𝑜𝑟 loop.
+
+![](Images/76.png)
+
+We don’t need to loop through entire training set, but still we need to loop through number of iterations and that’s a 𝑓𝑜𝑟 loop that we can’t get rid off.
 
 ### Notes on Python and NumPy
 
