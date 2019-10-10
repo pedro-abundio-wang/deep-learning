@@ -23,6 +23,7 @@
       * [Neural Network Representation](#neural-network-representation)
       * [Computing a Neural Network's Output](#computing-a-neural-networks-output)
       * [Vectorizing across multiple examples](#vectorizing-across-multiple-examples)
+      * [Explanation For Vectorized Implementation](#Explanation-For-Vectorized-Implementation)
       * [Activation functions](#activation-functions)
       * [Why do you need non-linear activation functions?](#why-do-you-need-non-linear-activation-functions)
       * [Derivatives of activation functions](#derivatives-of-activation-functions)
@@ -531,226 +532,299 @@ Now we just need one more assumption: that 𝜎 is some fixed constant. Thus we 
 
 ## Shallow neural networks
 
-> Learn to build a neural network with one hidden layer, using forward propagation and backpropagation.
-
 ### Neural Networks Overview
 
-- In logistic regression we had:
+Logistic Regression model
 
-  ```
-  X1  \  
-  X2   ==>  z = XW + B ==> a = Sigmoid(z) ==> l(a,Y)
-  X3  /
-  ```
+<div align="center">
+  <img src="Images/86.png">
+</div>
 
-- In neural networks with one layer we will have:
+corresponds to the following computation graph:
 
-  ```
-  X1  \  
-  X2   =>  z1 = XW1 + B1 => a1 = Sigmoid(z1) => z2 = a1W2 + B2 => a2 = Sigmoid(z2) => l(a2,Y)
-  X3  /
-  ```
+![](Images/87.png)
 
+We have a feature vector 𝑥, parameters 𝑤 and 𝑏 as the inputs to the computation graph. That allows us to compute 𝑧 which is then used to compute 𝑎 and we use 𝑎 interchangeably with the output 𝑦̂. Finally, we can compute a loss function. A circle we draw in a Logistic Regression model, we will call a node in the Neural Networks representation. The output of every node in a Neural Network is calculated in two steps: the first compute 𝑧 value and the second computes an 𝑎 value as we can see in the picture below:
 
-- `X` is the input vector `(X1, X2, X3)`, and `Y` is the output variable `(1x1)`
-- NN is stack of logistic regression objects.
+![](Images/88.png)
+
+A neural network is shown in the picture below. We can see we can form a neural network is created by stacking together several node units. One stack of nodes we will call a layer.
+
+<div align="center">
+  <img src="Images/89.png">
+</div>
+
+The first stack of nodes we will call Layer 1, and the second we will call Layer 2. We have two types of calculations in every node in the Layer 1, as well as in the Layer 2 ( which consists of just one node).  We will use a superscript square bracket with a number of particular layer to refer to an activation function or a node that belongs to that layer. So, a superscript [1] refers to the quantities associated with the first stack of nodes, called Layer 1. The same is with a superscript [2] which refers to the second layer. Remember also that 𝑥<sup>(𝑖)</sup> refers to an individual training example.
+
+The computation graph that corresponds to this Neural Network looks like this:
+
+![](Images/90.png)
+
+So after computing 𝑧<sup>[1]</sup>, similarly to the logistic regression, there is a computation of 𝑎<sup>[1]</sup> and that’s sigmoid of 𝑧[<sup>[1]</sup>. Next, we compute 𝑧<sup>[2]</sup> using another linear equation and then compute 𝑎<sup>[2]</sup> which is the final output of the neural network. Let’s remind ourselves once more that 𝑎<sup>[2]</sup> = 𝑦̂. The key intuition to take away is that, whereas for Logistic Regression we had 𝑧 followed by 𝑎 calculation, and in this Neural Network we just do it multiple times.
+
+In the same way, in a Neural Network we’ll end up doing a backward calculation that looks like this:
+
+![](Images/91.png)
 
 ### Neural Network Representation
 
-- We will define the neural networks that has one hidden layer.
-- NN contains of input layers, hidden layers, output layers.
-- Hidden layer means we cant see that layers in the training set.
-- `a0 = x` (the input layer)
-- `a1` will represent the activation of the hidden neurons.
-- `a2` will represent the output layer.
-- We are talking about 2 layers NN. The input layer isn't counted.
+We will now represent a single layer Neural Network. It is a Neural network with one input layer, one hidden layer and the output layer, which is a single node layer, and it is responsible for generating the predicted value 𝑦̂.
+
+<div align="center">
+  <img src="Images/92.png">
+</div>
+
+We have the following parts of the neural network:
+
+  - 𝑥<sub>1</sub>, 𝑥<sub>2</sub> and 𝑥<sub>3</sub> are inputs of a Neural Network. These elements are scalars and they are stacked vertically. This also represents an input layer.
+  - Variables in a hidden layer are not seen in the input set. Thus, it is called a hidden layer.
+  - The output layer consists of a single neuron only and 𝑦̂ is the output of the neural network.
+
+In the training set we see what the inputs are and we see what the output should be. But the things in the hidden layer are not seen in the training set, so the name hidden layer just means you don’t see it in the training set. An alternative notation for the values of the input features will be 𝑎<sup>[0]</sup> and the term 𝑎 also stands for activations. Refers to the values that different layers of the neural network are passing on to the subsequent layers.
+
+![](Images/93.png)
+
+𝑎<sup>[1]</sup> is a 1 × 4 matrix. 𝑎<sup>[2]</sup> will be a single value scalar and this is the analogous to the output of the sigmoid function in the logistic regression.
+
+When we count layers in a neural network we do not count an input layer. Therefore, this is a 2-layer neural network. The first hidden layer is associated with parameters 𝑤<sup>[1]</sup> and 𝑏<sup>[1]</sup>. The dimensions of these matrices are:
+
+  - 𝑤<sup>[1]</sup> is (4,3) matrix
+  - 𝑏<sup>[1]</sup> is (4,1) matrix
+
+Parameters 𝑤<sup>[2]</sup> and 𝑏<sup>[2]</sup> are associeted with the second layer or actually with the output layer. The dimensions of parameters in the output layer are:
+
+  - 𝑤<sup>[2]</sup> is (1,4) matrix
+  - 𝑏<sup>[2]</sup> is a real number
 
 ### Computing a Neural Network's Output
 
-- Equations of Hidden layers:
-  - ![](Images/05-a.png)
-  - ![](Images/05-b.png)
-  - ![](Images/05-c.png)
-- Here are some informations about the last image:
-  - `noOfHiddenNeurons = 4`
-  - `Nx = 3`
-  - Shapes of the variables:
-    - `W1` is the matrix of the first hidden layer, it has a shape of `(noOfHiddenNeurons,nx)`
-    - `b1` is the matrix of the first hidden layer, it has a shape of `(noOfHiddenNeurons,1)`
-    - `z1` is the result of the equation `z1 = W1*X + b`, it has a shape of `(noOfHiddenNeurons,1)`
-    - `a1` is the result of the equation `a1 = sigmoid(z1)`, it has a shape of `(noOfHiddenNeurons,1)`
-    - `W2` is the matrix of the second hidden layer, it has a shape of `(1,noOfHiddenNeurons)`
-    - `b2` is the matrix of the second hidden layer, it has a shape of `(1,1)`
-    - `z2` is the result of the equation `z2 = W2*a1 + b`, it has a shape of `(1,1)`
-    - `a2` is the result of the equation `a2 = sigmoid(z2)`, it has a shape of `(1,1)`
+Computing an output of a Neural Network is like computing an output in Logistic Regression, but repeating it multiple times. We have said that circle in Logistic Regression, or one node in Neural Network, represents two steps of calculations. We have also said that Logistic Regression is the simplest Neural Network.
+
+<div align="center">
+  <img src="Images/94.png">
+</div>
+
+We will show how to compute the output of the following neural network
+
+<div align="center">
+  <img src="Images/05-a.png">
+</div>
+
+If we look at the first node and write equations for that node, and the same we will do with the second node.
+
+![](Images/95.png)
+
+<div align="center">
+  <img src="Images/99.png">
+</div>
+
+Calculations for the third and fourth node look the same. Now, we will put all these equations together:
+
+<div align="center">
+  <img src="Images/05-b.png">
+</div>
+
+Calculating all these equations with 𝑓𝑜𝑟 loop is highly inefficient so we will  to vectorize this.
+
+<div align="center">
+  <img src="Images/05-c.png">
+</div>
+
+So we can define these matrices:
+
+![](Images/96.png)
+
+To compute the output of a Neural Network we need the following four equations. For the first layer of a Neural network we need these equations:
+
+<div align="center">
+  <img src="Images/97.png">
+</div>
+
+Calculating the output of the Neural Network is like calculating a Logistic Regression with parameters 𝑊<sup>[2]</sup> as 𝑤<sup>𝑇</sup> and 𝑏<sup>[2]</sup> as 𝑏.
+
+<div align="center">
+  <img src="Images/98.png">
+</div>
 
 ### Vectorizing across multiple examples
 
-- Pseudo code for forward propagation for the 2 layers NN:
+Logistic Regression Equations
 
-  ```
-  for i = 1 to m
-    z[1, i] = W1*x[i] + b1      # shape of z[1, i] is (noOfHiddenNeurons,1)
-    a[1, i] = sigmoid(z[1, i])  # shape of a[1, i] is (noOfHiddenNeurons,1)
-    z[2, i] = W2*a[1, i] + b2   # shape of z[2, i] is (1,1)
-    a[2, i] = sigmoid(z[2, i])  # shape of a[2, i] is (1,1)
-  ```
+![](Images/100.png)
 
-- Lets say we have `X` on shape `(Nx,m)`. So the new pseudo code:
+These equations tell us how, when given an input feature vector 𝑥, we can generate predictions.
 
-  ```
-  Z1 = W1X + b1     # shape of Z1 (noOfHiddenNeurons,m)
-  A1 = sigmoid(Z1)  # shape of A1 (noOfHiddenNeurons,m)
-  Z2 = W2A1 + b2    # shape of Z2 is (1,m)
-  A2 = sigmoid(Z2)  # shape of A2 is (1,m)
-  ```
+![](Images/101.png)
 
-- If you notice always m is the number of columns.
-- In the last example we can call `X` = `A0`. So the previous step can be rewritten as:
+If we have 𝑚 training examples we need to repeat this proces 𝑚 times. For each training example, or for each feature vector that looks like this:
 
-  ```
-  Z1 = W1A0 + b1    # shape of Z1 (noOfHiddenNeurons,m)
-  A1 = sigmoid(Z1)  # shape of A1 (noOfHiddenNeurons,m)
-  Z2 = W2A1 + b2    # shape of Z2 is (1,m)
-  A2 = sigmoid(Z2)  # shape of A2 is (1,m)
-  ```
+![](Images/102.png)
+
+The notation 𝑎<sup>[2] (𝑖)</sup> means that we are talking about activation in the second layer that comes from 𝑖<sup>𝑡ℎ</sup> training example. In the square parentheses we write number of a layer, and number in the  parentheses reffers to the particular training example.
+
+We will now see eguations for one hidden layer neural network which is presented in the following picture.
+
+![](Images/103.png)
+
+To do calculations written above, we need a for loop that would look like this:
+
+![](Images/104.png)
+
+Now our task is to vectorize all these equations and get rid of this for loop.
+
+We will recall definitions of some matrices. Martix 𝐗 was defined as we have put all feature vectors in columns of a matrix, actually we stacked feature vectors horizontally. Every column in matrix 𝐗 is a feature vector for one training example, so the dimension of this matrix is(**number of features in every vector, number of training examples**). Matrix 𝐗 is defined as follows:
+
+![](Images/105.png)
+
+In the same way we can get the 𝐙<sup>[1]</sup> matrix, as we stack horizontally values 𝑧<sup>[1] (1)</sup> ... 𝑧<sup>[1] (𝑚)</sup>:
+
+![](Images/106.png)
+
+Similiar is with  values 𝑎<sup>[1] (1)</sup> ... 𝑎<sup>[1] (𝑚)</sup> which are the activations in the first node for paritcular training example:
+
+![](Images/107.png)
+
+An element in the first row and in the first column of a matrix 𝐀<sup>[1]</sup> is an activation of the first hidden unit and the first training example. In the first row of this matrix there are activations in the first hidden unit among all training examples. The same is with another rows in this matrix. Next element, element in the first row and the second column, is an activation of the first unit from second training element and so on.
+
+![](Images/108.png)
+
+To conclude, in matrix 𝐀<sup>[1]</sup> there are activation of the first hidden layer of a Neural Network. In every column there are activations for each training example, so number of columns in this matrix is equal to the number of training examples. In the first row of this matrix there are activations first hidden unit among all training examples.
+
+Vectorized version of previous calculations looks like this:
+
+![](Images/109.png)
+
+In the following picture we can see comparation of vectorized and non-vectorized version.
+
+![](Images/110.png)
+
+### Explanation For Vectorized Implementation
+
+Let’s go through part of a forward  propagation calculation for a few examples. 𝑥<sup>(1)</sup>, 𝑥<sup>(2)</sup> and 𝑥<sup>(3)</sup> are input vectors, those are three examples of feature vectors or three training examples.
+
+![](Images/111.png)
+
+We will ignore 𝑏<sup>[1]</sup> values, to simplify these calculations, so we have following equations:
+
+![](Images/112.png)
+
+So when we multiply matrix 𝐖<sup>[1]</sup> with each training example we get following calculation:
+
+![](Images/113.png)
+
+So when we multiply matrix 𝐖<sup>[1]</sup> with each training example we get following calculation:
+
+![](Images/114.png)
+
+And if we multiply 𝐖<sup>[1]</sup> with matrix 𝐗 we will get:
+
+![](Images/115.png)
+
+If we now put back the value of 𝑏<sup>[1]</sup> in equations values are still correct. What actully happens when we add 𝑏<sup>[1]</sup> values is that we end up with Python broadcasting.
+
+With these equations we have justified that 𝐙<sup>[1]</sup> = 𝐖<sup>[1]</sup>𝐗 + 𝑏<sup>[1]</sup> is a correct vectorization.
 
 ### Activation functions
 
-- So far we are using sigmoid, but in some cases other functions can be a lot better.
-- Sigmoid can lead us to gradient decent problem where the updates are so low.
-- Sigmoid activation function range is [0,1]
-  `A = 1 / (1 + np.exp(-z)) # Where z is the input matrix`
-- Tanh activation function range is [-1,1]   (Shifted version of sigmoid function)
-  - In NumPy we can implement Tanh using one of these methods:
-    `A = (np.exp(z) - np.exp(-z)) / (np.exp(z) + np.exp(-z)) # Where z is the input matrix`
+When we build a neural network, one of the choices we have to make is what activation functions to use in the hidden layers as well as at the output unit of the Neural Network. So far, we’ve just been using the sigmoid activation function but sometimes other choices can work much better. Let’s take a look at some of the  options.
 
-    Or
-    `A = np.tanh(z)   # Where z is the input matrix`
-- It turns out that the tanh activation usually works better than sigmoid activation function for hidden units because the mean of its output is closer to zero, and so it centers the data better for the next layer.
-- Sigmoid or Tanh function disadvantage is that if the input is too small or too high, the slope will be near zero which will cause us the gradient decent problem.
-- One of the popular activation functions that solved the slow gradient decent is the RELU function.
-  `RELU = max(0,z) # so if z is negative the slope is 0 and if z is positive the slope remains linear.`
-- So here is some basic rule for choosing activation functions, if your classification is between 0 and 1, use the output activation as sigmoid and the others as RELU.
-- Leaky RELU activation function different of RELU is that if the input is negative the slope will be so small. It works as RELU but most people uses RELU.
-  `Leaky_RELU = max(0.01z,z)  #the 0.01 can be a parameter for your algorithm.`
-- In NN you will decide a lot of choices like:
-  - No of hidden layers.
-  - No of neurons in each hidden layer.
-  - Learning rate.       (The most important parameter)
-  - Activation functions.
-  - And others..
-- It turns out there are no guide lines for that. You should try all activation functions for example.
+**sigmoid activation function**
+
+In the forward propagation steps for Neural Network we use sigmoid function as the activation function.
+
+<div align="center">
+  <img src="Images/116.png">
+</div>
+
+**tanh activation function**
+
+An activation function that almost always goes better than sigmoid function is 𝑡𝑎𝑛ℎ function. The graphic of this function is the following one:
+
+<div align="center">
+  <img src="Images/117.png">
+</div>
+
+This function is a shifted version of a 𝑠𝑖𝑔𝑚𝑜𝑖𝑑 function but scaled between -1 and 1. If we use a 𝑡𝑎𝑛ℎ as the activation function it almost always works better then sigmoid function because the mean of all possible values of this function is zero. Actually, it has an effect of centering the data so that the mean of the data is close to zero rather than to 0.5 and it also makes learning easier for the next layers.
+
+When solving a binary classification problem it is better to use sigmoid function because it is more natural choice because if output labels 𝑦 ∈ {0,1} then it makes sence that 𝑦̂ ∈ [0,1].
+
+An activation function may be different for different layers through Neural Network, but in one layer there must be one - the same activation function. We use superscripts is squar parentheses [] to denote to wich layer of a Neural Network belongs each activation function. For example, activation function 𝑔<sup>[1]</sup> is the activation function of the first layer of the Neural Network and 𝑔<sup>[2]</sup> is the activation function of the second layer, as presented in the following picture.
+
+![](Images/129.png)
+
+When talking about 𝜎(𝑧) and 𝑡𝑎𝑛ℎ(𝑧) activation functions, one of their downsides is that derivatives of these functions are very small for higher values of 𝑧 and this can slow down gradient descent.
+
+**ReLU and LeakyReLU activation function**
+
+One other choice that is well known in Machine Learning is ReLU function. This function is commonly used activation function nowadays.
+
+<div align="center">
+  <img src="Images/123.png">
+</div>
+
+There is one more function, and it is modification of 𝑅𝑒𝐿𝑈 function. It is a  𝐿𝑒𝑎𝑘𝑦𝑅𝑒𝐿𝑈 function. 𝐿𝑒𝑎𝑘𝑦𝑅𝑒𝐿𝑈 usually works better then 𝑅𝑒𝐿𝑈 function. Here is a graphical representation of this function:
+
+<div align="center">
+  <img src="Images/124.png">
+</div>
 
 ### Why do you need non-linear activation functions?
 
-- If we removed the activation function from our algorithm that can be called linear activation function.
-- Linear activation function will output linear activations
-  - Whatever hidden layers you add, the activation will be always linear like logistic regression (So its useless in a lot of complex problems)
-- You might use linear activation function in one place - in the output layer if the output is real numbers (regression problem). But even in this case if the output value is non-negative you could use RELU instead.
+For this shallow Neural Network:
+
+<div align="center">
+  <img src="Images/05-a.png">
+</div>
+
+we have following propagation steps:
+
+<div align="center">
+  <img src="Images/130.png">
+</div>
+
+If we want our activation functions to be linear functions, so that we have 𝑔<sup>[1]</sup> = 𝑧<sup>[1]</sup> and 𝑔<sup>[2]</sup> = 𝑧<sup>[2]</sup>, then these equations above become:
+
+![](Images/128.png)
+
+Now, it’s clear that if we use a linear activation function (identity activation function), then the Neural Network will output linear output of the input. This loses much of the representational power of the neural network as often times the output that we are trying to predict has a non-linear relationship with the inputs. It can be shown that if we use a linear activation function for a hidden layer and sigmoid function for an output layer, our model becomes logistic regression model. Due to the fact that a composition of two linear functions is linear function, our area of implementing such Neural Network reduces rapidly. Rare implementation example can be solving regression problem in machine learning (where we use linear activation function in hidden layer). Recommended usage of linear activation function is to be implemented in output layer in case of regression.
 
 ### Derivatives of activation functions
 
-- Derivation of Sigmoid activation function:
+**Derivative of sigmoid function**
 
-  ```
-  g(z)  = 1 / (1 + np.exp(-z))
-  g'(z) = (1 / (1 + np.exp(-z))) * (1 - (1 / (1 + np.exp(-z))))
-  g'(z) = g(z) * (1 - g(z))
-  ```
+![](Images/119.png)
 
-- Derivation of Tanh activation function:
+We denote an activation function with 𝑎, so we have:
 
-  ```
-  g(z)  = (e^z - e^-z) / (e^z + e^-z)
-  g'(z) = 1 - np.tanh(z)^2 = 1 - g(z)^2
-  ```
+![](Images/120.png)
 
-- Derivation of RELU activation function:
+**Derivative of a tahn function**
 
-  ```
-  g(z)  = np.maximum(0,z)
-  g'(z) = {
-    0  if z < 0
-    1  if z >= 0
-  }
-  ```
+![](Images/121.png)
 
-- Derivation of leaky RELU activation function:
+![](Images/122.png)
 
-  ```
-  g(z)  = np.maximum(0.01 * z, z)
-  g'(z) = {
-    0.01  if z < 0
-    1     if z >= 0
-  }
-  ```
+**Derivatives of ReLU and LeakyReLU activation functions**
+
+A derivative of a 𝑅𝑒𝐿𝑈  function is:
+
+![](Images/125.png)
+
+The derivative of a 𝑅𝑒𝐿𝑈 function is undefined at 0, but we can say that derivative of this function at zero is either 0 or 1. Both solution would work when they are implemented in software. The same solution works for 𝐿𝑒𝑎𝑘𝑦𝑅𝑒𝐿𝑈 function.
+
+![](Images/126.png)
+
+Derivative of 𝐿𝑒𝑎𝑘𝑦𝑅𝑒𝐿𝑈  function is :
+
+![](Images/127.png)
 
 ### Gradient descent for Neural Networks
-- In this section we will have the full back propagation of the neural network (Just the equations with no explanations).
-- Gradient descent algorithm:
-  - NN parameters:
-    - `n[0] = Nx`
-    - `n[1] = NoOfHiddenNeurons`
-    - `n[2] = NoOfOutputNeurons = 1`
-    - `W1` shape is `(n[1],n[0])`
-    - `b1` shape is `(n[1],1)`
-    - `W2` shape is `(n[2],n[1])`
-    - `b2` shape is `(n[2],1)`
-  - Cost function `I =  I(W1, b1, W2, b2) = (1/m) * Sum(L(Y,A2))`
-  - Then Gradient descent:
 
-    ```
-    Repeat:
-    		Compute predictions (y'[i], i = 0,...m)
-    		Get derivatives: dW1, db1, dW2, db2
-    		Update: W1 = W1 - LearningRate * dW1
-    				b1 = b1 - LearningRate * db1
-    				W2 = W2 - LearningRate * dW2
-    				b2 = b2 - LearningRate * db2
-    ```
-
-- Forward propagation:
-
-  ```
-  Z1 = W1A0 + b1    # A0 is X
-  A1 = g1(Z1)
-  Z2 = W2A1 + b2
-  A2 = Sigmoid(Z2)      # Sigmoid because the output is between 0 and 1
-  ```
-
-- Backpropagation (derivations):   
-  ```
-  dZ2 = A2 - Y      # derivative of cost function we used * derivative of the sigmoid function
-  dW2 = (dZ2 * A1.T) / m
-  db2 = Sum(dZ2) / m
-  dZ1 = (W2.T * dZ2) * g'1(Z1)  # element wise product (*)
-  dW1 = (dZ1 * A0.T) / m   # A0 = X
-  db1 = Sum(dZ1) / m
-  # Hint there are transposes with multiplication because to keep dimensions correct
-  ```
-- How we derived the 6 equations of the backpropagation:   
   ![](Images/06-a.png)
   ![](Images/06-b.png)
 
 ### Random Initialization
 
-- In logistic regression it wasn't important to initialize the weights randomly, while in NN we have to initialize them randomly.
-
-- If we initialize all the weights with zeros in NN it won't work (initializing bias with zero is OK):
-  - all hidden units will be completely identical (symmetric) - compute exactly the same function
-  - on each gradient descent iteration all the hidden units will always update the same
-
-- To solve this we initialize the W's with a small random numbers:
-
-  ```
-  W1 = np.random.randn((2,2)) * 0.01    # 0.01 to make it small enough
-  b1 = np.zeros((2,1))                  # its ok to have b as zero, it won't get us to the symmetry breaking problem
-  ```
-
-- We need small values because in sigmoid (or tanh), for example, if the weight is too large you are more likely to end up even at the very start of training with very large values of Z. Which causes your tanh or your sigmoid activation function to be saturated, thus slowing down learning. If you don't have any sigmoid or tanh activation functions throughout your neural network, this is less of an issue.
-
-- Constant 0.01 is alright for 1 hidden layer networks, but if the NN is deep this number can be changed but it will always be a small number.
 
 ## Deep Neural Networks
 
