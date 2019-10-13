@@ -28,6 +28,7 @@
       * [Why do you need non-linear activation functions?](#why-do-you-need-non-linear-activation-functions)
       * [Derivatives of activation functions](#derivatives-of-activation-functions)
       * [Gradient descent for Neural Networks](#gradient-descent-for-neural-networks)
+      * [Backpropagation Intuition](Backpropagation-Intuition)
       * [Random Initialization](#random-initialization)
    * [Deep Neural Networks](#deep-neural-networks)
       * [Deep L-layer neural network](#deep-l-layer-neural-network)
@@ -68,7 +69,9 @@ If this is a neural network with a single neuron, a much larger neural network i
 
 A basic Neural Network with more features is ilustrated in the following image.
 
-![](Images/15.jpg)
+<div align="center">
+  <img src="Images/15.png">
+</div>
 
 ### Supervised learning with neural networks
 
@@ -762,7 +765,7 @@ One other choice that is well known in Machine Learning is ReLU function. This f
   <img src="Images/123.png">
 </div>
 
-There is one more function, and it is modification of 𝑅𝑒𝐿𝑈 function. It is a  𝐿𝑒𝑎𝑘𝑦𝑅𝑒𝐿𝑈 function. 𝐿𝑒𝑎𝑘𝑦𝑅𝑒𝐿𝑈 usually works better then 𝑅𝑒𝐿𝑈 function. Here is a graphical representation of this function:
+There is one more function, and it is modification of ReLU function. It is a  LeakyReLU function. LeakyReLU usually works better then ReLU function. Here is a graphical representation of this function:
 
 <div align="center">
   <img src="Images/124.png">
@@ -806,29 +809,123 @@ We denote an activation function with 𝑎, so we have:
 
 **Derivatives of ReLU and LeakyReLU activation functions**
 
-A derivative of a 𝑅𝑒𝐿𝑈  function is:
+A derivative of a ReLU function is:
 
 ![](Images/125.png)
 
-The derivative of a 𝑅𝑒𝐿𝑈 function is undefined at 0, but we can say that derivative of this function at zero is either 0 or 1. Both solution would work when they are implemented in software. The same solution works for 𝐿𝑒𝑎𝑘𝑦𝑅𝑒𝐿𝑈 function.
+The derivative of a ReLU function is undefined at 0, but we can say that derivative of this function at zero is either 0 or 1. Both solution would work when they are implemented in software. The same solution works for LeakyReLU function.
 
 ![](Images/126.png)
 
-Derivative of 𝐿𝑒𝑎𝑘𝑦𝑅𝑒𝐿𝑈  function is :
+Derivative of LeakyReLU function is :
 
 ![](Images/127.png)
 
 ### Gradient descent for Neural Networks
 
-  ![](Images/06-a.png)
-  ![](Images/06-b.png)
+we will see how to implement gradient descent for one hidden layer Neural Network as presented in the picture below.
+
+![](Images/131.png)
+
+Parameters for one hidden layer Neural Network are 𝐖<sup>[1]</sup>, 𝑏<sup>[1]</sup>, 𝐖<sup>[2]</sup> and 𝑏<sup>[2]</sup>. Number of unitis in each layer are:
+
+  - input of a Neural Network is feature vector ,so the length of “zero” layer 𝑎<sup>[0]</sup> is the size of an input feature vector 𝑛<sub>𝑥</sub> = 𝑛<sup>[0]</sup>
+  - number of hidden units in a hidden layer is 𝑛<sup>[1]</sup>
+  - number of units in output layer is 𝑛<sup>[2]</sup>, so far we had one unit in an output layer so 𝑛<sup>[2]</sup>
+
+  As we have defined a number of units in hidden layers we can now tell what are dimension of the following matrices:
+
+  - 𝐖<sup>[1]</sup> is (𝑛<sup>[1]</sup>,𝑛<sup>[0]</sup>) matrix
+  - 𝑏<sup>[1]</sup> is (𝑛<sup>[1]</sup>,1) matrix or a column vector
+  - 𝐖<sup>[2]</sup> is (𝑛<sup>[2]</sup>,𝑛<sup>[1]</sup>) matrix
+  - 𝑏<sup>[2]</sup> is (𝑛<sup>[2]</sup>,1) , so far 𝑏<sup>[2]</sup> is a scalar
+
+Notation:
+
+![](Images/141.png)
+
+Equations for one example 𝑥<sup>(𝑖)</sup>:
+
+![](Images/132.png)
+
+Assuming that we are doing a binary classification, and assuming that we have 𝑚 training examples, the cost function 𝐽 is:
+
+![](Images/133.png)
+
+To train parameters of our algorithm we need to perform gradient descent. When training neural network, it is important to initialize the parameters randomly rather then to all zeros. So after initializing the paramethers we get into gradient descent which looks like this:
+
+![](Images/134.png)
+
+So we need equations to calculate these derivatives.
+
+Forward propagation equations (remember that if we are doing a binary classification then the activation function in the output layer is a sigmoid function):
+
+![](Images/135.png)
+
+Now we will show equations in the backpropagation step:
+
+![](Images/136.png)
+
+Sign ∗ stands for element  wise multiplication.
+
+### Backpropagation Intuition
+
+We will now the relation between a computation graph and these equations.
+
+![](Images/142.png)
+
+![](Images/137.png)
+
+We have defined a loss function the actual loss when the ground truth label is 𝑦, and our output is 𝑎:
+
+![](Images/138.png)
+
+And corresponding derivatives are:
+
+![](Images/139.png)
+
+Backprpagation grapf is a graph that describes which calculations do we need to make when we want to calculate various derivatives and do the parameters update. In the following graph we can see that it is similar to the Logistic Regression grapf except that we do those calculations twice.
+
+![](Images/140.png)
+
+Firstly, we calculate 𝑑𝑎<sup>[2]</sup>, 𝑑𝑧<sup>[2]</sup> and these calculations allows us to calculate 𝐝𝐖<sup>[2]</sup> and 𝑑𝑏<sup>[2]</sup>. Then, as we go deeper in the backpropagation step, we calculate 𝑑𝑎<sup>[1]</sup>, 𝑑𝑧<sup>[1]</sup> which allows us to calculate 𝐝𝐖<sup>[1]</sup> and 𝑑𝑏<sup>[1]</sup>.
 
 ### Random Initialization
 
+If we have for example this shallow Neural Network:
+
+![](Images/145.png)
+
+![](Images/149.png)
+
+Even if we have a lot of hidden units in the hidden layer they all are symetric if we initialize corresponding parameters to zeros. To solve this problem we need to initialize randomly rather then with zeros. We can do it in the following way (we consider the same shallow neural network with 2 hidden units in the hidden layer as above):
+
+![](Images/146.png)
+
+And then we can initialize 𝑏<sub>1</sub> with zeros, because initialization of 𝑊<sub>1</sub> breaks the symmetry, and unit1 and unit2 will not output the same value even if we initialize 𝑏<sub>1</sub> to zero. So we have:
+
+![](Images/147.png)
+
+For the output layer we have:
+
+![](Images/148.png)
+
+Why do we multipy with 0.01 rather then multiplying with 100 for example? What happens if we initialize parameters with zeros or randomly but with big random values?
+
+If we are doing a binary classification and the activation in the output layer is sigmoid function or if use tanh activation function in the hidden layers then for a not so high input value these functions get saturated, for a not so big inputs they become constant (they output 0 or 1 for sigmoid or -1 or 1 for tanh function).
+
+So, we do the initialization of parameters 𝐖<sup>[1]</sup> and 𝐖<sup>[2]</sup> with small random values, hence we multipy with 0.01.
+
+Random initialization is used to break symmetry and make sure different hidden units can learn different things.
+
+We can conclude that we must initialize our parameters with small random values.
+
+Well chosen initialization values of parameters leads to:
+
+  - Speed up convergence of gradient descent.
+  - Increase the likelihood of gradient descent to find lower training error rates
 
 ## Deep Neural Networks
-
-> Understand the key computations underlying deep learning, use them to build and train deep neural networks, and apply it to computer vision.
 
 ### Deep L-layer neural network
 
@@ -966,3 +1063,8 @@ Derivative of 𝐿𝑒𝑎𝑘𝑦𝑅𝑒𝐿𝑈  function is :
 
 - So we have:
   ![](Images/09.png)
+
+
+
+    ![](Images/06-a.png)
+    ![](Images/06-b.png)
