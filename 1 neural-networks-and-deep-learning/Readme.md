@@ -741,13 +741,13 @@ In the forward propagation steps for Neural Network we use sigmoid function as t
 
 **tanh activation function**
 
-An activation function that almost always goes better than sigmoid function is 𝑡𝑎𝑛ℎ function. The graphic of this function is the following one:
+An activation function that almost always goes better than sigmoid function is tanh function. The graphic of this function is the following one:
 
 <div align="center">
   <img src="Images/117.png">
 </div>
 
-This function is a shifted version of a 𝑠𝑖𝑔𝑚𝑜𝑖𝑑 function but scaled between -1 and 1. If we use a 𝑡𝑎𝑛ℎ as the activation function it almost always works better then sigmoid function because the mean of all possible values of this function is zero. Actually, it has an effect of centering the data so that the mean of the data is close to zero rather than to 0.5 and it also makes learning easier for the next layers.
+This function is a shifted version of a 𝑠𝑖𝑔𝑚𝑜𝑖𝑑 function but scaled between -1 and 1. If we use a tanh as the activation function it almost always works better then sigmoid function because the mean of all possible values of this function is zero. Actually, it has an effect of centering the data so that the mean of the data is close to zero rather than to 0.5 and it also makes learning easier for the next layers.
 
 When solving a binary classification problem it is better to use sigmoid function because it is more natural choice because if output labels 𝑦 ∈ {0,1} then it makes sence that 𝑦̂ ∈ [0,1].
 
@@ -755,7 +755,7 @@ An activation function may be different for different layers through Neural Netw
 
 ![](Images/129.png)
 
-When talking about 𝜎(𝑧) and 𝑡𝑎𝑛ℎ(𝑧) activation functions, one of their downsides is that derivatives of these functions are very small for higher values of 𝑧 and this can slow down gradient descent.
+When talking about 𝜎(𝑧) and tanh(𝑧) activation functions, one of their downsides is that derivatives of these functions are very small for higher values of 𝑧 and this can slow down gradient descent.
 
 **ReLU and LeakyReLU activation function**
 
@@ -929,59 +929,107 @@ Well chosen initialization values of parameters leads to:
 
 ### Deep L-layer neural network
 
-- Shallow NN is a NN with one or two layers.
-- Deep NN is a NN with three or more layers.
-- We will use the notation `L` to denote the number of layers in a NN.
-- `n[l]` is the number of neurons in a specific layer `l`.
-- `n[0]` denotes the number of neurons input layer. `n[L]` denotes the number of neurons in output layer.
-- `g[l]` is the activation function.
-- `a[l] = g[l](z[l])`
-- `w[l]` weights is used for `z[l]`
-- `x = a[0]`, `a[l] = y'`
-- These were the notation we will use for deep neural network.
-- So we have:
-  - A vector `n` of shape `(1, NoOfLayers+1)`
-  - A vector `g` of shape `(1, NoOfLayers)`
-  - A list of different shapes `w` based on the number of neurons on the previous and the current layer.
-  - A list of different shapes `b` based on the number of neurons on the current layer.
+Let's make a Neural Network overview. We will see what is the simplest representation of a Neural Network and how deep representation of a Neural Network looks like.
+
+We have defined a Logistic Regression as a single unit that uses sigmoid activation function. Both of these simple Neural Networks we also call shallow neural networks and they are only reasonable to be applied when classifying linearly separable classes.
+
+<div align="center">
+  <img src="Images/150.png">
+</div>
+
+Slightly more complex neural network is a two layer neural network (it is a neural network with one hidden layer). This shallow neural network can classify two datasets that are not linaearly separable, but it is not good at classifying more compelex datasets.
+
+<div align="center">
+  <img src="Images/151.png">
+</div>
+
+A little bit more complex model than previous one is a tree layer neural network (it is a neural network with two nidden layers):
+
+<div align="center">
+  <img src="Images/152.png">
+</div>
+
+Even more complex neural network, which we can call **deep neural** network, is for example, a six layer neural network (or neural network with five hidden layers):
+
+<div align="center">
+  <img src="Images/153.png">
+</div>
+
+When counting layers in a neural network we count hidden layers as well as the output layer, **but we don’t count an input layer**.
+
+<div align="center">
+  <img src="Images/154.jpg">
+</div>
+
+Here is the notation overview that we will use to describe deep neural networks:
+
+Here is a four layer neural network, so it is a neural network with three hidden layers. Notation we will use for this neural network is:
+
+  - 𝐿 to denote the number of layers in a neural network
+    - in this neural network 𝐿=4
+  - 𝑛<sup>[𝑙]</sup> to denote a number of layers in the 𝑙<sup>𝑡ℎ</sup> layer
+    - 𝑛<sup>[1]</sup>=4, there are four units in the first layer
+    - 𝑛<sup>[2]</sup>=4, there are four units in the second layer
+    - 𝑛<sup>[3]</sup>=3, there are three units in the thirs layer
+    - 𝑛<sup>[4]</sup>=1, this neural network outputs a scalar value
+    - 𝑛<sup>[0]</sup>=𝑛<sub>𝑥</sub>=3 because input vector, feature vector, has three features
+  - 𝑎<sup>[𝑙]</sup>=𝑔(𝑧<sup>[𝑙]</sup>) to denote activation functions in the 𝑙<sup>𝑡ℎ</sup> layer
+    - 𝑥=𝑎<sup>[0]</sup>
+  - 𝐖<sup>[𝑙]</sup> to denote weights for computing 𝑧<sup>[𝑙]</sup>
 
 ### Forward Propagation in a Deep Network
 
-- Forward propagation general rule for one input:
+Once again we will see how the forward propagation equations look like. We will show equation for the neural network ilustrated above. In addition, below every two equations we will show the dimensions of vectors or matrices used in the calculations.
 
-  ```
-  z[l] = W[l]a[l-1] + b[l]
-  a[l] = g[l](a[l])
-  ```
+A vectorized version of these equations, equations considering all input examples, and correspodnding dimensions of these matrices (which are printed in gray as above) are:
 
-- Forward propagation general rule for `m` inputs:
+<div align="center">
+  <img src="Images/155.png">
+</div>
 
-  ```
-  Z[l] = W[l]A[l-1] + B[l]
-  A[l] = g[l](A[l])
-  ```
+From equations we have written, we can see that generalized equations for layer 𝑙:
 
-- We can't compute the whole layers forward propagation without a for loop so its OK to have a for loop here.
-- The dimensions of the matrices are so important you need to figure it out.
+<div align="center">
+  <img src="Images/156.png">
+</div>
+
+In case that you are thinking how can we add 𝑏<sup>[𝑙]</sup>
+
+Notice that, when making a calculation for the first layer, we can also write 𝑧<sup>[1]</sup>=𝐖<sup>[1]</sup>𝑎<sup>[0]</sup>+𝑏<sup>[1]</sup>. So, instead of using 𝑥 we use 𝑎<sup>[0]</sup> as an activations in the input layer. 𝑔<sup>[1]</sup> is activation function in the first layer. Remember that we can choose different activation functions in a Neural Network, but in a single layer we must use the same activation function, so in the output layer we have 𝑔<sup>[2]</sup> as the activation function and so on.
+
+Matrix Ŷ is a matrix of predictions for all input examples, so it is the output of a neural network when the input is matrix 𝐗, matrix of all input examples (or a feature matrix).
+
+We can see that there must be a 𝑓𝑜𝑟 loop, going through all layers in a neural network and calculating all 𝑍<sup>[𝑙]</sup> and 𝐴<sup>[𝑙]</sup> values (where 𝑙 is a number of the layer). Here, it is prefectly fine to use an explicit for loop.
 
 ### Getting your matrix dimensions right
 
-- The best way to debug your matrices dimensions is by a pencil and paper.
-- Dimension of `W` is `(n[l],n[l-1])` . Can be thought by right to left.
-- Dimension of `b` is `(n[l],1)`
-- `dw` has the same shape as `W`, while `db` is the same shape as `b`
-- Dimension of `Z[l],` `A[l]`, `dZ[l]`, and `dA[l]`  is `(n[l],m)`
+forward propagation matrix dimensions check
+
+<div align="center">
+  <img src="Images/158.png">
+</div>
+
+From equations we have written, we can see that generalized equations for layer 𝑙:
+
+<div align="center">
+  <img src="Images/159.png">
+</div>
 
 ### Why deep representations?
 
-- Why deep NN works well, we will discuss this question in this section.
-- Deep NN makes relations with data from simpler to complex. In each layer it tries to make a relation with the previous layer. E.g.:
-  - 1) Face recognition application:
-      - Image ==> Edges ==> Face parts ==> Faces ==> desired face
-  - 2) Audio recognition application:
-      - Audio ==> Low level sound features like (sss,bb) ==> Phonemes ==> Words ==> Sentences
-- Neural Researchers think that deep neural networks "think" like brains (simple ==> complex)
-- When starting on an application don't start directly by dozens of hidden layers. Try the simplest solutions (e.g. Logistic Regression), then try the shallow neural network and so on.
+We’ve heard that neural networks work really well for a lot of problems. However, neural networks doesn’t need only to be big. Neural Networks also need to be deep or to have a lot hidden layers.
+
+If we are, for example, building a system for an image classification, here is what a deep neural network could be computing. The input of a neural network is a picture of a face. The first layer of the neural network could be a feature detector, or an edge detector. So, the first layer can look at the pictures and find out where are the edges in the picture. Then, in next layer those detected edges could be grouped together to form parts of faces. By putting a lot of edges it can start to detect different parts of faces. For example, we might have a low neurons trying to see if it’s finding an eye or a different neuron trying to find  part of a nose. Finally, putting together eyes, nose etc. it can recognise different faces.
+
+<div align="center">
+  <img src="Images/170.png">
+</div>
+
+To conclude, earlier layers of a neural network detects simpler functions (like edges), and composing them together, in the later layers of a neural network, deep neural network can compute more complex functions.
+
+In case of trying to build a speech recognition system, the first layer could detect if a tone is going up or down or is it a white noise or a slithering sound or some other low level wave of features. In the following layer by composing low level wave forms, nural network might be abe to learn to detect basic units of sound – phonems. In the word cat phonemes are c, a and t. Composing all this together a deep neural network might be able to recognize words and maybe sentences.
+
+So the general intuition behind everything we have said is that earlier layers learn lower level simple features and then later deep layers put together the simpler things it has detected in order to detect more complex things, so that a deep neural network can do some really complex things.
 
 ### Building blocks of deep neural networks
 
@@ -992,59 +1040,19 @@ Well chosen initialization values of parameters leads to:
 
 ### Forward and Backward Propagation
 
-- Pseudo code for forward propagation for layer l:
+Here we will see equations for caluculating backward step:
 
-  ```
-  Input  A[l-1]
-  Z[l] = W[l]A[l-1] + b[l]
-  A[l] = g[l](Z[l])
-  Output A[l], cache(Z[l])
-  ```
+<div align="center">
+  <img src="Images/157.png">
+</div>
 
-- Pseudo  code for back propagation for layer l:
-
-  ```
-  Input da[l], Caches
-  dZ[l] = dA[l] * g'[l](Z[l])
-  dW[l] = (dZ[l]A[l-1].T) / m
-  db[l] = sum(dZ[l])/m                # Dont forget axis=1, keepdims=True
-  dA[l-1] = w[l].T * dZ[l]            # The multiplication here are a dot product.
-  Output dA[l-1], dW[l], db[l]
-  ```
-
-- If we have used our loss function then:
-
-  ```
-  dA[L] = (-(y/a) + ((1-y)/(1-a)))
-  ```
+Remember that ∗ represents an element wise multiplication.
 
 ### Parameters vs Hyperparameters
 
-- Main parameters of the NN is `W` and `b`
-- Hyper parameters (parameters that control the algorithm) are like:
-  - Learning rate.
-  - Number of iteration.
-  - Number of hidden layers `L`.
-  - Number of hidden units `n`.
-  - Choice of activation functions.
-- You have to try values yourself of hyper parameters.
-- In the earlier days of DL and ML learning rate was often called a parameter, but it really is (and now everybody call it) a hyperparameter.
-- On the next course we will see how to optimize hyperparameters.
+
 
 ### What does this have to do with the brain
-
-- The analogy that "It is like the brain" has become really an oversimplified explanation.
-- There is a very simplistic analogy between a single logistic unit and a single neuron in the brain.
-- No human today understand how a human brain neuron works.
-- No human today know exactly how many neurons on the brain.
-- Deep learning in Andrew's opinion is very good at learning very flexible, complex functions to learn X to Y mappings, to learn input-output mappings (supervised learning).
-- The field of computer vision has taken a bit more inspiration from the human brains then other disciplines that also apply deep learning.
-- NN is a small representation of how brain work. The most near model of human brain is in the computer vision (CNN)
-
-
-
-
-
 
 
 
