@@ -38,7 +38,6 @@
       * [Building blocks of deep neural networks](#building-blocks-of-deep-neural-networks)
       * [Forward and Backward Propagation](#forward-and-backward-propagation)
       * [Parameters vs Hyperparameters](#parameters-vs-hyperparameters)
-      * [What does this have to do with the brain](#what-does-this-have-to-do-with-the-brain)
 
 ## Introduction to deep learning
 
@@ -1033,12 +1032,47 @@ So the general intuition behind everything we have said is that earlier layers l
 
 ### Building blocks of deep neural networks
 
-- Forward and back propagation for a layer l:
-  - ![Untitled](Images/10.png)
-- Deep NN blocks:
-  - ![](Images/08.png)
+Let's see what are the building blocks of a Deep Neural Network.
+
+We will pick one layer, for example layer 𝑙 of a deep neural network and we will focus on computatons for that layer. For layer 𝑙 we have parameters 𝐖<sup>[𝑙]</sup> and 𝑏<sup>[𝑙]</sup>. Calculation of the forward pass for layer 𝑙 we get as we input activations from the previous layer and as the output we get  activations of the current layer, layer 𝑙.
+
+<div align="center">
+  <img src="Images/171.png">
+</div>
+
+Equations for this calculation step are:
+
+![](Images/172.png)
+
+where 𝑔(𝑧<sup>[𝑙]</sup>) is an activation function in the layer 𝑙.
+
+It is good to cache the value of 𝑧<sup>[𝑙]</sup> for calculations in backwardpass.
+
+Backward pass is done as we input 𝑑𝑎<sup>[𝑙]</sup> and we get the output 𝑑𝑎<sup>[𝑙−1]</sup>, as presented in the following graph. We will always draw backward passes in red.
+
+<div align="center">
+  <img src="Images/173.png">
+</div>
+
+In the following picture we can see a diagram of both a forward and a backward pass in the layer 𝑙. So, to calulate values in the backward pass we need cached values. Here we just draw 𝑧<sup>[𝑙]</sup> as a cached value, but indeed we will need to cache also 𝑊<sup>[𝑙]</sup> and 𝑏<sup>[𝑙]</sup>.
+
+![](Images/174.png)
+
+If we implement these two calculations as presented in a graph above, the computation for an 𝐿 layer neural network will be as follows. We will get 𝑎[0], which is our feature vector, feed it in, and that will compute the activations of the first layer. The same thing we will do with next layers.
+
+![](Images/08.png)
+
+Having all derivative terms we can update parameters:
+
+![](Images/175.png)
+
+In our programming implementation of this algorithm, when we cache 𝑧<sup>[𝑙]</sup> for backpropagation calculations we will cache also 𝐖<sup>[𝑙]</sup> and 𝑏<sup>[𝑙]</sup>, and 𝑎<sup>[𝑙−1]</sup>.
 
 ### Forward and Backward Propagation
+
+Here, we will see equations for calculating the forward step.
+
+![](Images/176.png)
 
 Here we will see equations for caluculating backward step:
 
@@ -1048,31 +1082,30 @@ Here we will see equations for caluculating backward step:
 
 Remember that ∗ represents an element wise multiplication.
 
+A multi layer neural network is presented in the picture below:
+
+![](Images/177.png)
+
+![](Images/180.png)
+
+![](Images/178.png)
+
+and for vectorized version we have:
+
+![](Images/179.png)
+
 ### Parameters vs Hyperparameters
 
+For building a deep neural network it is very important to organize both parameters and hyperparameters. Parameters of a deep neural network are 𝐖<sup>[1]</sup>,𝑏<sup>[1]</sup>,𝐖<sup>[2]</sup>,𝑏<sup>[2]</sup>,𝐖<sup>[3]</sup>,𝑏<sup>[3]</sup> ... and deep neural network also has other parameters which are crucial for our algorithm. Those parameters are :
 
+  - a learning rate 𝛼
+  - a number of iteration
+  - a number of layers 𝐿
+  - a number of hidden units 𝑛<sup>[1]</sup>,𝑛<sup>[2]</sup>,…𝑛<sup>[𝐿]</sup>
+  - a choice of activation function
 
-### What does this have to do with the brain
+These are parameters that control our parameters 𝐖<sup>[1]</sup>,𝑏<sup>[1]</sup>,𝐖<sup>[2]</sup>,𝑏<sup>[2]</sup>,𝐖<sup>[3]</sup>,𝑏<sup>[3]</sup> ... and we call them **hyperparameters**. In deep learning there are also these parameters: momentum, bach size, number of epochs etc ...
 
+We can see that **hyperparameters** are the variables that determines the network structure and the variables which determine how the network will be trained. Notice also that **hyperparameters** are set before training or before optimizing weights and biases.
 
-
-- Hidden layers predicts connection between inputs automatically, thats what deep learning is good at.
-  - ![](Images/01.jpg)
-- Deep Neural Network consists of more hidden layers
-  - ![](Images/07.png)
-- Each Input will be connected to the hidden layer and the NN will decide the connections.
-
-
-- [computation graph](https://colah.github.io/posts/2015-08-Backprop/)
-- Its a graph that organizes the computation from bottom to top.
-  - ![](Images/02.png)
-
-- ![](Images/03.png)
-
-- So we have:
-  ![](Images/09.png)
-
-
-
-    ![](Images/06-a.png)
-    ![](Images/06-b.png)
+To conclude, model parameters are estimated from data during the training step and model hyperparameters are manually set earlier and are used  to assist estimation model parameter.
