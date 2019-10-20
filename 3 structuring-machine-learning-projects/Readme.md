@@ -1,7 +1,6 @@
 # Structuring Machine Learning Projects
 
 * [Structuring Machine Learning Projects](#structuring-machine-learning-projects)
-   * [Introduction](#Introduction)
    * [Machine Learning Strategy](#Machine-Learning-Strategy)
       * [Why Machine Learning Strategy](#Why-Machine-Learning-Strategy)
       * [Orthogonalization](#orthogonalization)
@@ -31,17 +30,6 @@
       * [Read one paper multiple passes](#read-one-paper-multiple-passes)
       * [Try to answer question](#try-to-answer-question)
       * [About math code and long-term goals](#about-math-code-and-long-term-goals)
-
-## Introduction
-
-> You will learn how to build a successful machine learning project. If you aspire to be a technical leader in AI, and know how to set direction for your team's work.
->
-> You will:
-> - Understand how to diagnose errors in a machine learning system
-> - Be able to prioritize the most promising directions for reducing error
-> - Understand complex ML settings, such as mismatched training/test sets, and comparing to and/or surpassing human-level performance
-> - Know how to apply end-to-end learning, transfer learning, and multi-task learning
->
 
 ## Machine Learning Strategy
 
@@ -509,7 +497,7 @@ Suppose you hope to build a cat recognizer that has 5% error. Right now, your tr
 
 If your error rate on the training set is 15% (or 85% accuracy), but your target is 5% error (95% accuracy), then the first problem to solve is to improve your algorithm ’ s performance on your training set. Your dev/test set performance is usually worse than your training set performance. So if you are getting 85% accuracy on the examples your algorithm has seen, there’s no way you’re getting 95% accuracy on examples your algorithm hasn’t even seen.
 
-Suppose as above that your algorithm has 16% error (84% accuracy) on the dev set. We break the 16% error into two components: 
+Suppose as above that your algorithm has 16% error (84% accuracy) on the dev set. We break the 16% error into two components:
 
 - First, the algorithm’s error rate on the training set. In this example, it is 15%. We think of this informally as the algorithm’s **bias** .
 - Second, how much worse the algorithm does on the dev (or test) set than the training set. In this example, it does 1% worse on the dev set than the training set. We think of this informally as the algorithm’s **variance**.
@@ -588,8 +576,8 @@ Consider one more example, where the optimal error rate is 14%, and we have:
 Now we would say that error from avoidable bias is 1%, and the error from variance is about 1%. Thus, the algorithm is already doing well, with little room for improvement. It is only 2% worse than the optimal error rate.
 
 Knowing the optimal error rate is helpful for guiding our next steps. In statistics, the optimal error rate is also called **Bayes error rate**, or Bayes rate.
-  
-  
+
+
 ## How to read deep learning papers
 
 - Read research papers

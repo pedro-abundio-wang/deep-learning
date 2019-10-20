@@ -1,7 +1,6 @@
 # Improving Deep Neural Networks: Hyperparameter tuning, Regularization and Optimization
 
 * [Improving Deep Neural Networks: Hyperparameter tuning, Regularization and Optimization](#improving-deep-neural-networks-hyperparameter-tuning-regularization-and-optimization)
-   * [Course summary](#course-summary)
    * [Practical aspects of Deep Learning](#practical-aspects-of-deep-learning)
       * [Train / Dev / Test sets](#train--dev--test-sets)
       * [Bias / Variance](#bias--variance)
@@ -41,19 +40,6 @@
       * [Training a Softmax classifier](#training-a-softmax-classifier)
       * [Deep learning frameworks](#deep-learning-frameworks)
       * [TensorFlow](#tensorflow)
-
-## Course summary
-
-> This course will teach you the "magic" of getting deep learning to work well. Rather than the deep learning process being a black box, you will understand what drives performance, and be able to more systematically get good results. You will also learn TensorFlow.
->
-> You will:
->
-> - Understand industry best-practices for building deep learning applications.
-> - Be able to effectively use the common neural network "tricks", including initialization, L2 and dropout regularization, Batch normalization, gradient checking,
-> - Be able to implement and apply a variety of optimization algorithms, such as mini-batch gradient descent, Momentum, RMSprop and Adam, and check for their convergence.
-> - Understand new best-practices for the deep learning era of how to set up train/dev/test sets and analyze bias/variance
-> - Be able to implement a neural network in TensorFlow.
->
 
 ## Practical aspects of Deep Learning
 
