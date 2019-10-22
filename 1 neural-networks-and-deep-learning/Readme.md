@@ -95,7 +95,7 @@ Different types of neural networks are useful for different applications.
   - Audio is most naturally represented as a one-dimensional time series or as a one-dimensional temporal sequence. Hence, for a sequence data, we often use **Recurrent Neural Network (RNN)**.
   - Language, English and Chinese, the alphabets or the words come one at a time and language is also represented as a sequence data. **Recurrent Neural Network (RNN)** are often used for these applications.
 
-Structured and Unstructured Data
+**Structured and Unstructured Data**
 
 Machine learning is applied to both Structured Data and Unstructured Data.
 
@@ -131,10 +131,8 @@ Three of the biggest drivers of recent progress have been:
 
   - Data availability:
     - People are now spending more time on digital devices (laptops, mobile devices). Their digital activities generate huge amounts of data that we can feed to our learning algorithms.
-
   - Computational scale:
     - We started just a few years ago, techniques (like GPUs/Powerful CPUs/Distributed computing) to be able to train neural networks that are big enough to take advantage of the huge datasets we now have.
-
   - Algorithm:
     - Creative algorithms has appeared that changed the way NN works. Using **RELU function** is so much better than using **Sigmoid function** in training a NN.
 
@@ -171,7 +169,7 @@ Notation that we will follow is shown in the table below:
 
 ### Logistic regression
 
-Logistic regression is a supervised learning algorithm that we can use when labels are either 0 or 1 and this is the so-called **Binary Classification Problem**. An input feature vector 𝑥 may correspond to an image that we want to recognize as either a cat picture (1) or a non-cat picture (0). That is, we want an algorithm to output the prediction which is an estimate of 𝑦:
+**Logistic regression** is a supervised learning algorithm that we can use when labels are either 0 or 1 and this is the so-called **Binary Classification Problem**. An input feature vector 𝑥 may correspond to an image that we want to recognize as either a cat picture (1) or a non-cat picture (0). That is, we want an algorithm to output the prediction which is an estimate of 𝑦:
 
 ![](Images/24.png)
 
@@ -179,7 +177,7 @@ More formally, we want 𝑦̂ to be the chance that 𝑦 is equal to 1, given th
 
 The 𝑥 is an 𝑛<sup>𝑥</sup> – dimensional vector. The parameters of logistic regression are 𝑤, which is also an 𝑛<sup>𝑥</sup> – dimensional vector together with 𝑏 wich is a real number.
 
-Given an input 𝑥 and the parameters  𝑤 and 𝑏, how do we generate the output 𝑦̂, One thing we could try, that doesn’t work, would be to have: 𝑦̂ = 𝑤<sup>𝑇</sup>𝑥 + 𝑏 which is a linear function of the input and in fact, this is what we use if we were doing Linear Regression.
+Given an input 𝑥 and the parameters  𝑤 and 𝑏, how do we generate the output 𝑦̂, One thing we could try, that doesn’t work, would be to have: 𝑦̂ = 𝑤<sup>𝑇</sup>𝑥 + 𝑏 which is a linear function of the input and in fact, this is what we use if we were doing **Linear Regression**.
 
 However, this is not a very good algorithm for binary classification, because we want 𝑦̂ to be the chance that 𝑦 is equal to 1, so 𝑦̂ should be between 0 and 1.
 
@@ -249,7 +247,7 @@ After a single step, it ends up a little bit down and closer to a global otpimum
 
 After a fixed number of iterations of Gradient Descent, hopefully, will converge to the global optimum or get close to the global optimum.
 
-The learning rate 𝛼 controls how big step we take on each iteration of Gradient Descent.
+The **learning rate** 𝛼 controls how big step we take on each iteration of Gradient Descent.
 
 ![](Images/31.jpeg)
 
@@ -586,7 +584,7 @@ In the training set we see what the inputs are and we see what the output should
 
 ![](Images/93.png)
 
-𝑎<sup>[1]</sup> is a 1 × 4 matrix. 𝑎<sup>[2]</sup> will be a single value scalar and this is the analogous to the output of the sigmoid function in the logistic regression.
+𝑎<sup>[1]</sup> is a 4 × 1 matrix. 𝑎<sup>[2]</sup> will be a single value scalar and this is the analogous to the output of the sigmoid function in the logistic regression.
 
 When we count layers in a neural network we do not count an input layer. Therefore, this is a 2-layer neural network. The first hidden layer is associated with parameters 𝑤<sup>[1]</sup> and 𝑏<sup>[1]</sup>. The dimensions of these matrices are:
 
@@ -909,7 +907,7 @@ For the output layer we have:
 
 ![](Images/148.png)
 
-Why do we multipy with 0.01 rather then multiplying with 100 for example? What happens if we initialize parameters with zeros or randomly but with big random values?
+Why do we multipy with 0.01 rather then multiplying with 100 for example? What happens if we initialize parameters randomly but with big random values?
 
 If we are doing a binary classification and the activation in the output layer is sigmoid function or if use tanh activation function in the hidden layers then for a not so high input value these functions get saturated, for a not so big inputs they become constant (they output 0 or 1 for sigmoid or -1 or 1 for tanh function).
 
