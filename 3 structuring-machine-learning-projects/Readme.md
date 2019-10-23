@@ -74,52 +74,70 @@ Machine learning strategy will tell you how. Most machine learning problems leav
 
 ### Single number evaluation metric
 
-- Its better and faster to set a single number evaluation metric for your project before you start it.
+Its better and faster to set a single number evaluation metric for your project before you start it. Suppose we run the classifier on 10 images which are 5 cats and 5 non-cats. The classifier identifies that there are 4 cats, but it identified 1 wrong cat.
 
-Classification accuracy is an example of a single-number evaluation metric : You run your classifier on the dev set (or test set), and get back a single number about what fraction of examples it classified correctly. According to this metric, if classifier A obtains 97% accuracy, and classifier B obtains 90% accuracy, then we judge classifier A to be superior.
-
-In contrast, Precision and Recall is not a single-number evaluation metric: It gives two numbers for assessing your classifier. Having multiple-number evaluation metrics makes it harder to compare algorithms. Suppose your algorithms perform as follows:
-
-- Difference between precision and recall (in cat classification example):
-  - Suppose we run the classifier on 10 images which are 5 cats and 5 non-cats. The classifier identifies that there are 4 cats, but it identified 1 wrong cat.
-  - Confusion matrix:
+Confusion matrix:
 
       |                | Predicted cat  | Predicted non-cat |
       | -------------- | -------------- | ----------------- |
       | Actual cat     | 3              | 2                 |
       | Actual non-cat | 1              | 4                 |
-  - **Precision**: percentage of true cats in the recognized result: P = 3/(3 + 1)
-  - **Recall**: percentage of true recognition cat of the all cat predictions: R = 3/(3 + 2)
-  - **Accuracy**: (3+4)/10
-- Using a precision/recall for evaluation is good in a lot of cases, but separately they don't tell you which algothims is better. Ex:
 
-  | Classifier | Precision | Recall |
-  | ---------- | --------- | ------ |
-  | A          | 95%       | 90%    |
-  | B          | 98%       | 85%    |
-- A better thing is to combine precision and recall in one single (real) number evaluation metric. There a metric called `F1` score, which combines them
-  - You can think of `F1` score as an average of precision and recall
-    `F1 = 2 / ((1/P) + (1/R))`
+- **Precision**: percentage of true cats in the recognized result: P = 3/(3 + 1)
+- **Recall**: percentage of true recognition cat of the all cat predictions: R = 3/(3 + 2)
+- **Accuracy**: (3+4)/10
+
+The **Precision** of a cat classifier is the fraction of images in the dev (or test) set it labeled as cats that really are cats. Its **Recall** is the percentage of all cat images in the dev (or test) set that it correctly labeled as a cat. There is often a tradeoff between having high precision and high recall.
+
+**Classification accuracy** is an example of a **single-number evaluation metric**: You run your classifier on the dev set (or test set), and get back a single number about what fraction of examples it classified correctly. According to this metric, if classifier A obtains 97% accuracy, and classifier B obtains 90% accuracy, then we judge classifier A to be superior.
+
+In contrast, Precision and Recall is not a single-number evaluation metric: It gives two numbers for assessing your classifier. Having multiple-number evaluation metrics makes it harder to compare algorithms. Suppose your algorithms perform as follows:
+
+![](Images/02.png)
+
+Here, neither classifier is obviously superior, so it doesn’t immediately guide you toward picking one.
+
+During development, your team will try a lot of ideas about algorithm architecture, model parameters, choice of features, etc. Having a ​ **single-number evaluation metric**​ such as accuracy allows you to sort all your models according to their performance on this metric, and quickly decide what is working best.
+
+If you really care about both Precision and Recall, I recommend using one of the standard ways to combine them into a single number. One could take the average of precision and recall, to end up with a single number. Alternatively, you can compute the **F1 score**, which is a modified way of computing their average, and works better than simply taking the mean. F1 score is the **harmonic mean** between Precision and Recall, and is calculated as 2/((1/Precision)+(1/Recall))
+
+![](Images/03.png)
+
+Having a single-number evaluation metric speeds up your ability to make a decision when you are selecting among a large number of classifiers. It gives a clear preference ranking among all of them, and therefore a clear direction for progress.
+
+As a final example, suppose you are separately tracking the accuracy of your cat classifier in four key markets: (i)US, (ii)China, (iii)India, and (iv)Other. This gives four metrics. By taking an **average** or **weighted average** of these four numbers, you end up with a single number metric. Taking an average or weighted average is one of the most common ways to combine multiple metrics into one.
 
 ### Satisfying and Optimizing metric
 
-- Its hard sometimes to get a single number evaluation metric. Ex:
+Here’s another way to combine multiple evaluation metrics.
 
-  | Classifier | F1   | Running time |
-  | ---------- | ---- | ------------ |
-  | A          | 90%  | 80 ms        |
-  | B          | 92%  | 95 ms        |
-  | C          | 92%  | 1,500 ms     |
-- So we can solve that by choosing a single optimizing metric and decide that other metrics are satisfying. Ex:
-  ```
-  Maximize F1                     # optimizing metric
-  subject to running time < 100ms # satisficing metric
-  ```
-- So as a general rule:
-  ```
-  Maximize 1     # optimizing metric (one optimizing metric)
-  subject to N-1 # satisficing metric (N-1 satisficing metrics)
-  ```
+Suppose you care about both the accuracy and the running time of a learning algorithm. You need to choose from these three classifiers:
+
+![](Images/04.png)
+
+It seems unnatural to derive a single metric by putting accuracy and running time into a
+single formula, such as: Accuracy - 0.5*RunningTime
+
+Here’s what you can do instead: First, define what is an **acceptable** running time. Let’s say anything that runs in 100ms is acceptable. Then, maximize accuracy, subject to your classifier meeting the running time criteria. Here, running time is a **satisficing metric** — your classifier just has to be good enough on this metric, in the sense that it should take at most 100ms. Accuracy is the **optimizing metric**.
+
+If you are trading off N different criteria, such as binary file size of the model (which is important for mobile apps, since users don’t want to download large apps), running time, and accuracy, you might consider setting N-1 of the criteria as **satisficing metrics**. I.e., you simply require that they meet a certain value. Then define the final one as the **optimizing metric**. Setting a threshold for what is acceptable for binary file size and running time, and try to optimize accuracy given those constraints.
+
+As a final example, suppose you are building a hardware device that uses a microphone to listen for the user saying a particular **wakeword**, that then causes the system to wake up. You care about both the **false positive rate** — the frequency with which the system wakes up even when no one said the wakeword — as well as the **false negative rate** — how often it fails to wake up when someone says the wakeword. One reasonable goal for the performance of this system is to minimize the false negative rate (optimizing metric), subject to there being no more than one false positive every 24 hours of operation (satisficing metric).
+
+Once your team is aligned on the evaluation metric to optimize, they will be able to make
+faster progress.
+
+### Having a dev set and metric speeds up iterations
+
+It is very difficult to know in advance what approach will work best for a new problem. Even experienced machine learning researchers will usually try out dozens of ideas before they discover something satisfactory. When building a machine learning system, I will often:
+
+  - Start off with some ​**idea**​ on how to build the system.
+  - Implement the idea in **code**.
+  - Carry out an ​**experiment**​ which tells me how well the idea worked. (Usually my first few ideas don’t work!) Based on these learnings, go back to generate more ideas, and keep on iterating.
+
+This is an iterative process. The faster you can go round this loop, the faster you will make progress. This is why having dev/test sets and a metric are important: Each time you try an idea, measuring your idea’s performance on the dev set lets you quickly decide if you’re heading in the right direction.
+
+In contrast, suppose you don’t have a specific dev set and metric. So each time your team develops a new cat classifier, you have to incorporate it into your app, and play with the app for a few hours to get a sense of whether the new classifier is an improvement. This would be incredibly slow! Also, if your team improves the classifier’s accuracy from 95.0% to 95.1%, you might not be able to detect that 0.1% improvement from playing with the app. Yet a lot of progress in your system will be made by gradually accumulating dozens of these 0.1% improvements. Having a dev set and metric allows you to very quickly detect which ideas are successfully giving you small (or large) improvements, and therefore lets you quickly decide what ideas to keep refining, and which ones to discard.
 
 ### Setting up development and test sets
 
@@ -127,9 +145,7 @@ Let’s return to our earlier cat pictures example: You run a mobile app, and us
 
 Your team gets a large training set by downloading pictures of cats (positive examples) and non-cats (negative examples) off of different websites. They split the dataset 70%/30% into training and test sets. Using this data, they build a cat detector that works well on the training and test sets.
 
-But when you deploy this classifier into the mobile app, you find that the performance is really poor!
-
-What happened?
+But when you deploy this classifier into the mobile app, you find that the performance is really poor! What happened?
 
 You figure out that the pictures users are uploading have a different look than the website images that make up your training set: Users are uploading pictures taken with mobile phones, which tend to be lower resolution, blurrier, and poorly lit. Since your training/test sets were made of website images, your algorithm did not generalize well to the actual distribution you care about: mobile phone pictures.
 
@@ -157,10 +173,6 @@ It requires judgment to decide how much to invest in developing great dev and te
 
 ### Train/dev/test distributions
 
-- Dev and test sets should come from the same distribution.
-- Choose dev set and test set to reflect data you expect to get in the future and consider important to do well on.
-- Setting up the dev set, as well as the validation metric is really defining what target you want to aim at.
-
 You have your cat app image data segmented into four regions, based on your largest markets: (i) US, (ii) China, (iii) India, and (iv) Other. To come up with a dev set and a test set, say we put US and India in the dev set; China and Other in the test set. In other words, we can randomly assign two of these segments to the dev set, and the other two to the test set, right?
 
 Once you define the dev and test sets, your team will be focused on improving dev set performance. Thus, the dev set should reflect the task you want to improve on the most: To do well on all four geographies, and not only two.
@@ -177,18 +189,19 @@ But if the dev and test sets come from different distributions, then your option
 
 Working on machine learning applications is hard enough. Having mismatched dev and test sets introduces additional uncertainty about whether improving on the dev set distribution also improves test set performance. Having mismatched dev and test sets makes it harder to figure out what is and isn’t working, and thus makes it harder to prioritize what to work on.
 
-If you are working on a 3rd party benchmark problem, their creator might have specified dev and test sets that come from different distributions. Luck, rather than skill, will have a greater impact on your performance on such benchmarks compared to if the dev and test sets come from the same distribution. It is an important research problem to develop learning algorithms that are trained on one distribution and generalize well to another. But if your goal is to make progress on a specific machine learning application rather than make research progress, I recommend trying to choose dev and test sets that are drawn from the same distribution. This will make your team more efficient.
+  - Dev and test sets should come from the same distribution.
+  - Choose dev set and test set to reflect data you expect to get in the future and consider important to do well on.
+  - Setting up the dev set, as well as the validation metric is really defining what target you want to aim at.
 
 ### Size of the dev and test sets
-
-- An old way of splitting the data was 70% training, 30% test or 60% training, 20% dev, 20% test.
-- In the modern deep learning if you have a million or more examples a reasonable split would be 98% training, 1% dev, 1% test.
 
 The dev set should be large enough to detect differences between algorithms that you are trying out. For example, if classifier A has an accuracy of 90.0% and classifier B has an accuracy of 90.1%, then a dev set of 100 examples would not be able to detect this 0.1% difference. Compared to other machine learning problems I’ve seen, a 100 example dev set is small. Dev sets with sizes from 1,000 to 10,000 examples are common. With 10,000 examples, you will have a good chance of detecting an improvement of 0.1%.
 
 For mature and important applications—for example, advertising, web search, and product recommendations—I have also seen teams that are highly motivated to eke out even a 0.01% improvement, since it has a direct impact on the company’s profits. In this case, the dev set could be much larger than 10,000, in order to detect even smaller improvements.
 
 How about the size of the test set? It should be large enough to give high confidence in the overall performance of your system. One popular heuristic had been to use 30% of your data for your test set. This works well when you have a modest number of examples—say 100 to 10,000 examples. But in the era of big data where we now have machine learning problems with sometimes more than a billion examples, the fraction of data allocated to dev/test sets has been shrinking, even as the absolute number of examples in the dev/test sets has been growing. There is no need to have excessively large dev/test sets beyond what is needed to evaluate the performance of your algorithms.
+
+The traditional way of splitting the data was 70% training, 30% test or 60% training, 20% dev, 20% test. In the modern deep learning if you have a million or more examples a reasonable split would be 98% training, 1% dev, 1% test.
 
 ### When to change dev/test sets and metrics
 
