@@ -6,7 +6,7 @@
       * [Orthogonalization](#orthogonalization)
       * [Single number evaluation metric](#single-number-evaluation-metric)
       * [Satisfying and Optimizing metric](#satisfying-and-optimizing-metric)
-	  * [Setting up development and test sets](#Setting-up-development-and-test-sets)
+      * [Setting up development and test sets](#Setting-up-development-and-test-sets)
       * [Train/dev/test distributions](#traindevtest-distributions)
       * [Size of the dev and test sets](#size-of-the-dev-and-test-sets)
       * [When to change dev/test sets and metrics](#when-to-change-devtest-sets-and-metrics)
@@ -37,7 +37,9 @@
 
 Say you’re building a startup that will provide an endless stream of cat pictures to cat lovers.
 
-![](Images/01.png)
+<div align="center">
+  <img src="Images/01.png">
+</div>
 
 You use a neural network to build a computer vision system for detecting cats in pictures.
 
@@ -93,7 +95,9 @@ The **Precision** of a cat classifier is the fraction of images in the dev (or t
 
 In contrast, Precision and Recall is not a single-number evaluation metric: It gives two numbers for assessing your classifier. Having multiple-number evaluation metrics makes it harder to compare algorithms. Suppose your algorithms perform as follows:
 
-![](Images/02.png)
+<div align="center">
+  <img src="Images/02.png">
+</div>
 
 Here, neither classifier is obviously superior, so it doesn’t immediately guide you toward picking one.
 
@@ -101,7 +105,9 @@ During development, your team will try a lot of ideas about algorithm architectu
 
 If you really care about both Precision and Recall, I recommend using one of the standard ways to combine them into a single number. One could take the average of precision and recall, to end up with a single number. Alternatively, you can compute the **F1 score**, which is a modified way of computing their average, and works better than simply taking the mean. F1 score is the **harmonic mean** between Precision and Recall, and is calculated as 2/((1/Precision)+(1/Recall))
 
-![](Images/03.png)
+<div align="center">
+  <img src="Images/03.png">
+</div>
 
 Having a single-number evaluation metric speeds up your ability to make a decision when you are selecting among a large number of classifiers. It gives a clear preference ranking among all of them, and therefore a clear direction for progress.
 
@@ -113,7 +119,9 @@ Here’s another way to combine multiple evaluation metrics.
 
 Suppose you care about both the accuracy and the running time of a learning algorithm. You need to choose from these three classifiers:
 
-![](Images/04.png)
+<div align="center">
+  <img src="Images/04.png">
+</div>
 
 It seems unnatural to derive a single metric by putting accuracy and running time into a
 single formula, such as: Accuracy - 0.5*RunningTime
@@ -124,8 +132,7 @@ If you are trading off N different criteria, such as binary file size of the mod
 
 As a final example, suppose you are building a hardware device that uses a microphone to listen for the user saying a particular **wakeword**, that then causes the system to wake up. You care about both the **false positive rate** — the frequency with which the system wakes up even when no one said the wakeword — as well as the **false negative rate** — how often it fails to wake up when someone says the wakeword. One reasonable goal for the performance of this system is to minimize the false negative rate (optimizing metric), subject to there being no more than one false positive every 24 hours of operation (satisficing metric).
 
-Once your team is aligned on the evaluation metric to optimize, they will be able to make
-faster progress.
+Once your team is aligned on the evaluation metric to optimize, they will be able to make faster progress.
 
 ### Having a dev set and metric speeds up iterations
 
@@ -134,6 +141,10 @@ It is very difficult to know in advance what approach will work best for a new p
   - Start off with some ​**idea**​ on how to build the system.
   - Implement the idea in **code**.
   - Carry out an ​**experiment**​ which tells me how well the idea worked. (Usually my first few ideas don’t work!) Based on these learnings, go back to generate more ideas, and keep on iterating.
+
+<div align="center">
+  <img src="Images/07.png">
+</div>
 
 This is an iterative process. The faster you can go round this loop, the faster you will make progress. This is why having dev/test sets and a metric are important: Each time you try an idea, measuring your idea’s performance on the dev set lets you quickly decide if you’re heading in the right direction.
 
@@ -145,7 +156,13 @@ Let’s return to our earlier cat pictures example: You run a mobile app, and us
 
 Your team gets a large training set by downloading pictures of cats (positive examples) and non-cats (negative examples) off of different websites. They split the dataset 70%/30% into training and test sets. Using this data, they build a cat detector that works well on the training and test sets.
 
-But when you deploy this classifier into the mobile app, you find that the performance is really poor! What happened?
+But when you deploy this classifier into the mobile app, you find that the performance is really poor!
+
+<div align="center">
+  <img src="Images/05.png">
+</div>
+
+What happened?
 
 You figure out that the pictures users are uploading have a different look than the website images that make up your training set: Users are uploading pictures taken with mobile phones, which tend to be lower resolution, blurrier, and poorly lit. Since your training/test sets were made of website images, your algorithm did not generalize well to the actual distribution you care about: mobile phone pictures.
 
@@ -175,6 +192,10 @@ It requires judgment to decide how much to invest in developing great dev and te
 
 You have your cat app image data segmented into four regions, based on your largest markets: (i) US, (ii) China, (iii) India, and (iv) Other. To come up with a dev set and a test set, say we put US and India in the dev set; China and Other in the test set. In other words, we can randomly assign two of these segments to the dev set, and the other two to the test set, right?
 
+<div align="center">
+  <img src="Images/06.png">
+</div>
+
 Once you define the dev and test sets, your team will be focused on improving dev set performance. Thus, the dev set should reflect the task you want to improve on the most: To do well on all four geographies, and not only two.
 
 There is a second problem with having different dev and test set distributions: There is a chance that your team will build something that works well on the dev set, only to find that it does poorly on the test set. I’ve seen this result in much frustration and wasted effort. Avoid letting this happen to you.
@@ -189,7 +210,7 @@ But if the dev and test sets come from different distributions, then your option
 
 Working on machine learning applications is hard enough. Having mismatched dev and test sets introduces additional uncertainty about whether improving on the dev set distribution also improves test set performance. Having mismatched dev and test sets makes it harder to figure out what is and isn’t working, and thus makes it harder to prioritize what to work on.
 
-  - Dev and test sets should come from the same distribution.
+  - Dev and test sets should come from the same distribution. This may not be the same as your training data’s distribution.
   - Choose dev set and test set to reflect data you expect to get in the future and consider important to do well on.
   - Setting up the dev set, as well as the validation metric is really defining what target you want to aim at.
 
@@ -205,31 +226,51 @@ The traditional way of splitting the data was 70% training, 30% test or 60% trai
 
 ### When to change dev/test sets and metrics
 
-- Let's take an example. In a cat classification example we have these metric results:
+When starting out on a new project, I try to quickly choose dev/test sets, since this gives the team a well-defined target to aim for.
 
-  | Metric      | Classification error                                         |
-  | ----------- | ------------------------------------------------------------ |
-  | Algorithm A | 3% error (But a lot of porn images are treated as cat images here) |
-  | Algorithm B | 5% error                                                     |
-  - In the last example if we choose the best algorithm by metric it would be "A", but if the users decide it will be "B"
-  - Thus in this case, we want and need to change our metric.
+I typically come up with an initial dev/test set and an initial metric in less than one week — rarely longer. It is better to come up with something imperfect and get going quickly, rather than overthink this.
+
+If you later realize that your initial dev/test set or metric missed the mark, then change them quickly. For example, if your dev set + metric ranks classifier A above classifier B, but your team thinks that classifier B is actually superior for your product, then this might be a sign that you need to change your dev/test sets or your evaluation metric.
+
+There are three main possible causes of the dev set/metric incorrectly rating classifier A higher:
+
+**The actual distribution you need to do well on is different from the dev/test sets**
+
+Suppose your initial dev/test set had mainly pictures of adult cats. You ship your cat app, and find that users are uploading a lot more kitten images than expected. So, the dev/test set distribution is not representative of the actual distribution you need to do well on. In this case, update your dev/test sets to be more representative.
+
+<div align="center">
+  <img src="Images/08.png">
+</div>
+
+**You have overfit to the dev set**
+
+The process of repeatedly evaluating ideas on the dev set causes your algorithm to gradually “overfit” to the dev set. When you are done developing, you will evaluate your system on the test set. If you find that your dev set performance is much better than your test set performance, it is a sign that you have overfit to the dev set. In this case, get a fresh dev set.
+
+If you need to track your team’s progress, you can also evaluate your system regularly — say once per week or once per month — on the test set. But do not use the test set to make any decisions regarding the algorithm, including whether to roll back to the previous week’s system. If you do so, you will start to overfit to the test set, and can no longer count on it to give a completely unbiased estimate of your system’s performance.
+
+**The metric is measuring something other than what the project needs to optimize**
+
+Suppose that for your cat application, your metric is classification accuracy. This metric currently ranks classifier A as superior to classifier B. But suppose you try out both algorithms, and find classifier A is allowing occasional pornographic images to slip through. Even though classifier A is more accurate, the bad impression left by the occasional pornographic image means its performance is unacceptable. What do you do?
+
+| Metric      | Classification error                                               |
+| ----------- | ------------------------------------------------------------------ |
+| Algorithm A | 3% error (But a lot of porn images are treated as cat images here) |
+| Algorithm B | 5% error                                                           |
+
+Here, the metric is failing to identify the fact that Algorithm B is in fact better than Algorithm A for your product. So, you can no longer trust the metric to pick the best algorithm. It is time to change evaluation metrics. You can change the metric to heavily penalize letting through pornographic images. I would strongly recommend picking a new metric and using the new metric to explicitly define a new goal for the team, rather than proceeding for too long without a trusted metric and reverting to manually choosing among classifiers.
+
   - `OldMetric = (1/m) * sum(y_pred[i] != y[i] ,m)`
     - Where m is the number of Dev set items.
   - `NewMetric = (1/sum(w[i])) * sum(w[i] * (y_pred[i] != y[i]) ,m)`
-    - where:
-       - `w[i] = 1                   if x[i] is not porn`
-       - `w[i] = 10                 if x[i] is porn`
+    - `w[i] = 1    if x[i] is not porn`
+    - `w[i] = 10   if x[i] is porn`
 
-- This is actually an example of an orthogonalization where you should take a machine learning problem and break it into distinct steps:
-
-  1. Figure out how to define a metric that captures what you want to do - place the target.
-  2. Worry about how to actually do well on this metric - how to aim/shoot accurately at the target.
-
-- Conclusion: if doing well on your metric + dev/test set doesn't correspond to doing well in your application, change your metric and/or dev/test set.
+It is quite common to change dev/test sets or evaluation metrics during a project. Having an initial dev/test set and metric helps you iterate quickly. If you ever find that the dev/test sets or metric are no longer pointing your team in the right direction, it’s not a big deal! Just change them and make sure your team knows about the new direction.
 
 ### Why human-level performance?
 
 - We compare to human-level performance because of two main reasons:
+
   1. Because of advances in deep learning, machine learning algorithms are suddenly working much better and so it has become much more feasible in a lot of application areas for machine learning algorithms to actually become competitive with human-level performance.
   2. It turns out that the workflow of designing and building a machine learning system is much more efficient when you're trying to do something that humans can also do.
 - After an algorithm reaches the human level performance the progress and accuracy slow down.
@@ -249,6 +290,7 @@ The traditional way of splitting the data was 70% training, 30% test or 60% trai
   | ------------------ | ---- | ---- |
   | **Training error** | 8%   | 8%   |
   | **Dev Error**      | 10%  | 10%  |
+
   - In the left example, because the human level error is 1% then we have to focus on the **bias**.
   - In the right example, because the human level error is 7.5% then we have to focus on the **variance**.
   - The human-level error as a proxy (estimate) for Bayes optimal error. Bayes optimal error is always less (better), but human-level in most cases is not far from it.
@@ -273,53 +315,90 @@ The traditional way of splitting the data was 70% training, 30% test or 60% trai
 
 ### Surpassing human-level performance
 
-- In some problems, deep learning has surpassed human-level performance. Like:
-  - Online advertising.
-  - Product recommendation.
-  - Loan approval.
-- The last examples are not natural perception task, rather learning on structural data. Humans are far better in natural perception tasks like computer vision and speech recognition.
-- It's harder for machines to surpass human-level performance in natural perception task. But there are already some systems that achieved it.
+  - In some problems, deep learning has surpassed human-level performance. Like:
+    - Online advertising.
+    - Product recommendation.
+    - Loan approval.
+  - The last examples are not natural perception task, rather learning on structural data. Humans are far better in natural perception tasks like computer vision and speech recognition.
+  - It's harder for machines to surpass human-level performance in natural perception task. But there are already some systems that achieved it.
 
 ### Improving your model performance
 
-- The two fundamental asssumptions of supervised learning:
-  1. You can fit the training set pretty well. This is roughly saying that you can achieve low **avoidable bias**.
-  2. The training set performance generalizes pretty well to the dev/test set. This is roughly saying that **variance** is not too bad.
-- To improve your deep learning supervised system follow these guidelines:
-  1. Look at the difference between human level error and the training error - **avoidable bias**.
-  2. Look at the difference between the dev/test set and training set error - **Variance**.
-  3. If **avoidable bias** is large you have these options:
-     - Train bigger model.
-     - Train longer/better optimization algorithm (like Momentum, RMSprop, Adam).
-     - Find better NN architecture/hyperparameters search.
-  4. If **variance** is large you have these options:
-     - Get more training data (data augmentation).
-     - Regularization (L2, Dropout).
-     - Find better NN architecture/hyperparameters search.
+  - The two fundamental asssumptions of supervised learning:
+    1. You can fit the training set pretty well. This is roughly saying that you can achieve low **avoidable bias**.
+    2. The training set performance generalizes pretty well to the dev/test set. This is roughly saying that **variance** is not too bad.
+  - To improve your deep learning supervised system follow these guidelines:
+    1. Look at the difference between human level error and the training error - **avoidable bias**.
+    2. Look at the difference between the dev/test set and training set error - **Variance**.
+    3. If **avoidable bias** is large you have these options:
+       - Train bigger model.
+       - Train longer/better optimization algorithm (like Momentum, RMSprop, Adam).
+       - Find better NN architecture/hyperparameters search.
+    4. If **variance** is large you have these options:
+       - Get more training data (data augmentation).
+       - Regularization (L2, Dropout).
+       - Find better NN architecture/hyperparameters search.
 
 ### Carrying out error analysis
 
-- Error analysis - process of manually examining mistakes that your algorithm is making. It can give you insights into what to do next. E.g.:
-  - In the cat classification example, if you have 10% error on your dev set and you want to decrease the error.
-  - You discovered that some of the mislabeled data are dog pictures that look like cats. Should you try to make your cat classifier do better on dogs (this could take some weeks)?
-  - Error analysis approach:
-    - Get 100 mislabeled dev set examples at random.
-    - Count up how many are dogs.
-    - if 5 of 100 are dogs then training your classifier to do better on dogs will decrease your error up to 9.5% (called ceiling), which can be too little.
-    - if 50 of 100 are dogs then you could decrease your error up to 5%, which is reasonable and you should work on that.
-- Based on the last example, error analysis helps you to analyze the error before taking an action that could take lot of time with no need.
-- Sometimes, you can evaluate multiple error analysis ideas in parallel and choose the best idea. Create a spreadsheet to do that and decide, e.g.:
+<div align="center">
+  <img src="Images/10.png">
+</div>
 
-  | Image        | Dog    | Great Cats | blurry  | Instagram filters |    Comments    |
-  | ------------ | ------ | ---------- | ------- | ----------------- |--------------- |
-  | 1            | ✓      |            |         | ✓                 |                |
-  | 2            | ✓      |            | ✓       | ✓                 |                |
-  | 3            |        |            |         |                   |Rainy day at zoo|
-  | 4            |        | ✓          |         |                   |                |
-  | ....         |        |            |         |                   |                |
-  | **% totals** | **8%** | **30%**    | **50%** |      **12%**      |                |
-- In the last example you will decide to work on great cats or blurry images to improve your performance.
-- This quick counting procedure, which you can often do in, at most, small numbers of hours can really help you make much better prioritization decisions, and understand how promising different approaches are to work on.
+When you play with your cat app, you notice several examples where it mistakes dogs for cats. Some dogs do look like cats!
+
+A team member proposes incorporating 3rd party software that will make the system do better on dog images. These changes will take a month, and the team member is enthusiastic. Should you ask them to go ahead?
+
+Before investing a month on this task, I recommend that you first estimate how much it will actually improve the system’s accuracy. Then you can more rationally decide if this is worth the month of development time, or if you’re better off using that time on other tasks.
+
+In detail, here’s what you can do:
+
+  - Gather a sample of 100 dev set examples that your system ​misclassified. I.e., examples that your system made an error on.
+  - Look at these examples manually, and count what fraction of them are dog images.
+
+The process of looking at misclassified examples is called ​**error analysis**. In this example, if you find that only 5% of the misclassified images are dogs, then no matter how much you improve your algorithm’s performance on dog images, you won’t get rid of more than 5% of your errors. In other words, 5% is a “ceiling” (meaning maximum possible amount) for how much the proposed project could help. Thus, if your overall system is currently 90% accurate (10% error), this improvement is likely to result in at best 90.5% accuracy (or 9.5% error, which is 5% less error than the original 10% error).
+
+In contrast, if you find that 50% of the mistakes are dogs, then you can be more confident that the proposed project will have a big impact. It could boost accuracy from 90% to 95% (a 50% relative reduction in error, from 10% down to 5%).
+
+This simple counting procedure of error analysis gives you a quick way to estimate the possible value of incorporating the 3rd party software for dog images. It provides a quantitative basis on which to decide whether to make this investment.
+
+Error analysis can often help you figure out how promising different directions are. I’ve seen many engineers reluctant to carry out error analysis. It often feels more exciting to jump in and implement some idea, rather than question if the idea is worth the time investment. This is a common mistake: It might result in your team spending a month only to realize afterward that it resulted in little benefit.
+
+Manually examining 100 examples does not take long. Even if you take one minute per image, you’d be done in under two hours. These two hours could save you a month of wasted effort.
+
+**Error Analysis​** refers to the process of examining dev set examples that your algorithm misclassified, so that you can understand the underlying causes of the errors. This can help you prioritize projects — as in this example — and inspire new directions.
+
+You can **evaluate multiple error analysis ideas in parallel during error analysis** and choose the best idea.
+
+Your team has several ideas for improving the cat detector:
+
+  - Fix the problem of your algorithm recognizing​ dogs as cats.
+  - Fix the problem of your algorithm recognizing ​great cats ​(lions, panthers, etc.) as house cats (pets).
+  - Improve the system’s performance on ​blurry ​images.
+
+You can efficiently evaluate all of these ideas in parallel. I usually create a spreadsheet and fill it out while looking through ~100 misclassified dev set images. I also jot down comments that might help me remember specific examples. To illustrate this process, let’s look at a spreadsheet you might produce with a small dev set of four examples:
+
+<div align="center">
+  <img src="Images/11.png">
+</div>
+
+Image #3 above has both the Great Cat and the Blurry columns checked. Furthermore, because it is possible for one example to be associated with multiple categories, the percentages at the bottom may not add up to 100%.
+
+Although you may first formulate the categories (Dog, Great cat, Blurry) then categorize the examples by hand, in practice, once you start looking through examples, you will probably be inspired to propose new error categories. For example, say you go through a dozen images and realize a lot of mistakes occur with Instagram-filtered pictures. You can go back and add a new “Instagram” column to the spreadsheet. Manually looking at examples that the algorithm misclassified and asking how/whether you as a human could have labeled the picture correctly will often inspire you to come up with new categories of errors and solutions.
+
+The most helpful error categories will be ones that you have an idea for improving. For example, the Instagram category will be most helpful to add if you have an idea to “undo” Instagram filters and recover the original image. But you don’t have to restrict yourself only to error categories you know how to improve; the goal of this process is to build your intuition about the most promising areas to focus on.
+
+Error analysis is an iterative process. Don’t worry if you start off with no categories in mind. After looking at a couple of images, you might come up with a few ideas for error categories. After manually categorizing some images, you might think of new categories and re-examine the images in light of the new categories, and so on.
+
+Suppose you finish carrying out error analysis on 100 misclassified dev set examples and get the following:
+
+<div align="center">
+  <img src="Images/12.png">
+</div>
+
+You now know that working on a project to address the Dog mistakes can eliminate 8% of the errors at most. Working on Great Cat or Blurry image errors could help eliminate more errors. Therefore, you might pick one of the two latter categories to focus on. If your team has enough people to pursue multiple directions in parallel, you can also ask some engineers to work on Great Cats and others to work on Blurry images.
+
+Error analysis does not produce a rigid mathematical formula that tells you what the highest priority task should be. You also have to take into account how much progress you expect to make on different categories and the amount of work needed to tackle each one.
 
 ### Cleaning up incorrectly labeled data
 
@@ -334,6 +413,7 @@ The traditional way of splitting the data was 70% training, 30% test or 60% trai
   | 4            |        | ✓          |         |            |          |
   | ....         |        |            |         |            |          |
   | **% totals** | **8%** | **36%**    | **50%** | **6%**     |          |
+
   - Then:
     - If overall dev set error: 10%
       - Then errors due to incorrect data: 0.6%
@@ -347,10 +427,20 @@ The traditional way of splitting the data was 70% training, 30% test or 60% trai
 
 ### Build your first system quickly, then iterate
 
-- The steps you take to make your deep learning project:
-  - Setup dev/test set and metric
-  - Build initial system quickly
-  - Use Bias/Variance analysis & Error analysis to prioritize next steps.
+You want to build a new email anti-spam system. Your team has several ideas:
+
+  - Collect a huge training set of spam email. For example, set up a “honeypot”: deliberately send fake email addresses to known spammers, so that you can automatically harvest the spam messages they send to those addresses.
+  - Develop features for understanding the text content of the email.
+  - Develop features for understanding the email header features to show what set of internet servers the message went through.
+  - and more.
+
+Even though experts who has worked extensively on anti-spam, they would still have a hard time picking one of these directions. It is even harder if you are not an expert in the application area.
+
+So don’t start off trying to design and build the perfect system. Instead, build and train a basic system quickly — perhaps in just a few days. Even if the basic system is far from the “best” system you can build, it is valuable to examine how the basic system functions: you will quickly find clues that show you the most promising directions in which to invest your time.
+
+<div align="center">
+  <img src="Images/09.png">
+</div>
 
 ### Training and testing on different distributions
 
