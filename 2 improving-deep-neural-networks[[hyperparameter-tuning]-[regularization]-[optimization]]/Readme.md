@@ -3,7 +3,7 @@
 * [Improving Deep Neural Networks: Hyperparameter tuning, Regularization and Optimization](#improving-deep-neural-networks-hyperparameter-tuning-regularization-and-optimization)
    * [Practical aspects of Deep Learning](#practical-aspects-of-deep-learning)
       * [Train / Dev / Test sets](#train--dev--test-sets)
-      * [Bias / Variance](#bias--variance)
+      * [Bias vs Variance](#Bias-vs-Variance)
       * [Basic Recipe for Machine Learning](#basic-recipe-for-machine-learning)
       * [Regularization](#regularization)
       * [Why regularization reduces overfitting?](#why-regularization-reduces-overfitting)
@@ -14,9 +14,8 @@
       * [Vanishing / Exploding gradients](#vanishing--exploding-gradients)
       * [Weight Initialization for Deep Networks](#weight-initialization-for-deep-networks)
       * [Numerical approximation of gradients](#numerical-approximation-of-gradients)
+      * [Gradient checking](#gradient-checking)
       * [Gradient checking implementation notes](#gradient-checking-implementation-notes)
-      * [Initialization summary](#initialization-summary)
-      * [Regularization summary](#regularization-summary)
    * [Optimization algorithms](#optimization-algorithms)
       * [Mini-batch gradient descent](#mini-batch-gradient-descent)
       * [Understanding mini-batch gradient descent](#understanding-mini-batch-gradient-descent)
@@ -48,30 +47,40 @@
 - Its impossible to get all your hyperparameters right on a new application from the first time.
 - So the idea is you go through the loop: `Idea ==> Code ==> Experiment`.
 - You have to go through the loop many times to figure out your hyperparameters.
+
+![](Images/01.png)
+
 - Your data will be split into three parts:
   - Training set.       (Has to be the largest set)
   - Hold-out cross validation set / Development or "dev" set.
   - Testing set.
 - You will try to build a model upon training set then try to optimize hyperparameters on dev set as much as possible. Then after your model is ready you try and evaluate the testing set.
 - so the trend on the ratio of splitting the models:
-  - If size of the  dataset is 100 to 1000000  ==> 60/20/20
+  - If size of the  dataset is 100 to 1000000  ==> 60/20/20 or 70/30
   - If size of the  dataset is 1000000  to INF  ==> 98/1/1 or  99.5/0.25/0.25
 - The trend now gives the training data the biggest sets.
+
+![](Images/02.png)
+
 - Make sure the dev and test set are coming from the same distribution.
   - For example if cat training pictures is from the web and the dev/test pictures are from users cell phone they will mismatch. It is better to make sure that dev and test set are from the same distribution.
 - The dev set rule is to try them on some of the good models you've created.
 - Its OK to only have a dev set without a testing set. But a lot of people in this case call the dev set as the test set. A better terminology is to call it a dev set as its used in the development.
 
-### Bias / Variance
+### Bias vs Variance
 
 - Bias / Variance techniques are Easy to learn, but difficult to master.
 - So here the explanation of Bias / Variance:
   - If your model is underfitting (logistic regression of non linear data) it has a "high bias"
   - If your model is overfitting then it has a "high variance"
   - Your model will be alright if you balance the Bias / Variance
-  - For more:
-    - ![](Images/01-_Bias_-_Variance.png)
-- Another idea to get the bias /  variance if you don't have a 2D plotting mechanism:
+
+![](Images/03.png)
+
+- Another idea to get the bias / variance:
+
+![](Images/04.png)
+
   - High variance (overfitting) for example:
     - Training error: 1%
     - Dev error: 11%
@@ -84,7 +93,7 @@
   - Best:
     - Training error: 0.5%
     - Test error: 1%
-  - These Assumptions came from that human has 0% error. If the problem isn't like that you'll need to use human error as baseline.
+  - To use human error as baseline. Assumptions came from that human has 0% error.
 
 ### Basic Recipe for Machine Learning
 
@@ -103,64 +112,66 @@
 
 ### Regularization
 
-- Adding regularization to NN will help it reduce variance (overfitting)
-- L1 matrix norm:
-  - `||W|| = Sum(|w[i,j]|)  # sum of absolute values of all w`
-- L2 matrix norm because of arcane technical math reasons is called Frobenius norm:
-  - `||W||^2 = Sum(|w[i,j]|^2)	# sum of all w squared`
-  - Also can be calculated as `||W||^2 = W.T * W if W is a vector`
+Add regularization to NN will help it reduce variance (overfitting)
+
+**Matrix Norm and Vector Norm**
+
+- L1 matrix / vector norm:
+  - `||W|| = Sum(|W[i,j]|)  # sum of absolute values of all W[i,j], if W is a Matrix`
+  - `||w|| = Sum(|w[i]|)    # sum of absolute values of all w[i], if w is a vector`
+- L2 matrix / vector norm:
+  - `||W||^2 = Sum(|W[i,j]|^2)	        # sum of all W[i,j] squared, if W is a Matrix`
+  - `||w||^2 = Sum(|w[i]|^2) = w.T * w  # sum of all w[i] squared, if w is a vector`
+
+**Regularization for logistic regression**
+
 - Regularization for logistic regression:
   - The normal cost function that we want to minimize is: `J(w,b) = (1/m) * Sum(L(y(i),y'(i)))`
-  - The L2 regularization version: `J(w,b) = (1/m) * Sum(L(y(i),y'(i))) + (lambda/2m) * Sum(|w[i]|^2)`
-  - The L1 regularization version: `J(w,b) = (1/m) * Sum(L(y(i),y'(i))) + (lambda/2m) * Sum(|w[i]|)`
+  - The L2 regularization version: `J(w,b) = (1/m) * Sum(L(y(i),y'(i))) + (lambda/2m) * ||w||^2`
+  - The L1 regularization version: `J(w,b) = (1/m) * Sum(L(y(i),y'(i))) + (lambda/2m) * ||w||`
   - The L1 regularization version makes a lot of w values become zeros, which makes the model size smaller.
-  - L2 regularization is being used much more often.
-  - `lambda` here is the regularization parameter (hyperparameter)
-- Regularization for NN:
-  - The normal cost function that we want to minimize is:   
-    `J(W1,b1...,WL,bL) = (1/m) * Sum(L(y(i),y'(i)))`
+  - The L2 regularization is being used much more often.
+  - `lambda` here is the **regularization parameter** (hyperparameter)
 
-  - The L2 regularization version:   
-    `J(w,b) = (1/m) * Sum(L(y(i),y'(i))) + (lambda/2m) * Sum((||W[l]||^2)`
+**Regularization for NN**
 
-  - We stack the matrix as one vector `(mn,1)` and then we apply `sqrt(w1^2 + w2^2.....)`
-
-  - To do back propagation (old way):   
-    `dw[l] = (from back propagation)`
-
-  - The new way:   
-    `dw[l] = (from back propagation) + lambda/m * w[l]`
-
-  - So plugging it in weight update step:
-
-    - ```
-      w[l] = w[l] - learning_rate * dw[l]
-           = w[l] - learning_rate * ((from back propagation) + lambda/m * w[l])
-           = w[l] - (learning_rate*lambda/m) * w[l] - learning_rate * (from back propagation)
-           = (1 - (learning_rate*lambda)/m) * w[l] - learning_rate * (from back propagation)
-      ```
-
-  - In practice this penalizes large weights and effectively limits the freedom in your model.
-
-  - The new term `(1 - (learning_rate*lambda)/m) * w[l]`  causes the **weight to decay** in proportion to its size.
-
+- The normal cost function that we want to minimize is:   
+  - `J(W1,b1...,WL,bL) = (1/m) * Sum(L(y(i),y'(i)))`
+- The L2 regularization version:   
+  - `J(W,b) = (1/m) * Sum(L(y(i),y'(i))) + (lambda/2m) * Sum((||W[l]||^2)`
+- To do back propagation without regularization:
+  - `dW[l] = (from back propagation)`
+- To do back propagation with regularization:   
+  - `dW[l] = (from back propagation) + lambda/m * W[l]`
+- So plugging it in weight update step:
+-
+    ```
+    W[l] = W[l] - learning_rate * dW[l]
+         = W[l] - learning_rate * ((from back propagation) + lambda/m * W[l])
+         = W[l] - (learning_rate*lambda/m) * W[l] - learning_rate * (from back propagation)
+         = (1 - (learning_rate*lambda)/m) * W[l] - learning_rate * (from back propagation)
+    ```
+- In practice this **penalizes large weights** and **effectively limits the freedom in your model**.
+- The new term `(1 - (learning_rate*lambda)/m) * W[l]` causes the **weight to decay** in proportion to its size.
 
 ### Why regularization reduces overfitting?
 
 Here are some intuitions:
-  - Intuition 1:
-     - If `lambda` is too large - a lot of w's will be close to zeros which will make the NN simpler (you can think of it as it would behave closer to logistic regression).
-     - If `lambda` is good enough it will just reduce some weights that makes the neural network overfit.
-  - Intuition 2 (with _tanh_ activation function):
-     - If `lambda` is too large, w's will be small (close to zero) - will use the linear part of the _tanh_ activation function, so we will go from non linear activation to _roughly_ linear which would make the NN a _roughly_ linear classifier.
-     - If `lambda` good enough it will just make some of _tanh_ activations _roughly_ linear which will prevent overfitting.
 
-_**Implementation tip**_: if you implement gradient descent, one of the steps to debug gradient descent is to plot the cost function J as a function of the number of iterations of gradient descent and you want to see that the cost function J decreases **monotonically** after every elevation of gradient descent with regularization. If you plot the old definition of J (no regularization) then you might not see it decrease monotonically.
+**neural network architecture**
 
+- If `lambda` is too large: a lot of w's will be close to zeros which will make the NN simpler.
+- If `lambda` is good enough: it will just reduce some weights that makes the neural network overfit.
+
+**activation function**
+
+- If `lambda` is too large: W's will be small (close to zero) - will use the linear part of the _tanh_ activation function, so we will go from non linear activation to _roughly_ linear which would make the NN a _roughly_ linear classifier.
+- If `lambda` is good enough: it will just make some of _tanh_ activations _roughly_ linear which will prevent overfitting.
 
 ### Dropout Regularization
 
-- In most cases Andrew Ng tells that he uses the L2 regularization.
+![](Images/05.png)
+
 - The dropout regularization eliminates some neurons/weights on each iteration based on a probability.
 - A most common technique to implement dropout is called "Inverted dropout".
 - Code for Inverted dropout:
@@ -300,6 +311,8 @@ _**Implementation tip**_: if you implement gradient descent, one of the steps to
     - if it is < 10^-7  - great, very likely the backpropagation implementation is correct
     - if around 10^-5   - can be OK, but need to inspect if there are no particularly big values in `d_theta_approx - d_theta` vector
     - if it is >= 10^-3 - bad, probably there is a bug in backpropagation implementation
+
+### Gradient checking
 
 ### Gradient checking implementation notes
 
