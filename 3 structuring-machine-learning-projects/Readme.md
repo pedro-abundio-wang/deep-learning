@@ -136,13 +136,14 @@ You figure out that the pictures users are uploading have a different look than 
 Before the modern era of big data, it was a common rule in machine learning to use a random 70%/30% split to form your training and test sets. This practice can work, but it’s a bad idea in more and more applications where the training distribution (website images in our example above) is different from the distribution you ultimately care about (mobile phone images).
 
 We usually define:
-	- Training set — Which you run your learning algorithm on.
-	- Dev (development) set — Which you use to tune parameters, select features, and make other decisions regarding the learning algorithm. Sometimes also called the hold-out cross validation set .
-	- Test set — which you use to evaluate the performance of the algorithm, but not to make any decisions regarding what learning algorithm or parameters to use.
+
+  - **Training set** — Which you run your learning algorithm on.
+  - **Dev (development) set** — Which you use to tune parameters, select features, and make other decisions regarding the learning algorithm. Sometimes also called the hold-out cross validation set.
+  - **Test set** — which you use to evaluate the performance of the algorithm, but not to make any decisions regarding what learning algorithm or parameters to use.
 
 Once you define a dev set (development set) and test set, your team will try a lot of ideas, such as different learning algorithm parameters, to see what works best. The dev and test sets allow your team to quickly see how well your algorithm is doing.
 
-In other words, the purpose of the dev and test sets are to direct your team toward the most important changes to make to the machine learning system .
+In other words, **the purpose of the dev and test sets are to direct your team toward the most important changes to make to the machine learning system**.
 
 So, you should do the following: Choose dev and test sets to reflect data you expect to get in the future and want to do well on.
 
@@ -170,9 +171,9 @@ As an example, suppose your team develops a system that works well on the dev se
 
 But if the dev and test sets come from different distributions, then your options are less clear. Several things could have gone wrong:
 
-	- You had overfit to the dev set.
-	- The test set is harder than the dev set. So your algorithm might be doing as well as could be expected, and no further significant improvement is possible.
-	- The test set is not necessarily harder, but just different, from the dev set. So what works well on the dev set just does not work well on the test set. In this case, a lot of your work to improve dev set performance might be wasted effort.
+  - You had overfit to the dev set.
+  - The test set is harder than the dev set. So your algorithm might be doing as well as could be expected, and no further significant improvement is possible.
+  - The test set is not necessarily harder, but just different, from the dev set. So what works well on the dev set just does not work well on the test set. In this case, a lot of your work to improve dev set performance might be wasted effort.
 
 Working on machine learning applications is hard enough. Having mismatched dev and test sets introduces additional uncertainty about whether improving on the dev set distribution also improves test set performance. Having mismatched dev and test sets makes it harder to figure out what is and isn’t working, and thus makes it harder to prioritize what to work on.
 
