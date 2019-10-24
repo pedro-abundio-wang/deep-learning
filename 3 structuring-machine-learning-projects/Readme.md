@@ -224,6 +224,41 @@ How about the size of the test set? It should be large enough to give high confi
 
 The traditional way of splitting the data was 70% training, 30% test or 60% training, 20% dev, 20% test. In the modern deep learning if you have a million or more examples a reasonable split would be 98% training, 1% dev, 1% test.
 
+**EyeBall dev-set and BlackBox dev-set**
+
+Suppose you have a large dev set of 5,000 examples in which you have a 20% error rate. Thus, your algorithm is misclassifying ~1,000 dev images. It takes a long time to manually examine 1,000 images, so we might decide not to use all of them in the error analysis.
+
+In this case, I would explicitly split the dev set into two subsets, one of which you look at, and one of which you don’t. You will more rapidly overfit the portion that you are manually looking at. You can use the portion you are not manually looking at to tune parameters.
+
+In which the algorithm is misclassifying 1,000 out of 5,000 dev set examples. Suppose we want to manually examine about 100 errors for error analysis (10% of the errors). You should randomly select 10% of the dev set and place that into what we’ll call an ​**Eyeball dev set**​ to remind ourselves that we are looking at it with our eyes. The Eyeball dev set therefore has 500 examples, of which we would expect our algorithm to misclassify about 100.
+
+The second subset of the dev set, called the **Blackbox dev set**, will have the remaining 4500 examples. You can use the Blackbox dev set to evaluate classifiers automatically by measuring their error rates. You can also use it to select among algorithms or tune hyperparameters. However, you should avoid looking at it with your eyes. We use the term “Blackbox” because we will only use this subset of the data to obtain “Blackbox” evaluations of classifiers.
+
+Why do we explicitly separate the dev set into Eyeball and Blackbox dev sets? Since you will gain intuition about the examples in the Eyeball dev set, you will start to overfit the Eyeball dev set faster. If you see the performance on the Eyeball dev set improving much more rapidly than the performance on the Blackbox dev set, you have overfit the Eyeball dev set. In this case, you might need to discard it and find a new Eyeball dev set by moving more examples from the Blackbox dev set into the Eyeball dev set or by acquiring new labeled data.
+
+Explicitly splitting your dev set into Eyeball and Blackbox dev sets allows you to tell when your manual error analysis process is causing you to overfit the Eyeball portion of your data.
+
+Your Eyeball dev set should be large enough to give you a sense of your algorithm’s major error categories. Here are some rough guidelines:
+
+  - An eyeball dev set in which your classifier makes 10 mistakes would be considered very small. With just 10 errors, it’s hard to accurately estimate the impact of different error categories. But if you have very little data and cannot afford to put more into the Eyeball dev set, it​’s better than nothing and will help with project prioritization.
+  - If your classifier makes ~20 mistakes on eyeball dev examples, you would start to get a rough sense of the major error sources.
+  - With ~50 mistakes, you would get a good sense of the major error sources.
+  - With ~100 mistakes, you would get a very good sense of the major sources of errors. Sometime people manually analyze even more errors — sometimes as many as 500. There is no harm in this as long as you have enough data.
+
+Say your classifier has a 5% error rate. To make sure you have ~100 mislabeled examples in the Eyeball dev set, the Eyeball dev set would have to have about 2,000 examples (since 0.05*2,000 = 100). The lower your classifier’s error rate, the larger your Eyeball dev set needs to be in order to get a large enough set of errors to analyze.
+
+How about the Blackbox dev set? We previously said that dev sets of around 1,000-10,000
+examples are common. To refine that statement, a Blackbox dev set of 1,000-10,000
+examples will often give you enough data to tune hyperparameters and select among models,
+though there is little harm in having even more data. A Blackbox dev set of 100 would be
+small but still useful.
+
+If you have a small dev set, then you might not have enough data to split into Eyeball and Blackbox dev sets that are both large enough to serve their purposes. Instead, your entire dev set might have to be used as the Eyeball dev set — i.e., you would manually examine all the dev set data.
+
+Between the Eyeball and Blackbox dev sets, I consider the Eyeball dev set more important. If you only have an Eyeball dev set, you can perform error analyses, model selection and hyperparameter tuning all on that set. The downside of having only an Eyeball dev set is that the risk of overfitting the dev set is greater.
+
+If you have plentiful access to data, then the size of the Eyeball dev set would be determined mainly by how many examples you have time to manually analyze. Rarely people manually analyze more than 1,000 errors.
+
 ### When to change dev/test sets and metrics
 
 When starting out on a new project, I try to quickly choose dev/test sets, since this gives the team a well-defined target to aim for.
@@ -402,28 +437,35 @@ Error analysis does not produce a rigid mathematical formula that tells you what
 
 ### Cleaning up incorrectly labeled data
 
-- DL algorithms are quite robust to random errors in the training set but less robust to systematic errors. But it's OK to go and fix these labels if you can.
-- If you want to check for mislabeled data in dev/test set, you should also try error analysis with the mislabeled column. Ex:
+During error analysis, you might notice that some examples in your dev set are mislabeled. When I say “mislabeled” here, I mean that the pictures were already mislabeled by a human labeler even before the algorithm encountered it. I.e., the class label in an example ​(x,y) ​ has an incorrect value for y. For example, perhaps some pictures that are not cats are mislabeled as containing a cat, and vice versa. If you suspect the fraction of mislabeled images is significant, add a category to keep track of the fraction of examples mislabeled:
 
-  | Image        | Dog    | Great Cats | blurry  | Mislabeled | Comments |
-  | ------------ | ------ | ---------- | ------- | ---------- | -------- |
-  | 1            | ✓      |            |         |            |          |
-  | 2            | ✓      |            | ✓       |            |          |
-  | 3            |        |            |         |            |          |
-  | 4            |        | ✓          |         |            |          |
-  | ....         |        |            |         |            |          |
-  | **% totals** | **8%** | **36%**    | **50%** | **6%**     |          |
+<div align="center">
+  <img src="Images/14.png">
+</div>
 
-  - Then:
-    - If overall dev set error: 10%
-      - Then errors due to incorrect data: 0.6%
-      - Then errors due to other causes: 9.4%
-    - Then you should focus on the 9.4% error rather than the incorrect data.
-- Consider these guidelines while correcting the dev/test mislabeled examples:
-  - Apply the same process to your dev and test sets to make sure they continue to come from the same distribution.
-  - Consider examining examples your algorithm got right as well as ones it got wrong. (Not always done if you reached a good accuracy)
-  - Train and (dev/test) data may now come from a slightly different distributions.
-  - It's very important to have dev and test sets to come from the same distribution. But it could be OK for a train set to come from slightly other distribution.
+Should you correct the labels in your dev set? Remember that the goal of the dev set is to help you quickly evaluate algorithms so that you can tell if Algorithm A or B is better. If the fraction of the dev set that is mislabeled impedes your ability to make these judgments, then it is worth spending time to fix the mislabeled dev set labels.
+
+For example, suppose your classifier’s performance is:
+
+  - Overall accuracy on dev set.................... 90% (10% overall error.)
+  - Errors due to mislabeled examples........ 0.6% (6% of dev set errors.)
+  - Errors due to other causes..................... 9.4% (94% of dev set errors)
+
+Here, the 0.6% inaccuracy due to mislabeling might not be significant enough relative to the 9.4% of errors you could be improving. There is no harm in manually fixing the mislabeled images in the dev set, but it is not crucial to do so: It might be fine not knowing whether your system has 10% or 9.4% overall error.
+
+Suppose you keep improving the cat classifier and reach the following performance:
+
+  - Overall accuracy on dev set.................... 98.0% (2.0% overall error.)
+  - Errors due to mislabeled examples........... 0.6% (30% of dev set errors.)
+  - Errors due to other causes........................ 1.4% (70% of dev set errors)
+
+30% of your errors are due to the mislabeled dev set images, adding significant error to your estimates of accuracy. It is now worthwhile to improve the quality of the labels in the dev set. Tackling the mislabeled examples will help you figure out if a classifier’s error is closer to 1.4% or 2% — a significant relative difference.
+
+It is not uncommon to start off tolerating some mislabeled dev/test set examples, only later to change your mind as your system improves so that the fraction of mislabeled examples grows relative to the total set of errors.
+
+Whatever process you apply to fixing dev set labels, remember to apply it to the test set labels too so that your dev and test sets continue to be drawn from the same distribution. Fixing your dev and test sets together would prevent the problem where your team optimizes for dev set performance only to realize later that they are being judged on a different criterion based on a different test set.
+
+If you decide to improve the label quality, consider **double-checking** both the labels of examples that your system misclassified as well as labels of examples it correctly classified. It is possible that both the original label and your learning algorithm were wrong on an example. If you have 1,000 dev set examples, and if your classifier has 98.0% accuracy, it is easier to examine the 20 examples it misclassified than to examine all 980 examples classified correctly. If you fix only the labels of examples that your system had misclassified, you might introduce bias into your evaluation.
 
 ### Build your first system quickly, then iterate
 
