@@ -81,19 +81,19 @@
 
 ![](Images/04.png)
 
-  - High variance (overfitting) for example:
-    - Training error: 1%
-    - Dev error: 11%
-  - high Bias (underfitting) for example:
-    - Training error: 15%
-    - Dev error: 14%
-  - high Bias (underfitting) && High variance (overfitting) for example:
-    - Training error: 15%
-    - Test error: 30%
-  - Best:
-    - Training error: 0.5%
-    - Test error: 1%
-  - To use human error as baseline. Assumptions came from that human has 0% error.
+- High variance (overfitting) for example:
+  - Training error: 1%
+  - Dev error: 11%
+- high Bias (underfitting) for example:
+  - Training error: 15%
+  - Dev error: 14%
+- high Bias (underfitting) && High variance (overfitting) for example:
+  - Training error: 15%
+  - Test error: 30%
+- Best:
+  - Training error: 0.5%
+  - Test error: 1%
+- To use human error as baseline. Assumptions came from that human has 0% error.
 
 ### Basic Recipe for Machine Learning
 
@@ -144,8 +144,7 @@ Add regularization to NN will help it reduce variance (overfitting)
 - To do back propagation with regularization:   
   - `dW[l] = (from back propagation) + lambda/m * W[l]`
 - So plugging it in weight update step:
--
-    ```
+  - ```
     W[l] = W[l] - learning_rate * dW[l]
          = W[l] - learning_rate * ((from back propagation) + lambda/m * W[l])
          = W[l] - (learning_rate*lambda/m) * W[l] - learning_rate * (from back propagation)
@@ -165,16 +164,17 @@ Here are some intuitions:
 
 **activation function**
 
-- If `lambda` is too large: W's will be small (close to zero) - will use the linear part of the _tanh_ activation function, so we will go from non linear activation to _roughly_ linear which would make the NN a _roughly_ linear classifier.
-- If `lambda` is good enough: it will just make some of _tanh_ activations _roughly_ linear which will prevent overfitting.
+- If `lambda` is too large: W's will be small (close to zero) - will use the linear part of the tanh activation function, so we will go from non linear activation to roughly linear which would make the NN a roughly linear classifier.
+- If `lambda` is good enough: it will just make some of tanh activations roughly linear which will prevent overfitting.
 
 ### Dropout Regularization
 
 ![](Images/05.png)
 
 - The dropout regularization eliminates some neurons/weights on each iteration based on a probability.
-- A most common technique to implement dropout is called "Inverted dropout".
-- Code for Inverted dropout:
+- A most common technique to implement dropout is called **Inverted dropout**.
+
+Code for Inverted dropout:
 
   ```python
   keep_prob = 0.8   # 0 <= keep_prob <= 1
@@ -186,64 +186,65 @@ Here are some intuitions:
 
   # increase a3 to not reduce the expected value of output
   # (ensures that the expected value of a3 remains the same) - to solve the scaling problem
-  a3 = a3 / keep_prob       
+  a3 = a3 / keep_prob
   ```
-- Vector d[l] is used for forward and back propagation and is the same for them, but it is different for each iteration (pass) or training example.
+
+- Vector d[l] is used for forward and back propagation and is the same for them, but it is different for each iteration pass.
 - At test time we don't use dropout. If you implement dropout at test time - it would add noise to predictions.
 
 ### Understanding Dropout
 
-- In the previous video, the intuition was that dropout randomly knocks out units in your network. So it's as if on every iteration you're working with a smaller NN, and so using a smaller NN seems like it should have a regularizing effect.
-- Another intuition: can't rely on any one feature, so have to spread out weights.
-- It's possible to show that dropout has a similar effect to L2 regularization.
-- Dropout can have different `keep_prob` per layer.
-- The input layer dropout has to be near 1 (or 1 - no dropout) because you don't want to eliminate a lot of features.
-- If you're more worried about some layers overfitting than others, you can set a lower `keep_prob` for some layers than others. The downside is, this gives you even more hyperparameters to search for using cross-validation. One other alternative might be to have some layers where you apply dropout and some layers where you don't apply dropout and then just have one hyperparameter, which is a `keep_prob` for the layers for which you do apply dropouts.
+- The intuition was that dropout randomly knocks out units in your network. So it's as if on every iteration you're working with a smaller NN, and so using a smaller NN seems like it should have a regularizing effect.
+- Dropout can't rely on any one feature, so have to spread out weights (**shrink weights**). It's possible to show that dropout has a similar effect to L2 regularization (**weights decay**).
+- Dropout can have different `keep_prob` per layer. If you're more worried about some layers overfitting than others, you can set a lower `keep_prob` for some layers than others. The downside is, this gives you even more hyperparameters to search for using cross-validation. One other alternative might be to have some layers where you apply dropout and some layers where you don't apply dropout and then just have one hyperparameter, which is a `keep_prob` for the layers for which you do apply dropouts.
+- The input layer dropout has to be near 1 (no dropout) because you don't want to eliminate a lot of features.
 - A lot of researchers are using dropout with Computer Vision (CV) because they have a very big input size and almost never have enough data, so overfitting is the usual problem. And dropout is a regularization technique to prevent overfitting.
-- A downside of dropout is that the cost function J is not well defined and it will be hard to debug (plot J by iteration).
-  - To solve that you'll need to turn off dropout, set all the `keep_prob`s to 1, and then run the code and check that it monotonically decreases J and then turn on the dropouts again.
+- A downside of dropout is that the cost function J is not well defined and it will be hard to debug (plot J by iteration). To solve that you'll need to turn off dropout, set all the `keep_prob`s to 1, and then run the code and check that it monotonically decreases J and then turn on the dropouts again.
 
 ### Other regularization methods
 
-- **Data augmentation**:
-  - For example in a computer vision data:
-    - You can flip all your pictures horizontally this will give you m more data instances.
-    - You could also apply a random position and rotation to an image to get more data.
+**Data Augmentation**:
+
+![](Images/06.png)
+
+  - You can flip all your pictures horizontally this will give you m more data instances.
+  - You could also apply a random position and rotation to an image to get more data.
   - For example in OCR, you can impose random rotations and distortions to digits/letters.
   - New data obtained using this technique isn't as good as the real independent data, but still can be used as a regularization technique.
-- **Early stopping**:
+
+**Early Stopping**:
+
   - In this technique we plot the training set and the dev set cost together for each iteration. At some iteration the dev set cost will stop decreasing and will start increasing.
   - We will pick the point at which the training set error and dev set error are best (lowest training cost with lowest dev cost).
   - We will take these parameters as the best parameters.
-    - ![](Images/02-_Early_stopping.png)
-  - Andrew prefers to use L2 regularization instead of early stopping because this technique simultaneously tries to minimize the cost function and not to overfit which contradicts the orthogonalization approach (will be discussed further).
+
+  ![](Images/02-_Early_stopping.png)
+
+  - Prefers to use L2 regularization instead of early stopping because this technique simultaneously tries to minimize the cost function and not to overfit which contradicts the orthogonalization approach.
   - But its advantage is that you don't need to search a hyperparameter like in other regularization approaches (like `lambda` in L2 regularization).
-- **Model Ensembles**:
-  - Algorithm:
-    - Train multiple independent models.
-    - At test time average their results.
-  - It can get you extra 2% performance.
-  - It reduces the generalization error.
-  - You can use some snapshots of your NN at the training ensembles them and take the results.
 
 ### Normalizing inputs
 
+![](Images/07.png)
+
 - If you normalize your inputs this will speed up the training process a lot.
 - Normalization are going on these steps:
-  1. Get the mean of the training set: `mean = (1/m) * sum(x(i))`
-  2. Subtract the mean from each input: `X = X - mean`
-     - This makes your inputs centered around 0.
-  3. Get the variance of the training set: `variance = (1/m) * sum(x(i)^2)`
-  4. Normalize the variance. `X /= variance`
-- These steps should be applied to training, dev, and testing sets (but using mean and variance of the train set).
-- Why normalize?
-  - If we don't normalize the inputs our cost function will be deep and its shape will be inconsistent (elongated) then optimizing it will take a long time.
-  - But if we normalize it the opposite will occur. The shape of the cost function will be consistent (look more symmetric like circle in 2D example) and we can use a larger learning rate alpha - the optimization will be faster.
+  - Get the mean of the training set: `mean = (1/m) * sum(x(i))`
+  - Subtract the mean from each input: `X = X - mean`. This makes your inputs centered around 0.
+  - Get the variance of the training set: `variance = (1/m) * sum(x(i)^2)`
+  - Normalize the variance. `X /= variance`
+- These steps should be applied to training, dev, and testing sets.
+
+![](Images/08.png)
+
+- If we don't normalize the inputs, our cost function will be deep and its shape will be inconsistent then optimizing it will take a long time.
+- But if we normalize it the opposite will occur. The shape of the cost function will be consistent (look more symmetric like circle in 2D example) - the optimization will be faster.
 
 ### Vanishing / Exploding gradients
 
-- The Vanishing / Exploding gradients occurs when your derivatives become very small or very big.
-- To understand the problem, suppose that we have a deep neural network with number of layers L, and all the activation functions are **linear** and each `b = 0`
+![](Images/09.png)
+
+- To understand the problem, suppose that we have a deep neural network with number of layers L, and all the activation functions are linear and each `b = 0`
   - Then:   
     ```
     Y' = W[L]W[L-1].....W[2]W[1]X
@@ -253,42 +254,47 @@ Here are some intuitions:
     ```
     if W[l] = [1.5   0]
               [0   1.5] (l != L because of different dimensions in the output layer)
-    Y' = W[L] [1.5  0]^(L-1) X = 1.5^L 	# which will be very large
+    Y' = W[L] [1.5  0]^(L-1) X # which will be very large
               [0  1.5]
     ```
     ```
     if W[l] = [0.5  0]
               [0  0.5]
-    Y' = W[L] [0.5  0]^(L-1) X = 0.5^L 	# which will be very small
+    Y' = W[L] [0.5  0]^(L-1) X # which will be very small
               [0  0.5]
     ```
+
 - The last example explains that the activations (and similarly derivatives) will be decreased/increased exponentially as a function of number of layers.
+- The Vanishing / Exploding gradients occurs when your derivatives become very small or very big.
 - So If W > I (Identity matrix) the activation and gradients will explode.
 - And If W < I (Identity matrix) the activation and gradients will vanish.
 - Recently Microsoft trained 152 layers (ResNet)! which is a really big number. With such a deep neural network, if your activations or gradients increase or decrease exponentially as a function of L, then these values could get really big or really small. And this makes training difficult, especially if your gradients are exponentially smaller than L, then gradient descent will take tiny little steps. It will take a long time for gradient descent to learn anything.
-- There is a partial solution that doesn't completely solve this problem but it helps a lot - careful choice of how you initialize the weights (next video).
+- There is a partial solution that doesn't completely solve this problem but it helps a lot - careful choice of how you initialize the weights.
 
 ### Weight Initialization for Deep Networks
 
 - A partial solution to the Vanishing / Exploding gradients in NN is better or more careful choice of the random initialization of weights
 - In a single neuron (Perceptron model): `Z = w1x1 + w2x2 + ... + wnxn`
-  - So if `n_x` is large we want `W`'s to be smaller to not explode the cost.
-- So it turns out that we need the variance which equals `1/n_x` to be the range of `W`'s
-- So lets say when we initialize `W`'s like this (better to use with `tanh` activation):   
+- So if `n_x` is large we want `w`'s to be smaller to not explode the cost.
+- So it turns out that we need the variance which equals `1/n_x` to be the range of `w`'s
+- So lets say when we initialize `w`'s like this (better to use with `tanh` activation):
+
   ```
-  np.random.rand(shape) * np.sqrt(1/n[l-1])
+  np.random.randn(shape) * np.sqrt(1/n[l-1])
   ```
-  or variation of this (Bengio et al.):   
+  or variation of this:   
   ```
-  np.random.rand(shape) * np.sqrt(2/(n[l-1] + n[l]))
+  np.random.randn(shape) * np.sqrt(2/(n[l-1] + n[l]))
   ```
+
 - Setting initialization part inside sqrt to `2/n[l-1]` for `ReLU` is better:   
+
   ```
-  np.random.rand(shape) * np.sqrt(2/n[l-1])
+  np.random.randn(shape) * np.sqrt(2/n[l-1])
   ```
-- Number 1 or 2 in the neumerator can also be a hyperparameter to tune (but not the first to start with)
+
 - This is one of the best way of partially solution to Vanishing / Exploding gradients (ReLU + Weight Initialization with variance) which will help gradients not to vanish/explode too quickly
-- The initialization in this video is called "He Initialization / Xavier Initialization" and has been published in 2015 paper.
+- The initialization is called **He Initialization** or **Xavier Initialization**
 
 ### Numerical approximation of gradients
 
