@@ -51,84 +51,74 @@
 ![](Images/01.png)
 
 - Your data will be split into three parts:
-  - Training set. (Has to be the largest set)
+  - Training set.
   - Hold-out cross validation set / Development or dev set.
   - Testing set.
 - You will try to build a model upon training set then try to optimize hyperparameters on dev set as much as possible. Then after your model is ready you try and evaluate the testing set.
 - so the trend on the ratio of splitting the models:
-  - If size of the  dataset is 100 to 1000000  ==> 60/20/20 or 70/30
-  - If size of the  dataset is 1000000  to INF  ==> 98/1/1 or  99.5/0.25/0.25
-- The trend now gives the training data the biggest sets.
+  - If size of the dataset is 100 to 1000000 ==> 60/20/20 or 70/30
+  - If size of the dataset is 1000000 to INF ==> 98/1/1 or 99.5/0.25/0.25
 
 ![](Images/02.png)
 
 - Make sure the dev and test set are coming from the same distribution.
   - For example if cat training pictures is from the web and the dev/test pictures are from users cell phone they will mismatch. It is better to make sure that dev and test set are from the same distribution.
-- The dev set rule is to try them on some of the good models you've created.
 - Its OK to only have a dev set without a testing set. But a lot of people in this case call the dev set as the test set. A better terminology is to call it a dev set as its used in the development.
 
 ### Bias vs Variance
 
-- Bias / Variance techniques are Easy to learn, but difficult to master.
-- So here the explanation of Bias / Variance:
-  - If your model is underfitting (logistic regression of non linear data) it has a "high bias"
-  - If your model is overfitting then it has a "high variance"
-  - Your model will be alright if you balance the Bias / Variance
-
 ![](Images/03.png)
 
-- Another idea to get the bias / variance:
+- If your model is underfitting (linear regression of non linear data) it has a "high bias"
+- If your model is overfitting then it has a "high variance"
+- Your model will be alright if you balance the Bias / Variance
 
 ![](Images/04.png)
 
-- High variance (overfitting) for example:
+- High Bias (underfitting):
+  - Training error: 15%
+  - Dev error: 16%
+- High variance (overfitting):
   - Training error: 1%
   - Dev error: 11%
-- high Bias (underfitting) for example:
-  - Training error: 15%
-  - Dev error: 14%
-- high Bias (underfitting) && High variance (overfitting) for example:
+- high Bias (underfitting) && High variance (overfitting):
   - Training error: 15%
   - Test error: 30%
 - Best:
   - Training error: 0.5%
   - Test error: 1%
-- To use human error as baseline. Assumptions came from that human has 0% error.
 
 ### Basic Recipe for Machine Learning
 
 - If your algorithm has a high bias:
   - Try to make your NN bigger (size of hidden units, number of layers)
-  - Try a different model that is suitable for your data.
+  - Try a different model that is suitable for your data (image recognition - CNN, speech recognition - RNN).
+  - Different (advanced) optimization algorithms (Momentum, RMSprop, Adam).
   - Try to run it longer.
-  - Different (advanced) optimization algorithms.
 - If your algorithm has a high variance:
   - More data.
-  - Try regularization.
-  - Try a different model that is suitable for your data.
-- You should try the previous two points until you have a low bias and low variance.
-- In the older days before deep learning, there was a "Bias/variance tradeoff". But because now you have more options/tools for solving the bias and variance problem its really helpful to use deep learning.
+  - Try regularization (L1 regularization, L2 regularization, Dropout).
+  - Try a different model that is suitable for your data (image recognition - CNN, speech recognition - RNN).
+- You should try the previous points until you have a low bias and low variance.
+- In the older days before deep learning, there was a Bias/Variance Tradeoff. But now you have more options/tools for solving the bias and variance problem its really helpful to use deep learning.
 - Training a bigger neural network never hurts.
 
 ### Regularization
 
-Add regularization to NN will help it reduce variance (overfitting)
+L1 vector / matrix regularization:
 
-**Matrix Norm and Vector Norm**
+![](Images/10.png)
 
-- L1 matrix / vector norm:
-  - `||W|| = Sum(|W[i,j]|)  # sum of absolute values of all W[i,j], if W is a Matrix`
-  - `||w|| = Sum(|w[i]|)    # sum of absolute values of all w[i], if w is a vector`
-- L2 matrix / vector norm:
-  - `||W||^2 = Sum(|W[i,j]|^2)	        # sum of all W[i,j] squared, if W is a Matrix`
-  - `||w||^2 = Sum(|w[i]|^2) = w.T * w  # sum of all w[i] squared, if w is a vector`
+L2 vector / matrix regularization:
+
+![](Images/11.png)
 
 **Regularization for logistic regression**
 
 - Regularization for logistic regression:
-  - The normal cost function that we want to minimize is: `J(w,b) = (1/m) * Sum(L(y(i),y'(i)))`
-  - The L2 regularization version: `J(w,b) = (1/m) * Sum(L(y(i),y'(i))) + (lambda/2m) * ||w||^2`
-  - The L1 regularization version: `J(w,b) = (1/m) * Sum(L(y(i),y'(i))) + (lambda/2m) * ||w||`
+  - The normal cost function that we want to minimize is: `J(w,b) = (1/m) * Sum(Loss(y(i),y'(i)))`
+  - The L1 regularization version: `J(w,b) = (1/m) * Sum(Loss(y(i),y'(i))) + (lambda/2m) * L1`
+  - The L2 regularization version: `J(w,b) = (1/m) * Sum(Loss(y(i),y'(i))) + (lambda/2m) * L2`
   - The L1 regularization version makes a lot of w values become zeros, which makes the model size smaller.
   - The L2 regularization is being used much more often.
   - `lambda` here is the **regularization parameter** (hyperparameter)
@@ -154,8 +144,6 @@ Add regularization to NN will help it reduce variance (overfitting)
 - The new term `(1 - (learning_rate*lambda)/m) * W[l]` causes the **weight to decay** in proportion to its size.
 
 ### Why regularization reduces overfitting?
-
-Here are some intuitions:
 
 **neural network architecture**
 
