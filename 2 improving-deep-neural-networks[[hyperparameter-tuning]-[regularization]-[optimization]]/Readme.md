@@ -105,23 +105,39 @@
 
 ### Regularization
 
-L1 vector / matrix regularization:
+**L1 vector / matrix norm**
 
-![](Images/10.png)
+<div align="center">
+  <img src="Images/10.png">
+</div>
 
-L2 vector / matrix regularization:
+**L2 vector / matrix norm**
 
-![](Images/11.png)
+<div align="center">
+  <img src="Images/11.png">
+</div>
 
 **Regularization for logistic regression**
 
-- Regularization for logistic regression:
-  - The normal cost function that we want to minimize is: `J(w,b) = (1/m) * Sum(Loss(y(i),y'(i)))`
-  - The L1 regularization version: `J(w,b) = (1/m) * Sum(Loss(y(i),y'(i))) + (lambda/2m) * L1`
-  - The L2 regularization version: `J(w,b) = (1/m) * Sum(Loss(y(i),y'(i))) + (lambda/2m) * L2`
-  - The L1 regularization version makes a lot of w values become zeros, which makes the model size smaller.
-  - The L2 regularization is being used much more often.
-  - `lambda` here is the **regularization parameter** (hyperparameter)
+The normal cost function that we want to minimize is
+
+<div align="center">
+  <img src="Images/12.png">
+</div>
+
+The L1 regularization version:
+
+<div align="center">
+  <img src="Images/13.png">
+</div>
+
+The L2 regularization version:
+
+<div align="center">
+  <img src="Images/14.png">
+</div>
+
+`lambda` here is the **regularization parameter** (hyperparameter)
 
 **Regularization for NN**
 
