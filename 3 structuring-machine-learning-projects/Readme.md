@@ -7,8 +7,8 @@
   * [Dev and test sets should come from the same distribution](#Dev-and-test-sets-should-come-from-the-same-distribution)
   * [How large do the dev/test sets need to be?](#How-large-do-the-dev/test-sets-need-to-be?)
   * [Establish a single-number evaluation metric for your team to optimize](#Establish-a-single-number-evaluation-metric-for-your-team-to-optimize)
-  * [Optimizing and satisficing metrics](Optimizing-and-satisficing-metrics)
-  * [Having a dev set and metric speeds up iterations](Having-a-dev-set-and-metric-speeds-up-iterations)
+  * [Optimizing and satisficing metrics](#Optimizing-and-satisficing-metrics)
+  * [Having a dev set and metric speeds up iterations](#Having-a-dev-set-and-metric-speeds-up-iterations)
   * [When to change dev/test sets and metrics](#when-to-change-dev/test-sets-and-metrics)
 * [Basic Error Analysis](#Basic Error Analysis)
   * [Build your first system quickly, then iterate](#Build your first system quickly, then iterate)
@@ -103,7 +103,7 @@ Many other details such as neural network architecture are also important, and t
 
 ## Setting up development and test sets
 
-### Your development and test sets
+### Development and test sets
 
 Let’s return to our earlier cat pictures example: You run a mobile app, and users are uploading pictures of many different things to your app. You want to automatically find the cat pictures.
 
@@ -141,7 +141,7 @@ If you really don’t have any way of getting data that approximates what you ex
 
 It requires judgment to decide how much to invest in developing great dev and test sets. But don’t assume your training distribution is the same as your test distribution. Try to pick test examples that reflect what you ultimately want to perform well on, rather than whatever data you happen to have for training.
 
-### Your dev and test sets should come from the same distribution
+### Dev and test sets should come from the same distribution
 
 You have your cat app image data segmented into four regions, based on your largest markets: (i) US, (ii) China, (iii) India, and (iv) Other. To come up with a dev set and a test set, say we put US and India in the dev set; China and Other in the test set. In other words, we can randomly assign two of these segments to the dev set, and the other two to the test set, right?
 
