@@ -1,17 +1,15 @@
 # Machine Learning Strategy
 
-
-
 * [Why Machine Learning Strategy](#Why-Machine-Learning-Strategy)
 * [Scale drives machine learning progress](#Scale-drives-machine-learning-progress)
 * [Setting up development and test sets](#Setting-up-development-and-test-sets)
-  * [Your development and test sets](#Your dev and test sets should come from the same distribution)
-  * [Your dev and test sets should come from the same distribution](#Your dev and test sets should come from the same distribution)
-  * [How large do the dev/test sets need to be?](#How large do the dev/test sets need to be?)
-  * [Establish a single-number evaluation metric for your team to optimize](#Establish a single-number evaluation metric for your team to optimize)
-  * [Optimizing and satisficing metrics](Optimizing and satisficing metrics)
-  * [Having a dev set and metric speeds up iterations](Having a dev set and metric speeds up iterations)
-  * [When to change dev/test sets and metrics](#when-to-change-devtest-sets-and-metrics)
+  * [Development and test sets](#Development-and-test-sets)
+  * [Dev and test sets should come from the same distribution](#Dev-and-test-sets-should-come-from-the-same-distribution)
+  * [How large do the dev/test sets need to be?](#How-large-do-the-dev/test-sets-need-to-be?)
+  * [Establish a single-number evaluation metric for your team to optimize](#Establish-a-single-number-evaluation-metric-for-your-team-to-optimize)
+  * [Optimizing and satisficing metrics](Optimizing-and-satisficing-metrics)
+  * [Having a dev set and metric speeds up iterations](Having-a-dev-set-and-metric-speeds-up-iterations)
+  * [When to change dev/test sets and metrics](#when-to-change-dev/test-sets-and-metrics)
 * [Basic Error Analysis](#Basic Error Analysis)
   * [Build your first system quickly, then iterate](#Build your first system quickly, then iterate)
   * [Error analysis: Look at dev set examples to evaluate ideas](#Error analysis: Look at dev set examples to evaluate ideas)
@@ -59,7 +57,7 @@ But tragically, your learning algorithm’s accuracy is not yet good enough. You
 You and your team have a lot of ideas for how to improve the accuracy of your deep learning system:
 
   - Get more data: Collect more pictures of cats.
-  - Collect a more diverse training set. For example, pictures of cats in unusual positions; cats with unusual coloration; pictures shot with a variety of camera settings; ….
+  - Collect a more diverse training set. For example, pictures of cats in unusual positions; cats with unusual coloration; pictures shot with a variety of camera settings;
   - Train the algorithm longer, by running more gradient descent iterations.
   - Try different optimization algorithm (e.g. Momentum, RMSprop, Adam).
   - Try a bigger neural network, with more layers/hidden units/parameters.
@@ -72,6 +70,36 @@ If you choose well among these possible directions, you’ll build the leading c
 Machine learning strategy will tell you how. Most machine learning problems leave clues that tell you what’s useful to try, and what’s not useful to try. Learning to read those clues will save you months or years of development time.
 
 ## Scale drives machine learning progress
+
+Many of the ideas of deep learning (neural networks) have been around for decades. Why are these ideas taking off now?
+
+Biggest drivers of recent progress have been:
+
+  - Data availability:
+    - People are now spending more time on digital devices (laptops, mobile devices). Their digital activities generate huge amounts of data that we can feed to our learning algorithms.
+  - Computational scale:
+    - We started just a few years ago, techniques (like GPUs/Powerful CPUs/Distributed computing) to be able to train neural networks that are big enough to take advantage of the huge datasets we now have.
+  - Algorithm:
+    - Creative algorithms has appeared that changed the way NN works. Using RELU function is so much better than using Sigmoid function in training a NN.
+
+In detail, even as you accumulate more data, usually the performance of older learning algorithms, such as logistic regression, “plateaus.” This means its learning curve “flattens out,” and the algorithm stops improving even as you give it more data:
+
+It was as if the older algorithms didn’t know what to do with all the data we now have.
+
+If you train a small neural network (NN) on the same supervised learning task, you might get slightly better performance:
+
+Here, by “Small NN” we mean a neural network with only a small number of hidden units/layers/parameters. Finally, if you train larger and larger neural networks, you can obtain even better performance:
+
+<div align="center">
+  <img src="Images/24.png">
+</div>
+
+This diagram shows NNs doing better in the regime of small datasets. This effect is less consistent than the effect of NNs doing well in the regime of huge datasets. In the small data regime, depending on how the features are hand-engineered, traditional algorithms may or may not do better. For example, if you have 20 training examples, it might not matter much whether you use logistic regression or a neural network; the hand-engineering of features will have a bigger effect than the choice of algorithm. But if you have 1 million examples, I would favor the neural network.
+
+Thus, you obtain the best performance when you (i) Train a very large neural network, so that you are on the green curve above; (ii) Have a huge amount of data.
+
+Many other details such as neural network architecture are also important, and there has been much innovation here. But one of the more reliable ways to improve an algorithm’s performance today is still to (i) train a bigger network and (ii) get more data.
+
 
 ## Setting up development and test sets
 
