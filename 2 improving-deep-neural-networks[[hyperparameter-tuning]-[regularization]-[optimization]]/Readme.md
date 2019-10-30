@@ -48,30 +48,37 @@
 - So the idea is you go through the loop: `Idea ==> Code ==> Experiment`.
 - You have to go through the loop many times to figure out your hyperparameters.
 
-![](Images/01.png)
+<div align="center">
+  <img src="Images/01.png">
+</div>
 
 - Your data will be split into three parts:
-  - Training set.
-  - Hold-out cross validation set / Development or dev set.
-  - Testing set.
-- You will try to build a model upon training set then try to optimize hyperparameters on dev set as much as possible. Then after your model is ready you try and evaluate the testing set.
-- so the trend on the ratio of splitting the models:
-  - If size of the dataset is 100 to 1000000 ==> 60/20/20 or 70/30
-  - If size of the dataset is 1000000 to INF ==> 98/1/1 or 99.5/0.25/0.25
 
-![](Images/02.png)
+  - **Training set** — Which you run your learning algorithm on.
+  - **Development set or dev set** — Which you use to tune parameters, select features, and make other decisions regarding the learning algorithm. Sometimes also called the **hold-out cross validation set**.
+  - **Test set** — which you use to evaluate the performance of the algorithm, but not to make any decisions regarding what learning algorithm or parameters to use.
+
+- so the trend on the ratio of splitting the models:
+  - If size of the dataset is 100 to 100,000 ==> 60%/20%/20% or 70%/30%
+  - If size of the dataset is 100,000 to INF ==> 98%/1%/1% or 99.5%/0.25%/0.25%
+
+  <div align="center">
+    <img src="Images/02.png">
+  </div>
 
 - Make sure the dev and test set are coming from the same distribution.
   - For example if cat training pictures is from the web and the dev/test pictures are from users cell phone they will mismatch. It is better to make sure that dev and test set are from the same distribution.
-- Its OK to only have a dev set without a testing set. But a lot of people in this case call the dev set as the test set. A better terminology is to call it a dev set as its used in the development.
+- Its OK to only have a dev set without a testing set. But a lot of people in this case call the dev set as the test set.
 
 ### Bias vs Variance
 
-![](Images/03.png)
+<div align="center">
+  <img src="Images/03.png">
+</div>
 
 - If your model is underfitting (linear regression of non linear data) it has a "high bias"
 - If your model is overfitting then it has a "high variance"
-- Your model will be alright if you balance the Bias / Variance
+- if your model will be alright then you balance the Bias / Variance
 
 ![](Images/04.png)
 
@@ -141,10 +148,18 @@ The L2 regularization version:
 
 **Regularization for NN**
 
-- The normal cost function that we want to minimize is:   
-  - `J(W1,b1...,WL,bL) = (1/m) * Sum(L(y(i),y'(i)))`
-- The L2 regularization version:   
-  - `J(W,b) = (1/m) * Sum(L(y(i),y'(i))) + (lambda/2m) * Sum((||W[l]||^2)`
+- The normal cost function that we want to minimize is:
+
+<div align="center">
+  <img src="Images/15.png">
+</div>
+
+- The L2 regularization version:
+
+<div align="center">
+  <img src="Images/16.png">
+</div>
+
 - To do back propagation without regularization:
   - `dW[l] = (from back propagation)`
 - To do back propagation with regularization:   
@@ -156,20 +171,18 @@ The L2 regularization version:
          = W[l] - (learning_rate*lambda/m) * W[l] - learning_rate * (from back propagation)
          = (1 - (learning_rate*lambda)/m) * W[l] - learning_rate * (from back propagation)
     ```
-- In practice this **penalizes large weights** and **effectively limits the freedom in your model**.
-- The new term `(1 - (learning_rate*lambda)/m) * W[l]` causes the **weight to decay** in proportion to its size.
+- In practice this penalizes large weights and effectively limits the freedom in your model.
+- The new term `(1 - (learning_rate*lambda)/m) * W[l]` causes the **weight decay** in proportion to its size.
 
 ### Why regularization reduces overfitting?
 
 **neural network architecture**
 
-- If `lambda` is too large: a lot of w's will be close to zeros which will make the NN simpler.
-- If `lambda` is good enough: it will just reduce some weights that makes the neural network overfit.
+- A lot of W's will be close to zeros which will make the NN simpler. It will just reduce some weights that makes the neural network overfit.
 
 **activation function**
 
-- If `lambda` is too large: W's will be small (close to zero) - will use the linear part of the tanh activation function, so we will go from non linear activation to roughly linear which would make the NN a roughly linear classifier.
-- If `lambda` is good enough: it will just make some of tanh activations roughly linear which will prevent overfitting.
+- W's will be small (close to zero) - will use the linear part of the activation function, so we will go from non linear activation to roughly linear which would make the NN a roughly linear classifier which will prevent overfitting.
 
 ### Dropout Regularization
 
@@ -182,15 +195,15 @@ Code for Inverted dropout:
 
   ```python
   keep_prob = 0.8   # 0 <= keep_prob <= 1
-  l = 3  # this code is only for layer 3
-  # the generated number that are less than 0.8 will be dropped. 80% stay, 20% dropped
-  d3 = np.random.rand(a[l].shape[0], a[l].shape[1]) < keep_prob
 
-  a3 = np.multiply(a3,d3)   # keep only the values in d3
+  # the generated number that are less than 0.8 will be dropped. 80% stay, 20% dropped
+  dl = np.random.rand(a[l].shape[0], a[l].shape[1]) < keep_prob
+
+  al = np.multiply(al,dl)   # keep only the values in dl
 
   # increase a3 to not reduce the expected value of output
   # (ensures that the expected value of a3 remains the same) - to solve the scaling problem
-  a3 = a3 / keep_prob
+  al = al / keep_prob
   ```
 
 - Vector d[l] is used for forward and back propagation and is the same for them, but it is different for each iteration pass.
@@ -201,7 +214,7 @@ Code for Inverted dropout:
 - The intuition was that dropout randomly knocks out units in your network. So it's as if on every iteration you're working with a smaller NN, and so using a smaller NN seems like it should have a regularizing effect.
 - Dropout can't rely on any one feature, so have to spread out weights (**shrink weights**). It's possible to show that dropout has a similar effect to L2 regularization (**weights decay**).
 - Dropout can have different `keep_prob` per layer. If you're more worried about some layers overfitting than others, you can set a lower `keep_prob` for some layers than others. The downside is, this gives you even more hyperparameters to search for using cross-validation. One other alternative might be to have some layers where you apply dropout and some layers where you don't apply dropout and then just have one hyperparameter, which is a `keep_prob` for the layers for which you do apply dropouts.
-- The input layer dropout has to be near 1 (no dropout) because you don't want to eliminate a lot of features.
+- The input layer dropout has to be near 1 or no dropout because you don't want to eliminate a lot of features.
 - A lot of researchers are using dropout with Computer Vision (CV) because they have a very big input size and almost never have enough data, so overfitting is the usual problem. And dropout is a regularization technique to prevent overfitting.
 - A downside of dropout is that the cost function J is not well defined and it will be hard to debug (plot J by iteration). To solve that you'll need to turn off dropout, set all the `keep_prob`s to 1, and then run the code and check that it monotonically decreases J and then turn on the dropouts again.
 

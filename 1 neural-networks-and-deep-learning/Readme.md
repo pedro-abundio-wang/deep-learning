@@ -119,28 +119,30 @@ Neural networks, computers are now much better at interpreting unstructured data
 
 Many of the ideas of deep learning (neural networks) have been around for decades. Why are these ideas taking off now?
 
-If we plot the performance of traditional learning algorithms such as Support Vector Machine or Logistic Regression as a function of the amount of data. We will get the following curve. In detail, even as you accumulate more data, usually the performance of traditional learning algorithms, plateaus. This means its learning curve flattens out, and the algorithm stops improving even as you give it more data. It was as if the traditional learning algorithms didn’t know what to do with all the data we now have.
-
 <div align="center">
   <img src="Images/11.png">
 </div>
 
-With neural networks, it turns out that if you train a very large neural network then its performance often keeps getting better and better.
+In detail, even as you accumulate more data, usually the performance of older learning algorithms, such as logistic regression, “plateaus”. This means its learning curve “flattens out”, and the algorithm stops improving even as you give it more data. It was as if the older algorithms didn’t know what to do with all the data we now have.
 
-Three of the biggest drivers of recent progress have been:
+If you train a small neural network (NN) on the same supervised learning task, you might get slightly better performance. Finally, if you train larger and larger neural networks, you can obtain even better performance:
 
-  - Data availability:
+The diagram shows NNs doing better in the regime of small datasets. This effect is less consistent than the effect of NNs doing well in the regime of huge datasets. In the small data regime, traditional algorithms may or may not do better. For example, if you only have 20 training examples, it might not matter much whether you use logistic regression or a neural network; the features-engineering will have a bigger effect than the choice of algorithm. But if you have one-million examples, I would favor the neural network.
+
+Biggest drivers of recent progress have been:
+
+  - **Data availability**:
     - People are now spending more time on digital devices (laptops, mobile devices). Their digital activities generate huge amounts of data that we can feed to our learning algorithms.
-  - Computational scale:
+  - **Computational scale**:
     - We started just a few years ago, techniques (like GPUs/Powerful CPUs/Distributed computing) to be able to train neural networks that are big enough to take advantage of the huge datasets we now have.
-  - Algorithm:
-    - Creative algorithms has appeared that changed the way NN works. Using **RELU function** is so much better than using **Sigmoid function** in training a NN.
-
-To conclude, often you have an idea for a neural network architecture and you want to implement it in code. Fast computation is important because the process of training a neural network is very iterative and can be time-consuming. Implementing our idea then lets us run an experiment which tells us how well our neural network does. Then, by looking at it, you go back to change the details of our neural network and then you go around this circle over and over, until we get the desired performance.
+  - **Algorithm**:
+    - Creative algorithms has appeared that changed the way NN works.
 
 <div align="center">
   <img src="Images/20.png">
 </div>
+
+To conclude, often you have an idea for a neural network architecture and you want to implement it in code. Fast computation is important because the process of training a neural network is very iterative and can be time-consuming. Implementing our idea then lets us run an experiment which tells us how well our neural network does. Then, by looking at it, you go back to change the details of our neural network and then you go around this circle over and over, until we get the desired performance.
 
 ## Neural Networks Basics
 

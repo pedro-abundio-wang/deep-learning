@@ -1,7 +1,6 @@
 # Machine Learning Strategy
 
 * [Why Machine Learning Strategy](#Why-Machine-Learning-Strategy)
-* [Scale drives machine learning progress](#Scale-drives-machine-learning-progress)
 * [Setting up development and test sets](#Setting-up-development-and-test-sets)
   * [Development and test sets](#Development-and-test-sets)
   * [Dev and test sets should come from the same distribution](#Dev-and-test-sets-should-come-from-the-same-distribution)
@@ -69,7 +68,7 @@
 
 ## Why Machine Learning Strategy
 
-Say you’re building a startup that will provide an endless stream of cat pictures to cat lovers.
+Say you’re building a startup that will provide cat pictures to cat lovers.
 
 <div align="center">
   <img src="Images/01.png">
@@ -92,38 +91,7 @@ You and your team have a lot of ideas for how to improve the accuracy of your de
 
 If you choose well among these possible directions, you’ll build the leading cat picture platform, and lead your company to success. If you choose poorly, you might waste months. How do you proceed?
 
-Machine learning strategy will tell you how. Most machine learning problems leave clues that tell you what’s useful to try, and what’s not useful to try. Learning to read those clues will save you months or years of development time.
-
-## Scale drives machine learning progress
-
-Many of the ideas of deep learning (neural networks) have been around for decades. Why are these ideas taking off now?
-
-Biggest drivers of recent progress have been:
-
-  - **Data availability**:
-    - People are now spending more time on digital devices (laptops, mobile devices). Their digital activities generate huge amounts of data that we can feed to our learning algorithms.
-  - **Computational scale**:
-    - We started just a few years ago, techniques (like GPUs/Powerful CPUs/Distributed computing) to be able to train neural networks that are big enough to take advantage of the huge datasets we now have.
-  - **Algorithm**:
-    - Creative algorithms has appeared that changed the way NN works. Using RELU function is so much better than using Sigmoid function in training a NN.
-
-In detail, even as you accumulate more data, usually the performance of older learning algorithms, such as logistic regression, “plateaus”. This means its learning curve “flattens out”, and the algorithm stops improving even as you give it more data:
-
-It was as if the older algorithms didn’t know what to do with all the data we now have.
-
-If you train a small neural network (NN) on the same supervised learning task, you might get slightly better performance:
-
-Here, by “Small NN” we mean a neural network with only a small number of hidden units/layers/parameters. Finally, if you train larger and larger neural networks, you can obtain even better performance:
-
-<div align="center">
-  <img src="Images/24.png">
-</div>
-
-This diagram shows NNs doing better in the regime of small datasets. This effect is less consistent than the effect of NNs doing well in the regime of huge datasets. In the small data regime, depending on how the features are hand-engineered, traditional algorithms may or may not do better. For example, if you have 20 training examples, it might not matter much whether you use logistic regression or a neural network; the hand-engineering of features will have a bigger effect than the choice of algorithm. But if you have 1 million examples, I would favor the neural network.
-
-Thus, you obtain the best performance when you (i) Train a very large neural network, so that you are on the green curve above; (ii) Have a huge amount of data.
-
-Many other details such as neural network architecture are also important, and there has been much innovation here. But one of the more reliable ways to improve an algorithm’s performance today is still to (i) train a bigger network and (ii) get more data.
+Machine learning strategy will tell you what’s useful to try, and what’s not useful to try. It's will save you months or years of development time.
 
 ## Setting up development and test sets
 
@@ -139,31 +107,17 @@ But when you deploy this classifier into the mobile app, you find that the perfo
   <img src="Images/05.png">
 </div>
 
-What happened?
+What happened? You figure out that the pictures users are uploading have a different look than the website images that make up your training set: Users are uploading pictures taken with mobile phones, which tend to be lower resolution, blurrier, and poorly light. Since your training/test sets were made of website images, your algorithm did not generalize well to the actual distribution you care about: mobile phone pictures.
 
-You figure out that the pictures users are uploading have a different look than the website images that make up your training set: Users are uploading pictures taken with mobile phones, which tend to be lower resolution, blurrier, and poorly lit. Since your training/test sets were made of website images, your algorithm did not generalize well to the actual distribution you care about: mobile phone pictures.
-
-Before the modern era of big data, it was a common rule in machine learning to use a random 70%/30% split to form your training and test sets. This practice can work, but it’s a bad idea in more and more applications where the training distribution (website images in our example above) is different from the distribution you ultimately care about (mobile phone images).
-
-We usually define:
-
-  - **Training set** — Which you run your learning algorithm on.
-  - **Dev (development) set** — Which you use to tune parameters, select features, and make other decisions regarding the learning algorithm. Sometimes also called the hold-out cross validation set.
-  - **Test set** — which you use to evaluate the performance of the algorithm, but not to make any decisions regarding what learning algorithm or parameters to use.
-
-Once you define a dev set (development set) and test set, your team will try a lot of ideas, such as different learning algorithm parameters, to see what works best. The dev and test sets allow your team to quickly see how well your algorithm is doing.
-
-In other words, **the purpose of the dev and test sets are to direct your team toward the most important changes to make to the machine learning system**.
+It’s a bad idea where the training distribution (website images) is different from the distribution you ultimately care about (mobile phone images).
 
 So, you should do the following: Choose dev and test sets to reflect data you expect to get in the future and want to do well on.
 
 In other words, your test set should not simply be 30% of the available data, especially if you expect your future data (mobile phone images) to be different in nature from your training set (website images).
 
-If you have not yet launched your mobile app, you might not have any users yet, and thus might not be able to get data that accurately reflects what you have to do well on in the future. But you might still try to approximate this. For example, ask your friends to take mobile phone pictures of cats and send them to you. Once your app is launched, you can update your dev/test sets using actual user data.
+If you have not yet launched your mobile app, you might not have any users yet, and thus might not be able to get data that accurately reflects what you have to do well on in the future. But you might still try to approximate this. For example, ask your friends to take mobile phone pictures of cats and send them to you. Once your app is launched, you can update your dev/test sets using actual user data. If you really don’t have any way of getting data that approximates what you expect to get in the future, perhaps you can start by using website images. But you should be aware of the risk of this leading to a system that doesn’t generalize well.
 
-If you really don’t have any way of getting data that approximates what you expect to get in the future, perhaps you can start by using website images. But you should be aware of the risk of this leading to a system that doesn’t generalize well.
-
-It requires judgment to decide how much to invest in developing great dev and test sets. But don’t assume your training distribution is the same as your test distribution. Try to pick test examples that reflect what you ultimately want to perform well on, rather than whatever data you happen to have for training.
+Don’t assume your training distribution is the same as your test distribution. Try to pick test examples that reflect what you ultimately want to perform well on, rather than whatever data you happen to have for training.
 
 ### Dev and test sets should come from the same distribution
 
