@@ -91,7 +91,7 @@ You and your team have a lot of ideas for how to improve the accuracy of your de
 
 If you choose well among these possible directions, you’ll build the leading cat picture platform, and lead your company to success. If you choose poorly, you might waste months. How do you proceed?
 
-Machine learning strategy will tell you what’s useful to try, and what’s not useful to try. It's will save you months or years of development time.
+Machine learning strategy will provide general strategies tell you what’s useful to try, and what’s not useful to try. It's will save you months or years of development time.
 
 ## Setting up development and test sets
 
@@ -129,27 +129,25 @@ You have your cat app image data segmented into four regions, based on your larg
 
 Once you define the dev and test sets, your team will be focused on improving dev set performance. Thus, the dev set should reflect the task you want to improve on the most: To do well on all four geographies, and not only two.
 
-There is a second problem with having different dev and test set distributions: There is a chance that your team will build something that works well on the dev set, only to find that it does poorly on the test set. It's result in much frustration and wasted effort. Avoid letting this happen to you.
+There is also a problem with having different dev and test set distributions: There is a chance that your team will build something that works well on the dev set, only to find that it does poorly on the test set. It's result in much frustration and wasted effort. Avoid letting this happen to you.
 
 Suppose your team develops a system that works well on the dev set but not the test set. If your dev and test sets had come from the same distribution, then you would have a very clear diagnosis of what went wrong: You have overfit the dev set. The obvious cure is to get more dev set data.
 
 But if the dev and test sets come from different distributions, then your options are less clear. Several things could have gone wrong:
 
   - You had overfit to the dev set.
-  - The test set is harder than the dev set. So your algorithm might be doing as well as could be expected, and no further significant improvement is possible.
+  - The test set is harder than the dev set. Your algorithm might be doing as well as could be expected, and no further significant improvement is possible.
   - The test set is not necessarily harder, but just different, from the dev set. So what works well on the dev set just does not work well on the test set. In this case, a lot of your work to improve dev set performance might be wasted effort.
 
-Working on machine learning applications is hard enough. Having mismatched dev and test sets introduces additional uncertainty about whether improving on the dev set distribution also improves test set performance. Having mismatched dev and test sets makes it harder to figure out what is and isn’t working, and thus makes it harder to prioritize what to work on.
+Having mismatched dev and test sets introduces additional uncertainty about whether improving on the dev set distribution also improves test set performance. Having mismatched dev and test sets makes it harder to figure out what is and isn’t working, and thus makes it harder to prioritize what to work on.
 
 ### How large do the dev/test sets need to be
 
 The dev set should be large enough to detect differences between algorithms that you are trying out. For example, if classifier A has an accuracy of 90.0% and classifier B has an accuracy of 90.1%, then a dev set of 100 examples would not be able to detect this 0.1% difference. Compared to other machine learning problems, a 100 example dev set is small. Dev sets with sizes from 1,000 to 10,000 examples are common. With 10,000 examples, you will have a good chance of detecting an improvement of 0.01%.
 
-For mature and important applications - for example, advertising, web search, and product recommendations - I have also seen teams that are highly motivated to eke out even a 0.001% improvement, since it has a direct impact on the company’s profits. In this case, the dev set could be much larger than 10,000, in order to detect even smaller improvements.
+For mature and important applications - for example, advertising, web search, and product recommendations - People are highly motivated to eke out even a 0.001% improvement, since it has a direct impact on the company’s profits. In this case, the dev set could be much larger than 100,000, in order to detect even smaller improvements.
 
-How about the size of the test set? It should be large enough to give high confidence in the overall performance of your system. One popular heuristic had been to use 30% of your data for your test set. This works well when you have a modest number of examples — say 100 to 10,000 examples. But in the era of big data where we now have machine learning problems with sometimes more than a billion examples, the fraction of data allocated to dev/test sets has been shrinking, even as the absolute number of examples in the dev/test sets has been growing. There is no need to have excessively large dev/test sets beyond what is needed to evaluate the performance of your algorithms.
-
-The traditional way of splitting the data was 70% training, 30% test or 60% training, 20% dev, 20% test. In the modern deep learning if you have a million or more examples a reasonable split would be 98% training, 1% dev, 1% test.
+How about the size of the test set? It should be large enough to give high confidence in the overall performance of your system. The traditional way of splitting the data (a modest number of examples — say 100 to 100,000 examples) was 70% training, 30% test or 60% training, 20% dev, 20% test. In the modern deep learning if you have a million or more examples a reasonable split would be 98% training, 1% dev, 1% test. There is no need to have excessively large dev/test sets beyond what is needed to evaluate the performance of your algorithms.
 
 ### Establish a single-number evaluation metric for your team to optimize
 
@@ -166,7 +164,7 @@ Confusion matrix:
 - **Recall**: percentage of true recognition cat of the all cat predictions: R = 3/(3 + 2)
 - **Accuracy**: (3+4)/10
 
-The **Precision** of a cat classifier is the fraction of images in the dev (or test) set it labeled as cats that really are cats. Its **Recall** is the percentage of all cat images in the dev (or test) set that it correctly labeled as a cat. There is often a tradeoff between having high precision and high recall.
+The **Precision** of a cat classifier is the fraction of images in the dev (or test) set it labeled as cats that really are cats. Its **Recall** is the percentage of all cat images in the dev (or test) set that it correctly labeled as a cat.
 
 **Classification accuracy** is an example of a **single-number evaluation metric**: You run your classifier on the dev set (or test set), and get back a single number about what fraction of examples it classified correctly. According to this metric, if classifier A obtains 97% accuracy, and classifier B obtains 90% accuracy, then we judge classifier A to be superior.
 
@@ -200,8 +198,7 @@ Suppose you care about both the accuracy and the running time of a learning algo
   <img src="Images/04.png">
 </div>
 
-It seems unnatural to derive a single metric by putting accuracy and running time into a
-single formula, such as: Accuracy - 0.5*RunningTime
+It seems unnatural to derive a single metric by putting accuracy and running time into a single formula, such as: Accuracy - 0.5*RunningTime
 
 Here’s what you can do instead: First, define what is an acceptable running time. Let’s say anything that runs in 100ms is acceptable. Then, maximize accuracy, subject to your classifier meeting the running time criteria. Here, running time is a **satisficing metric** — your classifier just has to be good enough on this metric, in the sense that it should take at most 100ms. Accuracy is the **optimizing metric**.
 
@@ -229,27 +226,23 @@ In contrast, suppose you don’t have a specific dev set and metric. So each tim
 
 ### When to change dev/test sets and metrics
 
-When starting out on a new project, I try to quickly choose dev/test sets, since this gives the team a well-defined target to aim for.
+When starting out on a project, I try to quickly choose dev/test sets, since this gives the team a well-defined target to aim for.
 
 I typically come up with an initial dev/test set and an initial metric in less than one week — rarely longer. It is better to come up with something imperfect and get going quickly, rather than overthink this.
 
 If you later realize that your initial dev/test set or metric missed the mark, then change them quickly. For example, if your dev set + metric ranks classifier A above classifier B, but your team thinks that classifier B is actually superior for your product, then this might be a sign that you need to change your dev/test sets or your evaluation metric.
 
-There are three main possible causes of the dev set/metric incorrectly rating classifier A higher:
+There are three main possible causes of change dev/test sets and metrics:
 
 **The actual distribution you need to do well on is different from the dev/test sets**
 
 Suppose your initial dev/test set had mainly pictures of adult cats. You ship your cat app, and find that users are uploading a lot more kitten images than expected. So, the dev/test set distribution is not representative of the actual distribution you need to do well on. In this case, update your dev/test sets to be more representative.
 
-<div align="center">
-  <img src="Images/08.png">
-</div>
-
 **You have overfit to the dev set**
 
 The process of repeatedly evaluating ideas on the dev set causes your algorithm to gradually “overfit” to the dev set. When you are done developing, you will evaluate your system on the test set. If you find that your dev set performance is much better than your test set performance, it is a sign that you have overfit to the dev set. In this case, get a fresh dev set.
 
-If you need to track your team’s progress, you can also evaluate your system regularly — say once per week or once per month — on the test set. But do not use the test set to make any decisions regarding the algorithm, including whether to roll back to the previous week’s system. If you do so, you will start to overfit to the test set, and can no longer count on it to give a completely unbiased estimate of your system’s performance.
+If you need to track your team’s progress, you can also evaluate your system regularly — say once per week or once per month — on the test set. But do not use the test set to make any decisions regarding the algorithm. If you do so, you will start to overfit to the test set, and can no longer count on it to give a completely unbiased estimate of your system’s performance.
 
 **The metric is measuring something other than what the project needs to optimize**
 
@@ -262,11 +255,15 @@ Suppose that for your cat application, your metric is classification accuracy. T
 
 Here, the metric is failing to identify the fact that Algorithm B is in fact better than Algorithm A for your product. So, you can no longer trust the metric to pick the best algorithm. It is time to change evaluation metrics. You can change the metric to heavily penalize letting through pornographic images. I would strongly recommend picking a new metric and using the new metric to explicitly define a new goal for the team, rather than proceeding for too long without a trusted metric and reverting to manually choosing among classifiers.
 
-  - `Metric = (1/m) * sum(y_pred[i] != y[i] ,m)`
-    - Where m is the number of Dev set items.
-  - `Metric = (1/sum(w[i])) * sum(w[i] * (y_pred[i] != y[i]) ,m)`
-    - `w[i] = 1    if x[i] is not porn`
-    - `w[i] = 10   if x[i] is porn`
+<div align="center">
+  <img src="Images/63.png">
+</div>
+
+<div align="center">
+  <img src="Images/64.png">
+</div>
+
+when x<sup>(i)</sup> is porn w<sup>(i)</sup> = 10, or x<sup>(i)</sup> is not porn w<sup>(i)</sup> = 1
 
 It is quite common to change dev/test sets or evaluation metrics during a project. Having an initial dev/test set and metric helps you iterate quickly. If you ever find that the dev/test sets or metric are no longer pointing your team in the right direction, it’s not a big deal! Just change them and make sure your team knows about the new direction.
 
