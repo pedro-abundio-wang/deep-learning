@@ -552,31 +552,19 @@ If your learning algorithm suffers from high variance, you might try the followi
 
 ### Diagnosing bias and variance Learning curves
 
-We’ve seen some ways to estimate how much error can be attributed to avoidable bias vs variance. We did so by estimating the optimal error rate and computing the algorithm’s training set and dev set errors. Let’s discuss a technique that is even more informative: plotting a learning curve.
-
-A learning curve plots your dev set error against the number of training examples. To plot it, you would run your algorithm using different training set sizes. For example, if you have 1,000 examples, you might train separate copies of the algorithm on 100, 200, 300, ..., 1000 examples. Then you could plot how dev set error varies with the training set size.
+A learning curve plots your dev set error against the number of training examples. To plot it, you would run your algorithm using different training set sizes. For example, if you have 1,000 examples, you might train separate copies of the algorithm on 100, 200, 300, ..., 1000 examples. Then you could plot how dev set error varies with the training set size. As the training set size increases, the dev set error should decrease.
 
 <div align="center">
   <img src="Images/16.png">
 </div>
 
-As the training set size increases, the dev set error should decrease.
-
-We will often have some “desired error rate” that we hope our learning algorithm will eventually achieve. For example:
-
-- If we hope for human-level performance, then the human error rate could be the “desired error rate.”
-
-- If our learning algorithm serves some product (such as delivering cat pictures), we might have an intuition about what level of performance is needed to give users a great experience.
-
-- If you have worked on a important application for a long time, then you might have intuition about how much more progress you can reasonably make in the next quarter/year.
-
-Add the desired level of performance to your learning curve:
+We will often have some “desired error rate” that we hope our learning algorithm will eventually achieve. If we hope for human-level performance, then the human error rate could be the “desired error rate.” Add the desired level of performance to your learning curve:
 
 <div align="center">
   <img src="Images/17.png">
 </div>
 
-You can visually extrapolate the red “dev error” curve to guess how much closer you could get to the desired level of performance by adding more data. In the example above, it looks plausible that doubling the training set size might allow you to reach the desired performance.
+You can visually extrapolate the red “dev error” curve to guess how much closer you could get to the desired level of performance by adding more data. In the above, it looks plausible that doubling the training set size might allow you to reach the desired performance.
 
 But if the dev error curve has “plateaued” (i.e. flattened out), then you can immediately tell that adding more data won’t get you to your goal:
 
@@ -614,9 +602,7 @@ Suppose your dev error curve looks like this:
   <img src="Images/20.png">
 </div>
 
-We previously said that, if your dev error curve plateaus, you are unlikely to achieve the desired performance just by adding data.
-
-But it is hard to know exactly what an extrapolation of the red dev error curve will look like. If the dev set was small, you would be even less certain because the curves could be noisy.
+We previously said that, if your dev error curve plateaus, you are unlikely to achieve the desired performance just by adding data. But it is hard to know exactly what an extrapolation of the red dev error curve will look like. If the dev set was small, you would be even less certain because the curves could be noisy.
 
 Suppose we add the training error curve to this plot and get the following:
 
@@ -627,7 +613,6 @@ Suppose we add the training error curve to this plot and get the following:
 Now, you can be absolutely sure that adding more data will not, by itself, be sufficient. Why is that?
 
 - As we add more training data, training error can only get worse. Thus, the blue training error curve can only stay the same or go higher, and thus it can only get further away from the (green line) level of desired performance.
-
 - The red dev error curve is usually higher than the blue training error. Thus, there’s almost no way that adding more data would allow the red dev error curve to drop down to the desired level of performance when even the training error is higher than the desired level of performance.
 
 Examining both the dev error curve and the training error curve on the same plot allows us to more confidently extrapolate the dev error curve.
@@ -666,13 +651,11 @@ If your machine learning application is heavily skewed toward one class (such as
 
 If the noise in the training curve makes it hard to see the true trends, here are two solutions:
 
-- Instead of training just one model on 10 examples, instead select several (say 3-10) different randomly chosen training sets of 10 examples by sampling with replacement from your original set of 100. Train a different model on each of these, and compute the training and dev set error of each of the resulting models. Compute and plot the average training error and average dev set error.
-
-- Here’s what sampling ​ with replacement ​ means: You would randomly pick 10 different examples out of the 100 to form your first training set. Then to form the second training set, you would again pick 10 examples, but without taking into account what had been chosen in the first training set. Thus, it is possible for one specific example to appear in both the first and second training sets. In contrast, if you were sampling ​ without replacement, the second training set would be chosen from just the 90 examples that had not been chosen the first time around. In practice, sampling with or without replacement shouldn’t make a huge difference, but the former is common practice.
-
+- Instead of training just one model on 10 examples, instead select several different randomly chosen training sets of 10 examples by sampling with replacement from your original set of 100. Train a different model on each of these, and compute the training and dev set error of each of the resulting models. Compute and plot the average training error and average dev set error.
+- Here’s what sampling with replacement means: You would randomly pick 10 different examples out of the 100 to form your first training set. Then to form the second training set, you would again pick 10 examples, but without taking into account what had been chosen in the first training set. Thus, it is possible for one specific example to appear in both the first and second training sets. In contrast, if you were sampling without replacement, the second training set would be chosen from just the 90 examples that had not been chosen the first time around. In practice, sampling with or without replacement shouldn’t make a huge difference, but the former is common practice.
 - If your training set is skewed towards one class, or if it has many classes, choose a “balanced” subset instead of 10 training examples at random out of the set of 100. For example, you can make sure that 2/10 of the examples are positive examples, and 8/10 are negative. More generally, you can make sure the fraction of examples from each class is as close as possible to the overall fraction in the original training set.
 
-I would not bother with either of these techniques unless you have already tried plotting learning curves and concluded that the curves are too noisy to see the underlying trends. If your training set is large—say over 10,000 examples—and your class distribution is not very skewed, you probably won’t need these techniques.
+I would not bother with either of these techniques unless you have already tried plotting learning curves and concluded that the curves are too noisy to see the underlying trends. If your training set is large—say over 10,000 examples — and your class distribution is not very skewed, you probably won’t need these techniques.
 
 Finally, plotting a learning curve may be computationally expensive: For example, you might have to train ten models with 1,000, then 2,000, all the way up to 10,000 examples. Training models with small datasets is much faster than training models with large datasets. Thus, instead of evenly spacing out the training set sizes on a linear scale as above, you might train models with 1,000, 2,000, 4,000, 6,000, and 10,000 examples. This should still give you a clear sense of the trends in the learning curves. Of course, this technique is relevant only if the computational cost of training all the additional models is significant.
 
