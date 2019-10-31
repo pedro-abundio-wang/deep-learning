@@ -10,14 +10,13 @@
   * [Having a dev set and metric speeds up iterations](#Having-a-dev-set-and-metric-speeds-up-iterations)
   * [When to change dev/test sets and metrics](#when-to-change-devtest-sets-and-metrics)
 * [Basic Error Analysis](#Basic-Error-Analysis)
-  * [Build your first system quickly then iterate](#Build-your-first-system-quickly-then-iterate)
   * [Error analysis Look at dev set examples to evaluate ideas](#Error-analysis-Look-at-dev-set-examples-to-evaluate-ideas)
   * [Evaluating multiple ideas in parallel during error analysis](#Evaluating-multiple-ideas-in-parallel-during-error-analysis)
   * [Cleaning up incorrectly labeled data](#Cleaning-up-incorrectly-labeled-data)
   * [Eyeball dev set vs Blackbox dev set](#Eyeball-dev-set-vs-Blackbox-dev-set)
   * [How big should the Eyeball and Blackbox dev sets be](#How-big-should-the-Eyeball-and-Blackbox-dev-sets-be)
 * [Bias and Variance](#Bias-and-Variance)
-  * [Bias and Variance The two big sources of error](#Bias-and-Variance-The-two-big-sources-of-error)
+  * [The main sources of error](#The-main-sources-of-error)
   * [Examples of Bias and Variance](#Examples-of-Bias-and-Variance)
   * [Comparing to the optimal error rate](#Comparing-to-the-optimal-error-rate)
   * [Addressing Bias and Variance](#Addressing-Bias-and-Variance)
@@ -70,10 +69,6 @@
 
 Say you’re building a startup that will provide cat pictures to cat lovers.
 
-<div align="center">
-  <img src="Images/01.png">
-</div>
-
 You use a neural network to build a computer vision system for detecting cats in pictures.
 
 But tragically, your learning algorithm’s accuracy is not yet good enough. You are under tremendous pressure to improve your cat detector. What do you do?
@@ -101,13 +96,9 @@ You run a mobile app, and users are uploading pictures of many different things 
 
 Your team gets a large training set by downloading pictures of cats (positive examples) and non-cats (negative examples) off of different websites. They split the dataset 70%/30% into training and test sets. Using this data, they build a cat detector that works well on the training and test sets.
 
-But when you deploy this classifier into the mobile app, you find that the performance is really poor!
+But when you deploy this classifier into the mobile app, you find that the performance is really poor! What happened?
 
-<div align="center">
-  <img src="Images/05.png">
-</div>
-
-What happened? You figure out that the pictures users are uploading have a different look than the website images that make up your training set: Users are uploading pictures taken with mobile phones, which tend to be lower resolution, blurrier, and poorly light. Since your training/test sets were made of website images, your algorithm did not generalize well to the actual distribution you care about: mobile phone pictures.
+You figure out that the pictures users are uploading have a different look than the website images that make up your training set: Users are uploading pictures taken with mobile phones, which tend to be lower resolution, blurrier, and poorly light. Since your training/test sets were made of website images, your algorithm did not generalize well to the actual distribution you care about: mobile phone pictures.
 
 It’s a bad idea where the training distribution (website images) is different from the distribution you ultimately care about (mobile phone images).
 
@@ -122,10 +113,6 @@ Don’t assume your training distribution is the same as your test distribution.
 ### Dev and test sets should come from the same distribution
 
 You have your cat app image data segmented into four regions, based on your largest markets: (i) US, (ii) China, (iii) India, and (iv) Other. To come up with a dev set and a test set, say we put US and India in the dev set; China and Other in the test set. In other words, we can randomly assign two of these segments to the dev set, and the other two to the test set, right?
-
-<div align="center">
-  <img src="Images/06.png">
-</div>
 
 Once you define the dev and test sets, your team will be focused on improving dev set performance. Thus, the dev set should reflect the task you want to improve on the most: To do well on all four geographies, and not only two.
 
@@ -147,7 +134,7 @@ The dev set should be large enough to detect differences between algorithms that
 
 For mature and important applications - for example, advertising, web search, and product recommendations - People are highly motivated to eke out even a 0.001% improvement, since it has a direct impact on the company’s profits. In this case, the dev set could be much larger than 100,000, in order to detect even smaller improvements.
 
-How about the size of the test set? It should be large enough to give high confidence in the overall performance of your system. The traditional way of splitting the data (a modest number of examples — say 100 to 100,000 examples) was 70% training, 30% test or 60% training, 20% dev, 20% test. In the modern deep learning if you have a million or more examples a reasonable split would be 98% training, 1% dev, 1% test. There is no need to have excessively large dev/test sets beyond what is needed to evaluate the performance of your algorithms.
+How about the size of the test set? It should be large enough to give high confidence in the overall performance of your system. The traditional way of splitting the data (a modest number of examples — say 100 to 10,000 examples) was 70% training, 30% test or 60% training, 20% dev, 20% test. In the modern deep learning if you have a million or more examples a reasonable split would be 98% training, 1% dev, 1% test. There is no need to have excessively large dev/test sets beyond what is needed to evaluate the performance of your algorithms.
 
 ### Establish a single-number evaluation metric for your team to optimize
 
@@ -269,37 +256,17 @@ It is quite common to change dev/test sets or evaluation metrics during a projec
 
 ## Basic Error Analysis
 
-### Build your first system quickly then iterate
-
-You want to build a new email anti-spam system. Your team has several ideas:
-
-  - Collect a huge training set of spam email. For example, set up a “honeypot”: deliberately send fake email addresses to known spammers, so that you can automatically harvest the spam messages they send to those addresses.
-  - Develop features for understanding the text content of the email.
-  - Develop features for understanding the email header features to show what set of internet servers the message went through.
-
-Even though experts who has worked extensively on anti-spam, they would still have a hard time picking one of these directions. It is even harder if you are not an expert in the application area.
-
-So don’t start off trying to design and build the perfect system. Instead, build and train a basic system quickly — perhaps in just a few days. Even if the basic system is far from the “best” system you can build, it is valuable to examine how the basic system functions: you will quickly find clues that show you the most promising directions in which to invest your time.
-
-<div align="center">
-  <img src="Images/09.png">
-</div>
-
 ### Error analysis Look at dev set examples to evaluate ideas
-
-<div align="center">
-  <img src="Images/10.png">
-</div>
 
 When you play with your cat app, you notice several examples where it mistakes dogs for cats. Some dogs do look like cats!
 
 A team member proposes incorporating 3rd party software that will make the system do better on dog images. These changes will take a month, and the team member is enthusiastic. Should you ask them to go ahead?
 
-Before investing a month on this task, I recommend that you first estimate how much it will actually improve the system’s accuracy. Then you can more rationally decide if this is worth the month of development time, or if you’re better off using that time on other tasks.
+Before investing a month on this task, I recommend that you first estimate how much it will actually improve the system’s accuracy. Then you can more rationally decide if this is worth the month of development time, or if you’re using that time on other tasks.
 
 In detail, here’s what you can do:
 
-  - Gather a sample of 100 dev set examples that your system ​misclassified. I.e., examples that your system made an error on.
+  - Gather a sample of 100 dev set examples that your system ​misclassified.
   - Look at these examples manually, and count what fraction of them are dog images.
 
 The process of looking at misclassified examples is called ​**error analysis**. In this example, if you find that only 5% of the misclassified images are dogs, then no matter how much you improve your algorithm’s performance on dog images, you won’t get rid of more than 5% of your errors. In other words, 5% is a “ceiling” (meaning maximum possible amount) for how much the proposed project could help. Thus, if your overall system is currently 90% accurate (10% error), this improvement is likely to result in at best 90.5% accuracy (or 9.5% error, which is 5% less error than the original 10% error).
@@ -415,7 +382,7 @@ If you have plentiful access to data, then the size of the Eyeball dev set would
 
 ## Bias and Variance
 
-### Bias and Variance The two big sources of error
+### The main sources of error
 
 Suppose your training, dev and test sets all come from the same distribution. Then you should always try to get more training data, since that can only improve performance, right?
 
@@ -425,16 +392,14 @@ There are two major sources of error in machine learning: bias and variance. Und
 
 Suppose you hope to build a cat recognizer that has 5% error. Right now, your training set has an error rate of 15%, and your dev set has an error rate of 16%. In this case, adding training data probably won’t help much. You should focus on other changes. Indeed, adding more examples to your training set only makes it harder for your algorithm to do well on the training set.
 
-If your error rate on the training set is 15% (or 85% accuracy), but your target is 5% error (95% accuracy), then the first problem to solve is to improve your algorithm ’ s performance on your training set. Your dev/test set performance is usually worse than your training set performance. So if you are getting 85% accuracy on the examples your algorithm has seen, there’s no way you’re getting 95% accuracy on examples your algorithm hasn’t even seen.
+If your error rate on the training set is 15% (or 85% accuracy), but your target is 5% error (95% accuracy), then the first problem to solve is to improve your algorithm performance on your training set. Your dev/test set performance is usually worse than your training set performance. So if you are getting 85% accuracy on the examples your algorithm has seen, there’s no way you’re getting 95% accuracy on examples your algorithm hasn’t even seen.
 
 Suppose as above that your algorithm has 16% error (84% accuracy) on the dev set. We break the 16% error into two components:
 
 - The bias is the error rate of your algorithm on your training set. We think of this informally as the algorithm’s **bias**.
 - The variance is how much worse the algorithm does on the dev (or test) set compared to the training set in this setting. We think of this informally as the algorithm’s **variance**.
 
-Some changes to a learning algorithm can address the first component of error **bias** and improve its performance on the training set. Some changes address the second component **variance** and help it generalize better from the training set to the dev/test sets. To select the most promising changes, it is incredibly useful to understand which of these two components of error is more pressing to address.
-
-Developing good intuition about Bias and Variance will help you choose effective changes for your algorithm.
+Some changes to a learning algorithm can address the first component of error **bias** and improve its performance on the training set. Some changes address the second component **variance** and help it generalize better from the training set to the dev/test sets. To select the most promising changes, it is incredibly useful to understand which of these two components of error is more pressing to address. Developing good intuition about Bias and Variance will help you choose effective changes for your algorithm.
 
 ### Examples of Bias and Variance
 
@@ -483,8 +448,6 @@ The training set performance is already close to the optimal error rate of 14%. 
 
 If the optimal error rate is ~0%, then a training error of 15% leaves much room for improvement. This suggests bias-reducing changes might be fruitful. But if the optimal error rate is 14%, then the same training set performance tells us that there’s little room for improvement in the classifier’s bias.
 
-Training error of 15% and dev error of 30%. If the optimal error rate is ~0%, then a training error of 15% leaves much room for improvement. This suggests bias-reducing changes might be fruitful. But if the optimal error rate is 14%, then the same training set performance tells us that there’s little room for improvement in the classifier’s bias.
-
 For problems where the optimal error rate is far from zero, here’s a more detailed breakdown of an algorithm’s error. Continuing with our speech recognition above, the total dev set error of 30% can be broken down as follows (a similar analysis can be applied to the test set error):
 
 - **Optimal error rate (“unavoidable bias”)**: 14%. Suppose we decide that, even with the best possible speech system in the world, we would still suffer 14% error. We can think of this as the “unavoidable” part of a learning algorithm’s bias.
@@ -506,7 +469,7 @@ Consider one more example, where the optimal error rate is 14%, and we have:
 
 Now we would say that error from avoidable bias is 1%, and the error from variance is about 1%. Thus, the algorithm is already doing well, with little room for improvement. It is only 2% worse than the optimal error rate.
 
-Knowing the optimal error rate is helpful for guiding our next steps. In statistics, the optimal error rate is also called **Bayes error rate**, or Bayes rate.
+Knowing the optimal error rate is helpful for guiding our next steps. In statistics, the optimal error rate is also called **Bayes error rate**.
 
 How do we know what the optimal error rate is? For tasks that humans are reasonably good at, such as recognizing pictures or transcribing audio clips, you can ask a human to provide labels then measure the accuracy of the human labels relative to your training set. This would give an estimate of the optimal error rate. If you are working on a problem that even humans have a hard time solving (e.g., predicting what movie to recommend, or what ad to show to a user) it can be hard to estimate the optimal error rate.
 
@@ -514,15 +477,14 @@ How do we know what the optimal error rate is? For tasks that humans are reasona
 
 Here is the simplest formula for addressing bias and variance issues:
 
-  - If you have high avoidable bias, increase the size of your model (for example, increase the
-  size of your neural network by adding layers/neurons).
+  - If you have high avoidable bias, increase the size of your model (layers/neurons).
   - If you have high variance, add data to your training set.
 
 If you are able to increase the neural network size and increase training data without limit, it is possible to do very well on many learning problems.
 
 In practice, increasing the size of your model will eventually cause you to run into computational problems because training very large models is slow. You might also exhaust your ability to acquire more training data.
 
-Different model architectures — Different neural network architectures — will have different amounts of bias/variance for your problem. A lot of recent deep learning research has developed many innovative model architectures. So if you are using neural networks, the academic literature can be a great source of inspiration. There are also many great open-source implementations on github. But the results of trying new architectures are less predictable than the simple formula of increasing the model size and adding data.
+Different neural network architectures — will have different amounts of bias/variance for your problem. A lot of recent deep learning research has developed many innovative model architectures. So if you are using neural networks, the academic literature can be a great source of inspiration. There are also many great open-source implementations on github. But the results of trying new architectures are less predictable than the simple formula of increasing the model size and adding data.
 
 Increasing the model size generally reduces bias, but it might also increase variance and the risk of overfitting. However, this overfitting problem usually arises only when you are not using regularization. If you include a well-designed regularization method, then you can usually safely increase the size of the model without increasing overfitting.
 
@@ -530,21 +492,19 @@ Suppose you are applying deep learning, with L2 regularization or dropout, with 
 
 ### Bias vs Variance tradeoff
 
-You might have heard of the “Bias vs Variance tradeoff”. Of the changes you could make to most learning algorithms, there are some that reduce bias errors but at the cost of increasing variance, and vice versa. This creates a “trade off” between bias and variance.
+You might have heard of the “Bias vs Variance tradeoff” Of the changes you could make to most learning algorithms, there are some that reduce bias errors but at the cost of increasing variance, and vice versa. This creates a “trade off” between bias and variance.
 
-Increasing the size of your model — adding neurons/layers in a neural network, or adding input features — generally reduces bias but could increase variance. Alternatively, adding regularization generally increases bias but reduces variance.
+Increasing the size of your model — adding neurons/layers in a neural network — generally reduces bias but could increase variance. Alternatively, adding regularization generally reduces variance but increases bias.
 
 In the modern era, we often have access to plentiful data and can use very large neural networks (deep learning). Therefore, there is less of a tradeoff, and there are now more options for reducing bias without hurting variance, and vice versa.
 
 You can usually increase a neural network size and tune the regularization method to reduce bias without noticeably increasing variance. By adding training data, you can also usually reduce variance without affecting bias.
 
-If you select a model architecture that is well suited for your task, you might also reduce bias and variance simultaneously. Selecting such an architecture can be difficult.
-
 ### Techniques for reducing avoidable bias
 
 If your learning algorithm suffers from high avoidable bias, you might try the following techniques:
 
-  - **Increase the model size** (such as number of neurons/layers): This technique reduces bias, since it should allow you to fit the training set better. If you find that this increases variance, then use regularization, which will usually eliminat e the increase in variance.
+  - **Increase the model size** (such as number of neurons/layers): This technique reduces bias, since it should allow you to fit the training set better. If you find that this increases variance, then use regularization, which will usually eliminate the increase in variance.
 
   - **Modify input features based on insights from error analysis​**: Say your error analysis inspires you to create additional features that help the algorithm eliminate a particular category of errors. These new features could help with both bias and variance. In theory, adding more features could increase the variance; but if you find this to be the case, then use regularization, which will usually eliminate the increase in variance.
 
@@ -582,7 +542,7 @@ If your learning algorithm suffers from high variance, you might try the followi
 
   - **Add early stopping**​ (i.e., stop gradient descent early, based on dev set error): This technique reduces variance but increases bias. Early stopping behaves a lot like regularization methods, and some authors call it a regularization technique.
 
-  - **Feature selection to decrease number/type of input features**:​ This technique might help with variance problems, but it might also increase bias. Reducing the number of features slightly (say going from 1,000 features to 900) is unlikely to have a huge effect on bias. Reducing it significantly (say going from 1,000 features to 100—a 10x reduction) is more likely to have a significant effect, so long as you are not excluding too many useful features. In modern deep learning, when data is plentiful, there has been a shift away from feature selection, and we are now more likely to give all the features we have to the algorithm and let the algorithm sort out which ones to use based on the data. But when your training set is small, feature selection can be very useful.
+  - **Feature selection to decrease number of input features**:​ This technique might help with variance problems, but it might also increase bias. Reducing the number of features slightly (say going from 1,000 features to 900) is unlikely to have a huge effect on bias. Reducing it significantly (say going from 1,000 features to 100 — a 10x reduction) is more likely to have a significant effect, so long as you are not excluding too many useful features. In modern deep learning, when data is plentiful, there has been a shift away from feature selection, and we are now more likely to give all the features we have to the algorithm and let the algorithm sort out which ones to use based on the data. But when your training set is small, feature selection can be very useful.
 
   - **Decrease the model size** ​(such as number of neurons/layers): **Use with caution**. This technique could decrease variance, while possibly increasing bias. However, I don’t recommend this technique for addressing variance. Adding regularization usually gives better classification performance. The advantage of reducing the model size is reducing your computational cost and thus speeding up how quickly you can train models. If speeding up model training is useful, then by all means consider decreasing the model size. But if your goal is to reduce variance, and you are not concerned about the computational cost, consider adding regularization instead.
 
