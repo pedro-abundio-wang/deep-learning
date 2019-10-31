@@ -505,11 +505,8 @@ You can usually increase a neural network size and tune the regularization metho
 If your learning algorithm suffers from high avoidable bias, you might try the following techniques:
 
   - **Increase the model size** (such as number of neurons/layers): This technique reduces bias, since it should allow you to fit the training set better. If you find that this increases variance, then use regularization, which will usually eliminate the increase in variance.
-
   - **Modify input features based on insights from error analysis​**: Say your error analysis inspires you to create additional features that help the algorithm eliminate a particular category of errors. These new features could help with both bias and variance. In theory, adding more features could increase the variance; but if you find this to be the case, then use regularization, which will usually eliminate the increase in variance.
-
   - **Reduce or eliminate regularization**​ (L2 regularization, L1 regularization, dropout): This will reduce avoidable bias, but increase variance.
-
   - **Modify model architecture​** (such as neural network architecture) so that it is more suitable for your problem: This technique can affect both bias and variance.
 
 One method that is not helpful:
@@ -537,15 +534,10 @@ You might also double-check whether it is possible for a person to transcribe th
 If your learning algorithm suffers from high variance, you might try the following techniques:
 
   - **Add more training data​**: This is the simplest and most reliable way to address variance, so long as you have access to significantly more data and enough computational power to process the data.
-
   - **Add regularization**​ (L2 regularization, L1 regularization, dropout): This technique reduces variance but increases bias.
-
   - **Add early stopping**​ (i.e., stop gradient descent early, based on dev set error): This technique reduces variance but increases bias. Early stopping behaves a lot like regularization methods, and some authors call it a regularization technique.
-
   - **Feature selection to decrease number of input features**:​ This technique might help with variance problems, but it might also increase bias. Reducing the number of features slightly (say going from 1,000 features to 900) is unlikely to have a huge effect on bias. Reducing it significantly (say going from 1,000 features to 100 — a 10x reduction) is more likely to have a significant effect, so long as you are not excluding too many useful features. In modern deep learning, when data is plentiful, there has been a shift away from feature selection, and we are now more likely to give all the features we have to the algorithm and let the algorithm sort out which ones to use based on the data. But when your training set is small, feature selection can be very useful.
-
   - **Decrease the model size** ​(such as number of neurons/layers): **Use with caution**. This technique could decrease variance, while possibly increasing bias. However, I don’t recommend this technique for addressing variance. Adding regularization usually gives better classification performance. The advantage of reducing the model size is reducing your computational cost and thus speeding up how quickly you can train models. If speeding up model training is useful, then by all means consider decreasing the model size. But if your goal is to reduce variance, and you are not concerned about the computational cost, consider adding regularization instead.
-
   - **Modify model architecture​** (such as neural network architecture) so that it is more suitable for your problem: This technique can affect both bias and variance.
 
 ## Learning curves
@@ -667,34 +659,24 @@ Many machine learning systems aim to automate things that humans do well. Exampl
 
 Further, there are several reasons building an ML system is easier if you are trying to do a task that people can do well:
 
-**Ease of obtaining data from human labelers.**​ For example, since people recognize cat images well, it is straightforward for people to provide high accuracy labels for your learning algorithm.
-
-**Error analysis can draw on human intuition.​** Suppose a speech recognition algorithm is doing worse than human-level recognition. Say it incorrectly transcribes an audio clip as “This recipe calls for a ​ pear ​ of apples,” mistaking “pair” for “pear.” You can draw on human intuition and try to understand what information a person uses to get the correct transcription, and use this knowledge to modify the learning algorithm.
-
-**Use human-level performance to estimate the optimal error rate and also set a “desired error rate”.**​ Suppose your algorithm achieves 10% error on a task, but a person achieves 2% error. Then we know that the optimal error rate is 2% or lower and the avoidable bias is at least 8%. Thus, you should try bias-reducing techniques.
-
-Even though the last item might not sound important, I find that having a reasonable and achievable target error rate helps accelerate a team’s progress. Knowing your algorithm has high avoidable bias is incredibly valuable and opens up a menu of options to try.
-
 ![](Images/01-_Why_human-level_performance.png)
 
-There are some tasks that even humans aren’t good at. For example, picking a book to recommend to you; or picking an ad to show a user on a website; or predicting the stock market. Computers already surpass the performance of m
+**Ease of obtaining data from human labelers**​ Since people recognize cat images well, it is straightforward for people to provide high accuracy labels for your learning algorithm.
 
-- **It is harder to obtain labels.**​ For example, it’s hard for human labelers to annotate a database of users with the “optimal” book recommendation. If you operate a website or app that sells books, you can obtain data by showing books to users and seeing what they buy. If you do not operate such a site, you need to find more creative ways to get data.
+**Error analysis can draw on human intuition​** Suppose a speech recognition algorithm is doing worse than human-level recognition. Say it incorrectly transcribes an audio clip as “This recipe calls for a pear of apples”, mistaking “pair” for “pear.” You can draw on human intuition and try to understand what information a person uses to get the correct transcription, and use this knowledge to modify the learning algorithm.
 
-- **Human intuition is harder to count on.**​ For example, pretty much no one can predict the stock market. So if our stock prediction algorithm does no better than random guessing, it is hard to figure out how to improve it.
+**Use human-level performance to estimate the optimal error rate and also set a “desired error rate”** Suppose your algorithm achieves 10% error on a task, but a person achieves 2% error. Then we know that the optimal error rate is 2% or lower and the avoidable bias is at least 8%. Thus, you should try bias-reducing techniques.
 
-- **It is hard to know what the optimal error rate and reasonable desired error rate is.**​ Suppose you already have a book recommendation system that is doing quite well. How do you know how much more it can improve without a human baseline?
+I find that having a reasonable and achievable target error rate helps accelerate a team’s progress. Knowing your algorithm has high avoidable bias is incredibly valuable and opens up a menu of options to try.
 
 ### How to define human-level performance
 
 Suppose you are working on a medical imaging application that automatically makes diagnoses from x-ray images. A typical person with no previous medical background besides some basic training achieves 15% error on this task. A junior doctor achieves 10% error. An experienced doctor achieves 5% error. And a small team of doctors that discuss and debate each image achieves 2% error. Which one of these error rates defines “human-level performance”?
 
-In this case, I would use 2% as the human-level performance proxy for our optimal error rate. You can also set 2% as the desired performance level because all three reasons from the previous chapter for comparing to human-level performance apply:
+In this case, I would use 2% as the human-level performance proxy for our optimal error rate. You can also set 2% as the desired performance level.
 
 - **Ease of obtaining labeled data from human labelers.**​ You can get a team of doctors to provide labels to you with a 2% error rate.
-
 - **Error analysis can draw on human intuition.**​ By discussing images with a team of doctors, you can draw on their intuitions.
-
 - **Use human-level performance to estimate the optimal error rate and also set achievable “desired error rate”.**​ It is reasonable to use 2% error as our estimate of the optimal error rate. The optimal error rate could be even lower than 2%, but it cannot be higher, since it is possible for a team of doctors to achieve 2% error. In contrast, it is not reasonable to use 5% or 10% as an estimate of the optimal error rate, since we know these estimates are necessarily too high.
 
 When it comes to obtaining labeled data, you might not want to discuss every image with an entire team of doctors since their time is expensive. Perhaps you can have a single junior doctor label the vast majority of cases and bring only the harder cases to more experienced doctors or to the team of doctors.
@@ -713,7 +695,7 @@ For the subset of data with rapidly spoken speech:
 - You can draw on human intuition to understand why they correctly heard a rapidly spoken utterance when your system didn’t.
 - You can use human-level performance on rapidly spoken speech as a desired performance target.
 
-More generally, so long as there are dev set examples where humans are right and your algorithm is wrong, then many of the techniques described earlier will apply. This is true even if, averaged over the entire dev/test set, your performance is already surpassing human-level performance.
+More generally, so long as there are dev set examples where humans are right and your algorithm is wrong, then many of the techniques described will apply. This is true even if, averaged over the entire dev/test set, your performance is already surpassing human-level performance.
 
 There are many important machine learning applications where machines surpass human level performance. For example, machines are better at predicting movie ratings, how long it takes for a delivery car to drive somewhere, or whether to approve loan applications. Only a subset of techniques apply once humans have a hard time identifying examples that the algorithm is clearly getting wrong. Consequently, progress is usually slower on problems where machines already surpass human-level performance, while progress is faster when machines are still trying to catch up to humans.
 
