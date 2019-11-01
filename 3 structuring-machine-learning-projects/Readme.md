@@ -713,11 +713,9 @@ Choose dev and test sets to reflect data you expect to get in the future and wan
 
 Most of the academic literature on machine learning assumes that the training set, dev set and test set all come from the same distribution. In the early days of machine learning, data was scarce. We usually only had one dataset drawn from some probability distribution. So we would randomly split that data into train/dev/test sets, and the assumption that all the data was coming from the same source was usually satisfied.
 
-There is some academic research on training and testing on different distributions. Include “domain adaptation”, “transfer learning” and “multitask learning”. But there is still a huge gap between theory and practice. If you train on dataset A and test on some very different type of data B, luck could have a huge effect on how well your algorithm performs. (Here, “luck” includes the researcher’s hand-designed features for the particular task, as well as other factors that we just don’t understand yet.) This makes the academic study of training and testing on different distributions difficult to carry out in a systematic way.
+In the era of big data, we now have access to huge training sets, such as cat internet images. Even if the training set comes from a different distribution than the dev/test set, we still want to use it for learning since it can provide a lot of information. There is some academic research on training and testing on different distributions called **transfer learning**.
 
-But in the era of big data, we now have access to huge training sets, such as cat internet images. Even if the training set comes from a different distribution than the dev/test set, we still want to use it for learning since it can provide a lot of information.
-
-For the cat detector example, instead of putting all 10,000 user-uploaded images into the dev/test sets, we might instead put 5,000 into the dev/test sets. We can put the remaining 5,000 user-uploaded examples into the training set. This way, your training set of 205,000 examples contains some data that comes from your dev/test distribution along with the 200,000 internet images. We will discuss in a later chapter why this method is helpful.
+For the cat detector example, instead of putting all 10,000 user-uploaded images into the dev/test sets, we might instead put 5,000 into the dev/test sets. We can put the remaining 5,000 user-uploaded examples into the training set. This way, your training set of 205,000 examples contains some data that comes from your dev/test distribution along with the 200,000 internet images.
 
 Let’s consider a second example. Suppose you are building a speech recognition system to transcribe street addresses for a voice-controlled mobile map/navigation app. You have 20,000 examples of users speaking street addresses. But you also have 500,000 examples of other audio clips with users speaking about other topics. You might take 10,000 examples of street addresses for the dev/test sets, and use the remaining 10,000, plus the additional 500,000 examples, for training.
 
@@ -736,18 +734,15 @@ This observation relies on the fact that there is some x —> y mapping that wor
 Adding the additional 20,000 images has the following effects:
 
 - It gives your neural network more examples of what cats do/do not look like. This is helpful, since internet images and user-uploaded mobile app images do share some similarities. Your neural network can apply some of the knowledge acquired from internet images to mobile app images.
-
 - It forces the neural network to expend some of its capacity to learn about properties that are specific to internet images (such as higher resolution, different distributions of how the images are framed, etc.) If these properties differ greatly from mobile app images, it will “use up” some of the representational capacity of the neural network. Thus there is less capacity for recognizing data drawn from the distribution of mobile app images, which is what you really care about. Theoretically, this could hurt your algorithms’ performance.
 
-To describe the second effect in different terms, we can turn to the fictional character Sherlock Holmes, who says that your brain is like an attic; it only has a finite amount of space. He says that “for every addition of knowledge, you forget something that you knew before. It is of the highest importance, therefore, not to have useless facts elbowing out the useful ones”.
-
-Fortunately, if you have the computational capacity needed to build a big enough neural network — i.e., a big enough attic — then this is not a serious concern. You have enough capacity to learn from both internet and from mobile app images, without the two types of data competing for capacity. Your algorithm’s “brain” is big enough that you don’t have to worry about running out of attic space.
+Fortunately, if you have the computational capacity needed to build a big enough neural network, then this is not a serious concern. You have enough capacity to learn from both internet and from mobile app images, without the two types of data competing for capacity. Your algorithm is big enough that you don’t have to worry about running out of space.
 
 But if you do not have a big enough neural network (or another highly flexible learning algorithm), then you should pay more attention to your training data matching your dev/test set distribution.
 
-If you think you have data that has no benefit,you should just leave out that data for computational reasons. For example, suppose your dev/test sets contain mainly casual pictures of people, places, landmarks, animals. Suppose you also have a large collection of scanned historical documents:
+If you think you have data that has no benefit, you should just leave out that data for computational reasons. For example, suppose your dev/test sets contain mainly casual pictures of people, places, landmarks, animals. Suppose you also have a large collection of scanned historical documents.
 
-These documents don’t contain anything resembling a cat. They also look completely unlike your dev/test distribution. There is no point including this data as negative examples, because the benefit from the first effect above is negligible — there is almost nothing your neural network can learn from this data that it can apply to your dev/test set distribution. Including them would waste computation resources and representation capacity of the neural network.
+These documents don’t contain anything resembling a cat. They also look completely unlike your dev/test distribution. There is no point including this data as negative examples, because the benefit from the data is negligible — there is almost nothing your neural network can learn from this data that it can apply to your dev/test set distribution. Including them would waste computation resources and representation capacity of the neural network.
 
 ### How to decide whether to include inconsistent data
 
@@ -756,8 +751,6 @@ Suppose you want to learn to predict housing prices in New York City. Given the 
 Housing prices in New York City are very high. Suppose you have a second dataset of housing prices in Detroit, Michigan, where housing prices are much lower. Should you include this data in your training set?
 
 Given the same size x, the price of a house y is very different depending on whether it is in New York City or in Detroit. If you only care about predicting New York City housing prices, putting the two datasets together will hurt your performance. In this case, it would be better to leave out the inconsistent Detroit data.
-
-There is one way to address the problem of Detroit data being inconsistent with New York City data, which is to add an extra feature to each training example indicating the city. Given an input x — which now specifies the city — the target value of y is now unambiguous. However, in practice I do not see this done frequently.
 
 How is this New York City vs Detroit example different from the mobile app vs internet cat images example?
 
@@ -771,7 +764,7 @@ But in practice, having 40x as many internet images as mobile app images might m
 
 If you don’t have huge computational resources, you could give the internet images a much lower weight as a compromise.
 
-For example, suppose your optimization objective is squared error (This is not a good choice for a classification task, but it will simplify our explanation). Thus, our learning algorithm tries to optimize:
+For example, suppose your optimization objective is squared error. Thus, our learning algorithm tries to optimize:
 
 <div align="center">
   <img src="Images/25.png">
@@ -801,9 +794,9 @@ For example, suppose that humans achieve near perfect performance on the cat rec
 - 1.5% error on data drawn from the same distribution as the training set that the algorithm has not seen
 - 10% error on the dev set
 
-In this case, you clearly have a data mismatch problem. To address this, you might try to make the training data more similar to the dev/test data. We discuss some techniques for this later.
+In this case, you clearly have a data mismatch problem. To address this, you might try to make the training data more similar to the dev/test data.
 
-In order to diagnose to what extent an algorithm suffers from each of the problems 1-3 above, it will be useful to have another dataset. Specifically, rather than giving the algorithm all the available training data, you can split it into two subsets: The actual training set which the algorithm will train on, and a separate set, which we will call the “Training dev” set, that we will not train on.
+In order to diagnose to what extent an algorithm suffers from each of the problems 1-3 above, it will be useful to have another dataset. Specifically, rather than giving the algorithm all the available training data, you can split it into two subsets: The actual training set which the algorithm will train on, and a separate set, which we will call the **Training dev** set, that we will not train on.
 
 You now have four subsets of data:
 
@@ -817,8 +810,6 @@ Armed with these four separate datasets, you can now evaluate:
 - Training error, by evaluating on the training set.
 - The algorithm’s ability to generalize to new data drawn from the training set distribution, by evaluating on the training dev set.
 - The algorithm’s performance on the task you care about, by evaluating on the dev and/or test sets.
-
-Most of the guidelines for picking the size of the dev set also apply to the training dev set.
 
 ### Identifying Bias-Variance and Data Mismatch Errors
 
@@ -838,7 +829,7 @@ Now, suppose your algorithm achieves:
 
 This tells you that you have high avoidable bias on the training set. I.e., the algorithm is doing poorly on the training set. Bias reduction techniques should help.
 
-In the two examples above, the algorithm suffered from only high avoidable bias or high variance. It is possible for an algorithm to suffer from any subset of high avoidable bias, high variance, and data mismatch. For example:
+In the examples above, the algorithm suffered from only high avoidable bias or high variance. It is possible for an algorithm to suffer from any subset of high avoidable bias, high variance, and data mismatch. For example:
 
 - 10% error on the training set.
 - 11% error on training dev set.
@@ -852,7 +843,7 @@ It might be easier to understand how the different types of errors relate to eac
   <img src="Images/27.png">
 </div>
 
-Continuing with the example of the cat image detector, you can see that there are two different distributions of data on the x-axis. On the y-axis, we have three types of error: human level error, error on examples the algorithm has trained on, and error on examples the algorithm has not trained on. We can fill in the boxes with the different types of errors.
+Continuing with the example of the cat image detector, you can see that there are two different distributions of data on the x-axis. On the y-axis, we have three types of error: human level error, error on examples the algorithm has trained on, and error on examples the algorithm has not trained on.
 
 If you wish, you can also fill in the remaining two boxes in this table: You can fill in the upper-right box (Human level performance on Mobile Images) by asking some humans to label your mobile cat images data and measure their error. You can fill in the next box by taking the mobile cat images (Distribution B) and putting a small fraction of into the training set so that the neural network learns on it too. Then you measure the learned model’s error on that subset of data. Filling in these two additional entries may sometimes give additional insight about what the algorithm is doing on the two different distributions (Distribution A and B) of data.
 
@@ -864,11 +855,9 @@ Suppose you have developed a speech recognition system that does very well on th
 
 I recommend that you: (i) Try to understand what properties of the data differ between the training and the dev set distributions. (ii) Try to find more training data that better matches the dev set examples that your algorithm has trouble with.
 
-There is also some research on “domain adaptation” — how to train an algorithm on one distribution and have it generalize to a different distribution. These methods are typically applicable only in special types of problems and are much less widely used than the ideas described in here.
-
 For example, suppose you carry out an error analysis on the speech recognition dev set: You manually go through 100 examples, and try to understand where the algorithm is making mistakes. You find that your system does poorly because most of the audio clips in the dev set are taken within a car, whereas most of the training examples were recorded against a quiet background. The engine and road noise dramatically worsen the performance of your speech system. In this case, you might try to acquire more training data comprising audio clips that were taken in a car. The purpose of the error analysis is to understand the significant differences between the training and the dev set, which is what leads to the data mismatch.
 
-If your training and training dev sets include audio recorded within a car, you should also double-check your system’s performance on this subset of data. If it is doing well on the car data in the training set but not on car data in the training dev set, then this further validates the hypothesis that getting more car data would help. This is why we discussed the possibility of including in your training set some data drawn from the same distribution as your dev/test set in the previous chapter. Doing so allows you to compare your performance on the car data in the training set vs. the dev/test set.
+If your training and training dev sets include audio recorded within a car, you should also double-check your system’s performance on this subset of data. If it is doing well on the car data in the training set but not on car data in the training dev set, then this further validates the hypothesis that getting more car data would help. This is why we discussed the possibility of including in your training set some data drawn from the same distribution as your dev/test set. Doing so allows you to compare your performance on the car data in the training set vs. the dev/test set.
 
 Unfortunately, there are no guarantees in this process. For example, if you don't have any way to get more training data that better match the dev set data, you might not have a clear path towards improving performance.
 
@@ -886,9 +875,9 @@ Alternatively, suppose you have 1,000 unique hours of car noise, but all of it w
 
 To take one more example, suppose you are building a computer vision system to recognize cars. Suppose you partner with a video gaming company, which has computer graphics models of several cars. To train your algorithm, you use the models to generate synthetic images of cars. Even if the synthesized images look very realistic, this approach (which has been independently proposed by many people) will probably not work well. The video game might have ~20 car designs in the entire video game. It is very expensive to build a 3D car model of a car; if you were playing the game, you probably wouldn’t notice that you’re seeing the same cars over and over, perhaps only painted differently. I.e., this data looks very realistic to you. But compared to the set of all cars out on roads—and therefore what you’re likely to see in the dev/test sets—this set of 20 synthesized cars captures only a minuscule fraction of the world’s distribution of cars. Thus if your 100,000 training examples all come from these 20 cars, your system will “overfit” to these 20 specific car designs, and it will fail to generalize well to dev/test sets that include other car designs.
 
-When synthesizing data, put some thought into whether you’re really synthesizing a representative set of examples. Try to avoid giving the synthesized data properties that makes it possible for a learning algorithm to distinguish synthesized from non-synthesized examples—such as if all the synthesized data comes from one of 20 car designs, or all the synthesized audio comes from only 1 hour of car noise. This advice can be hard to follow.
+When synthesizing data, put some thought into whether you’re really synthesizing a representative set of examples. Try to avoid giving the synthesized data properties that makes it possible for a learning algorithm to distinguish synthesized from non-synthesized examples - such as if all the synthesized data comes from one of 20 car designs, or all the synthesized audio comes from only 1 hour of car noise. This advice can be hard to follow.
 
-When working on data synthesis, my teams have sometimes taken weeks before we produced data with details that are close enough to the actual distribution for the synthesized data to have a significant effect. But if you are able to get the details right, you can suddenly access a far larger training set than before.
+When working on data synthesis, sometimes taken weeks before we produced data with details that are close enough to the actual distribution for the synthesized data to have a significant effect. But if you are able to get the details right, you can suddenly access a far larger training set than before.
 
 ## End-to-end deep learning
 
@@ -904,7 +893,7 @@ and the following as highly negative:
 
 The problem of recognizing positive vs. negative opinions is called “sentiment classification”. To build this system, you might build a “pipeline” of two components:
 
-- Parser: A system that annotates the text with information identifying the most important words. A parser gives a much richer annotation of the text than this, but this simplified description will suffice for explaining end-to-end deep learning. For example, you might use the parser to label all the adjectives and nouns. You would therefore get the following annotated text
+- Parser: A system that annotates the text with information identifying the most important words. (A parser gives a much richer annotation of the text than this, but this simplified description will suffice for explaining end-to-end deep learning.) For example, you might use the parser to label all the adjectives and nouns. You would therefore get the following annotated text
   - This is a great<sub>Adjective</sub> mop<sub>Noun</sub>!
 - Sentiment classifier: A learning algorithm that takes as input the annotated text and predicts the overall sentiment. The parser’s annotation could help this learning algorithm greatly: By giving adjectives a higher weight, your algorithm will be able to quickly hone in on the important words such as “great”, and ignore less important words such as “this”.
 
@@ -922,7 +911,7 @@ There has been a recent trend toward replacing pipeline systems with a single le
 
 Neural networks are commonly used in end-to-end learning systems. The term “end-to-end” refers to the fact that we are asking the learning algorithm to go directly from the input to the desired output. I.e., the learning algorithm directly connects the “input end” of the system to the “output end”.
 
-In problems where data is abundant, end-to-end systems have been remarkably successful. But they are not always a good choice. The next few chapters will give more examples of end-to-end systems as well as give advice on when you should and should not use them.
+In problems where data is abundant, end-to-end systems have been remarkably successful. But they are not always a good choice.
 
 ### More end-to-end learning examples
 
@@ -944,7 +933,7 @@ In contrast, an end-to-end system might input an audio clip, and try to directly
   <img src="Images/31.png">
 </div>
 
-So far, we have only described machine learning “pipelines” that are completely linear: the output is sequentially passed from one staged to the next. Pipelines can be more complex. Here is a simple architecture for an autonomous car:
+So far, we have only described machine learning “pipelines” that are completely linear: the output is sequentially passed from one staged to the next. Pipelines can be more complex. Here is a simple architecture for an autonomous car
 
 <div align="center">
   <img src="Images/32.png">
@@ -960,7 +949,7 @@ In contrast, and end-to-end approach might try to take in the sensor inputs and 
   <img src="Images/33.png">
 </div>
 
-Even though end-to-end learning has seen many successes, it is not always the best approach. For example, end-to-end speech recognition works well. But I’m skeptical about end-to-end learning for autonomous driving. The next few chapters explain why.
+Even though end-to-end learning has seen many successes, it is not always the best approach. For example, end-to-end speech recognition works well. But I’m skeptical about end-to-end learning for autonomous driving.
 
 ### Pros and cons of end-to-end learning
 
@@ -996,7 +985,7 @@ End-to-end learning systems tend to do well when there is a lot of labeled data 
 
 If you are working on a machine learning problem where the training set is very small, most of your algorithm’s knowledge will have to come from your human insight. I.e., from your “hand engineering” components.
 
-If you choose not to use an end-to-end system, you will have to decide what are the steps in your pipeline, and how they should plug together. In the next few chapters, we’ll give some suggestions for designing such pipelines.
+If you choose not to use an end-to-end system, you will have to decide what are the steps in your pipeline, and how they should plug together.
 
 ### Choosing pipeline components Data availability
 
@@ -1041,8 +1030,6 @@ Consider these machine learning tasks, listed in order of increasing difficulty:
 Each of these is a binary image classification task: You have to input an image, and output either 0 or 1. But the tasks earlier in the list seem much “easier” for a neural network to learn. You will be able to learn the easier tasks with fewer training examples.
 
 Machine learning does not yet have a good formal definition of what makes a task easy or hard. With the rise of deep learning and multi-layered neural networks, we sometimes say a task is “easy” if it can be carried out with fewer computation steps (corresponding to a shallow neural network), and “hard” if it requires more computation steps (requiring a deeper neural network). But these are informal definitions.
-
-Information theory has the concept of “Kolmogorov Complexity”, which says that the complexity of a learned function is the length of the shortest computer program that can produce that function. However, this theoretical concept has found few practical applications in AI.
 
 If you are able to take a complex task, and break it down into simpler sub-tasks, then by coding in the steps of the sub-tasks explicitly, you are giving the algorithm prior knowledge that can help it learn a task more efficiently.
 
@@ -1089,8 +1076,6 @@ In summary, when deciding what should be the components of a pipeline, try to bu
 ### Directly learning rich outputs
 
 An image classification algorithm will input an image x , and output an integer indicating the object category. Can an algorithm instead output an entire sentence describing the image?
-
-For example:
 
 <div align="center">
   <img src="Images/45.png">
@@ -1158,7 +1143,7 @@ Say you go through 100 misclassified dev set images and find that 90 of the erro
 
 Further, you have now also conveniently found 90 examples where the cat detector outputted incorrect bounding boxes. You can use these 90 examples to carry out a deeper level of error analysis on the cat detector to see how to improve that.
 
-Our description of how you attribute error to one part of the pipeline has been informal so far: you look at the output of each of the parts and see if you can decide which one made a mistake. This informal method could be all you need. But in the next chapter, you’ll also see a more formal way of attributing error.
+Our description of how you attribute error to one part of the pipeline has been informal so far: you look at the output of each of the parts and see if you can decide which one made a mistake. This informal method could be all you need.
 
 ### Attributing error to one part
 
@@ -1194,8 +1179,8 @@ If the number of ambiguous cases like these is small, you can make whatever deci
 
 In other words, run an experiment in which you give the cat breed classifier a “perfect” input. There are two cases:
 
-- Case 1: Even given a “perfect” bounding box, the cat breed classifier still incorrectly outputs y=0. In this case, clearly the cat breed classifier is at fault.
-- Case 2: Given a “perfect” bounding box, the breed classifier now correctly outputs y=1. This shows that if only the cat detector had given a more perfect bounding box, then the overall system’s output would have been correct. Thus, attribute the error to the cat detector.
+- Even given a “perfect” bounding box, the cat breed classifier still incorrectly outputs y=0. In this case, clearly the cat breed classifier is at fault.
+- Given a “perfect” bounding box, the breed classifier now correctly outputs y=1. This shows that if only the cat detector had given a more perfect bounding box, then the overall system’s output would have been correct. Thus, attribute the error to the cat detector.
 
 By carrying out this analysis on the misclassified dev set images, you can now unambiguously attribute each error to one component. This allows you to estimate the fraction of errors due to each component of the pipeline, and therefore decide where to focus your attention.
 
