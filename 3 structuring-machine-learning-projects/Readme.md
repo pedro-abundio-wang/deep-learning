@@ -56,10 +56,6 @@
   * [General case of error attribution](#General-case-of-error-attribution)
   * [Error analysis by parts and comparison to human-level performance](#Error-analysis-by-parts-and-comparison-to-human-level-performance)
   * [Spotting a flawed ML pipeline](#Spotting-a-flawed-ML-pipeline)
-* [Debugging inference algorithms](#Debugging-inference-algorithms)
-  * [The Optimization Verification test](#The-Optimization-Verification-test)
-  * [General form of Optimization Verification test](#General-form-of-Optimization-Verification-test)
-  * [Reinforcement learning example](#Reinforcement-learning-example)
 * [Transfer learning](#transfer-learning)
 * [Multi-task learning](#multi-task-learning)
 * [Orthogonalization](#orthogonalization)
@@ -1212,7 +1208,7 @@ You can map the three components to A, B, C as follows:
 - B: Detect pedestrians
 - C: Plan path for car
 
-Following the procedure described above, suppose you test out your car on a closed track and find a case where the car chooses a more jarring steering direction than a skilled driver would. In the self-driving world, such a case is usually called a **scenario**. You would then:
+Following the procedure described above, suppose you test out your car on a closed track and find a case where the car chooses a more jarring steering direction than a skilled driver would. You would then:
 
 - Try manually modifying A (detecting cars)’s output to be a “perfect” output (e.g., manually go in and tell it where the other cars are). Run the rest of the pipeline B, C as before, but allow C (plan path) to use A’s now perfect output. If the algorithm now plans a much better path for the car, then this shows that, if only A had given a better output, the overall algorithm’s output would have been better; Thus, you can attribute this error to component A. Otherwise, go on to next.
 - Try manually modifying B (detect pedestrian)’s output to be the “perfect” output for B. If the algorithm now gives a correct output, then attribute the error to component B. Otherwise, go on to next.
@@ -1228,17 +1224,13 @@ But the results of this analysis would still be valid and give good guidance for
 
 ### Error analysis by parts and comparison to human-level performance
 
-Carrying out error analysis on a learning algorithm is like using data science to analyze an ML system’s mistakes in order to derive insights about what to do next. At its most basic, error analysis by parts tells us what component(s) performance is (are) worth the greatest effort to improve.
-
-Say you have a dataset about customers buying things on a website. A data scientist may have many different ways of analyzing the data. She may draw many different conclusions about whether the website should raise prices, about the lifetime value of customers acquired through different marketing campaigns, and so on. There is no one “right” way to analyze a dataset, and there are many possible useful insights one could draw. Similarly, there is no one “right” way to carry out error analysis. Through these chapters you have learned many of the most common design patterns for drawing useful insights about your ML system, but you should feel free to experiment with other ways of analyzing errors as well.
-
 Let’s return to the self-driving application, where a car detection algorithm outputs the location (and perhaps velocity) of the nearby cars, a pedestrian detection algorithm outputs the location of the nearby pedestrians, and these two outputs are finally used to plan a path for the car.
 
 <div align="center">
   <img src="Images/59.png">
 </div>
 
-To debug this pipeline, rather than rigorously following the procedure you saw in the previous chapter, you could more informally ask:
+To debug this pipeline, rather than rigorously following the procedure you could more informally ask:
 
 - How far is the Detect cars component from human-level performance at detecting cars?
 - How far is the Detect pedestrians component from human-level performance?
@@ -1246,7 +1238,7 @@ To debug this pipeline, rather than rigorously following the procedure you saw i
 
 If you find that one of the components is far from human-level performance, you now have a good case to focus on improving the performance of that component.
 
-Many error analysis processes work best when we are trying to automate something humans can do and can thus benchmark against human-level performance. Most of our preceding examples had this implicit assumption. If you are building an ML system where the final output or some of the intermediate components are doing things that even humans cannot do well, then some of these procedures will not apply.
+Many error analysis processes work best when we are trying to automate something humans can do and can thus benchmark against human-level performance. Most of our preceding examples had this implicit assumption.
 
 This is another advantage of working on problems that humans can solve--you have more powerful error analysis tools, and thus you can prioritize your team’s work more efficiently.
 
@@ -1258,7 +1250,7 @@ What if each individual component of your ML pipeline is performing at human-lev
   <img src="Images/60.png">
 </div>
 
-In the previous chapter, we posed the question of whether each of the three components’ performance is at human level. Suppose the answer to all three questions is yes. That is:
+We posed the question of whether each of the three components’ performance is at human level. Suppose the answer to all three questions is yes. That is:
 
 - The Detect cars component is at (roughly) human-level performance for detecting cars from the camera images.
 - The Detect pedestrians component is at (roughly) human-level performance for detecting cars from the camera images.
@@ -1266,11 +1258,11 @@ In the previous chapter, we posed the question of whether each of the three comp
 
 However, your overall self-driving car is performing significantly below human-level performance. I.e., humans given access to the camera images can plan significantly better paths for the car. What conclusion can you draw?
 
-The only possible conclusion is that the ML pipeline is flawed. In this case, the Plan path component is doing as well as it can given its inputs , but the inputs do not contain enough information. You should ask yourself what other information, other than the outputs from the two earlier pipeline components, is needed to plan paths very well for a car to drive. In other words, what other information does a skilled human driver need?
+The only possible conclusion is that the ML pipeline is flawed. In this case, the Plan path component is doing as well as it can given its inputs , but the inputs do not contain enough information. You should ask yourself what other information, other than the outputs from the earlier pipeline components, is needed to plan paths very well for a car to drive. In other words, what other information does a skilled human driver need?
 
 For example, suppose you realize that a human driver also needs to know the location of the lane markings. This suggests that you should redesign the pipeline as follows:
 
-In the self-driving example above, in theory one could solve this problem by also feeding the raw camera image into the planning component. However, this would violate the design principle of “Task simplicity”, because the path planning module now needs to input a raw image and has a very complex task to solve. That’s why adding a Detect lane markings component is a better choice--it helps get the important and previously missing information about lane markings to the path planning module, but you avoid making any particular module overly complex to build/train.
+In the self-driving example above, in theory one could solve this problem by also feeding the raw camera image into the planning component. However, this would violate the design principle of “Task simplicity”, because the path planning module now needs to input a raw image and has a very complex task to solve. That’s why adding a Detect lane markings component is a better choice - it helps get the important and previously missing information about lane markings to the path planning module, but you avoid making any particular module overly complex to build/train.
 
 <div align="center">
   <img src="Images/61.png">
@@ -1278,93 +1270,13 @@ In the self-driving example above, in theory one could solve this problem by als
 
 Ultimately, if you don’t think your pipeline as a whole will achieve human-level performance, even if every individual component has human-level performance (remember that you are comparing to a human who is given the same input as the component), then the pipeline is flawed and should be redesigned.
 
-## Debugging inference algorithms
-
-### The Optimization Verification test
-
-Suppose you are building a speech recognition system. Your system works by inputting an audio clip A , and computing some Score​<sub>A</sub>(S) for each possible output sentence ​S. For example, you might try to estimate Score​<sub>A</sub>(S) = P(​S|A), the probability that the correct output transcription is the sentence ​S, given that the input audio was ​A.
-
-Given a way to compute Score​<sub>A</sub>(S), you still have to find the English sentence ​S that maximizes it:
-
-- Output = argmax<sub>S</sub> Score​<sub>A</sub>(S)
-
-How do you compute the “argmax” above? If the English language has 50,000 words, then there are (50,000)​<sup>N</sup> possible sentences of length ​N — far too many to exhaustively enumerate. So, you need to apply an approximate search algorithm, to try to find the value of ​S that optimizes (maximizes) Score​<sub>A</sub>(S). One example search algorithm is “beam search”, which keeps only K top candidates during the search process. (For the purposes of here, you don’t need to understand the details of beam search.) Algorithms like this are not guaranteed to find the value of ​S that maximizes Score​<sub>A</sub>(S).
-
-Suppose that an audio clip ​A records someone saying “I love machine learning.” But instead of outputting the correct transcription, your system outputs the incorrect “I love robots.” There are now two possibilities for what went wrong:
-
-- **Search algorithm problem​.** The approximate search algorithm (beam search) failed
-to find the value of ​S that maximizes Score​<sub>A</sub>(S).
-- **Objective (scoring function) problem.**​ Our estimates for Score​<sub>A</sub>(S) = P(​S|​A) were inaccurate. In particular, our choice of Score​<sub>A</sub>(S) failed to recognize that “I love machine learning” is the correct transcription.
-
-Depending on which of these was the cause of the failure, you should prioritize your efforts very differently. If #1 was the problem, you should work on improving the search algorithm. If #2 was the problem, you should work on the learning algorithm that estimates Score​<sub>A</sub>(S).
-
-Facing this situation, some researchers will randomly decide to work on the search algorithm; others will randomly work on a better way to learn values for Score​<sub>A</sub>(S). But unless you know which of these is the underlying cause of the error, your efforts could be wasted. How can you decide more systematically what to work on?
-
-Let S​<sub>out</sub>​ be the output transcription (“I love robots”). Let S* be the correct transcription (“I love machine learning”). In order to understand whether #1 or #2 above is the problem, you can perform the **Optimization Verification test**: First, compute Score​<sub>A</sub>(​S*),* Score​<sub>A</sub>(S<sub>out​</sub>). Then check whether Score​<sub>A</sub>(​S*) > Score​<sub>A</sub>(S<sub>out​</sub>). There are two possibilities:
-
-Case 1: Score​<sub>A</sub>(​S*) > Score​<sub>A</sub>(S<sub>out​</sub>)
-
-In this case, your learning algorithm has correctly given S* a higher score than S<sub>out​</sub>. Nevertheless, our approximate search algorithm chose S<sub>out​</sub> ​rather than S*. This tells you that your approximate search algorithm is failing to choose the value of S that maximizes Score​<sub>A</sub>(​S). In this case, the Optimization Verification test tells you that you have a search algorithm problem and should focus on that. For example, you could try increasing the beam width of beam search.
-
-Case 2: Score​<sub>A</sub>(​S*) ≤ Score​<sub>A</sub>(S<sub>out​</sub>)
-
-In this case, you know that the way you’re computing Score​<sub>A</sub>(.) is at fault: It is failing to give a strictly higher score to the correct output ​S* than the incorrect S<sub>out​</sub>. The Optimization Verification test tells you that you have an objective (scoring) function problem. Thus, you should focus on improving how you learn or approximate Score​<sub>A</sub>(​S) for different sentences S.
-
-Our discussion has focused on a single example. To apply the Optimization Verification test in practice, you should examine the errors in your dev set. For each error, you would test whether Score​<sub>A</sub>(​S*) > Score​<sub>A</sub>(S<sub>out​</sub>). Each dev example for which this inequality holds will get marked as an error caused by the optimization algorithm. Each example for which this does not hold (Score​<sub>A</sub>(​S*) ≤ Score​<sub>A</sub>(S<sub>out​</sub>)) gets counted as a mistake due to the way you’re computing Score​<sub>A</sub>(.).
-
-For example, suppose you find that 95% of the errors were due to the scoring function Score​<sub>A</sub>(.), and only 5% due to the optimization algorithm. Now you know that no matter how much you improve your optimization procedure, you would realistically eliminate only ~5% of our errors. Thus, you should instead focus on improving how you estimate Score​<sub>A</sub>(.).
-
-### General form of Optimization Verification test
-
-You can apply the Optimization Verification test when, given some input ​x, you know how to compute Score​<sub>x</sub>(​y) that indicates how good a response y is to an input ​x. Furthermore, you are using an approximate algorithm to try to find arg max​​<sub>y​</sub>Score​<sub>x</sub>(​y), but suspect that the search algorithm is sometimes failing to find the maximum. In our previous speech recognition example, ​x=A was an audio clip, and ​y=S was the output transcript.
-
-Suppose y* is the “correct” output but the algorithm instead outputs y​<sub>out</sub>​. Then the key test is to measure whether Score​<sub>x​</sub>(y*) > Score​<sub>x​</sub>(y​​<sub>out​</sub>). If this inequality holds, then we blame the optimization algorithm for the mistake. Refer to the previous chapter to make sure you understand the logic behind this. Otherwise, we blame the computation of Score​​<sub>x​</sub>(y).
-
-Let’s look at one more example. Suppose you are building a Chinese-to-English machine translation system. Your system works by inputting a Chinese sentence ​C, and computing some Score​<sub>C​</sub>(​E) for each possible translation ​E. For example, you might use Score​<sub>C​</sub>(​E) = P(​E|​C), the probability of the translation being E given that the input sentence was ​C.
-
-Your algorithm translates sentences by trying to compute:
-
-- Output = argmax<sub>E</sub> Score​<sub>C</sub>(E)
-
-However, the set of all possible English sentences ​E is too large, so you rely on a heuristic search algorithm.
-
-Suppose your algorithm outputs an incorrect translation ​E<sub>out</sub>​ rather than some correct translation ​E*.* Then the Optimization Verification test would ask you to compute whether Score<sub>C</sub>(​E*) >* Score<sub>C</sub>(​E<sub>out</sub>). If this inequality holds, then the Score<sub>C</sub>(.) correctly recognized E* as a superior output to E<sub>out</sub>; thus, you would attribute this error to the approximate search algorithm. Otherwise, you attribute this error to the computation of Score<sub>C</sub>(.).
-
-It is a very common “design pattern” in AI to first learn an approximate scoring function Score<sub>x</sub>(.), then use an approximate maximization algorithm. If you are able to spot this pattern, you will be able to use the Optimization Verification test to understand your source of errors.
-
-### Reinforcement learning example
-
-<div align="center">
-  <img src="Images/62.png">
-</div>
-
-Suppose you are using machine learning to teach a helicopter to fly complex maneuvers. Here is a time-lapse photo of a computer-controller helicopter executing a landing with the engine turned off.
-
-This is called an “autorotation” maneuver. It allows helicopters to land even if their engine unexpectedly fails. Human pilots practice this maneuver as part of their training. Your goal is to use a learning algorithm to fly the helicopter through a trajectory ​T that ends in a safe landing.
-
-To apply reinforcement learning, you have to develop a “Reward function” R(.) that gives a score measuring how good each possible trajectory T is. For example, if T results in the helicopter crashing, then perhaps the reward is ​R(T) = -1,000 — a huge negative reward. A trajectory ​T resulting in a safe landing might result in a positive R(T) with the exact value depending on how smooth the landing was. The reward function ​R(.) is typically chosen by hand to quantify how desirable different trajectories ​T are. It has to trade off how bumpy the landing was, whether the helicopter landed in exactly the desired spot, how rough the ride down was for passengers, and so on. It is not easy to design good reward functions.
-
-Given a reward function R(T), the job of the reinforcement learning algorithm is to control the helicopter so that it achieves max​<sub>T</sub>R(T). However, reinforcement learning algorithms make many approximations and may not succeed in achieving this maximization.
-
-Suppose you have picked some reward R(.) and have run your learning algorithm. However, its performance appears far worse than your human pilot — the landings are bumpier and seem less safe than what a human pilot achieves. How can you tell if the fault is with the reinforcement learning algorithm — which is trying to carry out a trajectory that achieves max<sub>T</sub>R(T) — or if the fault is with the reward function — which is trying to measure as well as specify the ideal tradeoff between ride bumpiness and accuracy of landing spot?
-
-To apply the Optimization Verification test, let T<sub>human</sub>​ be the trajectory achieved by the human pilot, and let T<sub>out</sub> be the trajectory achieved by the algorithm. According to our description above, T<sub>human</sub>​ is a superior trajectory to T<sub>out</sub>. Thus, the key test is the following: Does it hold true that R(​T<sub>human</sub>​) > R(T<sub>out</sub>)?
-
-Case 1: If this inequality holds, then the reward function R(.) is correctly rating T<sub>human</sub> as superior to T<sub>out</sub>. But our reinforcement learning algorithm is finding the inferior T<sub>out</sub>. This suggests that working on improving our reinforcement learning algorithm is worthwhile.
-
-Case 2: The inequality does not hold: R(​T<sub>human</sub>) ≤ R(T<sub>out</sub>). This means R(.) assigns a worse score to T<sub>human</sub> ​even though it is the superior trajectory. You should work on improving R(.) to better capture the tradeoffs that correspond to a good landing.
-
-Many machine learning applications have this “pattern” of optimizing an approximate scoring function Score​<sub>x</sub>(.) using an approximate search algorithm. Sometimes, there is no specified input ​x, so this reduces to just Score(.). In our example above, the scoring function was the reward function Score(​T)=R(​T), and the optimization algorithm was the reinforcement learning algorithm trying to execute a good trajectory T.
-
-One difference between this and earlier examples is that, rather than comparing to an “optimal” output, you were instead comparing to human-level performance ​​T<sub>human</sub>.We assumed ​T<sub>human</sub> is pretty good, even if not optimal. In general, so long as you have some y* (in this example, ​T<sub>human</sub>) that is a superior output to the performance of your current learning algorithm — even if it is not the “optimal” output — then the Optimization Verification test can indicate whether it is more promising to improve the optimization algorithm or the scoring function.
-
 ## Transfer learning
 
 - Apply the knowledge you took in a task A and apply it in another task B.
 - For example, you have trained a cat classifier with a lot of data, you can use the part of the trained NN it to solve x-ray classification problem.
 - To do transfer learning, delete the last layer of NN and it's weights and:
-  1. Option: if you have a small data set - keep all the other weights as a fixed weights. Add a new last layer(-s) and initialize the new layer weights and feed the new data to the NN and learn the new weights.
-  2. Option: if you have enough data you can retrain all the weights.
+  - Option: if you have a small data set - keep all the other weights as a fixed weights. Add a new last layers and initialize the new layer weights and feed the new data to the NN and learn the new weights.
+  - Option: if you have enough data you can retrain all the weights.
 - When transfer learning make sense:
   - Task A and B have the same input X (e.g. image, audio).
   - You have a lot of data for the task A you are transferring from and relatively less data for the task B your transferring to.
@@ -1373,12 +1285,15 @@ One difference between this and earlier examples is that, rather than comparing 
 ## Multi-task learning
 
 - Whereas in transfer learning, you have a sequential process where you learn from task A and then transfer that to task B. In multi-task learning, you start off simultaneously, trying to have one neural network do several things at the same time. And then each of these tasks helps hopefully all of the other tasks.
-- Example:
   - You want to build an object recognition system that detects pedestrians, cars, stop signs, and traffic lights (image has multiple labels).
-  - Then Y shape will be `(4,m)` because we have 4 classes and each one is a binary one.
-  - Then   
-  `Cost = (1/m) * sum(sum(L(y_hat(i)_j, y(i)_j))), i = 1..m, j = 1..4`, where   
-  `L = - y(i)_j * log(y_hat(i)_j) - (1 - y(i)_j) * log(1 - y_hat(i)_j)`
+  - Y shape will be `(4,m)` because we have 4 classes and each one is a binary one.
+  - Then
+  <div align="center">
+    <img src="Images/65.png">
+  </div>
+  <div align="center">
+    <img src="Images/66.png">
+  </div>
 - In the last example you could have trained 4 neural networks separately but if some of the earlier features in neural network can be shared between these different types of objects, then you find that training one neural network to do four things results in better performance than training 4 completely separate neural networks to do the four tasks separately.
 - Multi-task learning will also work if y isn't complete for some labels. For example:
   ```
@@ -1387,27 +1302,29 @@ One difference between this and earlier examples is that, rather than comparing 
       [? 1 ? ...]
   ```
   - And in this case it will do good with the missing data, just the loss function will be different:   
-    `Loss = (1/m) * sum(sum(L(y_hat(i)_j, y(i)_j) for all j which y(i)_j != ?))`
+  <div align="center">
+    <img src="Images/67.png">
+  </div>
 - Multi-task learning makes sense:
-  1. Training on a set of tasks that could benefit from having shared lower-level features.
-  2. Usually, amount of data you have for each task is quite similar.
-  3. Can train a big enough network to do well on all the tasks.
+  - Training on a set of tasks that could benefit from having shared lower-level features.
+  - Usually amount of data you have for each task is quite similar.
+  - Can train a big enough network to do well on all the tasks.
 - If you can train a big enough NN, the performance of the multi-task learning compared to splitting the tasks is better.
-- Today transfer learning is used more often than multi-task learning.
+- Transfer learning is used more often than multi-task learning.
 
 ## Orthogonalization
 
 - Some deep learning developers know exactly what hyperparameter to tune in order to try to achieve one effect. This is a process we call orthogonalization.
 - In orthogonalization, you have some controls, but each control does a specific task and doesn't affect other controls.
-- For a supervised learning system to do well, you usually need to tune the knobs of your system to make sure that four things hold true - chain of assumptions in machine learning:
-  1. You'll have to fit training set well on cost function (near human level performance if possible).
-     - If it's not achieved you could try bigger network, another optimization algorithm (like Adam)...
-  2. Fit dev set well on cost function.
-     - If its not achieved you could try regularization, bigger training set...
-  3. Fit test set well on cost function.
-     - If its not achieved you could try bigger dev set...
-  4. Performs well in real world.
-     - If its not achieved you could try change dev set, change cost function...
+- For a supervised learning system to do well, you usually need to tune the knobs of your system to make sure the following things hold true - chain of assumptions in machine learning:
+  - You'll have to fit training set well on cost function (near human level performance if possible).
+    - If it's not achieved you could try bigger network, another optimization algorithm (like Adam)...
+  - Fit dev set well on cost function.
+    - If its not achieved you could try regularization, bigger training set...
+  - Fit test set well on cost function.
+    - If its not achieved you could try bigger dev set...
+  - Performs well in real world.
+    - If its not achieved you could try change dev/test set, change cost function...
 
 ## How to read deep learning papers
 
