@@ -53,9 +53,8 @@
 </div>
 
 - Your data will be split into three parts:
-
   - **Training set** — Which you run your learning algorithm on.
-  - **Dev(Development) set** — Which you use to tune parameters, select features, and make other decisions regarding the learning algorithm. Sometimes also called the **hold-out cross validation set**.
+  - **Dev(Development) set** — Which you use to tune hyperparameters, select features, and make other decisions regarding the learning algorithm. Sometimes also called the **hold-out cross validation set**.
   - **Test set** — which you use to evaluate the performance of the algorithm, but not to make any decisions regarding what learning algorithm or parameters to use.
 
 - so the trend on the ratio of splitting the models:
@@ -73,42 +72,37 @@
 ### Bias vs Variance
 
 <div align="center">
-  <img src="Images/03.png">
+  <img src="Images/18.png">
 </div>
 
 - If your model is underfitting (linear regression of non linear data) it has a "high bias"
 - If your model is overfitting then it has a "high variance"
 - if your model will be alright then you balance the Bias / Variance
 
+<div align="center">
+  <img src="Images/17.png">
+</div>
+
 ![](Images/04.png)
 
-- High Bias (underfitting):
-  - Training error: 15%
-  - Dev error: 16%
-- High variance (overfitting):
-  - Training error: 1%
-  - Dev error: 11%
-- high Bias (underfitting) && High variance (overfitting):
-  - Training error: 15%
-  - Test error: 30%
-- Best:
-  - Training error: 0.5%
-  - Test error: 1%
+<div align="center">
+  <img src="Images/19.png">
+</div>
 
 ### Basic Recipe for Machine Learning
 
 - If your algorithm has a high bias:
   - Try to make your NN bigger (size of hidden units, number of layers)
-  - Try a different model that is suitable for your data (image recognition - CNN, speech recognition - RNN).
   - Different (advanced) optimization algorithms (Momentum, RMSprop, Adam).
+  - Try a different model that is suitable for your data (image recognition - CNN, speech recognition - RNN).
   - Try to run it longer.
 - If your algorithm has a high variance:
   - More data.
   - Try regularization (L1 regularization, L2 regularization, Dropout).
   - Try a different model that is suitable for your data (image recognition - CNN, speech recognition - RNN).
 - You should try the previous points until you have a low bias and low variance.
-- In the older days before deep learning, there was a Bias/Variance Tradeoff. But now you have more options/tools for solving the bias and variance problem its really helpful to use deep learning.
-- Training a bigger neural network never hurts.
+- In the older days in machine learning, there was a Bias/Variance Tradeoff. But now you have more options/tools for solving the bias and variance problem its really helpful to use deep learning.
+- Training a bigger neural network on a bigger dataset never hurts.
 
 ### Regularization
 
