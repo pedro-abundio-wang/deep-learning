@@ -172,7 +172,7 @@ The L2 regularization version:
          = (1 - (learning_rate*lambda)/m) * W[l] - learning_rate * (from back propagation)
     ```
 - In practice this penalizes large weights and effectively limits the freedom in your model.
-- The new term `(1 - (learning_rate*lambda)/m) * W[l]` causes the **weight decay** in proportion to its size.
+- The term `(1 - (learning_rate*lambda)/m) * W[l]` causes the **weight decay** in proportion to its size.
 
 ### Why regularization reduces overfitting?
 
