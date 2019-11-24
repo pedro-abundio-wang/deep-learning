@@ -155,28 +155,24 @@ The L2 regularization version:
 </div>
 
 - To do back propagation without regularization:
-  - `dW[l] = (from back propagation)`
-- To do back propagation with regularization:   
-  - `dW[l] = (from back propagation) + lambda/m * W[l]`
-- So plugging it in weight update step:
-  - ```
-    W[l] = W[l] - learning_rate * dW[l]
-         = W[l] - learning_rate * ((from back propagation) + lambda/m * W[l])
-         = W[l] - (learning_rate*lambda/m) * W[l] - learning_rate * (from back propagation)
-         = (1 - (learning_rate*lambda)/m) * W[l] - learning_rate * (from back propagation)
-    ```
+  <div align="center">
+    <img src="Images/20.png">
+  </div>
+- To do back propagation with regularization:
+  <div align="center">
+    <img src="Images/21.png">
+  </div>
+- So plugging it in weight update step, the first term causes the **weight decay** in proportion to its size:
+  <div align="center">
+    <img src="Images/22.png">
+  </div>
 - In practice this penalizes large weights and effectively limits the freedom in your model.
-- The term `(1 - (learning_rate*lambda)/m) * W[l]` causes the **weight decay** in proportion to its size.
 
 ### Why regularization reduces overfitting?
 
-**neural network architecture**
+- From neural network architecture, a lot of W's will be close to zeros which will make the NN simpler. It will just reduce some weights that makes the neural network overfit.
 
-- A lot of W's will be close to zeros which will make the NN simpler. It will just reduce some weights that makes the neural network overfit.
-
-**activation function**
-
-- W's will be small (close to zero) - will use the linear part of the activation function, so we will go from non linear activation to roughly linear which would make the NN a roughly linear classifier which will prevent overfitting.
+- From activation function, W's will be small (close to zero) - will use the linear part of the activation function, so we will go from non linear activation to roughly linear which would make the NN a roughly linear classifier which will prevent overfitting.
 
 ### Dropout Regularization
 
@@ -197,7 +193,7 @@ Code for Inverted dropout:
 
   al = np.multiply(al,dl)   # keep only the values in dl
 
-  # increase a3 to not reduce the expected value of output
+  # increase al to not reduce the expected value of output
   # (ensures that the expected value of a3 remains the same) - to solve the scaling problem
   al = al / keep_prob
   ```
@@ -211,7 +207,7 @@ Code for Inverted dropout:
 - Dropout can't rely on any one feature, so have to spread out weights (**shrink weights**). It's possible to show that dropout has a similar effect to L2 regularization (**weights decay**).
 - Dropout can have different `keep_prob` per layer. If you're more worried about some layers overfitting than others, you can set a lower `keep_prob` for some layers than others. The downside is, this gives you even more hyperparameters to search for using cross-validation. One other alternative might be to have some layers where you apply dropout and some layers where you don't apply dropout and then just have one hyperparameter, which is a `keep_prob` for the layers for which you do apply dropouts.
 - The input layer dropout has to be near 1 or no dropout because you don't want to eliminate a lot of features.
-- A lot of researchers are using dropout with Computer Vision (CV) because they have a very big input size and almost never have enough data, so overfitting is the usual problem. And dropout is a regularization technique to prevent overfitting.
+- A lot of researchers are using dropout with Computer Vision because they have a very big input size and almost never have enough data, so overfitting is the usual problem. And dropout is a regularization technique to prevent overfitting.
 - A downside of dropout is that the cost function J is not well defined and it will be hard to debug (plot J by iteration). To solve that you'll need to turn off dropout, set all the `keep_prob` to 1, and then run the code and check that it monotonically decreases J and then turn on the dropouts again.
 
 ### Other regularization methods
@@ -228,13 +224,13 @@ Code for Inverted dropout:
 **Early Stopping**:
 
 <div align="center">
-  <img src="Images/02-_Early_stopping.png">
+  <img src="Images/23.png">
 </div>
 
 - In this technique we plot the training set and the dev set cost together for each iteration. At some iteration the dev set cost will stop decreasing and will start increasing.
 - We will pick the point at which the training set error and dev set error are best (lowest training cost with lowest dev cost).
 - We will take these parameters as the best parameters.
-- Prefers to use L2 regularization instead of early stopping because this technique simultaneously tries to minimize the cost function and not to overfit which contradicts the orthogonalization approach.
+- Prefers to use L2 regularization instead of early stopping because this technique simultaneously tries to minimize the cost function and not to overfit which contradicts the **orthogonalization approach**.
 - But its advantage is that you don't need to search a hyperparameter like in other regularization approaches (like `lambda` in L2 regularization).
 
 ### Normalizing inputs
@@ -243,10 +239,9 @@ Code for Inverted dropout:
 
 - If you normalize your inputs this will speed up the training process a lot.
 - Normalization are going on these steps:
-  - Get the mean of the training set: `mean = (1/m) * sum(x(i))`
-  - Subtract the mean from each input: `X = X - mean`. This makes your inputs centered around 0.
-  - Get the variance of the training set: `variance = (1/m) * sum(x(i)^2)`
-  - Normalize the variance. `X /= variance`
+<div align="center">
+  <img src="Images/24.png">
+</div>
 - These steps should be applied to training, dev, and testing sets.
 
 ![](Images/08.png)
@@ -259,30 +254,26 @@ Code for Inverted dropout:
 ![](Images/09.png)
 
 - To understand the problem, suppose that we have a deep neural network with number of layers L, and all the activation functions are linear and each `b = 0`
-  - Then:   
-    ```
-    Y' = W[L]W[L-1].....W[2]W[1]X
-    ```
-  - Then, if we have 2 hidden units per layer and x1 = x2 = 1, we result in:
+  - Then:
+  <div align="center">
+    <img src="Images/25.png">
+  </div>
+  - Then, if we have 2 hidden units per layer and x<sub>1</sub> = x<sub>2</sub> = 1, we result in
+  - `l != L` because of different dimensions in the output layer
+  - X which will be very large
+  <div align="center">
+    <img src="Images/26.png">
+  </div>
+  - X which will be very small
+  <div align="center">
+    <img src="Images/27.png">
+  </div>
 
-    ```
-    if W[l] = [1.5   0]
-              [0   1.5] (l != L because of different dimensions in the output layer)
-    Y' = W[L] [1.5  0]^(L-1) X # which will be very large
-              [0  1.5]
-    ```
-    ```
-    if W[l] = [0.5  0]
-              [0  0.5]
-    Y' = W[L] [0.5  0]^(L-1) X # which will be very small
-              [0  0.5]
-    ```
-
-- The last example explains that the activations (and similarly derivatives) will be decreased/increased exponentially as a function of number of layers.
-- The Vanishing / Exploding gradients occurs when your derivatives become very small or very big.
+- The example explains that the activations and similarly derivatives will be decreased/increased exponentially as a function of number of layers.
+- The **Vanishing / Exploding gradients** occurs when your derivatives become very small or very big.
 - So If W > I (Identity matrix) the activation and gradients will explode.
 - And If W < I (Identity matrix) the activation and gradients will vanish.
-- Recently Microsoft trained 152 layers (ResNet)! which is a really big number. With such a deep neural network, if your activations or gradients increase or decrease exponentially as a function of L, then these values could get really big or really small. And this makes training difficult, especially if your gradients are exponentially smaller than L, then gradient descent will take tiny little steps. It will take a long time for gradient descent to learn anything.
+- Recently Microsoft trained 152 layers (ResNet) which is a really big number. With such a deep neural network, if your activations or gradients increase or decrease exponentially as a function of L, then these values could get really big or really small. And this makes training difficult, especially if your gradients are exponentially smaller than L, then gradient descent will take tiny little steps. It will take a long time for gradient descent to learn anything.
 - There is a partial solution that doesn't completely solve this problem but it helps a lot - careful choice of how you initialize the weights.
 
 ### Weight Initialization for Deep Networks
