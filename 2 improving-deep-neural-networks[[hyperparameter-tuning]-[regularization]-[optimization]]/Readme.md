@@ -269,12 +269,16 @@ Code for Inverted dropout:
     <img src="Images/27.png">
   </div>
 
-- The example explains that the activations and similarly derivatives will be decreased/increased exponentially as a function of number of layers.
-- The **Vanishing / Exploding gradients** occurs when your derivatives become very small or very big.
-- So If W > I (Identity matrix) the activation and gradients will explode.
+- The example explains that the activations and similarly derivatives will be decreased/increased exponentially as a function of number of layers. The **Vanishing / Exploding gradients** occurs when your derivatives become very small or very big.
+- So If W > I (Identity matrix) the activation and gradients will explode. However, it turns out that exploding gradient is not that problematic, because:
+  - The problem is easy to notice and diagnose, because the derivative would become NaN very quickly and crash the program.
+  - There are some easy hacks that can effectively prevent exploding gradient. One of them is called **gradient clipping**, which simply **throttles** (𝜃) the scale of gradient during backprop, and it turns out to work well.
+  <div align="center">
+    <img src="Images/28.png">
+  </div>
 - And If W < I (Identity matrix) the activation and gradients will vanish.
-- Recently Microsoft trained 152 layers (ResNet) which is a really big number. With such a deep neural network, if your activations or gradients increase or decrease exponentially as a function of L, then these values could get really big or really small. And this makes training difficult, especially if your gradients are exponentially smaller than L, then gradient descent will take tiny little steps. It will take a long time for gradient descent to learn anything.
-- There is a partial solution that doesn't completely solve this problem but it helps a lot - careful choice of how you initialize the weights.
+  - There is a partial solution that doesn't completely solve this problem but it helps a lot - careful choice of how you **initialize the weights**.
+- Recently Microsoft trained 152 layers (ResNet) which is a really big number. With such a deep neural network, if your activations or gradients increase or decrease exponentially as a function of L, then these values could get really big or really small. And this makes training difficult, especially if your gradients are exponentially small, then gradient descent will take tiny little steps. It will take a long time for gradient descent to learn anything.
 
 ### Weight Initialization for Deep Networks
 

@@ -127,27 +127,17 @@
 - In almost all the cases the padding values are zeros.
 - The general rule now,  if a matrix `nxn` is convolved with `fxf` filter/kernel and padding `p` give us `n+2p-f+1,n+2p-f+1` matrix.
 - If n = 6, f = 3, and p = 1 Then the output image will have `n+2p-f+1 = 6+2-3+1 = 6`. We maintain the size of the image.
-- Same convolutions is a convolution with a padding so that output size is the same as the input size. Its given by the equation:
-
-    ```
-    P = (f-1) / 2
-    ```
-
+- Same convolutions is a convolution with a padding so that output size is the same as the input size. Its given by the equation: `P = (f-1) / 2`
 - In computer vision f is usually odd. Some of the reasons is that its have a center value.
 
 ### Strided convolution
 
 - Strided convolution is another piece that are used in CNNs.
-
 - We will call stride `S`.
-
 - When we are making the convolution operation we used `S` to tell us the number of pixels we will jump when we are convolving filter/kernel. The last examples we described S was 1.
-
 - Now the general rule are:
   -  if a matrix `nxn` is convolved with `fxf` filter/kernel and padding `p` and stride `s` it give us `(n+2p-f)/s + 1,(n+2p-f)/s + 1` matrix.
-
 - In case `(n+2p-f)/s + 1` is fraction we can take **floor** of this value.
-
 - In math textbooks the conv operation is filpping the filter before using it. What we were doing is called cross-correlation operation but the state of art of deep learning is using this as conv operation.
 
 ### Convolutions over volumes
@@ -180,7 +170,7 @@
 - The last example forms a layer in the CNN.
 - Hint: no matter the size of the input, the number of the parameters is same if filter size is same. That makes it less prone to overfitting.
 - Here are some notations we will use. If layer l is a conv layer:
-
+-
     ```
     Hyperparameters
     f[l] = filter size
@@ -332,34 +322,21 @@
 - **AlexNet**
 
   - Named after Alex Krizhevsky who was the first author of this paper. The other authors includes Geoffrey Hinton.
-
   - The goal for the model was the ImageNet challenge which classifies images into 1000 classes. Here are the drawing of the model:
-
   - ![](Images/06.png)
-
   - Summary:
-
     - ```
       Conv => Max-pool => Conv => Max-pool => Conv => Conv => Conv => Max-pool ==> Flatten ==> FC ==> FC ==> Softmax
       ```
-
   - Similar to LeNet-5 but bigger.
-
   - Has 60 Million parameter compared to 60k parameter of LeNet-5.
-
   - It used the RELU activation function.
-
   - The original paper contains Multiple GPUs and Local Response normalization (RN).
-
     - Multiple GPUs were used because the GPUs were not so fast back then.
     - Researchers proved that Local Response normalization doesn't help much so for now don't bother yourself for understanding or implementing it.
-
   - This paper convinced the computer vision researchers that deep learning is so important.
-
   - [[Krizhevsky et al., 2012. ImageNet classification with deep convolutional neural networks]](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
-
   - [[Understanding AlexNet]](https://www.learnopencv.com/understanding-alexnet/)
-
   - [[Difference between Local Response Normalization and Batch Normalization]](https://towardsdatascience.com/difference-between-local-response-normalization-and-batch-normalization-272308c034ac)
 
 - **VGG-16**
@@ -406,43 +383,27 @@
 ### Why ResNets work
 
 - Lets see some example that illustrates why resNet work.
-
   - We have a big NN as the following:
-
     - `X --> Big NN --> a[l]`
-
   - Lets add two layers to this network as a residual block:
-
     - `X --> Big NN --> a[l] --> Layer1 --> Layer2 --> a[l+2]`
     - And a`[l]` has a direct connection to `a[l+2]`
-
   - Suppose we are using RELU activations.
-
   - Then:
-
     - ```
       a[l+2]
       = g( z[l+2] + a[l] )
       = g( W[l+2] a[l+1] + b[l+2] + a[l] )
       ```
-
   - Then if we are using L2 regularization for example, `W[l+2]` will be zero. Lets say that `b[l+2]` will be zero too.
-
   - Then `a[l+2] = g( a[l] ) = a[l]` with no negative values.
-
   - This show that identity function is easy for a residual block to learn. And that why it can train deeper NNs.
-
   - Also that the two layers we added doesn't hurt the performance of big NN we made.
-
   - Hint: dimensions of z[l+2] and a[l] have to be the same in resNets. In case they have different dimensions what we put a matrix parameters (Which can be learned or fixed)
-
     - `a[l+2] = g( z[l+2] + Ws * a[l] ) # The added Ws should make the dimensions equal`
     - Ws also can be a zero padding.
-
 - Using a skip-connection helps the gradient to backpropagate and thus helps you to train deeper networks
-
 - Lets take a look at ResNet on images.
-
   - Here are the architecture of **ResNet-34**:
   - ![](Images/resNet.jpg)
   - All the 3x3 Conv are same Convs.
@@ -451,13 +412,9 @@
   - No FC layers, No dropout is used.
   - Two main types of blocks are used in a ResNet, depending mainly on whether the input/output dimensions are same or different. You are going to implement both of them.
   - The dotted lines is the case when the dimensions are different. To solve then they down-sample the input by 2 and then pad zeros to match the two dimensions. There's another trick which is called bottleneck which we will explore later.
-
 - Useful concept (**Spectrum of Depth**):
-
   - ![](Images/12.png)
-
 - Residual blocks types:
-
   - Identity block:
     - ![](Images/16.png)
     - Hint the conv is followed by a batch norm `BN` before `RELU`. Dimensions here are same.
@@ -470,9 +427,7 @@
 ### Network in Network and 1 X 1 convolutions
 
 - A 1 x 1 convolution  - We also call it Network in Network- is so useful in many CNN models.
-
 - What does a 1 X 1 convolution do? Isn't it just multiplying by a number?
-
   - Lets first consider an example:
     - Input: `6x6x1`
     - Conv: `1x1x1` one filter.        `# The 1 x 1 Conv`
@@ -481,20 +436,14 @@
     - Input: `6x6x32`
     - Conv: `1x1x32` 5 filters.     `# The 1 x 1 Conv`
     - Output: `6x6x5`
-
 - It has been used in a lot of modern CNN implementations like ResNet and Inception models.
-
 - A 1 x 1 convolution is useful when:
-
   - We want to shrink the number of channels. We also call this feature transformation.
     - In the second discussed example above we have shrinked the input from 32 to 5 channels.
   - We will later see that by shrinking it we can save a lot of computations.
   - If we have specified the number of 1 x 1 Conv filters to be the same as the input number of channels then the output will contain the same number of channels. Then the 1 x 1 Conv will act like a non linearity and will learn non linearity operator.
-
 - Replace fully connected layers with 1 x 1 convolutions as Yann LeCun believes they are the same.
-
   - > In Convolutional Nets, there is no such thing as "fully-connected layers". There are only convolution layers with 1x1 convolution kernels and a full connection table.
-
 - [[Lin et al., 2013. Network in network]](https://arxiv.org/abs/1312.4400)
 
 ### Inception network motivation
@@ -620,9 +569,7 @@
 ### Object Localization
 
 - Object detection is one of the areas in which deep learning is doing great in the past two years.
-
 - What are localization and detection?
-
   - **Image Classification**:
     - Classify an image to a specific class. The whole image represents one class. We don't want to know exactly where are the object. Usually only one object is presented.
     - ![](Images/Classification.jpg)
@@ -639,13 +586,9 @@
   - **Instance Segmentation**
     - This is like the full problem. Rather than we want to predict the bounding box, we want to know which pixel label but also distinguish them.
     - ![](Images/InstanceSegmentation.png)
-
 - To make image classification we use a Conv Net with a Softmax attached to the end of it.
-
 - To make classification with localization we use a Conv Net with a softmax attached to the end of it and a four numbers `bx`, `by`, `bh`, and `bw` to tell you the location of the class in the image. The dataset should contain this four numbers with the class too.
-
 - Defining the target label Y in classification with localization problem:
-
   - ```
     Y = [
           Pc        # Probability of an object is presented
@@ -658,9 +601,7 @@
           ...
     ]
     ```
-
   - Example (Object is present):
-
   - ```
     Y = [
           1       # Object is present
@@ -673,9 +614,7 @@
           0
     ]
     ```
-
   - Example (When object isn't presented):
-
   - ```
     Y = [
           0		# Object isn't present
@@ -688,26 +627,20 @@
           ?
     ]
     ```
-
 - The loss function for the Y we have created (Example of the square error):
-
   - ```
     L(y',y) = {
           (y1'-y1)^2 + (y2'-y2)^2 + ...    if y1 = 1
           (y1'-y1)^2                       if y1 = 0
     }
     ```
-
   - In practice we use logistic regression for `pc`, log likely hood loss for classes, and squared error for the bounding box.
 
 ### Landmark Detection
 
 - In some of the computer vision problems you will need to output some points. That is called **landmark detection**.
-
 - For example, if you are working in a face recognition problem you might want some points on the face like corners of the eyes, corners of the mouth, and corners of the nose and so on. This can help in a lot of application like detecting the pose of the face.
-
 - Y shape for the face recognition problem that needs to output 64 landmarks:
-
   - ```
     Y = [
           ThereIsAFace      # Probability of face is presented 0 or 1
@@ -718,11 +651,8 @@
           l64y
     ]
     ```
-
 - Hint, in your labeled data, if `l1x,l1y` is the left corner of left eye, all other `l1x,l1y` of the other examples has to be the same.
-
 - Another application is when you need to get the skeleton of the person using different landmarks/points in the person which helps in some applications.
-
 - ![](Images/sl3.png)
 
 ### Object Detection
@@ -767,26 +697,18 @@
 ### Bounding Box Predictions
 
 - A better algorithm than the one described in the last section is the [YOLO algorithm](https://arxiv.org/abs/1506.02640).
-
 - [[Real-time Object Detection with YOLO, YOLOv2 and now YOLOv3]](https://medium.com/@jonathan_hui/real-time-object-detection-with-yolo-yolov2-28b1b93e2088)
-
 - Yolo Algorithm:
-
   - ![](Images/24.png)
-
-  1. Lets say we have an image of 100 X 100
-  2. Place a  3 x 3 grid on the image. For more smother results you should use 19 x 19 for the 100 x 100
-  3. Apply the classification and localization algorithm we discussed in a previous section to each section of the grid. `bx` and `by` will represent the center point of the object in each grid and will be relative to the box so the range is between 0 and 1 while `bh` and `bw` will represent the height and width of the object which can be greater than 1.0 but still a floating point value.
-  4. Do everything at once with the convolution sliding window. If Y shape is 1 x 8 as we discussed before then the output of the 100 x 100 image should be 3 x 3 x 8 which corresponds to 9 cell results.
-  5. Merging the results using predicted localization mid point.
-
+  - 1. Lets say we have an image of 100 X 100
+  - 2. Place a  3 x 3 grid on the image. For more smother results you should use 19 x 19 for the 100 x 100
+  - 3. Apply the classification and localization algorithm we discussed in a previous section to each section of the grid. `bx` and `by` will represent the center point of the object in each grid and will be relative to the box so the range is between 0 and 1 while `bh` and `bw` will represent the height and width of the object which can be greater than 1.0 but still a floating point value.
+  - 4. Do everything at once with the convolution sliding window. If Y shape is 1 x 8 as we discussed before then the output of the 100 x 100 image should be 3 x 3 x 8 which corresponds to 9 cell results.
+  - 5. Merging the results using predicted localization mid point.
 - We have a problem if we have found more than one object in one grid box.
-
 - One of the best advantages that makes the YOLO algorithm popular is that it has a great speed and a Conv net implementation.
-
 - How is YOLO different from other Object detectors?  YOLO uses a single CNN
   network for both classification and localizing the object using bounding boxes.
-
 - In the next sections we will see some ideas that can make the YOLO algorithm better.
 
 ### Intersection Over Union
@@ -838,31 +760,19 @@
 ### YOLO Algorithm
 
 - YOLO is a state-of-the-art object detection model that is fast and accurate
-
 - Lets sum up and introduce the whole YOLO algorithm given an example.
-
 - Suppose we need to do object detection for our autonomous driver system.It needs to identify three classes:
-
-  1. Pedestrian (Walks on ground).
-  2. Car.
-  3. Motorcycle.
-
+  - 1. Pedestrian (Walks on ground).
+  - 2. Car.
+  - 3. Motorcycle.
 - We decided to choose two anchor boxes, a taller one and a wide one.
-
   - Like we said in practice they use five or more anchor boxes hand made or generated using k-means.
-
 - Our labeled Y shape will be `[Ny, HeightOfGrid, WidthOfGrid, 16]`, where Ny is number of instances and each row (of size 16) is as follows:
-
   - `[Pc, bx, by, bh, bw, c1, c2, c3, Pc, bx, by, bh, bw, c1, c2, c3]`
-
 - Your dataset could be an image with a multiple labels and a rectangle for each label, we should go to your dataset and make the shape and values of Y like we agreed.
-
   - We first initialize all of them to zeros and ?, then for each label and rectangle choose its closest grid point then the shape to fill it and then the best anchor point based on the IOU. so that the shape of Y for one image should be `[HeightOfGrid, WidthOfGrid,16]`
-
 - Train the labeled images on a Conv net. you should receive an output of `[HeightOfGrid, WidthOfGrid,16]` for our case.
-
 - To make predictions, run the Conv net on an image and run Non-max suppression algorithm for each class you have in our case there are 3 classes.
-
   - You could get something like that:
     - ![](Images/31.png)
     - Total number of generated boxes are grid_width * grid_height * no_of_anchors = 3 x 3 x 2
@@ -870,13 +780,9 @@
     - ![](Images/32.png)
   - Then get the best probability followed by the IOU filtering:
     - ![](Images/33.png)
-
 - YOLO are not good at detecting smaller object.
-
 - [YOLO9000 Better, faster, stronger](https://arxiv.org/abs/1612.08242)
-
 - You can find implementations for YOLO here:
-
     - https://github.com/allanzelener/YAD2K/
     - https://github.com/thtrieu/darkflow/
     - https://pjreddie.com/darknet/yolo/
@@ -884,25 +790,15 @@
 ### Region Proposals (R-CNN)
 
 - R-CNN is an algorithm that also makes an object detection.
-
 - Yolo tells that its faster:
-
   - > Our model has several advantages over classifier-based systems. It looks at the whole image at test time so its predictions are informed by global context in the image. It also makes predictions with a single network evaluation unlike systems like R-CNN which require thousands for a single image. This makes it extremely fast, more than 1000x faster than R-CNN and 100x faster than Fast R-CNN. See our paper for more details on the full system.
-
 - But one of the downsides of YOLO that it process a lot of areas where no objects are present.
-
 - **R-CNN** stands for regions with Conv Nets.
-
 - R-CNN tries to pick a few windows and run a Conv net (your confident classifier) on top of them.
-
 - The algorithm R-CNN uses to pick windows is called a segmentation algorithm. Outputs something like this:
-
   - ![](Images/34.png)
-
 - If for example the segmentation algorithm produces 2000 blob then we should run our classifier/CNN on top of these blobs.
-
 - There has been a lot of work regarding R-CNN tries to make it faster:
-
   - R-CNN:
     - Propose regions. Classify proposed regions one at a time. Output label + bounding box.
     - Downside is that its slow.
@@ -915,17 +811,11 @@
     - [[Ren et. al, 2016. Faster R-CNN: Towards real-time object detection with region proposal networks]](https://arxiv.org/abs/1506.01497)
   - Mask R-CNN:
     - https://arxiv.org/abs/1703.06870
-
 - Most of the implementation of faster R-CNN are still slower than YOLO.
-
 - Andrew Ng thinks that the idea behind YOLO is better than R-CNN because you are able to do all the things in just one time instead of two times.
-
 - Other algorithms that uses one shot to get the output includes **SSD** and **MultiBox**.
-
   - [[Wei Liu, et. al 2015 SSD: Single Shot MultiBox Detector]](https://arxiv.org/abs/1512.02325)
-
 - **R-FCN** is similar to Faster R-CNN but more efficient.
-
   - [[Jifeng Dai, et. al 2016 R-FCN: Object Detection via Region-based Fully Convolutional Networks ]](https://arxiv.org/abs/1605.06409)
 
 ## Special applications: Face recognition & Neural style transfer
