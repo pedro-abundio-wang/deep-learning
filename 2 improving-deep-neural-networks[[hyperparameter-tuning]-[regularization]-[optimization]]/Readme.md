@@ -269,10 +269,10 @@ Code for Inverted dropout:
     <img src="Images/27.png">
   </div>
 
-- The example explains that the activations and similarly derivatives will be decreased/increased exponentially as a function of number of layers. The **Vanishing / Exploding gradients** occurs when your derivatives become very small or very big.
+- The example explains that the activations and similarly derivatives will be decreased/increased exponentially as a function of number of layers. The vanishing / exploding gradients occurs when your derivatives become very small or very big.
 - So If W > I (Identity matrix) the activation and gradients will explode. However, it turns out that exploding gradient is not that problematic, because:
   - The problem is easy to notice and diagnose, because the derivative would become NaN very quickly and crash the program.
-  - There are some easy hacks that can effectively prevent exploding gradient. One of them is called **gradient clipping**, which simply **throttles** (𝜃) the scale of gradient during backprop, and it turns out to work well.
+  - There are some easy hacks that can effectively prevent exploding gradient. One of them is called **gradient clipping**, which simply throttles 𝜃, scale gradient during backprop, and it turns out to work well.
   <div align="center">
     <img src="Images/28.png">
   </div>
@@ -282,59 +282,60 @@ Code for Inverted dropout:
 
 ### Weight Initialization for Deep Networks
 
-- A partial solution to the Vanishing / Exploding gradients in NN is better or more careful choice of the random initialization of weights
-- In a single neuron (Perceptron model): `Z = w1x1 + w2x2 + ... + wnxn`
-- So if `n_x` is large we want `w`'s to be smaller to not explode the cost.
-- So it turns out that we need the variance which equals `1/n_x` to be the range of `w`'s
-- So lets say when we initialize `w`'s like this (better to use with `tanh` activation):
-
+- A partial solution to the vanishing gradients in NN is better or more careful choice of the random initialization of weights
+- In a single neuron (Perceptron model): z = w<sub>1</sub>x<sub>1</sub> + w<sub>2</sub>x<sub>2</sub> + ... + w<sub>n</sub>x<sub>n</sub>
+- So if n<sub>x</sub> is large we want w to be smaller to not explode the cost.
+- So it turns out that we need the variance which equals 1/n<sub>x</sub> to be the range of w
+- So lets say when we initialize w like this:
+-
   ```
-  np.random.randn(shape) * np.sqrt(1/n[l-1])
+  np.random.randn(shape) * np.sqrt(1/n[l-1]) # better for tanh
   ```
-  or variation of this:   
   ```
-  np.random.randn(shape) * np.sqrt(2/(n[l-1] + n[l]))
+  np.random.randn(shape) * np.sqrt(2/n[l-1]) # better for ReLU
   ```
-
-- Setting initialization part inside sqrt to `2/n[l-1]` for `ReLU` is better:   
-
   ```
-  np.random.randn(shape) * np.sqrt(2/n[l-1])
+  np.random.randn(shape) * np.sqrt(2/(n[l-1] + n[l])) # Xavier Initialization
   ```
-
-- This is one of the best way of partially solution to Vanishing / Exploding gradients (ReLU + Weight Initialization with variance) which will help gradients not to vanish/explode too quickly
+- This is one of the best way of partially solution to vanishing / exploding gradients (ReLU + Weight Initialization with variance) which will help gradients not to vanish/explode too quickly
 - The initialization is called **He Initialization** or **Xavier Initialization**
 
 ### Numerical approximation of gradients
 
 - There is an technique called **gradient checking** which tells you if your implementation of backpropagation is correct.
-- There's a numerical way to calculate the derivative:   
-  ![](Images/03-_Numerical_approximation_of_gradients.png)
+- There's a numerical way to calculate the derivative:
+
+<div align="center">
+  <img src="Images/30.png">
+</div>
+
+<div align="center">
+  <img src="Images/29.png">
+</div>
 
 ### Gradient checking
 
 - Gradient checking approximates the gradients and is very helpful for finding the errors in your backpropagation implementation but it's slower than gradient descent (so use only for debugging).
-- Implementation of this is very simple.
 - Gradient checking:
   - First take `W[1],b[1],...,W[L],b[L]` and reshape into one big vector (`theta`)
   - The cost function will be `J(theta)`
   - Then take `dW[1],db[1],...,dW[L],db[L]` into one big vector (`d_theta`)
-  - **Algorithm**:
+  -
     ```
     eps = 10^-7   # small number
     for i in len(theta):
-      d_theta_approx[i] = (J(theta1,...,theta[i] + eps) -  J(theta1,...,theta[i] - eps)) / 2*eps
+      d_theta_approx[i] = (J(theta[1],...,theta[i] + eps,...) -  J(theta[1],...,theta[i] - eps,...)) / 2*eps
     ```
   - Finally we evaluate this formula `(||d_theta_approx - d_theta||) / (||d_theta_approx||+||d_theta||)` (Euclidean vector norm) and check (with eps = 10^-7):
-    - if it is < 10^-7  - great, very likely the backpropagation implementation is correct
-    - if around 10^-5   - can be OK, but need to inspect if there are no particularly big values in `d_theta_approx - d_theta` vector
+    - if it is < 10<sup>-7</sup> - great, very likely the backpropagation implementation is correct
+    - if around 10<sup>-5</sup> - can be OK, but need to inspect if there are no particularly big values in `d_theta_approx - d_theta` vector
     - if it is >= 10^-3 - bad, probably there is a bug in backpropagation implementation
 
 ### Gradient checking implementation notes
 
 - Don't use the gradient checking algorithm at training time because it's very slow. Use gradient checking only for debugging.
 - If algorithm fails grad check, look at components to try to identify the bug.
-- Don't forget to add `lamda/(2m) * sum(W[l])` to `J` if you are using L1 or L2 regularization.
+- Don't forget to add `lamda/(2m) * sum(W[l])` to `J` if you are using L2 regularization.
 - Gradient checking doesn't work with dropout because J is not consistent. You can first turn off dropout (set `keep_prob = 1.0`), run gradient checking and then turn on dropout again.
 - Run gradient checking at random initialization and train the network for a while maybe there's a bug which can be seen when w's and b's become larger (further from 0) and can't be seen on the first iteration (when w's and b's are very small).
 
