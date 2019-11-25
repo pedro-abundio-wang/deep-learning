@@ -45,7 +45,7 @@
 ### Train / Dev / Test sets
 
 - Its impossible to get all your hyperparameters right on a new application from the first time.
-- So the idea is you go through the loop: `Idea ==> Code ==> Experiment`.
+- So the idea is you go through the loop: Idea ==> Code ==> Experiment.
 - You have to go through the loop many times to figure out your hyperparameters.
 
 <div align="center">
@@ -138,7 +138,7 @@ The L2 regularization version:
   <img src="Images/14.png">
 </div>
 
-`lambda` here is the **regularization parameter** (hyperparameter)
+𝜆 here is the **regularization parameter** (hyperparameter)
 
 **Regularization for NN**
 
@@ -183,20 +183,18 @@ The L2 regularization version:
 - The dropout regularization eliminates some neurons/weights on each iteration based on a probability.
 - A most common technique to implement dropout is called **Inverted dropout**.
 
-Code for Inverted dropout:
+```python
+keep_prob = 0.8   # 0 <= keep_prob <= 1
 
-  ```python
-  keep_prob = 0.8   # 0 <= keep_prob <= 1
+# the generated number that are less than 0.8 will be dropped. 80% stay, 20% dropped
+dl = np.random.rand(a[l].shape[0], a[l].shape[1]) < keep_prob
 
-  # the generated number that are less than 0.8 will be dropped. 80% stay, 20% dropped
-  dl = np.random.rand(a[l].shape[0], a[l].shape[1]) < keep_prob
+al = np.multiply(al,dl)   # keep only the values in dl
 
-  al = np.multiply(al,dl)   # keep only the values in dl
-
-  # increase al to not reduce the expected value of output
-  # (ensures that the expected value of a3 remains the same) - to solve the scaling problem
-  al = al / keep_prob
-  ```
+# increase al to not reduce the expected value of output
+# (ensures that the expected value of a3 remains the same) - to solve the scaling problem
+al = al / keep_prob
+```
 
 - Vector d[l] is used for forward and back propagation and is the same for them, but it is different for each iteration pass.
 - At test time we don't use dropout. If you implement dropout at test time - it would add noise to predictions.
@@ -205,10 +203,10 @@ Code for Inverted dropout:
 
 - The intuition was that dropout randomly knocks out units in your network. So it's as if on every iteration you're working with a smaller NN, and so using a smaller NN seems like it should have a regularizing effect.
 - Dropout can't rely on any one feature, so have to spread out weights (**shrink weights**). It's possible to show that dropout has a similar effect to L2 regularization (**weights decay**).
-- Dropout can have different `keep_prob` per layer. If you're more worried about some layers overfitting than others, you can set a lower `keep_prob` for some layers than others. The downside is, this gives you even more hyperparameters to search for using cross-validation. One other alternative might be to have some layers where you apply dropout and some layers where you don't apply dropout and then just have one hyperparameter, which is a `keep_prob` for the layers for which you do apply dropouts.
+- Dropout can have different keep_prob per layer. If you're more worried about some layers overfitting than others, you can set a lower keep_prob for some layers than others. The downside is, this gives you even more hyperparameters to search for using cross-validation. One other alternative might be to have some layers where you apply dropout and some layers where you don't apply dropout and then just have one hyperparameter, which is a keep_prob for the layers for which you do apply dropouts.
 - The input layer dropout has to be near 1 or no dropout because you don't want to eliminate a lot of features.
 - A lot of researchers are using dropout with Computer Vision because they have a very big input size and almost never have enough data, so overfitting is the usual problem. And dropout is a regularization technique to prevent overfitting.
-- A downside of dropout is that the cost function J is not well defined and it will be hard to debug (plot J by iteration). To solve that you'll need to turn off dropout, set all the `keep_prob` to 1, and then run the code and check that it monotonically decreases J and then turn on the dropouts again.
+- A downside of dropout is that the cost function J is not well defined and it will be hard to debug (plot J by iteration). To solve that you'll need to turn off dropout, set all the keep_prob to 1, and then run the code and check that it monotonically decreases J and then turn on the dropouts again.
 
 ### Other regularization methods
 
@@ -231,7 +229,7 @@ Code for Inverted dropout:
 - We will pick the point at which the training set error and dev set error are best (lowest training cost with lowest dev cost).
 - We will take these parameters as the best parameters.
 - Prefers to use L2 regularization instead of early stopping because this technique simultaneously tries to minimize the cost function and not to overfit which contradicts the **orthogonalization approach**.
-- But its advantage is that you don't need to search a hyperparameter like in other regularization approaches (like `lambda` in L2 regularization).
+- But its advantage is that you don't need to search a hyperparameter like in other regularization approaches (like 𝜆 in L2 regularization).
 
 ### Normalizing inputs
 
@@ -253,13 +251,13 @@ Code for Inverted dropout:
 
 ![](Images/09.png)
 
-- To understand the problem, suppose that we have a deep neural network with number of layers L, and all the activation functions are linear and each `b = 0`
+- To understand the problem, suppose that we have a deep neural network with number of layers L, and all the activation functions are linear and each b = 0
   - Then:
   <div align="center">
     <img src="Images/25.png">
   </div>
   - Then, if we have 2 hidden units per layer and x<sub>1</sub> = x<sub>2</sub> = 1, we result in
-  - `l != L` because of different dimensions in the output layer
+  - l != L because of different dimensions in the output layer
   - X which will be very large
   <div align="center">
     <img src="Images/26.png">
@@ -319,16 +317,16 @@ Code for Inverted dropout:
   - First take `W[1],b[1],...,W[L],b[L]` and reshape into one big vector (`theta`)
   - The cost function will be `J(theta)`
   - Then take `dW[1],db[1],...,dW[L],db[L]` into one big vector (`d_theta`)
-  -
-    ```
-    eps = 10^-7   # small number
-    for i in len(theta):
-      d_theta_approx[i] = (J(theta[1],...,theta[i] + eps,...) -  J(theta[1],...,theta[i] - eps,...)) / 2*eps
-    ```
-  - Finally we evaluate this formula `(||d_theta_approx - d_theta||) / (||d_theta_approx||+||d_theta||)` (Euclidean vector norm) and check (with eps = 10^-7):
-    - if it is < 10<sup>-7</sup> - great, very likely the backpropagation implementation is correct
-    - if around 10<sup>-5</sup> - can be OK, but need to inspect if there are no particularly big values in `d_theta_approx - d_theta` vector
-    - if it is >= 10^-3 - bad, probably there is a bug in backpropagation implementation
+
+```python
+eps = 10^-7   # small number
+for i in len(theta):
+  d_theta_approx[i] = (J(...,theta[i] + eps,...) -  J(...,theta[i] - eps,...)) / 2*eps
+```
+- Finally we evaluate this formula `(||d_theta_approx - d_theta||)/(||d_theta_approx||+||d_theta||)` (Euclidean vector norm) and check (with eps = 10^-7):
+  - if it is < 10<sup>-7</sup> - great, very likely the backpropagation implementation is correct
+  - if around 10<sup>-5</sup> - can be OK, but need to inspect if there are no particularly big values in `d_theta_approx - d_theta` vector
+  - if it is >= 10^-3 - bad, probably there is a bug in backpropagation implementation
 
 ### Gradient checking implementation notes
 
