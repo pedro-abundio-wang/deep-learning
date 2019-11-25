@@ -334,7 +334,7 @@ for i in len(theta):
 - If algorithm fails grad check, look at components to try to identify the bug.
 - Don't forget to add `lamda/(2m) * sum(W[l])` to `J` if you are using L2 regularization.
 - Gradient checking doesn't work with dropout because J is not consistent. You can first turn off dropout (set `keep_prob = 1.0`), run gradient checking and then turn on dropout again.
-- Run gradient checking at random initialization and train the network for a while maybe there's a bug which can be seen when w's and b's become larger (further from 0) and can't be seen on the first iteration (when w's and b's are very small).
+- Run gradient checking at random initialization and train the network for a while maybe there's a bug which can be seen when w and b become larger (further from 0) and can't be seen on the first iteration (when w and b are very small).
 
 ## Optimization algorithms
 
