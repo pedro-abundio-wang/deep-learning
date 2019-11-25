@@ -541,7 +541,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
   | orange  | the   | 0      |
   | orange  | of    | 0      |
 
-  We get positive example by using the same skip-grams technique, with a fixed window that goes around.
+We get positive example by using the same skip-grams technique, with a fixed window that goes around.
 - To generate a negative example, we pick a word randomly from the vocabulary.
 - Notice, that we got word "of" as a negative example although it appeared in the same sentence.
 - So the steps to generate the samples are:
@@ -553,13 +553,11 @@ The goal is given this representation for x to learn a mapping using a sequence 
   - Lets say that the context word are `c` and the word are `t` and `y` is the target.
   - We will apply the simple logistic regression model.   
   ![](Images/41.png)
-  - The logistic regression model can be drawn like this:   
-  ![](Images/42.png)
   - So we are like having 10,000 binary classification problems, and we only train k+1 classifier of them in each iteration.
 - How to select negative samples:
   - We can sample according to empirical frequencies in words corpus which means according to how often different words appears. But the problem with that is that we will have more frequent words like _the, of, and..._
   - The best is to sample with this equation (according to authors):   
-    ![](Images/43.png)
+  ![](Images/43.png)
 
 #### GloVe word vectors
 - GloVe is another algorithm for learning the word embedding. It's the simplest of them.
