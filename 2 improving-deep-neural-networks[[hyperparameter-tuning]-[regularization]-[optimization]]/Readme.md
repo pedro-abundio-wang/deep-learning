@@ -292,13 +292,12 @@ Code for Inverted dropout:
   np.random.randn(shape) * np.sqrt(1/n[l-1]) # better for tanh
   ```
   ```
-  np.random.randn(shape) * np.sqrt(2/n[l-1]) # better for ReLU
+  np.random.randn(shape) * np.sqrt(2/n[l-1]) # better for ReLU (He Initialization)
   ```
   ```
   np.random.randn(shape) * np.sqrt(2/(n[l-1] + n[l])) # Xavier Initialization
   ```
 - This is one of the best way of partially solution to vanishing / exploding gradients (ReLU + Weight Initialization with variance) which will help gradients not to vanish/explode too quickly
-- The initialization is called **He Initialization** or **Xavier Initialization**
 
 ### Numerical approximation of gradients
 

@@ -1,7 +1,7 @@
 # Neural Networks and Deep Learning
 
 * [Neural Networks and Deep Learning](#neural-networks-and-deep-learning)
-    * [Introduction to deep learning](#introduction-to-deep-learning)
+   * [Introduction to deep learning](#introduction-to-deep-learning)
       * [What is a Neural Network](#what-is-a-neural-network)
       * [Supervised learning with neural networks](#supervised-learning-with-neural-networks)
       * [Scale drives machine learning progress](#scale-drives-machine-learning-progress)

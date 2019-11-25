@@ -40,4 +40,18 @@
 
   **Conda Install**
 
-  
+# Readings
+
+https://stats.stackexchange.com/questions/211436/why-normalize-images-by-subtracting-datasets-image-mean-instead-of-the-current
+
+http://www.wildml.com/2015/09/implementing-a-neural-network-from-scratch/
+
+http://scs.ryerson.ca/~aharley/neural-networks/
+
+http://cs231n.github.io/neural-networks-case-study/
+
+http://stackoverflow.com/questions/1907993/autoreload-of-modules-in-ipython
+
+# Papers
+
+https://arxiv.org/pdf/1412.6980.pdf
