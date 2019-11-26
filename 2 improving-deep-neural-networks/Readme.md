@@ -340,6 +340,14 @@ for i in len(theta):
 
 ### Mini-batch gradient descent
 
+<div align="center">
+  <img src="Images/kiank_sgd.png">
+</div>
+
+<div align="center">
+  <img src="Images/kiank_minibatch.png">
+</div>
+
 - Training NN with a large data is slow. So to find an optimization algorithm that runs faster is a good idea.
 - Suppose we have `m = 50 million`. To train this data it will take a huge processing time for one step.
   - because 50 million won't fit in the memory at once we need other processing to make such a thing.
