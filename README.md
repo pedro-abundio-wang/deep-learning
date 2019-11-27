@@ -54,4 +54,4 @@ http://stackoverflow.com/questions/1907993/autoreload-of-modules-in-ipython
 
 # Papers
 
-https://arxiv.org/pdf/1412.6980.pdf
+Adam Paper : https://arxiv.org/pdf/1412.6980.pdf
