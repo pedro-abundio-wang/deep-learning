@@ -285,16 +285,11 @@ al = al / keep_prob
 - So if n<sub>x</sub> is large we want w to be smaller to not explode the cost.
 - So it turns out that we need the variance which equals 1/n<sub>x</sub> to be the range of w
 - So lets say when we initialize w like this:
--
-  ```
-  np.random.randn(shape) * np.sqrt(1/n[l-1]) # better for tanh
-  ```
-  ```
-  np.random.randn(shape) * np.sqrt(2/n[l-1]) # better for ReLU (He Initialization)
-  ```
-  ```
-  np.random.randn(shape) * np.sqrt(2/(n[l-1] + n[l])) # Xavier Initialization
-  ```
+```python
+np.random.randn(shape) * np.sqrt(1/n[l-1]) # better for tanh
+np.random.randn(shape) * np.sqrt(2/n[l-1]) # better for ReLU (He Initialization)
+np.random.randn(shape) * np.sqrt(2/(n[l-1] + n[l])) # Xavier Initialization
+```
 - This is one of the best way of partially solution to vanishing / exploding gradients (ReLU + Weight Initialization with variance) which will help gradients not to vanish/explode too quickly
 
 ### Numerical approximation of gradients
@@ -317,7 +312,6 @@ al = al / keep_prob
   - First take `W[1],b[1],...,W[L],b[L]` and reshape into one big vector (`theta`)
   - The cost function will be `J(theta)`
   - Then take `dW[1],db[1],...,dW[L],db[L]` into one big vector (`d_theta`)
-
 ```python
 eps = 10^-7   # small number
 for i in len(theta):
@@ -349,11 +343,10 @@ for i in len(theta):
 </div>
 
 - Training NN with a large data is slow. So to find an optimization algorithm that runs faster is a good idea.
-- Suppose we have `m = 50 million`. To train this data it will take a huge processing time for one step.
-  - because 50 million won't fit in the memory at once we need other processing to make such a thing.
+- Suppose we have `m = 50 million`. To train this data it will take a huge processing time for one step. 1ecause 50 million won't fit in the memory at once we need other processing to make such a thing.
 - It turns out you can make a faster algorithm to make gradient descent process some of your items even before you finish the 50 million items.
 - Suppose we have split m to **mini batches** of size 1000.
-  - `X{1} = 0    ...  1000`
+  - `X{1} = 1    ...  1000`
   - `X{2} = 1001 ...  2000`
   - `...`
   - `X{bs} = ...`
@@ -362,13 +355,13 @@ for i in len(theta):
 - In **Batch gradient descent** we run the gradient descent on the whole dataset.
 - While in **Mini-Batch gradient descent** we run the gradient descent on the mini datasets.
 - Mini-Batch algorithm pseudo code:
-  ```
-  for t = 1:No_of_batches                         # this is called an epoch
-  	AL, caches = forward_prop(X{t}, Y{t})
-  	cost = compute_cost(AL, Y{t})
-  	grads = backward_prop(AL, caches)
-  	update_parameters(grads)
-  ```
+```python
+for t = 1:No_of_batches                         # this is called an epoch
+	AL, caches = forward_prop(X{t}, Y{t})
+	cost = compute_cost(AL, Y{t})
+  grads = backward_prop(AL, caches)
+  update_parameters(grads)
+```
 - The code inside an epoch should be vectorized.
 - Mini-batch gradient descent works much faster in the large datasets.
 
@@ -387,93 +380,87 @@ for i in len(theta):
   - won't ever converge (reach the minimum cost)
   - lose speedup from vectorization
 - Mini-batch gradient descent:
-  1. faster learning:
-      - you have the vectorization advantage
-      - make progress without waiting to process the entire training set
-  2. doesn't always exactly converge (oscelates in a very small region, but you can reduce learning rate)
+  - faster learning:
+    - you have the vectorization advantage
+    - make progress without waiting to process the entire training set
+  - doesn't always exactly converge (oscelates in a very small region, but you can reduce learning rate)
 - Guidelines for choosing mini-batch size:
-  1. If small training set (< 2000 examples) - use batch gradient descent.
-  2. It has to be a power of 2 (because of the way computer memory is layed out and accessed, sometimes your code runs faster if your mini-batch size is a power of 2):
-    `64, 128, 256, 512, 1024, ...`
-  3. Make sure that mini-batch fits in CPU/GPU memory.
+  - If small training set (< 2000 examples) - use batch gradient descent.
+  - It has to be a power of 2 (because of the way computer memory is layed out and accessed, sometimes your code runs faster if your mini-batch size is a power of 2): `64, 128, 256, 512, 1024, ...`
+  - Make sure that mini-batch fits in CPU/GPU memory.
 - Mini-batch size is a `hyperparameter`.
 
 ### Exponentially weighted averages
 
 - There are optimization algorithms that are better than **gradient descent**, but you should first learn about Exponentially weighted averages.
 - If we have data like the temperature of day through the year it could be like this:
-  ```
-  t(1) = 40
-  t(2) = 49
-  t(3) = 45
-  ...
-  t(180) = 60
-  ...
-  ```
+```python
+t(1) = 40
+t(2) = 49
+t(3) = 45
+...
+t(180) = 60
+...
+```
 - This data is small in winter and big in summer. If we plot this data we will find it some noisy.
 - Now lets compute the Exponentially weighted averages:
-  ```
-  V0 = 0
-  V1 = 0.9 * V0 + 0.1 * t(1) = 4		# 0.9 and 0.1 are hyperparameters
-  V2 = 0.9 * V1 + 0.1 * t(2) = 8.5
-  V3 = 0.9 * V2 + 0.1 * t(3) = 12.15
-  ...
-  ```
+```python
+V0 = 0
+V1 = 0.9 * V0 + 0.1 * t(1) = 4		# 0.9 and 0.1 are hyperparameters
+V2 = 0.9 * V1 + 0.1 * t(2) = 8.5
+V3 = 0.9 * V2 + 0.1 * t(3) = 12.15
+...
+```
 - General equation
-  ```
-  V(t) = beta * v(t-1) + (1-beta) * theta(t)
-  ```
+```python
+V(t) = beta * v(t-1) + (1-beta) * theta(t)
+```
 - If we plot this it will represent averages over `~ (1 / (1 - beta))` entries:
-    - `beta = 0.9` will average last 10 entries
-    - `beta = 0.98` will average last 50 entries
-    - `beta = 0.5` will average last 2 entries
+  - `beta = 0.9` will average last 10 entries
+  - `beta = 0.98` will average last 50 entries
+  - `beta = 0.5` will average last 2 entries
 - Best beta average for our case is between 0.9 and 0.98
 - **Intuition**: The reason why exponentially weighted averages are useful for further optimizing gradient descent algorithm is that it can give different weights to recent data points (`theta`) based on value of `beta`. If `beta` is high (around 0.9), it smoothens out the averages of skewed data points (oscillations w.r.t. Gradient descent terminology). So this reduces oscillations in gradient descent and hence makes faster and smoother path towerds minima.
-- Another imagery example:   
-    ![](Images/Nasdaq1_small.png)   
-    _(taken from [investopedia.com](https://www.investopedia.com/))_
 
 ### Understanding exponentially weighted averages
 
-- Intuitions:   
-    ![](Images/05-_exponentially_weighted_averages_intuitions.png)
+![](Images/05-_exponentially_weighted_averages_intuitions.png)
 - We can implement this algorithm with more accurate results using a moving window. But the code is more efficient and faster using the exponentially weighted averages algorithm.
 - Algorithm is very simple:
-  ```
-  v = 0
-  Repeat
-  {
-  	Get theta(t)
-  	v = beta * v + (1-beta) * theta(t)
-  }
-  ```
+```python
+v = 0
+Repeat
+{
+	Get theta(t)
+	v = beta * v + (1-beta) * theta(t)
+}
+```
 
 ### Bias correction in exponentially weighted averages
 
 - The bias correction helps make the exponentially weighted averages more accurate.
 - Because `v(0) = 0`, the bias of the weighted averages is shifted and the accuracy suffers at the start.
 - To solve the bias issue we have to use this equation:
-  ```
-  v(t) = (beta * v(t-1) + (1-beta) * theta(t)) / (1 - beta^t)
-  ```
+```python
+v(t) = (beta * v(t-1) + (1-beta) * theta(t)) / (1 - beta^t)
+```
 - As t becomes larger the `(1 - beta^t)` becomes close to `1`
 
 ### Gradient descent with momentum
 
 - The momentum algorithm almost always works faster than standard gradient descent.
 - The simple idea is to calculate the exponentially weighted averages for your gradients and then update your weights with the new values.
-- Pseudo code:
-  ```
-  vdW = 0, vdb = 0
-  on iteration t:
-  	# can be mini-batch or batch gradient descent
-  	compute dw, db on current mini-batch                
+```python
+vdW = 0, vdb = 0
+on iteration t:
+  # can be mini-batch or batch gradient descent
+  compute dw, db on current mini-batch                
 
-  	vdW = beta * vdW + (1 - beta) * dW
-  	vdb = beta * vdb + (1 - beta) * db
-  	W = W - learning_rate * vdW
-  	b = b - learning_rate * vdb
-  ```
+  vdW = beta * vdW + (1 - beta) * dW
+  vdb = beta * vdb + (1 - beta) * db
+  W = W - learning_rate * vdW
+  b = b - learning_rate * vdb
+```
 - Momentum helps the cost function to go to the minimum point in a more fast and consistent way.
 - `beta` is another `hyperparameter`. `beta = 0.9` is very common and works very well in most cases.
 - In practice people don't bother implementing **bias correction**.
@@ -482,18 +469,17 @@ for i in len(theta):
 
 - Stands for **Root mean square prop**.
 - This algorithm speeds up the gradient descent.
-- Pseudo code:
-  ```
-  sdW = 0, sdb = 0
-  on iteration t:
-  	# can be mini-batch or batch gradient descent
-  	compute dw, db on current mini-batch
+```python
+sdW = 0, sdb = 0
+on iteration t:
+  # can be mini-batch or batch gradient descent
+  compute dw, db on current mini-batch
 
-  	sdW = (beta * sdW) + (1 - beta) * dW^2  # squaring is element-wise
-  	sdb = (beta * sdb) + (1 - beta) * db^2  # squaring is element-wise
-  	W = W - learning_rate * dW / sqrt(sdW)
-  	b = B - learning_rate * db / sqrt(sdb)
-  ```
+  sdW = (beta * sdW) + (1 - beta) * dW^2  # squaring is element-wise
+  sdb = (beta * sdb) + (1 - beta) * db^2  # squaring is element-wise
+  W = W - learning_rate * dW / sqrt(sdW)
+  b = B - learning_rate * db / sqrt(sdb)
+```
 - RMSprop will make the cost function move slower on the vertical direction and faster on the horizontal direction in the following example:
 - Ensure that `sdW` is not zero by adding a small value `epsilon` (e.g. `epsilon = 10^-8`) to it:   
    `W = W - learning_rate * dW / (sqrt(sdW) + epsilon)`
@@ -504,29 +490,28 @@ for i in len(theta):
 - Stands for **Adaptive Moment Estimation**.
 - Adam optimization and RMSprop are among the optimization algorithms that worked very well with a lot of NN architectures.
 - Adam optimization simply puts RMSprop and momentum together!
-- Pseudo code:
-  ```
-  vdW = 0, vdW = 0
-  sdW = 0, sdb = 0
-  on iteration t:
-  	# can be mini-batch or batch gradient descent
-  	compute dw, db on current mini-batch                
+```python
+vdW = 0, vdW = 0
+sdW = 0, sdb = 0
+on iteration t:
+	# can be mini-batch or batch gradient descent
+	compute dw, db on current mini-batch                
 
-  	vdW = (beta1 * vdW) + (1 - beta1) * dW     # momentum
-  	vdb = (beta1 * vdb) + (1 - beta1) * db     # momentum
+	vdW = (beta1 * vdW) + (1 - beta1) * dW     # momentum
+	vdb = (beta1 * vdb) + (1 - beta1) * db     # momentum
 
-  	sdW = (beta2 * sdW) + (1 - beta2) * dW^2   # RMSprop
-  	sdb = (beta2 * sdb) + (1 - beta2) * db^2   # RMSprop
+	sdW = (beta2 * sdW) + (1 - beta2) * dW^2   # RMSprop
+	sdb = (beta2 * sdb) + (1 - beta2) * db^2   # RMSprop
 
-  	vdW = vdW / (1 - beta1^t)      # fixing bias
-  	vdb = vdb / (1 - beta1^t)      # fixing bias
+	vdW = vdW / (1 - beta1^t)      # fixing bias
+	vdb = vdb / (1 - beta1^t)      # fixing bias
 
-  	sdW = sdW / (1 - beta2^t)      # fixing bias
-  	sdb = sdb / (1 - beta2^t)      # fixing bias
+	sdW = sdW / (1 - beta2^t)      # fixing bias
+	sdb = sdb / (1 - beta2^t)      # fixing bias
 
-  	W = W - learning_rate * vdW / (sqrt(sdW) + epsilon)
-  	b = B - learning_rate * vdb / (sqrt(sdb) + epsilon)
-  ```
+	W = W - learning_rate * vdW / (sqrt(sdW) + epsilon)
+	b = B - learning_rate * vdb / (sqrt(sdb) + epsilon)
+```
 - Hyperparameters for Adam:
   - Learning rate: needed to be tuned.
   - `beta1`: parameter of the momentum - `0.9` is recommended by default.
@@ -537,15 +522,14 @@ for i in len(theta):
 
 - Slowly reduce learning rate.
 - As mentioned before mini-batch gradient descent won't reach the optimum point (converge). But by making the learning rate decay with iterations it will be much closer to it because the steps (and possible oscillations) near the optimum are smaller.
-- One technique equations is`learning_rate = (1 / (1 + decay_rate * epoch_num)) * learning_rate_0`  
+- One technique equations is`learning_rate = (1 / (1 + decay_rate * epoch_num)) * learning_rate`  
   - `epoch_num` is over all data (not a single mini-batch).
 - Other learning rate decay methods (continuous):
-  - `learning_rate = (0.95 ^ epoch_num) * learning_rate_0`
-  - `learning_rate = (k / sqrt(epoch_num)) * learning_rate_0`
+  - `learning_rate = (0.95 ^ epoch_num) * learning_rate`
+  - `learning_rate = (k / sqrt(epoch_num)) * learning_rate`
 - Some people perform learning rate decay discretely - repeatedly decrease after some number of epochs.
 - Some people are making changes to the learning rate manually.
 - `decay_rate` is another `hyperparameter`.
-- For Andrew Ng, learning rate decay has less priority.
 
 ### The problem of local optima
 
@@ -555,23 +539,21 @@ for i in len(theta):
   - Plateau is a region where the derivative is close to zero for a long time.
   - This is where algorithms like momentum, RMSprop or Adam can help.
 
-
-
 ## Hyperparameter tuning, Batch Normalization and Programming Frameworks
 
 ### Tuning process
 
 - We need to tune our hyperparameters to get the best out of them.
-- Hyperparameters importance are (as for Andrew Ng):
-  1. Learning rate.
-  2. Momentum beta.
-  3. Mini-batch size.
-  4. No. of hidden units.
-  5. No. of layers.
-  6. Learning rate decay.
-  7. Regularization lambda.
-  8. Activation functions.
-  9. Adam `beta1`, `beta2` & `epsilon`.
+- Hyperparameters importance are:
+  - Learning rate.
+  - Momentum beta.
+  - Mini-batch size.
+  - No. of hidden units.
+  - No. of layers.
+  - Learning rate decay.
+  - Regularization lambda.
+  - Activation functions.
+  - Adam `beta1`, `beta2` & `epsilon`.
 - Its hard to decide which hyperparameter is the most important in a problem. It depends a lot on your problem.
 - One of the ways to tune is to sample a grid with `N` hyperparameter settings and then try all settings combinations on your problem.
 - Try random values: don't use a grid.
@@ -582,30 +564,30 @@ for i in len(theta):
 ### Using an appropriate scale to pick hyperparameters
 
 - Let's say you have a specific range for a hyperparameter from "a" to "b". It's better to search for the right ones using the logarithmic scale rather then in linear scale:
-  - Calculate: `a_log = log(a)  # e.g. a = 0.0001 then a_log = -4`
-  - Calculate: `b_log = log(b)  # e.g. b = 1  then b_log = 0`
+  - Calculate: `a_log = log(a)  # e.g. a = 0.0001 then log(a) = -4`
+  - Calculate: `b_log = log(b)  # e.g. b = 1  then log(b) = 0`
   - Then:
-    ```
-    r = (a_log - b_log) * np.random.rand() + b_log
-    # In the example the range would be from [-4, 0] because rand range [0,1)
-    result = 10^r
-    ```
-    It uniformly samples values in log scale from [a,b].
+  ```python
+  r = (a_log - b_log) * np.random.rand() + b_log
+  # In the example the range would be from [-4, 0] because rand range [0,1)
+  result = 10^r
+  ```
+  - It uniformly samples values in log scale from [a,b].
 - If we want to use the last method on exploring on the "momentum beta":
   - Beta best range is from 0.9 to 0.999.
   - You should search for `1 - beta in range 0.001 to 0.1 (1 - 0.9 and 1 - 0.999)` and the use `a = 0.001` and `b = 0.1`. Then:
-    ```
-    a_log = -3
-    b_log = -1
-    r = (a_log - b_log) * np.random.rand() + b_log
-    beta = 1 - 10^r   # because 1 - beta = 10^r
-    ```
+  ```python
+  a_log = -3
+  b_log = -1
+  r = (a_log - b_log) * np.random.rand() + b_log
+  beta = 1 - 10^r   # because 1 - beta = 10^r
+  ```
 
 ### Hyperparameters tuning in practice: Pandas vs. Caviar
 
 - Intuitions about hyperparameter settings from one application area may or may not transfer to a different one.
 - If you don't have much computational resources you can use the "babysitting model":
-  - Day 0 you might initialize your parameter as random and then start training.
+  - First you might initialize your parameter as random and then start training.
   - Then you watch your learning curve gradually decrease over the day.
   - And each day you nudge your parameters a little during training.
   - Called panda approach.
@@ -618,36 +600,36 @@ for i in len(theta):
 - Batch Normalization speeds up learning.
 - Before we normalized input by subtracting the mean and dividing by variance. This helped a lot for the shape of the cost function and for reaching the minimum point faster.
 - The question is: *for any hidden layer can we normalize `A[l]` to train `W[l+1]`, `b[l+1]` faster?* This is what batch normalization is about.
-- There are some debates in the deep learning literature about whether you should normalize values before the activation function `Z[l]` or after applying the activation function `A[l]`. In practice, normalizing `Z[l]` is done much more often and that is what Andrew Ng presents.
+- There are some debates in the deep learning literature about whether you should normalize values before the activation function `Z[l]` or after applying the activation function `A[l]`. In practice, normalizing `Z[l]` is done much more often.
 - Algorithm:
   - Given `Z[l] = [z(1), ..., z(m)]`, i = 1 to m (for each input)
   - Compute `mean = 1/m * sum(z[i])`
   - Compute `variance = 1/m * sum((z[i] - mean)^2)`
   - Then `Z_norm[i] = (z[i] - mean) / np.sqrt(variance + epsilon)` (add `epsilon` for numerical stability if variance = 0)
-    - Forcing the inputs to a distribution with zero mean and variance of 1.
+  - Forcing the inputs to a distribution with zero mean and variance of 1.
   - Then `Z_tilde[i] = gamma * Z_norm[i] + beta`
-    - To make inputs belong to other distribution (with other mean and variance).
-    - gamma and beta are learnable parameters of the model.
-    - Making the NN learn the distribution of the outputs.
-    - _Note:_ if `gamma = sqrt(variance + epsilon)` and `beta = mean` then `Z_tilde[i] = z[i]`
+  - To make inputs belong to other distribution (with other mean and variance).
+  - gamma and beta are learnable parameters of the model.
+  - Making the NN learn the distribution of the outputs.
+  - if `gamma = sqrt(variance + epsilon)` and `beta = mean` then `Z_tilde[i] = z[i]`
 
 ### Fitting Batch Normalization into a neural network
 
 - Using batch norm in 3 hidden layers NN:
-    ![](Images/bn.png)
+![](Images/bn.png)
 - Our NN parameters will be:
   - `W[1]`, `b[1]`, ..., `W[L]`, `b[L]`, `beta[1]`, `gamma[1]`, ..., `beta[L]`, `gamma[L]`
   - `beta[1]`, `gamma[1]`, ..., `beta[L]`, `gamma[L]` are updated using any optimization algorithms (like GD, RMSprop, Adam)
 - If you are using a deep learning framework, you won't have to implement batch norm yourself:
-  - Ex. in Tensorflow you can add this line: `tf.nn.batch-normalization()`
+  - Tensorflow you can add this line: `tf.nn.batch-normalization()`
 - Batch normalization is usually applied with mini-batches.
 - If we are using batch normalization parameters `b[1]`, ..., `b[L]` doesn't count because they will be eliminated after mean subtraction step, so:
-  ```
-  Z[l] = W[l]A[l-1] + b[l] => Z[l] = W[l]A[l-1]
-  Z_norm[l] = ...
-  Z_tilde[l] = gamma[l] * Z_norm[l] + beta[l]
-  ```
-  - Taking the mean of a constant `b[l]` will eliminate the `b[l]`
+```python
+Z[l] = W[l]A[l-1] + b[l] => Z[l] = W[l]A[l-1]
+Z_norm[l] = ...
+Z_tilde[l] = gamma[l] * Z_norm[l] + beta[l]
+```
+- Taking the mean of a constant `b[l]` will eliminate the `b[l]`
 - So if you are using batch normalization, you can remove b[l] or make it always zero.
 - So the parameters will be `W[l]`, `beta[l]`, and `alpha[l]`.
 - Shapes:
@@ -696,10 +678,10 @@ for i in len(theta):
 - Each of C values in the output layer will contain a probability of the example to belong to each of the classes.
 - In the last layer we will have to activate the Softmax activation function instead of the sigmoid activation.
 - Softmax activation equations:
-  ```
-  t = e^(Z[L])                      # shape(C, m)
-  A[L] = e^(Z[L]) / sum(t)          # shape(C, m), sum(t) - sum of t's for each example (shape (1, m))
-  ```
+```python
+t = e^(Z[L])                      # shape(C, m)
+A[L] = e^(Z[L]) / sum(t)          # shape(C, m), sum(t) - sum of t's for each example (shape (1, m))
+```
 
 ### Training a Softmax classifier
 
@@ -708,21 +690,21 @@ for i in len(theta):
 - The Softmax name came from softening the values and not harding them like hard max.
 - Softmax is a generalization of logistic activation function to `C` classes. If `C = 2` softmax reduces to logistic regression.
 - The loss function used with softmax:
-  ```
-  L(y, y_hat) = - sum(y[j] * log(y_hat[j])) # j = 0 to C-1
-  ```
+```python
+L(y, y_hat) = - sum(y[j] * log(y_hat[j])) # j = 0 to C-1
+```
 - The cost function used with softmax:
-  ```
-  J(w[1], b[1], ...) = - 1 / m * (sum(L(y[i], y_hat[i]))) # i = 0 to m
-  ```
+```python
+J(w[1], b[1], ...) = - 1 / m * (sum(L(y[i], y_hat[i]))) # i = 0 to m
+```
 - Back propagation with softmax:
-  ```
-  dZ[L] = Y_hat - Y
-  ```
+```python
+dZ[L] = Y_hat - Y
+```
 - The derivative of softmax is:
-  ```
-  Y_hat * (1 - Y_hat)
-  ```
+```python
+Y_hat * (1 - Y_hat)
+```
 
 ### Deep learning frameworks
 
@@ -754,80 +736,76 @@ for i in len(theta):
   - Example function: `J(w) = w^2 - 10w + 25`
   - The result should be `w = 5` as the function is `(w-5)^2 = 0`
   - Code v.1:
-    ```python
-    import numpy as np
-    import tensorflow as tf
+  ```python
+  import numpy as np
+  import tensorflow as tf
 
+  w = tf.Variable(0, dtype=tf.float32)                 # creating a variable w
+  cost = tf.add(tf.add(w**2, tf.multiply(-10.0, w)), 25.0)        # can be written as this - cost = w**2 - 10*w + 25
+  train = tf.train.GradientDescentOptimizer(0.01).minimize(cost)
 
-    w = tf.Variable(0, dtype=tf.float32)                 # creating a variable w
-    cost = tf.add(tf.add(w**2, tf.multiply(-10.0, w)), 25.0)        # can be written as this - cost = w**2 - 10*w + 25
-    train = tf.train.GradientDescentOptimizer(0.01).minimize(cost)
+  init = tf.global_variables_initializer()
+  session = tf.Session()
+  session.run(init)
+  session.run(w)    # Runs the definition of w, if you print this it will print zero
+  session.run(train)
 
-    init = tf.global_variables_initializer()
-    session = tf.Session()
-    session.run(init)
-    session.run(w)    # Runs the definition of w, if you print this it will print zero
+  print("W after one iteration:", session.run(w))
+
+  for i in range(1000):
     session.run(train)
 
-    print("W after one iteration:", session.run(w))
-
-    for i in range(1000):
-    	session.run(train)
-
-    print("W after 1000 iterations:", session.run(w))
-    ```
+  print("W after 1000 iterations:", session.run(w))
+  ```
   - Code v.2 (we feed the inputs to the algorithm through coefficients):
+  ```python
+  import numpy as np
+  import tensorflow as tf
 
-    ```python
-    import numpy as np
-    import tensorflow as tf
+  coefficients = np.array([[1.], [-10.], [25.]])
 
+  x = tf.placeholder(tf.float32, [3, 1])
+  w = tf.Variable(0, dtype=tf.float32)                 # Creating a variable w
+  cost = x[0][0]*w**2 + x[1][0]*w + x[2][0]
 
-    coefficients = np.array([[1.], [-10.], [25.]])
+  train = tf.train.GradientDescentOptimizer(0.01).minimize(cost)
 
-    x = tf.placeholder(tf.float32, [3, 1])
-    w = tf.Variable(0, dtype=tf.float32)                 # Creating a variable w
-    cost = x[0][0]*w**2 + x[1][0]*w + x[2][0]
+  init = tf.global_variables_initializer()
+  session = tf.Session()
+  session.run(init)
+  session.run(w)    # Runs the definition of w, if you print this it will print zero
+  session.run(train, feed_dict={x: coefficients})
 
-    train = tf.train.GradientDescentOptimizer(0.01).minimize(cost)
+  print("W after one iteration:", session.run(w))
 
-    init = tf.global_variables_initializer()
-    session = tf.Session()
-    session.run(init)
-    session.run(w)    # Runs the definition of w, if you print this it will print zero
+  for i in range(1000):
     session.run(train, feed_dict={x: coefficients})
 
-    print("W after one iteration:", session.run(w))
-
-    for i in range(1000):
-    	session.run(train, feed_dict={x: coefficients})
-
-    print("W after 1000 iterations:", session.run(w))
-    ```
+  print("W after 1000 iterations:", session.run(w))
+  ```
 - In TensorFlow you implement only the forward propagation and TensorFlow will do the backpropagation by itself.
 - In TensorFlow a placeholder is a variable you can assign a value to later.
 - If you are using a mini-batch training you should change the `feed_dict={x: coefficients}` to the current mini-batch data.
 - Almost all TensorFlow programs use this:
-  ```python
-  with tf.Session() as session:       # better for cleaning up in case of error/exception
-  	session.run(init)
-  	session.run(w)
-  ```
+```python
+with tf.Session() as session:       # better for cleaning up in case of error/exception
+	session.run(init)
+	session.run(w)
+```
 - In deep learning frameworks there are a lot of things that you can do with one line of code like changing the optimizer.
 _**Side notes:**_
 - Writing and running programs in TensorFlow has the following steps:
-  1. Create Tensors (variables) that are not yet executed/evaluated.
-  2. Write operations between those Tensors.
-  3. Initialize your Tensors.
-  4. Create a Session.
-  5. Run the Session. This will run the operations you'd written above.
+  - Create Tensors (variables) that are not yet executed/evaluated.
+  - Write operations between those Tensors.
+  - Initialize your Tensors.
+  - Create a Session.
+  - Run the Session. This will run the operations you'd written above.
 - Instead of needing to write code to compute the cost function we know, we can use this line in TensorFlow :
   `tf.nn.sigmoid_cross_entropy_with_logits(logits = ...,  labels = ...)`
 - To initialize weights in NN using TensorFlow use:
-  ```
-  W1 = tf.get_variable("W1", [25,12288], initializer = tf.contrib.layers.xavier_initializer(seed = 1))
-
-  b1 = tf.get_variable("b1", [25,1], initializer = tf.zeros_initializer())
-  ```
+```python
+W1 = tf.get_variable("W1", [25,12288], initializer = tf.contrib.layers.xavier_initializer(seed = 1))
+b1 = tf.get_variable("b1", [25,1], initializer = tf.zeros_initializer())
+```
 - For 3-layer NN, it is important to note that the forward propagation stops at `Z3`. The reason is that in TensorFlow the last linear layer output is given as input to the function computing the loss. Therefore, you don't need `A3`!
 - To reset the graph use `tf.reset_default_graph()`
