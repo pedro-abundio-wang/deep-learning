@@ -1,44 +1,66 @@
 # Deep Learning
 
-  - Neural Networks and Deep Learning
-  - Improving Deep Neural Networks: Hyperparameters tuning, Regularization and Optimization
-  - Machine Learning Strategy
-  - Convolutional Neural Network
-  - Recurrent Neural Network
+**Nvidia Driver Download**
 
-  **Nvidia Driver Download**
+[https://www.nvidia.com/Download/index.aspx?lang=en-us](https://www.nvidia.com/Download/index.aspx?lang=en-us)
 
-  [https://www.nvidia.com/Download/index.aspx?lang=en-us](https://www.nvidia.com/Download/index.aspx?lang=en-us)
+**Nvidia Driver Install**
 
-  **Nvidia Driver Cuda Version Match**
+After you have downloaded the file NVIDIA-Linux-x86_64-410.48.run, change to the directory containing the downloaded file, and as the root user run the executable:
 
-  ![](img/nvidia-driver-cuda-version-match.png)
+```shell
+sh NVIDIA-Linux-x86_64-440.36.run
+```
 
-  [https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/](https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/)
+```
+nvidia-smi
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 410.48                 Driver Version: 410.48                    |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  GeForce GTX 106...  Off  | 00000000:01:00.0  On |                  N/A |
+|  0%   40C    P8     9W / 200W |    446MiB /  6075MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
 
-  **CUDA Download**
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|    0      1075      G   /usr/lib/xorg/Xorg                           221MiB |
+|    0      2627      G   compiz                                       156MiB |
+|    0     10596      G   ...-token=4AD5E8ABBEA9107836793E952997583E    66MiB |
++-----------------------------------------------------------------------------+
+```
 
-  [https://developer.nvidia.com/cuda-toolkit-archive](https://developer.nvidia.com/cuda-toolkit-archive)
+**Nvidia Driver Cuda Version Match**
 
-  **CUDA Install**
+![](img/nvidia-driver-cuda-version-match.png)
 
-  [https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
+[https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/](https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/)
 
-  **cuDNN Download**
+**CUDA Download**
 
-  [https://developer.nvidia.com/rdp/cudnn-archive](https://developer.nvidia.com/rdp/cudnn-archive)
+[https://developer.nvidia.com/cuda-toolkit-archive](https://developer.nvidia.com/cuda-toolkit-archive)
 
-  **cuDNN Install**
+**CUDA Install**
 
-  [https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html)
+[https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
 
-  **tensorflow cuda cudnn version**
+**cuDNN Download**
 
-  ![](img/tensorflow-cuda-cudnn-version.png)
+[https://developer.nvidia.com/rdp/cudnn-archive](https://developer.nvidia.com/rdp/cudnn-archive)
 
-  [https://www.tensorflow.org/install/source](https://www.tensorflow.org/install/source)
+**cuDNN Install**
 
-  **Conda Install**
+[https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html)
+
+**tensorflow cuda cudnn version**
+
+![](img/tensorflow-cuda-cudnn-version.png)
+
+[https://www.tensorflow.org/install/source](https://www.tensorflow.org/install/source)
 
 # Readings
 
