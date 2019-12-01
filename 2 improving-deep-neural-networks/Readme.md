@@ -295,7 +295,7 @@ np.random.randn(shape) * np.sqrt(2/(n[l-1] + n[l])) # Xavier Initialization
 - There's a numerical way to calculate the derivative:
 
 <div align="center">
-  <img src="Images/30.png">
+  <img src="Images/30.jpg">
 </div>
 
 <div align="center">
@@ -331,6 +331,29 @@ for i in len(theta):
 
 ### Mini-batch gradient descent
 
+- Training NN with a large data is slow. So to find an optimization algorithm that runs faster is a good idea.
+- Suppose we have m = 50 million. To train this data it will take a huge processing time for one step. because 50 million won't fit in the memory at once we need other processing to make such a thing.
+- Suppose we have split m to **mini-batches** of size 1000.
+  - X<sup>{1}</sup> = 1    ...  1000
+  - X<sup>{2}</sup> = 1001 ...  2000
+  - ...
+  - X<sup>{num_of_batches}</sup> = ...
+- We similarly split X and Y.
+- So the definition of mini batches ==> t: X<sup>{t}</sup>, Y<sup>{t}</sup>
+- In **batch gradient descent** we run the gradient descent on the whole dataset.
+- While in **Mini-Batch gradient descent** we run the gradient descent on the mini-batches datasets.
+- Mini-Batch algorithm pseudo code:
+```python
+# this is called an epoch
+for t = 1:num_of_batches
+    AL, caches = forward_prop(X{t}, Y{t})
+    cost = compute_cost(AL, Y{t})
+    grads = backward_prop(AL, caches)
+    update_parameters(grads)
+```
+- The code inside an **epoch** should be vectorized.
+- Mini-batch gradient descent works much faster in the large datasets.
+
 <div align="center">
   <img src="Images/kiank_sgd.png">
 </div>
@@ -339,91 +362,84 @@ for i in len(theta):
   <img src="Images/kiank_minibatch.png">
 </div>
 
-- Training NN with a large data is slow. So to find an optimization algorithm that runs faster is a good idea.
-- Suppose we have `m = 50 million`. To train this data it will take a huge processing time for one step. 1ecause 50 million won't fit in the memory at once we need other processing to make such a thing.
-- It turns out you can make a faster algorithm to make gradient descent process some of your items even before you finish the 50 million items.
-- Suppose we have split m to **mini batches** of size 1000.
-  - `X{1} = 1    ...  1000`
-  - `X{2} = 1001 ...  2000`
-  - `...`
-  - `X{bs} = ...`
-- We similarly split `X` & `Y`.
-- So the definition of mini batches ==> `t: X{t}, Y{t}`
-- In **Batch gradient descent** we run the gradient descent on the whole dataset.
-- While in **Mini-Batch gradient descent** we run the gradient descent on the mini datasets.
-- Mini-Batch algorithm pseudo code:
-```python
-for t = 1:No_of_batches                         # this is called an epoch
-	AL, caches = forward_prop(X{t}, Y{t})
-	cost = compute_cost(AL, Y{t})
-  grads = backward_prop(AL, caches)
-  update_parameters(grads)
-```
-- The code inside an epoch should be vectorized.
-- Mini-batch gradient descent works much faster in the large datasets.
-
 ### Understanding mini-batch gradient descent
 
 - In mini-batch algorithm, the cost won't go down with each step as it does in batch algorithm. It could contain some ups and downs but generally it has to go down (unlike the batch gradient descent where cost function descreases on each iteration).
-  ![](Images/04-_batch_vs_mini_batch_cost.png)
+![](Images/04-_batch_vs_mini_batch_cost.png)
 - Mini-batch size:
-  - (`mini batch size = m`)  ==>    Batch gradient descent
-  - (`mini batch size = 1`)  ==>    Stochastic gradient descent (SGD)
-  - (`mini batch size = between 1 and m`) ==>    Mini-batch gradient descent
+  - (mini batch size = m) ==> Batch gradient descent
+  - (mini batch size = 1) ==> Stochastic gradient descent (SGD)
+  - (mini batch size = between 1 and m) ==> Mini-batch gradient descent
 - Batch gradient descent:
   - too long per iteration (epoch)
 - Stochastic gradient descent:
   - too noisy regarding cost minimization (can be reduced by using smaller learning rate)
   - won't ever converge (reach the minimum cost)
-  - lose speedup from vectorization
+  - lose speed up from vectorization
 - Mini-batch gradient descent:
   - faster learning:
     - you have the vectorization advantage
     - make progress without waiting to process the entire training set
   - doesn't always exactly converge (oscelates in a very small region, but you can reduce learning rate)
+<div align="center">
+  <img src="Images/31.png">
+</div>
 - Guidelines for choosing mini-batch size:
   - If small training set (< 2000 examples) - use batch gradient descent.
-  - It has to be a power of 2 (because of the way computer memory is layed out and accessed, sometimes your code runs faster if your mini-batch size is a power of 2): `64, 128, 256, 512, 1024, ...`
-  - Make sure that mini-batch fits in CPU/GPU memory.
-- Mini-batch size is a `hyperparameter`.
+  - It has to be a power of 2 (because of the way computer memory is layed out and accessed, sometimes your code runs faster if your mini-batch size is a power of 2): 64, 128, 256, 512, 1024
+- Mini-batch size is a hyperparameter.
 
 ### Exponentially weighted averages
 
 - There are optimization algorithms that are better than **gradient descent**, but you should first learn about Exponentially weighted averages.
 - If we have data like the temperature of day through the year it could be like this:
-```python
-t(1) = 40
-t(2) = 49
-t(3) = 45
-...
-t(180) = 60
-...
-```
+<div align="center">
+  <img src="Images/32.png">
+</div>
 - This data is small in winter and big in summer. If we plot this data we will find it some noisy.
 - Now lets compute the Exponentially weighted averages:
 ```python
-V0 = 0
-V1 = 0.9 * V0 + 0.1 * t(1) = 4		# 0.9 and 0.1 are hyperparameters
-V2 = 0.9 * V1 + 0.1 * t(2) = 8.5
-V3 = 0.9 * V2 + 0.1 * t(3) = 12.15
+v(0) = 0
+v(1) = 0.9 * v(0) + 0.1 * θ(1) = 4		# 0.9 and 0.1 are hyperparameters
+v(2) = 0.9 * v(1) + 0.1 * θ(2) = 8.5
+v(3) = 0.9 * v(2) + 0.1 * θ(3) = 12.15
 ...
+v(t) = 0.9 * v(t-1) + 0.1 * θ(t)
 ```
 - General equation
 ```python
-V(t) = beta * v(t-1) + (1-beta) * theta(t)
+v(t) = β * v(t-1) + (1 - β) * θ(t)
 ```
-- If we plot this it will represent averages over `~ (1 / (1 - beta))` entries:
-  - `beta = 0.9` will average last 10 entries
-  - `beta = 0.98` will average last 50 entries
-  - `beta = 0.5` will average last 2 entries
-- Best beta average for our case is between 0.9 and 0.98
-- **Intuition**: The reason why exponentially weighted averages are useful for further optimizing gradient descent algorithm is that it can give different weights to recent data points (`theta`) based on value of `beta`. If `beta` is high (around 0.9), it smoothens out the averages of skewed data points (oscillations w.r.t. Gradient descent terminology). So this reduces oscillations in gradient descent and hence makes faster and smoother path towerds minima.
+- If we plot this it will represent averages over (1 / (1 - β)) entries:
+  - β = 0.9 will average last 10 entries
+  - β = 0.98 will average last 50 entries
+  <div align="center">
+    <img src="Images/33.png">
+  </div>
+  - β = 0.5 will average last 2 entries
+  <div align="center">
+    <img src="Images/34.png">
+  </div>
+- Best β average for our case is between 0.9 and 0.98
+- The reason why exponentially weighted averages are useful for further optimizing gradient descent algorithm is that it can give different weights to recent data points (θ) based on value of β. If β is high (around 0.9), it smoothens out the averages of skewed data points (oscillations w.r.t. gradient descent). So this reduces oscillations in gradient descent and hence makes faster and smoother path towerds minima.
 
 ### Understanding exponentially weighted averages
 
-![](Images/05-_exponentially_weighted_averages_intuitions.png)
-- We can implement this algorithm with more accurate results using a moving window. But the code is more efficient and faster using the exponentially weighted averages algorithm.
-- Algorithm is very simple:
+<div align="center">
+  <img src="Images/35.png">
+</div>
+
+<div align="center">
+  <img src="Images/36.png">
+</div>
+
+<div align="center">
+  <img src="Images/37.png">
+</div>
+
+- when β = 0.9 ==> 0.9<sup>10</sup> about 1/e
+- when β = 0.98 ==> 0.98<sup>50</sup> about 1/e
+- We can implement this algorithm with more accurate results using a moving window with average. But the code is more efficient and faster using the exponentially weighted averages algorithm.
 ```python
 v = 0
 Repeat
@@ -435,13 +451,27 @@ Repeat
 
 ### Bias correction in exponentially weighted averages
 
+<div align="center">
+  <img src="Images/38.png">
+</div>
+
 - The bias correction helps make the exponentially weighted averages more accurate.
-- Because `v(0) = 0`, the bias of the weighted averages is shifted and the accuracy suffers at the start.
+- Because v(0) = 0, the bias of the weighted averages is shifted and the accuracy suffers at the start.
+```python
+v(0) = 0
+v(1) = 0.9 * v(0) + 0.1 * θ(1) = 0.1 * θ(1)
+v(2) = 0.9 * v(1) + 0.1 * θ(2) = 0.09 * θ(1)+ 0.1 * θ(2)
+```
 - To solve the bias issue we have to use this equation:
 ```python
 v(t) = (beta * v(t-1) + (1-beta) * theta(t)) / (1 - beta^t)
 ```
-- As t becomes larger the `(1 - beta^t)` becomes close to `1`
+```python
+v(2) = (0.09 * θ(1)+ 0.1 * θ(2)) / (1 - 0.9^2)
+     = (0.09 * θ(1)+ 0.1 * θ(2)) / 0.19
+     = 0.473 * θ(1) + 0.526 * θ(2)
+```
+- As t becomes larger the (1 - β<sup>t</sup>) becomes close to 1.
 
 ### Gradient descent with momentum
 
@@ -451,7 +481,7 @@ v(t) = (beta * v(t-1) + (1-beta) * theta(t)) / (1 - beta^t)
 vdW = 0, vdb = 0
 on iteration t:
   # can be mini-batch or batch gradient descent
-  compute dw, db on current mini-batch                
+  compute dw, db on current mini-batch
 
   vdW = beta * vdW + (1 - beta) * dW
   vdb = beta * vdb + (1 - beta) * db
