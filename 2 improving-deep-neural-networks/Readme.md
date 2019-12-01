@@ -155,17 +155,17 @@ The L2 regularization version:
 </div>
 
 - To do back propagation without regularization:
-  <div align="center">
-    <img src="Images/20.png">
-  </div>
+<div align="center">
+  <img src="Images/20.png">
+</div>
 - To do back propagation with regularization:
-  <div align="center">
-    <img src="Images/21.png">
-  </div>
+<div align="center">
+  <img src="Images/21.png">
+</div>
 - So plugging it in weight update step, the first term causes the **weight decay** in proportion to its size:
-  <div align="center">
-    <img src="Images/22.png">
-  </div>
+<div align="center">
+  <img src="Images/22.png">
+</div>
 - In practice this penalizes large weights and effectively limits the freedom in your model.
 
 ### Why regularization reduces overfitting?
@@ -249,20 +249,17 @@ al = al / keep_prob
 
 ### Vanishing / Exploding gradients
 
+- To understand the problem, suppose that we have a deep neural network with number of layers L, and all the activation functions are linear and each b = 0, if we have 2 hidden units per layer and x<sub>1</sub> = x<sub>2</sub> = 1, we result in
 ![](Images/09.png)
-
-- To understand the problem, suppose that we have a deep neural network with number of layers L, and all the activation functions are linear and each b = 0
   - Then:
   <div align="center">
     <img src="Images/25.png">
   </div>
-  - Then, if we have 2 hidden units per layer and x<sub>1</sub> = x<sub>2</sub> = 1, we result in
-  - l != L because of different dimensions in the output layer
-  - X which will be very large
+  - it will be very large, L layer dimension because of different dimensions in the output layer
   <div align="center">
     <img src="Images/26.png">
   </div>
-  - X which will be very small
+  - it will be very small, L layer dimension because of different dimensions in the output layer
   <div align="center">
     <img src="Images/27.png">
   </div>
@@ -286,11 +283,11 @@ al = al / keep_prob
 - So it turns out that we need the variance which equals 1/n<sub>x</sub> to be the range of w
 - So lets say when we initialize w like this:
 ```python
-np.random.randn(shape) * np.sqrt(1/n[l-1]) # better for tanh
-np.random.randn(shape) * np.sqrt(2/n[l-1]) # better for ReLU (He Initialization)
+np.random.randn(shape) * np.sqrt(1/n[l-1])
+np.random.randn(shape) * np.sqrt(2/n[l-1])          # He Initialization
 np.random.randn(shape) * np.sqrt(2/(n[l-1] + n[l])) # Xavier Initialization
 ```
-- This is one of the best way of partially solution to vanishing / exploding gradients (ReLU + Weight Initialization with variance) which will help gradients not to vanish/explode too quickly
+- This is one of the best way of partially solution to vanishing / exploding gradients (ReLU + Weight Initialization with variance) which will help gradients not to vanish / explode too quickly
 
 ### Numerical approximation of gradients
 
@@ -309,25 +306,25 @@ np.random.randn(shape) * np.sqrt(2/(n[l-1] + n[l])) # Xavier Initialization
 
 - Gradient checking approximates the gradients and is very helpful for finding the errors in your backpropagation implementation but it's slower than gradient descent (so use only for debugging).
 - Gradient checking:
-  - First take `W[1],b[1],...,W[L],b[L]` and reshape into one big vector (`theta`)
-  - The cost function will be `J(theta)`
-  - Then take `dW[1],db[1],...,dW[L],db[L]` into one big vector (`d_theta`)
+  - First take W<sup>[1]</sup>,b<sup>[1]</sup>,...,W<sup>[L]</sup>,b<sup>[L]</sup> and reshape into one big vector (θ)
+  - The cost function will be J(θ)
+  - Then take dW<sup>[1]</sup>,db<sup>[1]</sup>,...,dW<sup>[L]</sup>,db<sup>[L]</sup> into one big vector (dθ)
 ```python
-eps = 10^-7   # small number
+eps = 1e-7    # small number
 for i in len(theta):
-  d_theta_approx[i] = (J(...,theta[i] + eps,...) -  J(...,theta[i] - eps,...)) / 2*eps
+    d_theta_approx[i] = (J(...,theta[i] + eps,...) -  J(...,theta[i] - eps,...)) / 2*eps
 ```
-- Finally we evaluate this formula `(||d_theta_approx - d_theta||)/(||d_theta_approx||+||d_theta||)` (Euclidean vector norm) and check (with eps = 10^-7):
+- Finally we evaluate this formula (||dθ<sub>approx</sub> - dθ||<sub>2</sub>)/(||dθ<sub>approx</sub>||<sub>2</sub>+||dθ||<sub>2</sub>) and check with eps = 10<sup>-7</sup>:
   - if it is < 10<sup>-7</sup> - great, very likely the backpropagation implementation is correct
-  - if around 10<sup>-5</sup> - can be OK, but need to inspect if there are no particularly big values in `d_theta_approx - d_theta` vector
+  - if around 10<sup>-5</sup> - can be OK, but need to inspect if there are no particularly big values in dθ<sub>approx</sub> - dθ vector
   - if it is >= 10^-3 - bad, probably there is a bug in backpropagation implementation
 
 ### Gradient checking implementation notes
 
 - Don't use the gradient checking algorithm at training time because it's very slow. Use gradient checking only for debugging.
 - If algorithm fails grad check, look at components to try to identify the bug.
-- Don't forget to add `lamda/(2m) * sum(W[l])` to `J` if you are using L2 regularization.
-- Gradient checking doesn't work with dropout because J is not consistent. You can first turn off dropout (set `keep_prob = 1.0`), run gradient checking and then turn on dropout again.
+- If you are using L2 regularization, remember use corresponding cost function J.
+- Gradient checking doesn't work with dropout because J is not consistent. You can first turn off dropout (set keep_prob = 1.0), run gradient checking and then turn on dropout again.
 - Run gradient checking at random initialization and train the network for a while maybe there's a bug which can be seen when w and b become larger (further from 0) and can't be seen on the first iteration (when w and b are very small).
 
 ## Optimization algorithms
