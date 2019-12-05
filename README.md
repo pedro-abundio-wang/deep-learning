@@ -78,4 +78,6 @@ http://stackoverflow.com/questions/1907993/autoreload-of-modules-in-ipython
 
 Adam Paper : https://arxiv.org/pdf/1412.6980.pdf
 
-[Srivastava et al.,] Dropout: A Simple Way to Prevent Neural Networks from Overfitting
+[Srivastava et al] Dropout: A Simple Way to Prevent Neural Networks from Overfitting
+
+[Xavier et al] Understanding the difficulty of training deep feedforward neural networks
