@@ -489,7 +489,7 @@ on iteration t:
   b = b - learning_rate * vdb
 ```
 - Momentum helps the cost function to go to the minimum point in a more fast and consistent way.
-- `beta` is another `hyperparameter`. `beta = 0.9` is very common and works very well in most cases.
+- β is another hyperparameter. β = 0.9 is very common and works very well in most cases.
 - In practice people don't bother implementing **bias correction**.
 
 ### RMSprop
@@ -497,19 +497,17 @@ on iteration t:
 - Stands for **Root mean square prop**.
 - This algorithm speeds up the gradient descent.
 ```python
-sdW = 0, sdb = 0
+sdW = 0, sdb = 0, epsilon = 1e-8
 on iteration t:
   # can be mini-batch or batch gradient descent
   compute dw, db on current mini-batch
 
   sdW = (beta * sdW) + (1 - beta) * dW^2  # squaring is element-wise
   sdb = (beta * sdb) + (1 - beta) * db^2  # squaring is element-wise
-  W = W - learning_rate * dW / sqrt(sdW)
-  b = B - learning_rate * db / sqrt(sdb)
+  W = W - learning_rate * dW / (sqrt(sdW) + epsilon)
+  b = b - learning_rate * db / (sqrt(sdb) + epsilon)
 ```
-- RMSprop will make the cost function move slower on the vertical direction and faster on the horizontal direction in the following example:
-- Ensure that `sdW` is not zero by adding a small value `epsilon` (e.g. `epsilon = 10^-8`) to it:   
-   `W = W - learning_rate * dW / (sqrt(sdW) + epsilon)`
+- Ensure that not divided by zero, we adding a small value `epsilon` to it
 - With RMSprop you can increase your learning rate.
 
 ### Adam optimization algorithm
