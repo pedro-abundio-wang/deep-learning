@@ -74,6 +74,8 @@ http://cs231n.github.io/neural-networks-case-study/
 
 http://stackoverflow.com/questions/1907993/autoreload-of-modules-in-ipython
 
+http://mccormickml.com/2018/06/15/applying-word2vec-to-recommenders-and-advertising/
+
 # Papers
 
 Adam Paper : https://arxiv.org/pdf/1412.6980.pdf
