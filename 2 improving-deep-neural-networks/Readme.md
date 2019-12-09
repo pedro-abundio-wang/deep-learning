@@ -381,9 +381,11 @@ for t = 1:num_of_batches
     - you have the vectorization advantage
     - make progress without waiting to process the entire training set
   - doesn't always exactly converge (oscelates in a very small region, but you can reduce learning rate)
+
 <div align="center">
   <img src="Images/31.png">
 </div>
+
 - Guidelines for choosing mini-batch size:
   - If small training set (< 2000 examples) - use batch gradient descent.
   - It has to be a power of 2 (because of the way computer memory is layed out and accessed, sometimes your code runs faster if your mini-batch size is a power of 2): 64, 128, 256, 512, 1024
@@ -393,11 +395,14 @@ for t = 1:num_of_batches
 
 - There are optimization algorithms that are better than **gradient descent**, but you should first learn about Exponentially weighted averages.
 - If we have data like the temperature of day through the year it could be like this:
+
 <div align="center">
   <img src="Images/32.png">
 </div>
+
 - This data is small in winter and big in summer. If we plot this data we will find it some noisy.
 - Now lets compute the Exponentially weighted averages:
+
 ```python
 v(0) = 0
 v(1) = 0.9 * v(0) + 0.1 * θ(1) = 4		# 0.9 and 0.1 are hyperparameters
@@ -406,20 +411,27 @@ v(3) = 0.9 * v(2) + 0.1 * θ(3) = 12.15
 ...
 v(t) = 0.9 * v(t-1) + 0.1 * θ(t)
 ```
+
 - General equation
+
 ```python
 v(t) = β * v(t-1) + (1 - β) * θ(t)
 ```
+
 - If we plot this it will represent averages over (1 / (1 - β)) entries:
   - β = 0.9 will average last 10 entries
   - β = 0.98 will average last 50 entries
-  <div align="center">
-    <img src="Images/33.png">
-  </div>
+
+<div align="center">
+  <img src="Images/33.png">
+</div>
+
   - β = 0.5 will average last 2 entries
-  <div align="center">
-    <img src="Images/34.png">
-  </div>
+
+<div align="center">
+  <img src="Images/34.png">
+</div>
+
 - Best β average for our case is between 0.9 and 0.98
 - The reason why exponentially weighted averages are useful for further optimizing gradient descent algorithm is that it can give different weights to recent data points (θ) based on value of β. If β is high (around 0.9), it smoothens out the averages of skewed data points (oscillations w.r.t. gradient descent). So this reduces oscillations in gradient descent and hence makes faster and smoother path towerds minima.
 
@@ -440,6 +452,7 @@ v(t) = β * v(t-1) + (1 - β) * θ(t)
 - when β = 0.9 ==> 0.9<sup>10</sup> about 1/e
 - when β = 0.98 ==> 0.98<sup>50</sup> about 1/e
 - We can implement this algorithm with more accurate results using a moving window with average. But the code is more efficient and faster using the exponentially weighted averages algorithm.
+
 ```python
 v = 0
 Repeat
@@ -457,29 +470,36 @@ Repeat
 
 - The bias correction helps make the exponentially weighted averages more accurate.
 - Because v(0) = 0, the bias of the weighted averages is shifted and the accuracy suffers at the start.
+
 ```python
 v(0) = 0
 v(1) = 0.9 * v(0) + 0.1 * θ(1) = 0.1 * θ(1)
 v(2) = 0.9 * v(1) + 0.1 * θ(2) = 0.09 * θ(1)+ 0.1 * θ(2)
 ```
+
 - To solve the bias issue we have to use this equation:
+
 ```python
 v(t) = (beta * v(t-1) + (1-beta) * theta(t)) / (1 - beta^t)
 ```
+
 ```python
 v(2) = (0.09 * θ(1)+ 0.1 * θ(2)) / (1 - 0.9^2)
      = (0.09 * θ(1)+ 0.1 * θ(2)) / 0.19
      = 0.473 * θ(1) + 0.526 * θ(2)
 ```
+
 - As t becomes larger the (1 - β<sup>t</sup>) becomes close to 1.
 
 ### Gradient descent with momentum
 
 - The momentum algorithm almost always works faster than standard gradient descent.
 - The simple idea is to calculate the exponentially weighted averages for your gradients and then update your weights with the new values.
+
 <div align="center">
   <img src="Images/39.png">
 </div>
+
 - Momentum helps the cost function to go to the minimum point in a more fast and consistent way.
 - β is another hyperparameter. β = 0.9 is very common and works very well in most cases.
 - In practice people don't bother implementing **bias correction**.
@@ -622,9 +642,11 @@ on iteration t:
 - The question is: for any hidden layer can we normalize A<sup>[l]</sup> to train W<sup>[l+1]</sup>, b<sup>[l+1]</sup> faster. This is what batch normalization is about.
 - There are some debates in the deep learning literature about whether you should normalize values before the activation function Z<sup>[l]</sup> or after applying the activation function A<sup>[l]</sup>. In practice, normalizing Z<sup>[l]</sup> is done much more often.
 - Algorithm:
+
 <div align="center">
   <img src="Images/43.png">
 </div>
+
   - Forcing the inputs to a distribution with zero mean and variance of 1.
   - To make inputs belong to other distribution (with other mean and variance).
   - gamma and beta are learnable parameters of the model.
@@ -655,9 +677,11 @@ Z_tilde[l] = gamma[l] * Z_norm[l] + beta[l]
 
 - The first reason is the same reason as why we normalize X.
 - The second reason is that batch normalization reduces the problem of input values changing (shifting).
+
 <div align="center">
   <img src="Images/42.png">
 </div>
+
 - Batch normalization does some regularization:
   - Each mini batch is scaled by the mean/variance computed on just that mini-batch.
   - This adds some noise to the values Z<sup>[l]</sup> within that mini batch. So similar to dropout it adds some noise to each hidden layer's activations.
@@ -678,12 +702,15 @@ Z_tilde[l] = gamma[l] * Z_norm[l] + beta[l]
 ### Softmax Regression
 
 - softmax regression that is used for multiclass classification/regression.
+
 <div align="center">
   <img src="Images/44.png">
 </div>
+
 <div align="center">
   <img src="Images/45.png">
 </div>
+
   - To represent a none vector y = [1 0 0 0]
   - To represent a dog vector y = [0 1 0 0]
   - To represent a cat vector y = [0 0 1 0]
@@ -693,6 +720,7 @@ Z_tilde[l] = gamma[l] * Z_norm[l] + beta[l]
   - range of classes is (0, ..., C-1)
 - Each of C values in the output layer will contain a probability of the example to belong to each of the classes.
 - In the last layer we will have to activate the Softmax activation function instead of the sigmoid activation.
+
 <div align="center">
   <img src="Images/46.png">
 </div>
@@ -703,14 +731,19 @@ Z_tilde[l] = gamma[l] * Z_norm[l] + beta[l]
 - The Softmax name came from softening the values and not harding them like hard max.
 - Softmax is a generalization of logistic activation function to C classes. If C = 2 softmax reduces to logistic regression.
 - The loss function used with softmax:
+
 <div align="center">
   <img src="Images/47.png">
 </div>
+
 - The cost function used with softmax:
+
 <div align="center">
   <img src="Images/48.png">
 </div>
+
 - Back propagation with softmax:
+
 <div align="center">
   <img src="Images/49.png">
 </div>
@@ -720,7 +753,9 @@ Z_tilde[l] = gamma[l] * Z_norm[l] + beta[l]
 - It's not practical to implement everything from scratch. Our numpy implementations were to know how NN works.
 - There are many good deep learning frameworks.
 - Deep learning is now in the phase of doing something with the frameworks and not from scratch to keep on going.
-- Programming frameworks can not only shorten your coding time but sometimes also perform optimizations that speed up your code.
+- Programming frameworks can not only shorten your coding time but sometimes also perform
+optimizations that speed up your code.
+
 <div align="center">
   <img src="Images/50.png">
 </div>
@@ -730,20 +765,26 @@ Z_tilde[l] = gamma[l] * Z_norm[l] + beta[l]
 - Lets see how to implement a minimization function:
   - Example function: J(w) = w<sup>2</sup> - 10w + 25
   - The result should be w = 5 as the function is (w-5)<sup>2</sup> = 0
+
   <div align="center">
     <img src="Images/52.png">
   </div>
+
   - we feed the inputs to the algorithm through coefficients:
+
   <div align="center">
     <img src="Images/51.png">
   </div>
+
 - In TensorFlow you implement only the forward propagation and TensorFlow will do the backpropagation by itself.
 - In TensorFlow a placeholder is a variable you can assign a value to later.
 - If you are using a mini-batch training you should change the feed_dict={x: coefficients} to the current mini-batch data.
 - Almost all TensorFlow programs use this:
+
 <div align="center">
   <img src="Images/53.png">
 </div>
+
 - In deep learning frameworks there are a lot of things that you can do with one line of code like changing the optimizer.
 - Writing and running programs in TensorFlow has the following steps:
   - Create Tensors (variables) that are not yet executed/evaluated.
@@ -752,14 +793,18 @@ Z_tilde[l] = gamma[l] * Z_norm[l] + beta[l]
   - Create a Session.
   - Run the Session. This will run the operations you'd written above.
 - Instead of needing to write code to compute the cost function we know, we can use this line in TensorFlow :
+
 ```python
 tf.nn.sigmoid_cross_entropy_with_logits(logits = ...,  labels = ...)
 tf.nn.softmax_cross_entropy_with_logits(logits = ...,  labels = ...)
 ```
+
 - To initialize weights in NN using TensorFlow use:
+
 ```python
 W1 = tf.get_variable("W1", [25,12288], initializer = tf.contrib.layers.xavier_initializer(seed = 1))
 b1 = tf.get_variable("b1", [25,1], initializer = tf.zeros_initializer())
 ```
+
 - For 3-layer NN, it is important to note that the forward propagation stops at Z<sup>[3]</sup>. The reason is that in TensorFlow the last linear layer output is given as input to the function computing the loss. Therefore, you don't need A<sup>[3]</sup>
 - To reset the graph use `tf.reset_default_graph()`
