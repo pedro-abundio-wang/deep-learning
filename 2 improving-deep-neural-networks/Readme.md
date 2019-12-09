@@ -155,17 +155,23 @@ The L2 regularization version:
 </div>
 
 - To do back propagation without regularization:
+
 <div align="center">
   <img src="Images/20.png">
 </div>
+
 - To do back propagation with regularization:
+
 <div align="center">
   <img src="Images/21.png">
 </div>
+
 - So plugging it in weight update step, the first term causes the **weight decay** in proportion to its size:
+
 <div align="center">
   <img src="Images/22.png">
 </div>
+
 - In practice this penalizes large weights and effectively limits the freedom in your model.
 
 ### Why regularization reduces overfitting?
@@ -237,9 +243,11 @@ al = al / keep_prob
 
 - If you normalize your inputs this will speed up the training process a lot.
 - Normalization are going on these steps:
+
 <div align="center">
   <img src="Images/24.png">
 </div>
+
 - These steps should be applied to training, dev, and testing sets.
 
 ![](Images/08.png)
@@ -250,16 +258,23 @@ al = al / keep_prob
 ### Vanishing / Exploding gradients
 
 - To understand the problem, suppose that we have a deep neural network with number of layers L, and all the activation functions are linear and each b = 0, if we have 2 hidden units per layer and x<sub>1</sub> = x<sub>2</sub> = 1, we result in
+
 ![](Images/09.png)
+
   - Then:
+
   <div align="center">
     <img src="Images/25.png">
   </div>
+
   - it will be very large, L layer dimension because of different dimensions in the output layer
+
   <div align="center">
     <img src="Images/26.png">
   </div>
+
   - it will be very small, L layer dimension because of different dimensions in the output layer
+
   <div align="center">
     <img src="Images/27.png">
   </div>
@@ -268,9 +283,11 @@ al = al / keep_prob
 - So If W > I (Identity matrix) the activation and gradients will explode. However, it turns out that exploding gradient is not that problematic, because:
   - The problem is easy to notice and diagnose, because the derivative would become NaN very quickly and crash the program.
   - There are some easy hacks that can effectively prevent exploding gradient. One of them is called **gradient clipping**, which simply throttles 𝜃, scale gradient during backprop, and it turns out to work well.
+
   <div align="center">
     <img src="Images/28.png">
   </div>
+
 - And If W < I (Identity matrix) the activation and gradients will vanish.
   - There is a partial solution that doesn't completely solve this problem but it helps a lot - careful choice of how you **initialize the weights**.
 - Recently Microsoft trained 152 layers (ResNet) which is a really big number. With such a deep neural network, if your activations or gradients increase or decrease exponentially as a function of L, then these values could get really big or really small. And this makes training difficult, especially if your gradients are exponentially small, then gradient descent will take tiny little steps. It will take a long time for gradient descent to learn anything.
