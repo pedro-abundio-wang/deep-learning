@@ -70,11 +70,12 @@ def convert_to_one_hot(Y, C):
 
 def forward_propagation_for_predict(X, parameters):
     """
-    Implements the forward propagation for the model: LINEAR -> RELU -> LINEAR -> RELU -> LINEAR -> SOFTMAX
+    Implements the forward propagation for the model:
+    CONV2D -> RELU -> MAXPOOL -> CONV2D -> RELU -> MAXPOOL -> FLATTEN -> FULLYCONNECTED
     
     Arguments:
     X -- input dataset placeholder, of shape (input size, number of examples)
-    parameters -- python dictionary containing your parameters "W1", "b1", "W2", "b2", "W3", "b3"
+    parameters -- python dictionary containing your parameters "W1", "W2"
                   the shapes are given in initialize_parameters
 
     Returns:
@@ -100,7 +101,7 @@ def forward_propagation_for_predict(X, parameters):
     P2 = tf.nn.max_pool(A2, ksize=[1, 4, 4, 1], strides=[1, 4, 4, 1], padding='SAME')
     # FLATTEN
     P2 = tf.contrib.layers.flatten(P2)
-    # FULLY-CONNECTED without non-linear activation function (not not call softmax).
+    # FULLY-CONNECTED without non-linear activation function (not call softmax).
     # 6 neurons in output layer. Hint: one of the arguments should be "activation_fn=None" 
     Z3 = tf.contrib.layers.fully_connected(P2, 6, activation_fn=None)
     ### END CODE HERE ###
@@ -115,12 +116,13 @@ def predict(X, parameters):
     params = {"W1": W1,
               "W2": W2}
     
-    x = tf.placeholder(tf.float32, shape = (None, 64, 64, 3))
+    x = tf.placeholder("float", shape = (1, 64, 64, 3))
     
     z3 = forward_propagation_for_predict(x, params)
     p = tf.argmax(z3)
     
     sess = tf.Session()
+   
     prediction = sess.run(p, feed_dict = {x: X})
         
     return prediction
