@@ -115,7 +115,7 @@ def predict(X, parameters):
     params = {"W1": W1,
               "W2": W2}
     
-    x = tf.placeholder("float", [3024, 3024, 1])
+    x = tf.placeholder(tf.float32, shape = (None, 64, 64, 3))
     
     z3 = forward_propagation_for_predict(x, params)
     p = tf.argmax(z3)
