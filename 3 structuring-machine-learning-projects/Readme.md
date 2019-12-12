@@ -1,6 +1,7 @@
 # Machine Learning Strategy
 
 * [Why Machine Learning Strategy](#Why-Machine-Learning-Strategy)
+* [Orthogonalization](#orthogonalization)
 * [Setting up development and test sets](#Setting-up-development-and-test-sets)
   * [Development and test sets](#Development-and-test-sets)
   * [Dev and test sets should come from the same distribution](#Dev-and-test-sets-should-come-from-the-same-distribution)
@@ -58,7 +59,6 @@
   * [Spotting a flawed ML pipeline](#Spotting-a-flawed-ML-pipeline)
 * [Transfer learning](#transfer-learning)
 * [Multi-task learning](#multi-task-learning)
-* [Orthogonalization](#orthogonalization)
 * [How to read deep learning papers](#how-to-read-deep-learning-papers)
 
 ## Why Machine Learning Strategy
@@ -83,6 +83,20 @@ You and your team have a lot of ideas for how to improve the accuracy of your de
 If you choose well among these possible directions, you’ll build the leading cat picture platform, and lead your company to success. If you choose poorly, you might waste months. How do you proceed?
 
 Machine learning strategy will provide general strategies tell you what’s useful to try, and what’s not useful to try. It's will save you months or years of development time.
+
+## Orthogonalization
+
+- Some deep learning developers know exactly what hyperparameter to tune in order to try to achieve one effect. This is a process we call orthogonalization.
+- In orthogonalization, you have some controls, but each control does a specific task and doesn't affect other controls.
+- For a supervised learning system to do well, you usually need to tune the knobs of your system to make sure the following things hold true - chain of assumptions in machine learning:
+  - fit training set well on cost function (near human level performance if possible).
+    - If it's not achieved you could try bigger network, another optimization algorithm (like Adam)...
+  - Fit dev set well on cost function.
+    - If its not achieved you could try regularization, bigger training set...
+  - Fit test set well on cost function.
+    - If its not achieved you could try bigger dev set...
+  - Performs well in real world.
+    - If its not achieved you could try change dev/test set, change cost function...
 
 ## Setting up development and test sets
 
@@ -669,6 +683,10 @@ I find that having a reasonable and achievable target error rate helps accelerat
 
 Suppose you are working on a medical imaging application that automatically makes diagnoses from x-ray images. A typical person with no previous medical background besides some basic training achieves 15% error on this task. A junior doctor achieves 10% error. An experienced doctor achieves 5% error. And a small team of doctors that discuss and debate each image achieves 2% error. Which one of these error rates defines “human-level performance”?
 
+<div align="center">
+  <img src="Images/68.png">
+</div>
+
 In this case, I would use 2% as the human-level performance proxy for our optimal error rate. You can also set 2% as the desired performance level.
 
 - **Ease of obtaining labeled data from human labelers.**​ You can get a team of doctors to provide labels to you with a 2% error rate.
@@ -692,6 +710,10 @@ For the subset of data with rapidly spoken speech:
 - You can use human-level performance on rapidly spoken speech as a desired performance target.
 
 More generally, so long as there are dev set examples where humans are right and your algorithm is wrong, then many of the techniques described will apply. This is true even if, averaged over the entire dev/test set, your performance is already surpassing human-level performance.
+
+<div align="center">
+  <img src="Images/69.png">
+</div>
 
 There are many important machine learning applications where machines surpass human level performance. For example, machines are better at predicting movie ratings, how long it takes for a delivery car to drive somewhere, or whether to approve loan applications. Only a subset of techniques apply once humans have a hard time identifying examples that the algorithm is clearly getting wrong. Consequently, progress is usually slower on problems where machines already surpass human-level performance, while progress is faster when machines are still trying to catch up to humans.
 
@@ -1311,20 +1333,6 @@ Ultimately, if you don’t think your pipeline as a whole will achieve human-lev
   - Can train a big enough network to do well on all the tasks.
 - If you can train a big enough NN, the performance of the multi-task learning compared to splitting the tasks is better.
 - Transfer learning is used more often than multi-task learning.
-
-## Orthogonalization
-
-- Some deep learning developers know exactly what hyperparameter to tune in order to try to achieve one effect. This is a process we call orthogonalization.
-- In orthogonalization, you have some controls, but each control does a specific task and doesn't affect other controls.
-- For a supervised learning system to do well, you usually need to tune the knobs of your system to make sure the following things hold true - chain of assumptions in machine learning:
-  - You'll have to fit training set well on cost function (near human level performance if possible).
-    - If it's not achieved you could try bigger network, another optimization algorithm (like Adam)...
-  - Fit dev set well on cost function.
-    - If its not achieved you could try regularization, bigger training set...
-  - Fit test set well on cost function.
-    - If its not achieved you could try bigger dev set...
-  - Performs well in real world.
-    - If its not achieved you could try change dev/test set, change cost function...
 
 ## How to read deep learning papers
 
