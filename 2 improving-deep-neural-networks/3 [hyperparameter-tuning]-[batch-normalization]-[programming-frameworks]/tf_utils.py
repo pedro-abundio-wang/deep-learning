@@ -87,6 +87,7 @@ def predict(X, parameters):
     p = tf.argmax(z3)
     
     sess = tf.Session()
+    
     prediction = sess.run(p, feed_dict = {x: X})
         
     return prediction

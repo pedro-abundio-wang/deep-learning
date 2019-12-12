@@ -119,10 +119,10 @@ def predict(X, parameters):
     x = tf.placeholder("float", shape = (1, 64, 64, 3))
     
     z3 = forward_propagation_for_predict(x, params)
-    p = tf.argmax(z3)
+    p = tf.argmax(z3, axis = 1)
     
     sess = tf.Session()
-   
+    
     prediction = sess.run(p, feed_dict = {x: X})
         
     return prediction
