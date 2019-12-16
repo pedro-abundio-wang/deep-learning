@@ -10,28 +10,7 @@ After you have downloaded the file NVIDIA-Linux-x86_64-410.48.run, change to the
 
 ```shell
 sh NVIDIA-Linux-x86_64-440.36.run
-```
-
-```
 nvidia-smi
-+-----------------------------------------------------------------------------+
-| NVIDIA-SMI 410.48                 Driver Version: 410.48                    |
-|-------------------------------+----------------------+----------------------+
-| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
-| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
-|===============================+======================+======================|
-|   0  GeForce GTX 106...  Off  | 00000000:01:00.0  On |                  N/A |
-|  0%   40C    P8     9W / 200W |    446MiB /  6075MiB |      0%      Default |
-+-------------------------------+----------------------+----------------------+
-
-+-----------------------------------------------------------------------------+
-| Processes:                                                       GPU Memory |
-|  GPU       PID   Type   Process name                             Usage      |
-|=============================================================================|
-|    0      1075      G   /usr/lib/xorg/Xorg                           221MiB |
-|    0      2627      G   compiz                                       156MiB |
-|    0     10596      G   ...-token=4AD5E8ABBEA9107836793E952997583E    66MiB |
-+-----------------------------------------------------------------------------+
 ```
 
 **Nvidia Driver Cuda Version Match**
