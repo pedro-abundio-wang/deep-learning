@@ -169,30 +169,31 @@
 - The last example forms a layer in the CNN.
 - Hint: no matter the size of the input, the number of the parameters is same if filter size is same. That makes it less prone to overfitting.
 - Here are some notations we will use in a conv layer:
--
-    ```python
-    Hyperparameters:
-    f[l] = filter size
-    p[l] = padding
-    s[l] = stride
-    nc[l] = number of filters
 
-    Input:  nH[l-1] x nW[l-1] x nc[l-1]
-    Output: nH[l] x nW[l] x nc[l]
 
-    Each filter is: f[l] x f[l] x nc[l-1]
+```python
+Hyperparameters:
+f[l] = filter size
+p[l] = padding
+s[l] = stride
+nc[l] = number of filters
 
-    Where
-        nH[l] = (nH[l-1] + 2p[l] - f[l] / s[l]) + 1
-        nW[l] = (nW[l-1] + 2p[l] - f[l] / s[l]) + 1
+Input:  nH[l-1] x nW[l-1] x nc[l-1]
+Output: nH[l] x nW[l] x nc[l]
 
-    Activations:
-        a[l]:     nH[l] x nW[l] x nc[l]
-        A[l]: m x nH[l] x nW[l] x nc[l]   # In batch or minbatch training
+Each filter is: f[l] x f[l] x nc[l-1]
 
-    Weights: f[l] x f[l] x nc[l-1] x nc[l]
-    bias:    (1, 1, 1, nc[l])
-    ```
+Where
+    nH[l] = (nH[l-1] + 2p[l] - f[l] / s[l]) + 1
+    nW[l] = (nW[l-1] + 2p[l] - f[l] / s[l]) + 1
+
+Activations:
+    a[l]:     nH[l] x nW[l] x nc[l]
+    A[l]: m x nH[l] x nW[l] x nc[l]   # In batch or minbatch training
+
+Weights: f[l] x f[l] x nc[l-1] x nc[l]
+bias:    (1, 1, 1, nc[l])
+```
 
 ### Simple Convolutional Network Example
 
@@ -228,49 +229,49 @@
 - Other than the conv layers, CNNs often uses pooling layers to reduce the size of the inputs, speed up computation, and to make some of the features it detects more robust.
 - Max pooling example:
   - ![](Images/02.png)
-  - This example has `f = 2`, `s = 2`, and `p = 0` hyperparameters
+  - This example has f = 2, s = 2, and p = 0 hyperparameters
 - The max pooling is saying, if the feature is detected anywhere in this filter then keep a high number. But the main reason why people are using pooling because its works well in practice and reduce computations.
 - Max pooling has no parameters to learn.
 - Example of Max pooling on 3D input:
-  - Input: `4x4x10`
-  - `Max pooling size = 2` and `stride = 2`
-  - Output: `2x2x10`
+  - Input: 4x4x10
+  - Max pooling size = 2 and stride = 2
+  - Output: 2x2x10
 - Average pooling is taking the averages of the values instead of taking the max values.
 - Max pooling is used more often than average pooling in practice.
 - If stride of pooling equals the size, it will then apply the effect of shrinking.
 - Hyperparameters summary
-  - f : filter size.
-  - s : stride.
+  - f: filter size.
+  - s: stride.
   - Padding are rarely uses here.
   - Max or average pooling.
 
 ### Convolutional neural network example
 
-- Now we will deal with a full CNN example. This example is something like the ***LeNet-5*** that was invented by Yann Lecun.
-  - Input Image are:   `a0 = 32x32x3`
-    - `n0 = 32` and `nc0 = 3`
-  - First layer (Conv layer):        `#Conv1`
-    - `f1 = 5`, `s1 = 1`, and `p1 = 0`
-    - `number of filters = 6`
-    - Then output are `a1 = 28x28x6`
-      - `n1 = 28` and `nc1 = 6`
-    - Then apply (Max pooling):         `#Pool1`
-      - `f1p = 2`, and `s1p = 2`
-      - The output are `a1 = 14x14x6`
-  - Second layer (Conv layer):   `#Conv2`
-    - `f2 = 5`, `s2 = 1`, `p2 = 0`
-    - `number of filters = 16`
-    - The output are `a2 = 10x10x16`
-      - `n2 = 10`, `nc2 = 16`
-    - Then apply (Max pooling):         `#Pool2`
-      - `f2p = 2`, and `s2p = 2`
-      - The output are `a2 = 5x5x16`
-  - Third layer (Fully connected)   `#FC3`
+- Now we will deal with a full CNN example. This example is something like the **LeNet-5** that was invented by Yann Lecun.
+  - Input Image are:   a0 = 32x32x3
+    - n0 = 32 and nc0 = 3
+  - First layer (Conv layer):        #Conv1
+    - f1 = 5, s1 = 1, and p1 = 0
+    - number of filters = 6
+    - Then output are a1 = 28x28x6
+      - n1 = 28 and nc1 = 6
+    - Then apply (Max pooling):         #Pool1
+      - f1p = 2, and s1p = 2
+      - The output are a1 = 14x14x6
+  - Second layer (Conv layer):   #Conv2
+    - f2 = 5, s2 = 1, p2 = 0
+    - number of filters = 16
+    - The output are a2 = 10x10x16
+      - n2 = 10, nc2 = 16
+    - Then apply (Max pooling):         #Pool2
+      - f2p = 2, and s2p = 2
+      - The output are a2 = 5x5x16
+  - Third layer (Fully connected)   #FC3
     - Number of neurons are 120
-    - The output `a3 = 120 x 1` . 400 came from `5x5x16`
-  - Forth layer (Fully connected)  `#FC4`
+    - The output a3 = 120 x 1. 400 came from 5x5x16
+  - Forth layer (Fully connected)  #FC4
     - Number of neurons are 84
-    - The output `a4 = 84 x 1` .
+    - The output a4 = 84 x 1.
   - Fifth layer (Softmax)
     - Number of neurons is 10 if we need to identify for example the 10 digits.
 - Hint a Conv1 and Pool1 is treated as one layer.
@@ -429,13 +430,13 @@
 - A 1 x 1 convolution  - We also call it Network in Network- is so useful in many CNN models.
 - What does a 1 X 1 convolution do? Isn't it just multiplying by a number?
   - Lets first consider an example:
-    - Input: `6x6x1`
-    - Conv: `1x1x1` one filter.        `# The 1 x 1 Conv`
-    - Output: `6x6x1`
+    - Input: 6x6x1
+    - Conv: 1x1x1 one filter.        # The 1 x 1 Conv
+    - Output: 6x6x1
   - Another example:
-    - Input: `6x6x32`
-    - Conv: `1x1x32` 5 filters.     `# The 1 x 1 Conv`
-    - Output: `6x6x5`
+    - Input: 6x6x32
+    - Conv: 1x1x32 5 filters.     # The 1 x 1 Conv
+    - Output: 6x6x5
 - It has been used in a lot of modern CNN implementations like ResNet and Inception models.
 - A 1 x 1 convolution is useful when:
   - We want to shrink the number of channels. We also call this feature transformation.
@@ -444,7 +445,6 @@
   - If we have specified the number of 1 x 1 Conv filters to be the same as the input number of channels then the output will contain the same number of channels. Then the 1 x 1 Conv will act like a non linearity and will learn non linearity operator.
 - Replace fully connected layers with 1 x 1 convolutions as Yann LeCun believes they are the same.
   - > In Convolutional Nets, there is no such thing as "fully-connected layers". There are only convolution layers with 1x1 convolution kernels and a full connection table.
-- [[Lin et al., 2013. Network in network]](https://arxiv.org/abs/1312.4400)
 
 ### Inception network motivation
 
@@ -461,7 +461,7 @@
   - Output should be 28 x 28 x 32
   - The total number of multiplications needed here are:
     - Number of outputs * Filter size * Filter size * Input dimensions
-    - Which equals: `28 * 28 * 32 * 5 * 5 * 192 = 120 Mil`
+    - Which equals: 28 * 28 * 32 * 5 * 5 * 192 = 120 Mil
     - 120 Mil multiply operation still a problem in the modern day computers.
   - Using a 1 x 1 convolution we can reduce 120 mil to just 12 mil. Lets see how.
 - Using 1 X 1 convolution to reduce computational cost:
@@ -473,10 +473,10 @@
     - Then apply 32  (5 x 5 Convolution)
     - That produces X2 of shape (28, 28, 32)
   - Now lets calculate the number of multiplications:
-    - For the first Conv: `28 * 28 * 16 * 1 * 1 * 192 = 2.5 Mil`
-    - For the second Conv: `28 * 28 * 32 * 5 * 5 * 16 = 10 Mil`
+    - For the first Conv: 28 * 28 * 16 * 1 * 1 * 192 = 2.5 Mil
+    - For the second Conv: 28 * 28 * 32 * 5 * 5 * 16 = 10 Mil
     - So the total number are 12.5 Mil approx. which is so good compared to 120 Mil
-- A 1 x 1 Conv here is called Bottleneck `BN`.
+- A 1 x 1 Conv here is called Bottleneck BN.
 - It turns out that the 1 x 1 Conv won't hurt the performance.
 - **Inception module**, dimensions reduction version:
   - ![](Images/14.png)
@@ -510,7 +510,7 @@
   - Lets say you have a cat classification problem which contains 3 classes Tigger, Misty and neither.
   - You don't have much a lot of data to train a NN on these images.
   - Andrew recommends to go online and download a good NN with its weights, remove the softmax activation layer and put your own one and make the network learn only the new layer while other layer weights are fixed/frozen.
-  - Frameworks have options to make the parameters frozen in some layers using `trainable = 0` or `freeze = 0`
+  - Frameworks have options to make the parameters frozen in some layers using trainable = 0 or freeze = 0
   - One of the tricks that can speed up your training, is to run the pretrained NN without final softmax layer and get an intermediate representation of your images and save them to disk. And then use these representation to a shallow NN network. This can save you the time needed to run an image through all the layers.
     - Its like converting your images into vectors.
 - Another example:
@@ -536,7 +536,7 @@
     - For example, we add to R, G, and B some distortions that will make the image identified as the same for the human but is different for the computer.
     - In practice the added value are pulled from some probability distribution and these shifts are some small.
     - Makes your algorithm more robust in changing colors in images.
-    - There are an algorithm which is called ***PCA color augmentation*** that decides the shifts needed automatically.
+    - There are an algorithm which is called **PCA color augmentation** that decides the shifts needed automatically.
 - Implementing distortions during training:
   - You can use a different CPU thread to make you a distorted mini batches while you are training your NN.
 - Data Augmentation has also some hyperparameters. A good place to start is to find an open source data augmentation implementation and then use it or fine tune these hyperparameters.
@@ -587,7 +587,7 @@
     - This is like the full problem. Rather than we want to predict the bounding box, we want to know which pixel label but also distinguish them.
     - ![](Images/InstanceSegmentation.png)
 - To make image classification we use a Conv Net with a Softmax attached to the end of it.
-- To make classification with localization we use a Conv Net with a softmax attached to the end of it and a four numbers `bx`, `by`, `bh`, and `bw` to tell you the location of the class in the image. The dataset should contain this four numbers with the class too.
+- To make classification with localization we use a Conv Net with a softmax attached to the end of it and a four numbers bx, by, bh, and bw to tell you the location of the class in the image. The dataset should contain this four numbers with the class too.
 - Defining the target label Y in classification with localization problem:
   - ```
     Y = [
@@ -634,7 +634,7 @@
           (y1'-y1)^2                       if y1 = 0
     }
     ```
-  - In practice we use logistic regression for `pc`, log likely hood loss for classes, and squared error for the bounding box.
+  - In practice we use logistic regression for pc, log likely hood loss for classes, and squared error for the bounding box.
 
 ### Landmark Detection
 
@@ -651,7 +651,7 @@
           l64y
     ]
     ```
-- Hint, in your labeled data, if `l1x,l1y` is the left corner of left eye, all other `l1x,l1y` of the other examples has to be the same.
+- Hint, in your labeled data, if l1x,l1y is the left corner of left eye, all other l1x,l1y of the other examples has to be the same.
 - Another application is when you need to get the skeleton of the person using different landmarks/points in the person which helps in some applications.
 - ![](Images/sl3.png)
 
@@ -663,15 +663,15 @@
   - ![](Images/18.png)
 - After we finish training of this Conv net we will then use it with the sliding windows technique.
 - Sliding windows detection algorithm:
-  1. Decide a rectangle size.
-  2. Split your image into rectangles of the size you picked. Each region should be covered. You can use some strides.
-  3. For each rectangle feed the image into the Conv net and decide if its a car or not.
-  4. Pick larger/smaller rectangles and repeat the process from 2 to 3.
-  5. Store the rectangles that contains the cars.
-  6. If two or more rectangles intersects choose the rectangle with the best accuracy.
+  - Decide a rectangle size.
+  - Split your image into rectangles of the size you picked. Each region should be covered. You can use some strides.
+  - For each rectangle feed the image into the Conv net and decide if its a car or not.
+  - Pick larger/smaller rectangles and repeat the process from 2 to 3.
+  - Store the rectangles that contains the cars.
+  - If two or more rectangles intersects choose the rectangle with the best accuracy.
 - Disadvantage of sliding window is the computation time.
 - In the era of machine learning before deep learning, people used a hand crafted linear classifiers that classifies the object and then use the sliding window technique. The linear classier make it a cheap computation. But in the deep learning era that is so  computational expensive due to the complexity of the deep learning model.
-- To solve this problem, we can implement the sliding windows with a ***Convolutional approach***.
+- To solve this problem, we can implement the sliding windows with a **Convolutional approach**.
 
 ### Convolutional Implementation of Sliding Windows
 
@@ -689,20 +689,19 @@
   - Its more efficient because it now shares the computations of the four times needed.
   - Another example would be:
     - ![](Images/22.png)
-  - [[Sermanet et al., 2014, OverFeat: Integrated recognition, localization and detection using convolutional networks]](https://arxiv.org/abs/1312.6229)
 - The weakness of the algorithm is that the position of the rectangle wont be so accurate. Maybe none of the rectangles is exactly on the object you want to recognize.
   - ![](Images/23.png)
   - In red, the rectangle we want and in blue is the required car rectangle.
 
 ### Bounding Box Predictions
 
-- A better algorithm than the one described in the last section is the [YOLO algorithm](https://arxiv.org/abs/1506.02640).
-- [[Real-time Object Detection with YOLO, YOLOv2 and now YOLOv3]](https://medium.com/@jonathan_hui/real-time-object-detection-with-yolo-yolov2-28b1b93e2088)
+- A better algorithm than the one described in the last section is the **YOLO algorithm**.
+- [Real-time Object Detection with YOLO, YOLOv2 and now YOLOv3](https://medium.com/@jonathan_hui/real-time-object-detection-with-yolo-yolov2-28b1b93e2088)
 - Yolo Algorithm:
   - ![](Images/24.png)
   - 1. Lets say we have an image of 100 X 100
   - 2. Place a  3 x 3 grid on the image. For more smother results you should use 19 x 19 for the 100 x 100
-  - 3. Apply the classification and localization algorithm we discussed in a previous section to each section of the grid. `bx` and `by` will represent the center point of the object in each grid and will be relative to the box so the range is between 0 and 1 while `bh` and `bw` will represent the height and width of the object which can be greater than 1.0 but still a floating point value.
+  - 3. Apply the classification and localization algorithm we discussed in a previous section to each section of the grid. bx and by will represent the center point of the object in each grid and will be relative to the box so the range is between 0 and 1 while bh and bw will represent the height and width of the object which can be greater than 1.0 but still a floating point value.
   - 4. Do everything at once with the convolution sliding window. If Y shape is 1 x 8 as we discussed before then the output of the 100 x 100 image should be 3 x 3 x 8 which corresponds to 9 cell results.
   - 5. Merging the results using predicted localization mid point.
 - We have a problem if we have found more than one object in one grid box.
@@ -719,8 +718,8 @@
   - ![](Images/25.png)
   - The red is the labeled output and the purple is the predicted output.
   - To compute Intersection Over Union we first compute the union area of the two rectangles which is "the first rectangle + second rectangle" Then compute the intersection area between these two rectangles.
-  - Finally `IOU = intersection area / Union area`
-- If `IOU >=0.5` then its good. The best answer will be 1.
+  - Finally IOU = intersection area / Union area
+- If IOU >=0.5 then its good. The best answer will be 1.
 - The higher the IOU the better is the accuracy.
 
 ### Non-max Suppression
@@ -731,13 +730,13 @@
   - ![](Images/26.png)
   - Each car has two or more detections with different probabilities. This came from some of the grids that thinks that this is the center point of the object.
 - Non-max suppression algorithm:
-  1. Lets assume that we are targeting one class as an output class.
-  2. Y shape should be `[Pc, bx, by, bh, hw]` Where Pc is the probability if that object occurs.
-  3. Discard all boxes with `Pc < 0.6`  
-  4. While there are any remaining boxes:
-     1. Pick the box with the largest Pc Output that as a prediction.
-     2. Discard any remaining box with `IoU > 0.5` with that box output in the previous step i.e any box with high overlap(greater than overlap threshold of 0.5).
-- If there are multiple classes/object types `c` you want to detect, you should run the Non-max suppression `c` times, once for every output class.
+  - Lets assume that we are targeting one class as an output class.
+  - Y shape should be [Pc, bx, by, bh, hw] Where Pc is the probability if that object occurs.
+  - Discard all boxes with Pc < 0.6  
+  - While there are any remaining boxes:
+    - Pick the box with the largest Pc Output that as a prediction.
+    - Discard any remaining box with IoU > 0.5 with that box output in the previous step i.e any box with high overlap(greater than overlap threshold of 0.5).
+- If there are multiple classes/object types c you want to detect, you should run the Non-max suppression c times, once for every output class.
 
 ### Anchor Boxes
 
@@ -746,8 +745,8 @@
   - Car and person grid is same here.
   - In practice this happens rarely.
 - The idea of Anchor boxes helps us solving this issue.
-- If Y = `[Pc, bx, by, bh, bw, c1, c2, c3]` Then to use two anchor boxes like this:
-  - Y = `[Pc, bx, by, bh, bw, c1, c2, c3, Pc, bx, by, bh, bw, c1, c2, c3]`  We simply have repeated  the one anchor Y.
+- If Y = [Pc, bx, by, bh, bw, c1, c2, c3] Then to use two anchor boxes like this:
+  - Y = [Pc, bx, by, bh, bw, c1, c2, c3, Pc, bx, by, bh, bw, c1, c2, c3]  We simply have repeated  the one anchor Y.
   - The two anchor boxes you choose should be known as a shape:
     - ![](Images/28.png)
 - So Previously, each object in training image is assigned to grid cell that contains that object's midpoint.
@@ -762,16 +761,16 @@
 - YOLO is a state-of-the-art object detection model that is fast and accurate
 - Lets sum up and introduce the whole YOLO algorithm given an example.
 - Suppose we need to do object detection for our autonomous driver system.It needs to identify three classes:
-  - 1. Pedestrian (Walks on ground).
-  - 2. Car.
-  - 3. Motorcycle.
+  - Pedestrian (Walks on ground).
+  - Car.
+  - Motorcycle.
 - We decided to choose two anchor boxes, a taller one and a wide one.
   - Like we said in practice they use five or more anchor boxes hand made or generated using k-means.
-- Our labeled Y shape will be `[Ny, HeightOfGrid, WidthOfGrid, 16]`, where Ny is number of instances and each row (of size 16) is as follows:
-  - `[Pc, bx, by, bh, bw, c1, c2, c3, Pc, bx, by, bh, bw, c1, c2, c3]`
+- Our labeled Y shape will be [Ny, HeightOfGrid, WidthOfGrid, 16], where Ny is number of instances and each row (of size 16) is as follows:
+  - [Pc, bx, by, bh, bw, c1, c2, c3, Pc, bx, by, bh, bw, c1, c2, c3]
 - Your dataset could be an image with a multiple labels and a rectangle for each label, we should go to your dataset and make the shape and values of Y like we agreed.
-  - We first initialize all of them to zeros and ?, then for each label and rectangle choose its closest grid point then the shape to fill it and then the best anchor point based on the IOU. so that the shape of Y for one image should be `[HeightOfGrid, WidthOfGrid,16]`
-- Train the labeled images on a Conv net. you should receive an output of `[HeightOfGrid, WidthOfGrid,16]` for our case.
+  - We first initialize all of them to zeros and ?, then for each label and rectangle choose its closest grid point then the shape to fill it and then the best anchor point based on the IOU. so that the shape of Y for one image should be [HeightOfGrid, WidthOfGrid,16]
+- Train the labeled images on a Conv net. you should receive an output of [HeightOfGrid, WidthOfGrid,16] for our case.
 - To make predictions, run the Conv net on an image and run Non-max suppression algorithm for each class you have in our case there are 3 classes.
   - You could get something like that:
     - ![](Images/31.png)
@@ -802,21 +801,21 @@
   - R-CNN:
     - Propose regions. Classify proposed regions one at a time. Output label + bounding box.
     - Downside is that its slow.
-    - [[Girshik et. al, 2013. Rich feature hierarchies for accurate object detection and semantic segmentation]](https://arxiv.org/abs/1311.2524)
+    - [Girshik et. al, 2013. Rich feature hierarchies for accurate object detection and semantic segmentation](https://arxiv.org/abs/1311.2524)
   - Fast R-CNN:
     - Propose regions. Use convolution implementation of sliding windows to classify all the proposed regions.
-    - [[Girshik, 2015. Fast R-CNN]](https://arxiv.org/abs/1504.08083)
+    - [Girshik, 2015. Fast R-CNN](https://arxiv.org/abs/1504.08083)
   - Faster R-CNN:
     - Use convolutional network to propose regions.
-    - [[Ren et. al, 2016. Faster R-CNN: Towards real-time object detection with region proposal networks]](https://arxiv.org/abs/1506.01497)
+    - [Ren et. al, 2016. Faster R-CNN: Towards real-time object detection with region proposal networks](https://arxiv.org/abs/1506.01497)
   - Mask R-CNN:
     - https://arxiv.org/abs/1703.06870
 - Most of the implementation of faster R-CNN are still slower than YOLO.
 - Andrew Ng thinks that the idea behind YOLO is better than R-CNN because you are able to do all the things in just one time instead of two times.
 - Other algorithms that uses one shot to get the output includes **SSD** and **MultiBox**.
-  - [[Wei Liu, et. al 2015 SSD: Single Shot MultiBox Detector]](https://arxiv.org/abs/1512.02325)
+  - [Wei Liu, et. al 2015 SSD: Single Shot MultiBox Detector](https://arxiv.org/abs/1512.02325)
 - **R-FCN** is similar to Faster R-CNN but more efficient.
-  - [[Jifeng Dai, et. al 2016 R-FCN: Object Detection via Region-based Fully Convolutional Networks ]](https://arxiv.org/abs/1605.06409)
+  - [Jifeng Dai, et. al 2016 R-FCN: Object Detection via Region-based Fully Convolutional Networks](https://arxiv.org/abs/1605.06409)
 
 ## Special applications: Face recognition & Neural style transfer
 
@@ -858,9 +857,9 @@
 - Siamese network architecture are as the following:
   - ![](Images/35.png)
   - We make 2 identical conv nets which encodes an input image into a vector. In the above image the vector shape is (128, )
-  - The loss function will be `d(x1, x2) = || f(x1) - f(x2) ||^2`
-  - If `X1`, `X2` are the same person, we want d to be low. If they are different persons, we want d to be high.
-  - [[Taigman et. al., 2014. DeepFace closing the gap to human level performance]](https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Taigman_DeepFace_Closing_the_2014_CVPR_paper.html)
+  - The loss function will be d(x1, x2) = || f(x1) - f(x2) ||^2
+  - If X1, X2 are the same person, we want d to be low. If they are different persons, we want d to be high.
+  - [Taigman et. al., 2014. DeepFace closing the gap to human level performance](https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Taigman_DeepFace_Closing_the_2014_CVPR_paper.html)
 
 #### Triplet Loss
 
@@ -871,26 +870,26 @@
 - The triplet name came from that we are comparing an anchor A with a positive P and a negative N image.
 - Formally we want:
   - Positive distance to be less than negative distance
-  - `||f(A) - f(P)||^2  <= ||f(A) - f(N)||^2`
+  - ||f(A) - f(P)||^2  <= ||f(A) - f(N)||^2
   - Then
-  - `||f(A) - f(P)||^2  - ||f(A) - f(N)||^2 <= 0`
+  - ||f(A) - f(P)||^2  - ||f(A) - f(N)||^2 <= 0
   - To make sure the NN won't get an output of zeros easily:
-  - `||f(A) - f(P)||^2  - ||f(A) - f(N)||^2 <= -alpha`
+  - ||f(A) - f(P)||^2  - ||f(A) - f(N)||^2 <= -alpha
     - Alpha is a small number. Sometimes its called the margin.
   - Then
-  - `||f(A) - f(P)||^2  - ||f(A) - f(N)||^2 + alpha <= 0`
+  - ||f(A) - f(P)||^2  - ||f(A) - f(N)||^2 + alpha <= 0
 - Final Loss function:
   - Given 3 images (A, P, N)
-  - `L(A, P, N) = max (||f(A) - f(P)||^2  - ||f(A) - f(N)||^2 + alpha , 0)`
-  - `J = Sum(L(A[i], P[i], N[i]) , i)` for all triplets of images.
+  - L(A, P, N) = max (||f(A) - f(P)||^2  - ||f(A) - f(N)||^2 + alpha , 0)
+  - J = Sum(L(A[i], P[i], N[i]) , i) for all triplets of images.
 - You need multiple images of the same person in your dataset. Then get some triplets out of your dataset. Dataset should be big enough.
 - Choosing the triplets A, P, N:
   - During training if A, P, N are chosen randomly (Subjet to A and P are the same and A and N aren't the same) then one of the problems this constrain is easily satisfied
-    - `d(A, P) + alpha <= d (A, N)`
+    - d(A, P) + alpha <= d (A, N)
     - So the NN wont learn much
   - What we want to do is choose triplets that are **hard** to train on.
     - So for all the triplets we want this to be satisfied:
-    - `d(A, P) + alpha <= d (A, N)`
+    - d(A, P) + alpha <= d (A, N)
     - This can be achieved by for example same poses!
     - Find more at the paper.
 - Details are in this paper [[Schroff et al.,2015, FaceNet: A unified embedding for face recognition and clustering]](https://arxiv.org/abs/1503.03832)
@@ -906,7 +905,7 @@
   - The subtraction is the Manhattan distance between f(x(i)) and f(x(j))
   - Some other similarities can be Euclidean.
   - The NN here is Siamese means the top and bottom convs has the same parameters.
-- The paper for this work: [[Taigman et. al., 2014. DeepFace closing the gap to human level performance]](https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Taigman_DeepFace_Closing_the_2014_CVPR_paper.html)
+- The paper for this work: [Taigman et. al., 2014. DeepFace closing the gap to human level performance](https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Taigman_DeepFace_Closing_the_2014_CVPR_paper.html)
 - A good performance/deployment trick:
   - Pre-compute all the images that you are using as a comparison to the vector f(x(j))
   - When a new image that needs to be compared, get its vector f(x(i)) then put it with all the pre computed vectors and pass it to the sigmoid function.
@@ -947,15 +946,15 @@
 
 - We will define a cost function for the generated image that measures how good it is.
 - Give a content image C, a style image S, and a generated image G:
-  - `J(G) = alpha * J(C,G) + beta * J(S,G)`
-  - `J(C, G)` measures how similar is the generated image to the Content image.
-  - `J(S, G)` measures how similar is the generated image to the Style image.
+  - J(G) = alpha * J(C,G) + beta * J(S,G)
+  - J(C, G) measures how similar is the generated image to the Content image.
+  - J(S, G) measures how similar is the generated image to the Style image.
   - alpha and beta are relative weighting to the similarity and these are hyperparameters.
 - Find the generated image G:
-  1. Initiate G randomly
-     - For example G: 100 X 100 X 3
-  2. Use gradient descent to minimize `J(G)`
-     - `G = G - dG`  We compute the gradient image and use gradient decent to minimize the cost function.
+  - Initiate G randomly
+    - For example G: 100 X 100 X 3
+  - Use gradient descent to minimize J(G)
+    - G = G - dG  We compute the gradient image and use gradient decent to minimize the cost function.
 - The iterations might be as following image:
   - To Generate this:
     - ![](Images/40.png)
@@ -965,18 +964,18 @@
 #### Content Cost Function
 
 - In the previous section we showed that we need a cost function for the content image and the style image to measure how similar is them to each other.
-- Say you use hidden layer `l` to compute content cost.
-  - If we choose `l` to be small (like layer 1), we will force the network to get similar output to the original content image.
-  - In practice `l` is not too shallow and not too deep but in the middle.
+- Say you use hidden layer l to compute content cost.
+  - If we choose l to be small (like layer 1), we will force the network to get similar output to the original content image.
+  - In practice l is not too shallow and not too deep but in the middle.
 - Use pre-trained ConvNet. (E.g., VGG network)
-- Let `a(c)[l]` and `a(G)[l]` be the activation of layer `l` on the images.
-- If `a(c)[l]` and `a(G)[l]` are similar then they will have the same content
-  - `J(C, G) at a layer l = 1/2 || a(c)[l] - a(G)[l] ||^2`
+- Let a(c)[l] and a(G)[l] be the activation of layer l on the images.
+- If a(c)[l] and a(G)[l] are similar then they will have the same content
+  - J(C, G) at a layer l = 1/2 || a(c)[l] - a(G)[l] ||^2
 
 #### Style Cost Function
 
-- Meaning of the ***style*** of an image:
-  - Say you are using layer l's activation to measure ***style***.
+- Meaning of the **style** of an image:
+  - Say you are using layer l's activation to measure **style**.
   - Define style as correlation between **activations** across **channels**.
     - That means given an activation like this:
       - ![](Images/42.png)
@@ -986,8 +985,8 @@
   - The correlation tells you how a components might occur or not occur together in the same image.
 - The correlation of style image channels should appear in the generated image channels.
 - Style matrix (Gram matrix):
-  - Let `a(l)[i, j, k]` be the activation at l with `(i=H, j=W, k=C)`
-  - Also `G(l)(s)` is matrix of shape `nc(l) x nc(l)`
+  - Let a(l)[i, j, k] be the activation at l with (i=H, j=W, k=C)
+  - Also G(l)(s) is matrix of shape nc(l) x nc(l)
     - We call this matrix style matrix or Gram matrix.
     - In this matrix each cell will tell us how correlated is a channel to another channel.
   - To populate the matrix we use these equations to compute style matrix of the style image and the generated image.
@@ -998,23 +997,23 @@
 - To compute gram matrix efficiently:
   - Reshape activation from H * W * C to HW * C
   - Name the reshaped activation F.
-  - `G[l] = F * F.T`
+  - G[l] = F * F.T
 - Finally the cost function will be as following:
-  - `J(S, G) at layer l = (1/ 2 * H * W * C) || G(l)(s) - G(l)(G) ||`
+  - J(S, G) at layer l = (1/ 2 * H * W * C) || G(l)(s) - G(l)(G) ||
 - And if you have used it from some layers
-  - `J(S, G) = Sum (lamda[l]*J(S, G)[l], for all layers)`
+  - J(S, G) = Sum (lamda[l] J(S, G)[l], for all layers)
 - Steps to be made if you want to create a tensorflow model for neural style transfer:
-  1. Create an Interactive Session.
-  2. Load the content image.
-  3. Load the style image
-  4. Randomly initialize the image to be generated
-  5. Load the VGG16 model
-  6. Build the TensorFlow graph:
-     - Run the content image through the VGG16 model and compute the content cost
-     - Run the style image through the VGG16 model and compute the style cost
-     - Compute the total cost
-     - Define the optimizer and the learning rate
-  7. Initialize the TensorFlow graph and run it for a large number of iterations, updating the generated image at every step.
+  - Create an Interactive Session.
+  - Load the content image.
+  - Load the style image
+  - Randomly initialize the image to be generated
+  - Load the VGG16 model
+  - Build the TensorFlow graph:
+    - Run the content image through the VGG16 model and compute the content cost
+    - Run the style image through the VGG16 model and compute the style cost
+    - Compute the total cost
+    - Define the optimizer and the learning rate
+  - Initialize the TensorFlow graph and run it for a large number of iterations, updating the generated image at every step.
 
 #### 1D and 3D Generalizations
 
@@ -1026,7 +1025,7 @@
   - Output shape will be 10 X 16
   - Applying 32 filters with F = 5, S = 1
   - Output shape will be 6 X 32
-- The general equation `(N - F)/S + 1` can be applied here but here it gives a vector rather than a 2D matrix.
+- The general equation (N - F)/S + 1 can be applied here but here it gives a vector rather than a 2D matrix.
 - 1D data comes from a lot of resources such as waves, sounds, heartbeat signals.
 - In most of the applications that uses 1D data we use Recurrent Neural Network RNN.
 - 3D data also are available in some applications like CT scan:
@@ -1058,13 +1057,13 @@
   - Activation layer
     - Different activations include: relu, tanh, sigmoid, and softmax.
 - To train and test a model in Keras there are four steps:
-  1. Create the model.
-  2. Compile the model by calling `model.compile(optimizer = "...", loss = "...", metrics = ["accuracy"])`
-  3. Train the model on train data by calling `model.fit(x = ..., y = ..., epochs = ..., batch_size = ...)`
-     - You can add a validation set while training too.
-  4. Test the model on test data by calling `model.evaluate(x = ..., y = ...)`
+  - Create the model.
+  - Compile the model by calling model.compile(optimizer = "...", loss = "...", metrics = ["accuracy"])
+  - Train the model on train data by calling model.fit(x = ..., y = ..., epochs = ..., batch_size = ...)
+    - You can add a validation set while training too.
+  - Test the model on test data by calling model.evaluate(x = ..., y = ...)
 - Summarize of step in Keras: Create->Compile->Fit/Train->Evaluate/Test
-- `Model.summary()` gives a lot of useful informations regarding your model including each layers inputs, outputs, and number of parameters at each layer.
-- To choose the Keras backend you should go to `$HOME/.keras/keras.json` and change the file to the desired backend like Theano or Tensorflow or whatever backend you want.
+- model.summary() gives a lot of useful informations regarding your model including each layers inputs, outputs, and number of parameters at each layer.
+- To choose the Keras backend you should go to $HOME/.keras/keras.json and change the file to the desired backend like Theano or Tensorflow or whatever backend you want.
 - After you create the model you can run it in a tensorflow session without compiling, training, and testing capabilities.
-- You can save your model with `model_save` and load your model using `model_load ` This will save your whole trained model to disk with the trained weights.
+- You can save your model with model_save and load your model using model_load This will save your whole trained model to disk with the trained weights.

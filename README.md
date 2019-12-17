@@ -71,7 +71,7 @@ Santurkar S, Tsipras D, Ilyas A, et al. How does batch normalization help optimi
 
 Krizhevsky et al., 2012. ImageNet classification with deep convolutional neural networks
 
-Lin et al., 2013. Network in network
+[Lin et al., 2013. Network in network](https://arxiv.org/abs/1312.4400)
 
 Zeiler et al. 2013. Visualizing and Understanding Convolutional Networks
 
@@ -79,35 +79,35 @@ Szegedy et al. 2014. Going deeper with convolutions
 
 Simonyan & Zisserman 2015. Very deep convolutional networks for large-scale image recognition
 
-He et al., 2015. Deep residual networks for image recognition
+[He et al., 2015. Deep residual networks for image recognition](https://arxiv.org/abs/1512.03385)
 
 ### Object Detection
 
-Girshik et. al, 2013, Rich feature hierarchies for accurate object detection and semantic segmentation
+[Girshik et. al, 2013. Rich feature hierarchies for accurate object detection and semantic segmentation](https://arxiv.org/abs/1311.2524)
 
 Jonathan Long et al. 2014. Fully Convolutional Networks for Semantic Segmentation
 
-Sermanet et al., 2014, OverFeat: Integrated recognition, localization and detection using convolutional networks
+[Sermanet et al., 2014, OverFeat: Integrated recognition, localization and detection using convolutional networks](https://arxiv.org/abs/1312.6229)
 
-Redmon et al., 2015, You Only Look Once: Unified real-time object detection
+[Redmon et al., 2015, You Only Look Once: Unified real-time object detection](https://arxiv.org/abs/1506.02640)
 
-Girshik, 2015. Fast R-CNN
+[Girshik, 2015. Fast R-CNN](https://arxiv.org/abs/1504.08083)
 
-Wei Liu, et. al 2015 SSD: Single Shot MultiBox Detector
+[Wei Liu, et. al 2015 SSD: Single Shot MultiBox Detector](https://arxiv.org/abs/1512.02325)
 
-Redmon et al., 2016. YOLO9000: Better, Faster, Stronger
+[Redmon et al., 2016. YOLO9000: Better, Faster, Stronger](https://arxiv.org/abs/1612.08242)
 
-Ren et. al, 2016. Faster R-CNN: Towards real-time object detection with region proposal networks
+[Ren et. al, 2016. Faster R-CNN: Towards real-time object detection with region proposal networks](https://arxiv.org/abs/1506.01497)
 
-Jifeng Dai, et. al 2016 R-FCN: Object Detection via Region-based Fully Convolutional Networks
+[Jifeng Dai, et. al 2016 R-FCN: Object Detection via Region-based Fully Convolutional Networks ](https://arxiv.org/abs/1605.06409)
 
-Kaiming He, 2017. Mask R-CNN
+[Kaiming He, 2017. Mask R-CNN](https://arxiv.org/abs/1703.06870)
 
 Redmon et al., 2018. YOLOv3: An Incremental Improvement
 
 ### Face Recognize
 
-Taigman et. al., 2014. DeepFace closing the gap to human level performance
+[Taigman et. al., 2014. DeepFace closing the gap to human level performance](https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Taigman_DeepFace_Closing_the_2014_CVPR_paper.html)
 
 Schroff et al.,2015, FaceNet: A unified embedding for face recognition and clustering
 
