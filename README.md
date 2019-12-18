@@ -69,15 +69,15 @@ Santurkar S, Tsipras D, Ilyas A, et al. How does batch normalization help optimi
 
 [LeCun et al., 1998. Gradient-based learning applied to document recognition](http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf)
 
-Krizhevsky et al., 2012. ImageNet classification with deep convolutional neural networks
+[Krizhevsky et al., 2012. ImageNet classification with deep convolutional neural networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
 
 [Lin et al., 2013. Network in network](https://arxiv.org/abs/1312.4400)
 
 Zeiler et al. 2013. Visualizing and Understanding Convolutional Networks
 
-Szegedy et al. 2014. Going deeper with convolutions
+[Szegedy et al., 2014, Going Deeper with Convolutions](https://arxiv.org/abs/1409.4842)
 
-Simonyan & Zisserman 2015. Very deep convolutional networks for large-scale image recognition
+[Simonyan & Zisserman 2015. Very deep convolutional networks for large-scale image recognition](https://arxiv.org/abs/1409.1556)
 
 [He et al., 2015. Deep residual networks for image recognition](https://arxiv.org/abs/1512.03385)
 

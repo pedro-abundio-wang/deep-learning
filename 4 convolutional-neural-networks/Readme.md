@@ -49,8 +49,7 @@
          * [Content Cost Function](#content-cost-function)
          * [Style Cost Function](#style-cost-function)
          * [1D and 3D Generalizations](#1d-and-3d-generalizations)
-   * [Extras](#extras)
-      * [Keras](#keras)
+   * [Keras](#keras)
 
 ## Foundations of CNNs
 
@@ -184,8 +183,8 @@ Output: nH[l] x nW[l] x nc[l]
 Each filter is: f[l] x f[l] x nc[l-1]
 
 Where
-    nH[l] = (nH[l-1] + 2p[l] - f[l] / s[l]) + 1
-    nW[l] = (nW[l-1] + 2p[l] - f[l] / s[l]) + 1
+    nH[l] = (nH[l-1] + 2*p[l] - f[l] / s[l]) + 1
+    nW[l] = (nW[l-1] + 2*p[l] - f[l] / s[l]) + 1
 
 Activations:
     a[l]:     nH[l] x nW[l] x nc[l]
@@ -228,7 +227,7 @@ bias:    (1, 1, 1, nc[l])
 
 - Other than the conv layers, CNNs often uses pooling layers to reduce the size of the inputs, speed up computation, and to make some of the features it detects more robust.
 - Max pooling example:
-  - ![](Images/02.png)
+  - ![](Images/51.png)
   - This example has f = 2, s = 2, and p = 0 hyperparameters
 - The max pooling is saying, if the feature is detected anywhere in this filter then keep a high number. But the main reason why people are using pooling because its works well in practice and reduce computations.
 - Max pooling has no parameters to learn.
@@ -237,6 +236,7 @@ bias:    (1, 1, 1, nc[l])
   - Max pooling size = 2 and stride = 2
   - Output: 2x2x10
 - Average pooling is taking the averages of the values instead of taking the max values.
+- ![](Images/52.png)
 - Max pooling is used more often than average pooling in practice.
 - If stride of pooling equals the size, it will then apply the effect of shrinking.
 - Hyperparameters summary
@@ -248,50 +248,50 @@ bias:    (1, 1, 1, nc[l])
 ### Convolutional neural network example
 
 - Now we will deal with a full CNN example. This example is something like the **LeNet-5** that was invented by Yann Lecun.
-  - Input Image are:   a0 = 32x32x3
-    - n0 = 32 and nc0 = 3
-  - First layer (Conv layer):        #Conv1
+- ![](Images/53.png)
+  - Input Image are: a0 = 32x32x3
+    - n0 = 32, nc0 = 3
+  - First layer (Conv layer):
     - f1 = 5, s1 = 1, and p1 = 0
     - number of filters = 6
     - Then output are a1 = 28x28x6
       - n1 = 28 and nc1 = 6
-    - Then apply (Max pooling):         #Pool1
-      - f1p = 2, and s1p = 2
+    - Then apply (Max pooling):
+      - f1 = 2, and s1 = 2
       - The output are a1 = 14x14x6
-  - Second layer (Conv layer):   #Conv2
+  - Second layer (Conv layer):
     - f2 = 5, s2 = 1, p2 = 0
     - number of filters = 16
     - The output are a2 = 10x10x16
       - n2 = 10, nc2 = 16
-    - Then apply (Max pooling):         #Pool2
-      - f2p = 2, and s2p = 2
+    - Then apply (Max pooling):
+      - f2 = 2, and s2 = 2
       - The output are a2 = 5x5x16
-  - Third layer (Fully connected)   #FC3
+  - Third layer (Fully connected)
     - Number of neurons are 120
-    - The output a3 = 120 x 1. 400 came from 5x5x16
-  - Forth layer (Fully connected)  #FC4
+    - The output a3 = 120 x 1.
+    - The input 400 came from 5x5x16
+  - Forth layer (Fully connected)
     - Number of neurons are 84
     - The output a4 = 84 x 1.
   - Fifth layer (Softmax)
     - Number of neurons is 10 if we need to identify for example the 10 digits.
-- Hint a Conv1 and Pool1 is treated as one layer.
+- Hint a Conv-Layer and Pool-Layer is treated as one layer.
 - Hyperparameters are a lot. For choosing the value of each you should follow the guideline that we will discuss later or check the literature and takes some ideas and numbers from it.
 - Usually the input size decreases over layers while the number of filters increases.
-- A CNN usually consists of one or more convolution (Not just one as the shown examples) followed by a pooling.
+- A CNN usually consists of one or more convolution (Not just one as the shown) followed by a pooling.
 - Fully connected layers has the most parameters in the network.
-- To consider using these blocks together you should look at other working examples firsts to get some intuitions.
+- ![](Images/55.png)
 
 ### Why convolutions?
 
-- Two main advantages of Convs are:
+- The main advantages of Convs are:
   - Parameter sharing.
     - A feature detector (such as a vertical edge detector) that's useful in one part of the image is probably useful in another part of the image.
   - sparsity of connections.
     - In each layer, each output value depends only on a small number of inputs.
 
 ## Deep convolutional models
-
-> Learn about the practical tricks and methods used in deep CNNs straight from the research papers.
 
 ### Why look at case studies?
 
@@ -301,47 +301,39 @@ bias:    (1, 1, 1, nc[l])
   - **LeNet-5**
   - **AlexNet**
   - **VGG**
-- The best CNN architecture that won the last ImageNet competition is called **ResNet** and it has 152 layers!
+- The best CNN architecture that won the last ImageNet competition is called **ResNet** and it has 152 layers
 - There are also an architecture called **Inception** that was made by Google that are very useful to learn and apply to your tasks.
 - Reading and trying the mentioned models can boost you and give you a lot of ideas to solve your task.
 
 ### Classic networks
 
 - In this section we will talk about classic networks which are **LeNet-5**, **AlexNet**, and **VGG**.
-
 - **LeNet-5**
-
   - The goal for this model was to identify handwritten digits in a `32x32x1` gray image. Here are the drawing of it:
   - ![](Images/05.png)
   - This model was published in 1998. The last layer wasn't using softmax back then.
   - It has 60k parameters.
   - The dimensions of the image decreases as the number of channels increases.
-  - `Conv ==> Pool ==> Conv ==> Pool ==> FC ==> FC ==> softmax` this type of arrangement is quite common.
+  - Conv ==> Pool ==> Conv ==> Pool ==> FC ==> FC ==> softmax this type of arrangement is quite common.
   - The activation function used in the paper was Sigmoid and Tanh. Modern implementation uses RELU in most of the cases.
-  - [[LeCun et al., 1998. Gradient-based learning applied to document recognition]](http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf)
-
+  - [LeCun et al., 1998. Gradient-based learning applied to document recognition](http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf)
 - **AlexNet**
-
   - Named after Alex Krizhevsky who was the first author of this paper. The other authors includes Geoffrey Hinton.
   - The goal for the model was the ImageNet challenge which classifies images into 1000 classes. Here are the drawing of the model:
   - ![](Images/06.png)
   - Summary:
-    - ```
-      Conv => Max-pool => Conv => Max-pool => Conv => Conv => Conv => Max-pool ==> Flatten ==> FC ==> FC ==> Softmax
-      ```
+  - Conv => Max-pool => Conv => Max-pool => Conv => Conv => Conv => Max-pool ==> Flatten ==> FC ==> FC ==> Softmax
   - Similar to LeNet-5 but bigger.
   - Has 60 Million parameter compared to 60k parameter of LeNet-5.
   - It used the RELU activation function.
-  - The original paper contains Multiple GPUs and Local Response normalization (RN).
+  - The original paper contains Multiple GPUs and **Local Response normalization (RN)**.
     - Multiple GPUs were used because the GPUs were not so fast back then.
     - Researchers proved that Local Response normalization doesn't help much so for now don't bother yourself for understanding or implementing it.
   - This paper convinced the computer vision researchers that deep learning is so important.
-  - [[Krizhevsky et al., 2012. ImageNet classification with deep convolutional neural networks]](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
-  - [[Understanding AlexNet]](https://www.learnopencv.com/understanding-alexnet/)
-  - [[Difference between Local Response Normalization and Batch Normalization]](https://towardsdatascience.com/difference-between-local-response-normalization-and-batch-normalization-272308c034ac)
-
+  - [Krizhevsky et al., 2012. ImageNet classification with deep convolutional neural networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
+  - [Understanding AlexNet](https://www.learnopencv.com/understanding-alexnet/)
+  - [Difference between Local Response Normalization and Batch Normalization](https://towardsdatascience.com/difference-between-local-response-normalization-and-batch-normalization-272308c034ac)
 - **VGG-16**
-
   - A modification for AlexNet.
   - Instead of having a lot of hyperparameters lets have some simpler network.
   - Focus on having only these blocks:
@@ -358,7 +350,7 @@ bias:    (1, 1, 1, nc[l])
   - Pooling was the only one who is responsible for shrinking the dimensions.
   - There are another version called **VGG-19** which is a bigger version. But most people uses the VGG-16 instead of the VGG-19 because it does the same.
   - VGG paper is attractive it tries to make some rules regarding using CNNs.
-  - [[Simonyan & Zisserman 2015. Very deep convolutional networks for large-scale image recognition]](https://arxiv.org/abs/1409.1556)
+  - [Simonyan & Zisserman 2015. Very deep convolutional networks for large-scale image recognition](https://arxiv.org/abs/1409.1556)
 
 ### Residual Networks (ResNets)
 
@@ -370,8 +362,7 @@ bias:    (1, 1, 1, nc[l])
   - ![](Images/03.png)
   - They add a shortcut/skip connection before the second activation.
   - The authors of this block find that you can train a deeper NNs using stacking this block.
-  - [[He et al., 2015. Deep residual networks for image recognition]](https://arxiv.org/abs/1512.03385)
-  - [[CNN Residual nets]](http://datahacker.rs/014-cnn-residual-nets/)
+  - [He et al., 2015. Deep residual networks for image recognition](https://arxiv.org/abs/1512.03385)
 - **Residual Network**
   - Are a NN that consists of some Residual blocks.
   - ![](Images/09.png)
@@ -385,23 +376,23 @@ bias:    (1, 1, 1, nc[l])
 
 - Lets see some example that illustrates why resNet work.
   - We have a big NN as the following:
-    - `X --> Big NN --> a[l]`
-  - Lets add two layers to this network as a residual block:
-    - `X --> Big NN --> a[l] --> Layer1 --> Layer2 --> a[l+2]`
-    - And a`[l]` has a direct connection to `a[l+2]`
+    - X --> Big NN --> a[l]
+  - Lets add layers to this network as a residual block:
+    - X --> Big NN --> a[l] --> Layer --> a[l+2]
+    - And a[l] has a direct connection to a[l+2]
   - Suppose we are using RELU activations.
   - Then:
     - ```
       a[l+2]
-      = g( z[l+2] + a[l] )
-      = g( W[l+2] a[l+1] + b[l+2] + a[l] )
+      = g(z[l+2] + a[l])
+      = g(W[l+2] + a[l+1] + b[l+2] + a[l])
       ```
-  - Then if we are using L2 regularization for example, `W[l+2]` will be zero. Lets say that `b[l+2]` will be zero too.
-  - Then `a[l+2] = g( a[l] ) = a[l]` with no negative values.
+  - Then if we are using L2 regularization for example, W[l+2] will be zero. Lets say that b[l+2] will be zero too.
+  - Then a[l+2] = g(a[l]) = a[l] with no negative values.
   - This show that identity function is easy for a residual block to learn. And that why it can train deeper NNs.
   - Also that the two layers we added doesn't hurt the performance of big NN we made.
   - Hint: dimensions of z[l+2] and a[l] have to be the same in resNets. In case they have different dimensions what we put a matrix parameters (Which can be learned or fixed)
-    - `a[l+2] = g( z[l+2] + Ws * a[l] ) # The added Ws should make the dimensions equal`
+    - a[l+2] = g(z[l+2] + Ws * a[l]) The added Ws should make the dimensions equal
     - Ws also can be a zero padding.
 - Using a skip-connection helps the gradient to backpropagate and thus helps you to train deeper networks
 - Lets take a look at ResNet on images.
@@ -409,18 +400,17 @@ bias:    (1, 1, 1, nc[l])
   - ![](Images/resNet.jpg)
   - All the 3x3 Conv are same Convs.
   - Keep it simple in design of the network.
-  - spatial size /2 => # filters x2
+  - spatial size/2 => number of filters x2
   - No FC layers, No dropout is used.
-  - Two main types of blocks are used in a ResNet, depending mainly on whether the input/output dimensions are same or different. You are going to implement both of them.
+  - The main types of blocks are used in a ResNet, depending mainly on whether the input/output dimensions are same or different. You are going to implement both of them.
   - The dotted lines is the case when the dimensions are different. To solve then they down-sample the input by 2 and then pad zeros to match the two dimensions. There's another trick which is called bottleneck which we will explore later.
 - Useful concept (**Spectrum of Depth**):
   - ![](Images/12.png)
 - Residual blocks types:
   - Identity block:
     - ![](Images/16.png)
-    - Hint the conv is followed by a batch norm `BN` before `RELU`. Dimensions here are same.
+    - Hint the conv is followed by a batch norm BN before RELU. Dimensions here are same.
     - This skip is over 2 layers. The skip connection can jump n connections where n>2
-    - This drawing represents [Keras](https://keras.io/) layers.
   - The convolutional block:
     - ![](Images/17.png)
     - The conv can be bottleneck 1 x 1 conv
@@ -431,11 +421,11 @@ bias:    (1, 1, 1, nc[l])
 - What does a 1 X 1 convolution do? Isn't it just multiplying by a number?
   - Lets first consider an example:
     - Input: 6x6x1
-    - Conv: 1x1x1 one filter.        # The 1 x 1 Conv
+    - Conv: 1x1x1 one filter.
     - Output: 6x6x1
   - Another example:
     - Input: 6x6x32
-    - Conv: 1x1x32 5 filters.     # The 1 x 1 Conv
+    - Conv: 1x1x32 five filters.
     - Output: 6x6x5
 - It has been used in a lot of modern CNN implementations like ResNet and Inception models.
 - A 1 x 1 convolution is useful when:
@@ -444,7 +434,7 @@ bias:    (1, 1, 1, nc[l])
   - We will later see that by shrinking it we can save a lot of computations.
   - If we have specified the number of 1 x 1 Conv filters to be the same as the input number of channels then the output will contain the same number of channels. Then the 1 x 1 Conv will act like a non linearity and will learn non linearity operator.
 - Replace fully connected layers with 1 x 1 convolutions as Yann LeCun believes they are the same.
-  - > In Convolutional Nets, there is no such thing as "fully-connected layers". There are only convolution layers with 1x1 convolution kernels and a full connection table.
+- In Convolutional Nets, there is no such thing as **fully-connected layers**. There are only convolution layers with 1x1 convolution kernels and a full connection table.
 
 ### Inception network motivation
 
@@ -489,7 +479,7 @@ bias:    (1, 1, 1, nc[l])
 - Some times a Max-Pool block is used before the inception module to reduce the dimensions of the inputs.
 - There are a 3 Sofmax branches at different positions to push the network toward its goal. and helps to ensure that the intermediate features are good enough to the network to learn and it turns out that softmax0 and sofmax1 gives regularization effect.
 - Since the development of the Inception module, the authors and the others have built another versions of this network. Like inception v2, v3, and v4. Also there is a network that has used the inception module and the ResNet together.
-- [[Szegedy et al., 2014, Going Deeper with Convolutions]](https://arxiv.org/abs/1409.4842)
+- [Szegedy et al., 2014, Going Deeper with Convolutions](https://arxiv.org/abs/1409.4842)
 
 ### Using Open-Source Implementation
 
@@ -497,7 +487,7 @@ bias:    (1, 1, 1, nc[l])
 - It turns out that a lot of these NN are difficult to replicated. because there are some details that may not presented on its papers. There are some other reasons like:
   - Learning decay.
   - Parameter tuning.
-- A lot of deep learning researchers are opening sourcing their code into Internet on sites like [Github](Github.com).
+- A lot of deep learning researchers are opening sourcing their code into Internet on sites like Github.
 - If you see a research paper and you want to build over it, the first thing you should do is to look for an open source implementation for this paper.
 - Some advantage of doing this is that you might download the network implementation along with its parameters/weights. The author might have used multiple GPUs and spent some weeks to reach this result and its right in front of you after you download it.
 
@@ -540,8 +530,8 @@ bias:    (1, 1, 1, nc[l])
 - Implementing distortions during training:
   - You can use a different CPU thread to make you a distorted mini batches while you are training your NN.
 - Data Augmentation has also some hyperparameters. A good place to start is to find an open source data augmentation implementation and then use it or fine tune these hyperparameters.
-- [[Data Augmentation]](http://www.deeplearningessentials.science/dataAugmentation/)
-- [[Fancy PCA (Data Augmentation) with Scikit-Image]](https://deshanadesai.github.io/notes/Fancy-PCA-with-Scikit-Image)
+- [Data Augmentation](http://www.deeplearningessentials.science/dataAugmentation/)
+- [Fancy PCA (Data Augmentation) with Scikit-Image](https://deshanadesai.github.io/notes/Fancy-PCA-with-Scikit-Image)
 
 ### State of Computer Vision
 
@@ -550,12 +540,12 @@ bias:    (1, 1, 1, nc[l])
 - If your problem has a large amount of data, researchers are tend to use:
   - Simpler algorithms.
   - Less hand engineering.
-- If you don't have that much data people tend to try more hand engineering for the problem "Hacks". Like choosing a more complex NN architecture.
+- If you don't have that much data people tend to try more hand engineering for the problem Hacks. Like choosing a more complex NN architecture.
 - Because we haven't got that much data in a lot of computer vision problems, it relies a lot on hand engineering.
 - We will see in the next chapter that because the object detection has less data, a more complex NN architectures will be presented.
 - Tips for doing well on benchmarks/winning competitions:
   - Ensembling.
-    - [[Ensemble Learning Methods for Deep Learning Neural Networks]](https://machinelearningmastery.com/ensemble-methods-for-deep-learning-neural-networks/)
+    - [Ensemble Learning Methods for Deep Learning Neural Networks](https://machinelearningmastery.com/ensemble-methods-for-deep-learning-neural-networks/)
   - Multi-crop at test time.(10 crops)
 - Use open source code
   - Use architectures of networks published in the literature.
@@ -563,8 +553,6 @@ bias:    (1, 1, 1, nc[l])
   - Use pretrained models and fine-tune on your dataset.
 
 ## Object detection
-
-> Learn how to apply your knowledge of CNNs to one of the toughest but hottest field of computer vision: Object detection.
 
 ### Object Localization
 
@@ -1036,8 +1024,6 @@ bias:    (1, 1, 1, nc[l])
   - Output shape (10, 10, 10, 16)
   - Applying 32 filters with F = 5, S = 1
   - Output shape will be (6, 6, 6, 32)
-
-## Extras
 
 ### Keras
 
