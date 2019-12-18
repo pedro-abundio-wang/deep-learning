@@ -12,7 +12,7 @@
       * [Pooling layers](#pooling-layers)
       * [Convolutional neural network example](#convolutional-neural-network-example)
       * [Why convolutions?](#why-convolutions)
-   * [Deep convolutional models: case studies](#deep-convolutional-models-case-studies)
+   * [Deep convolutional models](#deep-convolutional-models-case-studies)
       * [Why look at case studies?](#why-look-at-case-studies)
       * [Classic networks](#classic-networks)
       * [Residual Networks (ResNets)](#residual-networks-resnets)
@@ -289,7 +289,7 @@ bias:    (1, 1, 1, nc[l])
   - sparsity of connections.
     - In each layer, each output value depends only on a small number of inputs.
 
-## Deep convolutional models: case studies
+## Deep convolutional models
 
 > Learn about the practical tricks and methods used in deep CNNs straight from the research papers.
 
