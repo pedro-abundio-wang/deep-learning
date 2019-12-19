@@ -114,5 +114,7 @@ Y_dev.npy
 X.npy
 Y.npy
 
+4 convolutional-neural-networks/3 object-detection/images/out
+
 ResNet50.h5
 
