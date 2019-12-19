@@ -116,5 +116,8 @@ Y.npy
 
 4 convolutional-neural-networks/3 object-detection/images/out
 
+4 convolutional-neural-networks/3 object-detection/images/0*.jpg
+
 ResNet50.h5
+
 
