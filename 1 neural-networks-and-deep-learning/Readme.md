@@ -58,7 +58,6 @@ The blue line is the function for predicting the price of the house as a functio
 
 The input to the neural network is the size of a house, denoted by 𝑥, which goes into a single neuron and then outputs the predicted price, which we denote by 𝑦.
 
-
 <div align="center">
   <img src="Images/14.png">
 </div>
@@ -89,10 +88,10 @@ Different types of neural networks are useful for different applications.
 
 ![](Images/17.png)
 
-  - In the real estate application, we use a universally **Standard Neural Network** architecture.
-  - For image applications we’ll often use **Convolutional Neural Network (CNN)**.
-  - Audio is most naturally represented as a one-dimensional time series or as a one-dimensional temporal sequence. Hence, for a sequence data, we often use **Recurrent Neural Network (RNN)**.
-  - Language, English and Chinese, the alphabets or the words come one at a time and language is also represented as a sequence data. **Recurrent Neural Network (RNN)** are often used for these applications.
+- In the real estate application, we use a universally **Standard Neural Network** architecture.
+- For image applications we’ll often use **Convolutional Neural Network (CNN)**.
+- Audio is most naturally represented as a one-dimensional time series or as a one-dimensional temporal sequence. Hence, for a sequence data, we often use **Recurrent Neural Network (RNN)**.
+- Language, English and Chinese, the alphabets or the words come one at a time and language is also represented as a sequence data. **Recurrent Neural Network (RNN)** are often used for these applications.
 
 **Structured and Unstructured Data**
 
