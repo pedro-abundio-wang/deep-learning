@@ -107,9 +107,11 @@ Redmon et al., 2018. YOLOv3: An Incremental Improvement
 
 ### Face Recognize
 
-[Taigman et. al., 2014. DeepFace closing the gap to human level performance](https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Taigman_DeepFace_Closing_the_2014_CVPR_paper.html)
+[Taigman et. al., 2014. DeepFace closing the gap to human level performance](https://research.fb.com/wp-content/uploads/2016/11/deepface-closing-the-gap-to-human-level-performance-in-face-verification.pdf)
 
-Schroff et al.,2015, FaceNet: A unified embedding for face recognition and clustering
+[Schroff et al.,2015, FaceNet: A unified embedding for face recognition and clustering](https://arxiv.org/pdf/1503.03832.pdf)
+
+[DeepFace Reading](https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Taigman_DeepFace_Closing_the_2014_CVPR_paper.html)
 
 ### Art Generation
 
