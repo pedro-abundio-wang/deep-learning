@@ -41,29 +41,21 @@ nvidia-smi
 
 [https://www.tensorflow.org/install/source](https://www.tensorflow.org/install/source)
 
-# Readings
-
-[Demystifying Deep Convolutional Neural Networks](http://scs.ryerson.ca/~aharley/neural-networks/)
-
-http://mccormickml.com/2018/06/15/applying-word2vec-to-recommenders-and-advertising/
-
-Bjorck N, Gomes C P, Selman B, et al. Understanding batch normalization[C]//Advances in Neural Information Processing Systems. 2018: 7705-7716.
-
-Santurkar S, Tsipras D, Ilyas A, et al. How does batch normalization help optimization?[C]//Advances in Neural Information Processing Systems. 2018: 2488-2498.
-
 # Papers
 
 ## Algorithms
 
 [Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/abs/1502.03167)
 
-[ADAM: A METHOD FOR STOCHASTIC OPTIMIZATION](https://arxiv.org/pdf/1412.6980.pdf)
+[ADAM: A METHOD FOR STOCHASTIC OPTIMIZATION](https://arxiv.org/abs/1412.6980)
 
-[Stochastic Weight Averaging](https://arxiv.org/abs/1803.05407)
+[Averaging Weights Leads to Wider Optima and Better Generalization](https://arxiv.org/abs/1803.05407)
 
-[Srivastava et al] Dropout: A Simple Way to Prevent Neural Networks from Overfitting
+[Dropout: A Simple Way to Prevent Neural Networks from Overfitting](http://jmlr.org/papers/v15/srivastava14a.html)
 
-[Xavier et al] Understanding the difficulty of training deep feedforward neural networks
+[Understanding the difficulty of training deep feedforward neural networks](http://proceedings.mlr.press/v9/glorot10a.html)
+
+[Practical Recommendations for Gradient-Based Training of Deep](https://arxiv.org/abs/1206.5533)
 
 ## CNN
 
@@ -83,39 +75,57 @@ Santurkar S, Tsipras D, Ilyas A, et al. How does batch normalization help optimi
 
 ### Object Detection
 
+#### YOLO
+
+[You Only Look Once: Unified real-time object detection](https://arxiv.org/abs/1506.02640)
+
+[YOLO9000: Better, Faster, Stronger](https://arxiv.org/abs/1612.08242)
+
+YOLOv3: An Incremental Improvement
+
+#### R-CNN
+
+[Fast R-CNN](https://arxiv.org/abs/1504.08083)
+
+[Faster R-CNN: Towards real-time object detection with region proposal networks](https://arxiv.org/abs/1506.01497)
+
+[Mask R-CNN](https://arxiv.org/abs/1703.06870)
+
+#### Others
+
 [Rich feature hierarchies for accurate object detection and semantic segmentation](https://arxiv.org/abs/1311.2524)
 
 Fully Convolutional Networks for Semantic Segmentation
 
 [OverFeat: Integrated recognition, localization and detection using convolutional networks](https://arxiv.org/abs/1312.6229)
 
-[You Only Look Once: Unified real-time object detection](https://arxiv.org/abs/1506.02640)
-
-[Girshik, 2015. Fast R-CNN](https://arxiv.org/abs/1504.08083)
+[R-FCN: Object Detection via Region-based Fully Convolutional Networks ](https://arxiv.org/abs/1605.06409)
 
 [SSD: Single Shot MultiBox Detector](https://arxiv.org/abs/1512.02325)
 
-[YOLO9000: Better, Faster, Stronger](https://arxiv.org/abs/1612.08242)
-
-[Faster R-CNN: Towards real-time object detection with region proposal networks](https://arxiv.org/abs/1506.01497)
-
-[R-FCN: Object Detection via Region-based Fully Convolutional Networks ](https://arxiv.org/abs/1605.06409)
-
-[Mask R-CNN](https://arxiv.org/abs/1703.06870)
-
-YOLOv3: An Incremental Improvement
-
 ### Face Recognize
+
+[FaceNet: A Unified Embedding for Face Recognition and Clustering](https://arxiv.org/pdf/1503.03832.pdf)
 
 [DeepFace: Closing the gap to human-level performance in face verification](https://research.fb.com/wp-content/uploads/2016/11/deepface-closing-the-gap-to-human-level-performance-in-face-verification.pdf)
 
 [DeepFace Reading](https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Taigman_DeepFace_Closing_the_2014_CVPR_paper.html)
 
-[FaceNet: A Unified Embedding for Face Recognition and Clustering](https://arxiv.org/pdf/1503.03832.pdf)
+#### Open Source
+
+FaceNet: https://github.com/davidsandberg/facenet
+
+OpenFace: https://github.com/iwantooxxoox/Keras-OpenFace
 
 ### Art Generation
 
 [A Neural Algorithm of Artistic Style](https://arxiv.org/abs/1508.06576)
+
+#### Readings
+
+[Harish Narayanan, Convolutional neural networks for artistic style transfer](https://harishnarayanan.org/writing/artistic-style-transfer/)
+
+[Log0, TensorFlow Implementation of "A Neural Algorithm of Artistic Style"](http://www.chioka.in/tensorflow-implementation-neural-algorithm-of-artistic-style)
 
 ## RNN
 
@@ -208,3 +218,13 @@ DenseNet: Densely Connected Convolutional Networks
 Human-level control through deep reinforcement learning [https://web.stanford.edu/class/psych209/Readings/MnihEtAlHassibis15NatureControlDeepRL.pdf]
 
 Mastering the Game of Go without Human Knowledge [https://deepmind.com/documents/119/agz_unformatted_nature.pdf]
+
+# Readings
+
+[Demystifying Deep Convolutional Neural Networks](http://scs.ryerson.ca/~aharley/neural-networks/)
+
+http://mccormickml.com/2018/06/15/applying-word2vec-to-recommenders-and-advertising/
+
+Bjorck N, Gomes C P, Selman B, et al. Understanding batch normalization[C]//Advances in Neural Information Processing Systems. 2018: 7705-7716.
+
+Santurkar S, Tsipras D, Ilyas A, et al. How does batch normalization help optimization?[C]//Advances in Neural Information Processing Systems. 2018: 2488-2498.
