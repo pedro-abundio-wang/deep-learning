@@ -857,17 +857,17 @@ bias:    (1, 1, 1, nc[l])
 - The triplet name came from that we are comparing an anchor A with a positive P and a negative N image.
 - Formally we want:
   - Positive distance to be less than negative distance
-  - ||f(A) - f(P)||^2  <= ||f(A) - f(N)||^2
+  - ||f(A) - f(P)||<sup>2</sup>  <= ||f(A) - f(N)||<sup>2</sup>
   - Then
-  - ||f(A) - f(P)||^2  - ||f(A) - f(N)||^2 <= 0
+  - ||f(A) - f(P)||<sup>2</sup>  - ||f(A) - f(N)||<sup>2</sup> <= 0
   - To make sure the NN won't get an output of zeros easily:
-  - ||f(A) - f(P)||^2  - ||f(A) - f(N)||^2 <= -alpha
+  - ||f(A) - f(P)||<sup>2</sup>  - ||f(A) - f(N)||<sup>2</sup> <= -alpha
     - Alpha is a small number. Sometimes its called the margin.
   - Then
-  - ||f(A) - f(P)||^2  - ||f(A) - f(N)||^2 + alpha <= 0
+  - ||f(A) - f(P)||<sup>2</sup>  - ||f(A) - f(N)||<sup>2</sup> + alpha <= 0
 - Final Loss function:
   - Given 3 images (A, P, N)
-  - L(A, P, N) = max (||f(A) - f(P)||^2  - ||f(A) - f(N)||^2 + alpha , 0)
+  - L(A, P, N) = max (||f(A) - f(P)||<sup>2</sup>  - ||f(A) - f(N)||<sup>2</sup> + alpha , 0)
   - J = Sum(L(A[i], P[i], N[i]) , i) for all triplets of images.
 - You need multiple images of the same person in your dataset. Then get some triplets out of your dataset. Dataset should be big enough.
 - Choosing the triplets A, P, N:
@@ -879,7 +879,7 @@ bias:    (1, 1, 1, nc[l])
     - d(A, P) + alpha <= d (A, N)
     - This can be achieved by for example same poses!
     - Find more at the paper.
-- Details are in this paper [[Schroff et al.,2015, FaceNet: A unified embedding for face recognition and clustering]](https://arxiv.org/abs/1503.03832)
+- Details are in this paper [Schroff et al.,2015, FaceNet: A unified embedding for face recognition and clustering](https://arxiv.org/abs/1503.03832)
 - Commercial recognition systems are trained on a large datasets like 10/100 million images.
 - There are a lot of pretrained models and parameters online for face recognition.
 
@@ -924,7 +924,7 @@ bias:    (1, 1, 1, nc[l])
 - You will find out that each layer are learning more complex representations.
   - ![](Images/39.png)
 - The first layer was created using the weights of the first layer. Other images are generated using the receptive field in the image that triggered the neuron to be max.
-- [[Zeiler and Fergus., 2013, Visualizing and understanding convolutional networks]](https://arxiv.org/abs/1311.2901)
+- [Zeiler and Fergus., 2013, Visualizing and understanding convolutional networks](https://arxiv.org/abs/1311.2901)
 - A good explanation on how to get **receptive field** given a layer:
   - ![](Images/receptiveField.png)
   - [A guide to receptive field arithmetic for Convolutional Neural Networks](https://medium.com/@nikasa1889/a-guide-to-receptive-field-arithmetic-for-convolutional-neural-networks-e0f514068807)
@@ -957,7 +957,7 @@ bias:    (1, 1, 1, nc[l])
 - Use pre-trained ConvNet. (E.g., VGG network)
 - Let a(c)[l] and a(G)[l] be the activation of layer l on the images.
 - If a(c)[l] and a(G)[l] are similar then they will have the same content
-  - J(C, G) at a layer l = 1/2 || a(c)[l] - a(G)[l] ||^2
+  - J(C, G) at a layer l = 1/2 || a(c)[l] - a(G)[l] ||<sup>2</sup>
 
 #### Style Cost Function
 

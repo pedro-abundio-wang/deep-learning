@@ -67,55 +67,55 @@ Santurkar S, Tsipras D, Ilyas A, et al. How does batch normalization help optimi
 
 ## CNN
 
-[LeCun et al., 1998. Gradient-based learning applied to document recognition](http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf)
+[Gradient-based learning applied to document recognition](http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf)
 
-[Krizhevsky et al., 2012. ImageNet classification with deep convolutional neural networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
+[ImageNet classification with deep convolutional neural networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
 
-[Lin et al., 2013. Network in network](https://arxiv.org/abs/1312.4400)
+[Network in network](https://arxiv.org/abs/1312.4400)
 
-Zeiler et al. 2013. Visualizing and Understanding Convolutional Networks
+[Visualizing and understanding convolutional networks](https://arxiv.org/abs/1311.2901)
 
-[Szegedy et al., 2014, Going Deeper with Convolutions](https://arxiv.org/abs/1409.4842)
+[Going Deeper with Convolutions](https://arxiv.org/abs/1409.4842)
 
-[Simonyan & Zisserman 2015. Very deep convolutional networks for large-scale image recognition](https://arxiv.org/abs/1409.1556)
+[Very deep convolutional networks for large-scale image recognition](https://arxiv.org/abs/1409.1556)
 
-[He et al., 2015. Deep residual networks for image recognition](https://arxiv.org/abs/1512.03385)
+[Deep residual networks for image recognition](https://arxiv.org/abs/1512.03385)
 
 ### Object Detection
 
-[Girshik et. al, 2013. Rich feature hierarchies for accurate object detection and semantic segmentation](https://arxiv.org/abs/1311.2524)
+[Rich feature hierarchies for accurate object detection and semantic segmentation](https://arxiv.org/abs/1311.2524)
 
-Jonathan Long et al. 2014. Fully Convolutional Networks for Semantic Segmentation
+Fully Convolutional Networks for Semantic Segmentation
 
-[Sermanet et al., 2014, OverFeat: Integrated recognition, localization and detection using convolutional networks](https://arxiv.org/abs/1312.6229)
+[OverFeat: Integrated recognition, localization and detection using convolutional networks](https://arxiv.org/abs/1312.6229)
 
-[Redmon et al., 2015, You Only Look Once: Unified real-time object detection](https://arxiv.org/abs/1506.02640)
+[You Only Look Once: Unified real-time object detection](https://arxiv.org/abs/1506.02640)
 
 [Girshik, 2015. Fast R-CNN](https://arxiv.org/abs/1504.08083)
 
-[Wei Liu, et. al 2015 SSD: Single Shot MultiBox Detector](https://arxiv.org/abs/1512.02325)
+[SSD: Single Shot MultiBox Detector](https://arxiv.org/abs/1512.02325)
 
-[Redmon et al., 2016. YOLO9000: Better, Faster, Stronger](https://arxiv.org/abs/1612.08242)
+[YOLO9000: Better, Faster, Stronger](https://arxiv.org/abs/1612.08242)
 
-[Ren et. al, 2016. Faster R-CNN: Towards real-time object detection with region proposal networks](https://arxiv.org/abs/1506.01497)
+[Faster R-CNN: Towards real-time object detection with region proposal networks](https://arxiv.org/abs/1506.01497)
 
-[Jifeng Dai, et. al 2016 R-FCN: Object Detection via Region-based Fully Convolutional Networks ](https://arxiv.org/abs/1605.06409)
+[R-FCN: Object Detection via Region-based Fully Convolutional Networks ](https://arxiv.org/abs/1605.06409)
 
-[Kaiming He, 2017. Mask R-CNN](https://arxiv.org/abs/1703.06870)
+[Mask R-CNN](https://arxiv.org/abs/1703.06870)
 
-Redmon et al., 2018. YOLOv3: An Incremental Improvement
+YOLOv3: An Incremental Improvement
 
 ### Face Recognize
 
-[Taigman et. al., 2014. DeepFace closing the gap to human level performance](https://research.fb.com/wp-content/uploads/2016/11/deepface-closing-the-gap-to-human-level-performance-in-face-verification.pdf)
-
-[Schroff et al.,2015, FaceNet: A unified embedding for face recognition and clustering](https://arxiv.org/pdf/1503.03832.pdf)
+[DeepFace: Closing the gap to human-level performance in face verification](https://research.fb.com/wp-content/uploads/2016/11/deepface-closing-the-gap-to-human-level-performance-in-face-verification.pdf)
 
 [DeepFace Reading](https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Taigman_DeepFace_Closing_the_2014_CVPR_paper.html)
 
+[FaceNet: A Unified Embedding for Face Recognition and Clustering](https://arxiv.org/pdf/1503.03832.pdf)
+
 ### Art Generation
 
-Gatys et al., 2015. A Neural Algorithm of Artistic Style
+[A Neural Algorithm of Artistic Style](https://arxiv.org/abs/1508.06576)
 
 ## RNN
 
