@@ -104,21 +104,25 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# large files
+
 yolov2.h5
 yolov2.weights
 imagenet-vgg-verydeep-19.mat
 imagenet-vgg-verydeep-16.mat
+ResNet50.h5
+4 convolutional-neural-networks/3 object-detection/images/out
+4 convolutional-neural-networks/3 object-detection/images/0*.jpg
+4 convolutional-neural-networks/4 special-applications/2 Neural Style Transfer/output
+
 glove.6B.50d.txt
+X_dev.7z
 X_dev.npy
 Y_dev.npy
+X.zip
 X.npy
 Y.npy
-
-4 convolutional-neural-networks/3 object-detection/images/out
-
-4 convolutional-neural-networks/3 object-detection/images/0*.jpg
-
-ResNet50.h5
-
-4 convolutional-neural-networks/4 special-applications/2 Neural Style Transfer/output
+tr_model.h5
+5 sequence-models/3 sequence-models-attention-mechanism]/2 Trigger word detection/XY_dev
+5 sequence-models/3 sequence-models-attention-mechanism]/2 Trigger word detection/XY_train
 
