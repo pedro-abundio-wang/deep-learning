@@ -92,33 +92,33 @@ def on_epoch_end(epoch, logs):
 
     #for i in range(400):
 """
-        #x_pred = np.zeros((1, Tx, len(chars)))
-        for t, char in enumerate(sentence):
-            if char != '0':
-                x_pred[0, t, char_indices[char]] = 1.
-        preds = model.predict(x_pred, verbose=0)[0]
-        next_index = sample(preds, temperature = 1.0)
-        next_char = indices_char[next_index]
-        generated += next_char
-        sentence = sentence[1:] + next_char
-        sys.stdout.write(next_char)
-        sys.stdout.flush()
+    #x_pred = np.zeros((1, Tx, len(chars)))
+    for t, char in enumerate(sentence):
+        if char != '0':
+            x_pred[0, t, char_indices[char]] = 1.
+    preds = model.predict(x_pred, verbose=0)[0]
+    next_index = sample(preds, temperature = 1.0)
+    next_char = indices_char[next_index]
+    generated += next_char
+    sentence = sentence[1:] + next_char
+    sys.stdout.write(next_char)
+    sys.stdout.flush()
         
-        if next_char == '\n':
-            continue
-        
+    if next_char == '\n':
+        continue
+
     # Stop at the end of a line (4 lines)
     print()
- """   
+"""   
 print("Loading text data...")
 text = io.open('shakespeare.txt', encoding='utf-8').read().lower()
-#print('corpus length:', len(text))
+print('corpus length:', len(text))
 
 Tx = 40
 chars = sorted(list(set(text)))
 char_indices = dict((c, i) for i, c in enumerate(chars))
 indices_char = dict((i, c) for i, c in enumerate(chars))
-#print('number of unique characters in the corpus:', len(chars))
+print('number of unique characters in the corpus:', len(chars))
 
 print("Creating training set...")
 X, Y = build_data(text, Tx, stride = 3)
