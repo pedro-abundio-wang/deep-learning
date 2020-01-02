@@ -1,15 +1,13 @@
 # Deep Learning
 
-**Nvidia Driver Download**
+**Nvidia Driver Install**
 
 [https://www.nvidia.com/Download/index.aspx?lang=en-us](https://www.nvidia.com/Download/index.aspx?lang=en-us)
 
-**Nvidia Driver Install**
-
-After you have downloaded the file NVIDIA-Linux-x86_64-410.48.run, change to the directory containing the downloaded file, and as the root user run the executable:
+After you have downloaded the file NVIDIA-Linux-x86_64-xxx.xx.run, change to the directory containing the downloaded file, and as the **root user** run the executable:
 
 ```shell
-sh NVIDIA-Linux-x86_64-440.36.run
+sh NVIDIA-Linux-x86_64-xxx.xx.run
 nvidia-smi
 ```
 
@@ -55,7 +53,7 @@ nvidia-smi
 
 [Understanding the difficulty of training deep feedforward neural networks](http://proceedings.mlr.press/v9/glorot10a.html)
 
-[Practical Recommendations for Gradient-Based Training of Deep](https://arxiv.org/abs/1206.5533)
+[Practical Recommendations for Gradient-Based Training of Deep Architectures](https://arxiv.org/abs/1206.5533)
 
 ## CNN
 
@@ -73,6 +71,18 @@ nvidia-smi
 
 [Deep residual networks for image recognition](https://arxiv.org/abs/1512.03385)
 
+A guide to convolution arithmetic for deep learning
+
+Is the deconvolution layer the same as a convolutional layer?
+
+Deep Inside Convolutional Networks: Visualizing Image Classification Models and Saliency Maps
+
+Understanding Neural Networks Through Deep Visualization
+
+[Learning Deep Features for Discriminative Localization](http://cnnlocalization.csail.mit.edu/Zhou_Learning_Deep_Features_CVPR_2016_paper.pdf)
+
+DenseNet: Densely Connected Convolutional Networks
+
 ### Object Detection
 
 #### YOLO
@@ -83,6 +93,8 @@ nvidia-smi
 
 YOLOv3: An Incremental Improvement
 
+[OverFeat: Integrated recognition, localization and detection using convolutional networks](https://arxiv.org/abs/1312.6229)
+
 #### R-CNN
 
 [Fast R-CNN](https://arxiv.org/abs/1504.08083)
@@ -91,15 +103,15 @@ YOLOv3: An Incremental Improvement
 
 [Mask R-CNN](https://arxiv.org/abs/1703.06870)
 
-#### Others
+[R-FCN: Object Detection via Region-based Fully Convolutional Networks ](https://arxiv.org/abs/1605.06409)
+
+#### Semantic Segmentation
 
 [Rich feature hierarchies for accurate object detection and semantic segmentation](https://arxiv.org/abs/1311.2524)
 
 Fully Convolutional Networks for Semantic Segmentation
 
-[OverFeat: Integrated recognition, localization and detection using convolutional networks](https://arxiv.org/abs/1312.6229)
-
-[R-FCN: Object Detection via Region-based Fully Convolutional Networks ](https://arxiv.org/abs/1605.06409)
+#### SSD
 
 [SSD: Single Shot MultiBox Detector](https://arxiv.org/abs/1512.02325)
 
@@ -161,6 +173,10 @@ Xu et. al., 2015. Show, attend and tell: Neural image caption generation with vi
 
 Graves et al., 2006. Connectionist Temporal Classification: Labeling unsegmented sequence data with recurrent neural networks
 
+Multiple Object Recognition with Visual Attention
+
+DRAW: A Recurrent Neural Network For Image Generation
+
 ## Deep Reinforcement Learning
 
 Silver, Schrittwieser, Simonyan et al. (2017): Mastering the game of Go without human knowledge
@@ -169,11 +185,11 @@ Mnih, Kavukcuoglu, Silver et al. (2015): Human Level Control through Deep Reinfo
 
 Francisco S. Melo: Convergence of Q-learning: a simple proof
 
-Video credits to Two minute papers: Google DeepMind's Deep Q-learning playing Atari Breakout [https://www.youtube.com/watch?v=V1eYniJ0Rnk]
+[Video credits to Two minute papers: Google DeepMind's Deep Q-learning playing Atari Breakout](https://www.youtube.com/watch?v=V1eYniJ0Rnk)
 
 Mnih, Kavukcuoglu, Silver et al. (2015): Human Level Control through Deep Reinforcement Learning
 
-Credits: DeepMind, DQN Breakout [https://www.youtube.com/watch?v=TmPfTpjtdgg]
+[Credits: DeepMind, DQN Breakout](https://www.youtube.com/watch?v=TmPfTpjtdgg)
 
 Ho et al. (2016): Generative Adversarial Imitation Learning
 
@@ -185,7 +201,7 @@ Bansal et al. (2017): Emergent Complexity via multi-agent competition
 
 OpenAI Blog: Competitive self-play
 
-DeepMind Blog [https://deepmind.com/blog/alphago-zero-learning-scratch/]
+[alphago-zero-learning-scratch](https://deepmind.com/blog/alphago-zero-learning-scratch/)
 
 Silver, Schrittwieser, Simonyan et al. (2017): Mastering the game of Go without human knowledge
 
@@ -193,31 +209,15 @@ Finn et al. (2017): Model-Agnostic Meta-Learning for Fast Adaptation of Deep Net
 
 Bellemare et al. (2017):Unifying Count-Based Exploration and Intrinsic Motivation
 
+[Human-level control through deep reinforcement learning](https://web.stanford.edu/class/psych209/Readings/MnihEtAlHassibis15NatureControlDeepRL.pdf)
+
+[Mastering the Game of Go without Human Knowledge](https://deepmind.com/documents/119/agz_unformatted_nature.pdf)
+
 ## Recommendation System
 
 Koren, Yehuda, Robert Bell, and Chris Volinsky：Matrix factorization techniques for recommender systems
 
 Sedhain, Suvash, et al. AutoRec: Autoencoders meet collaborative filtering
-
-## Others
-
-A guide to convolution arithmetic for deep learning
-
-Is the deconvolution layer the same as a convolutional layer?
-
-Deep Inside Convolutional Networks: Visualizing Image Classification Models and Saliency Maps
-
-Understanding Neural Networks Through Deep Visualization
-
-Learning Deep Features for Discriminative Localization [http://cnnlocalization.csail.mit.edu/Zhou_Learning_Deep_Features_CVPR_2016_paper.pdf]
-
-Dropout: A Simple Way to Prevent Neural Networks from Overfitting [https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf]
-
-DenseNet: Densely Connected Convolutional Networks
-
-Human-level control through deep reinforcement learning [https://web.stanford.edu/class/psych209/Readings/MnihEtAlHassibis15NatureControlDeepRL.pdf]
-
-Mastering the Game of Go without Human Knowledge [https://deepmind.com/documents/119/agz_unformatted_nature.pdf]
 
 # Readings
 
