@@ -13,9 +13,9 @@ nvidia-smi
 
 **Nvidia Driver Cuda Version Match**
 
-![](img/nvidia-driver-cuda-version-match.png)
-
 [https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/](https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/)
+
+![](img/nvidia-driver-cuda-version-match.png)
 
 **CUDA Download**
 
@@ -25,51 +25,53 @@ nvidia-smi
 
 [https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
 
-**cuDNN Download**
+**CUDNN Download**
 
 [https://developer.nvidia.com/rdp/cudnn-archive](https://developer.nvidia.com/rdp/cudnn-archive)
 
-**cuDNN Install**
+**CUDNN Install**
 
 [https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html)
 
-**tensorflow cuda cudnn version**
-
-![](img/tensorflow-cuda-cudnn-version.png)
+**Tensorflow CUDA CUDNN Version**
 
 [https://www.tensorflow.org/install/source](https://www.tensorflow.org/install/source)
+
+![](img/tensorflow-cuda-cudnn-version.png)
 
 # Papers
 
 ## Algorithms
 
-[Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/abs/1502.03167)
+[(Batch Normalization) Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/abs/1502.03167)
 
-[ADAM: A METHOD FOR STOCHASTIC OPTIMIZATION](https://arxiv.org/abs/1412.6980)
+[(RMSProp) Equilibrated adaptive learning rates for non-convex optimization](https://arxiv.org/abs/1502.04390)
 
-[Averaging Weights Leads to Wider Optima and Better Generalization](https://arxiv.org/abs/1803.05407)
+[(ADAM) A METHOD FOR STOCHASTIC OPTIMIZATION](https://arxiv.org/abs/1412.6980)
 
-[Dropout: A Simple Way to Prevent Neural Networks from Overfitting](http://jmlr.org/papers/v15/srivastava14a.html)
-
-[Understanding the difficulty of training deep feedforward neural networks](http://proceedings.mlr.press/v9/glorot10a.html)
+[(Dropout) A Simple Way to Prevent Neural Networks from Overfitting](http://jmlr.org/papers/v15/srivastava14a.html)
 
 [Practical Recommendations for Gradient-Based Training of Deep Architectures](https://arxiv.org/abs/1206.5533)
 
+[(Xavier Initialization) Understanding the difficulty of training deep feedforward neural networks](http://proceedings.mlr.press/v9/glorot10a.html)
+
+[Averaging Weights Leads to Wider Optima and Better Generalization](https://arxiv.org/abs/1803.05407)
+
 ## CNN
 
-[Gradient-based learning applied to document recognition](http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf)
+[(LeNet-5) Gradient-based learning applied to document recognition](http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf)
 
-[ImageNet classification with deep convolutional neural networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
+[(AlexNet) ImageNet classification with deep convolutional neural networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
 
-[Network in network](https://arxiv.org/abs/1312.4400)
-
-[Visualizing and understanding convolutional networks](https://arxiv.org/abs/1311.2901)
+[(ResNet) Deep residual networks for image recognition](https://arxiv.org/abs/1512.03385)
 
 [Going Deeper with Convolutions](https://arxiv.org/abs/1409.4842)
 
 [Very deep convolutional networks for large-scale image recognition](https://arxiv.org/abs/1409.1556)
 
-[Deep residual networks for image recognition](https://arxiv.org/abs/1512.03385)
+[Visualizing and understanding convolutional networks](https://arxiv.org/abs/1311.2901)
+
+[Network in network](https://arxiv.org/abs/1312.4400)
 
 A guide to convolution arithmetic for deep learning
 
@@ -153,7 +155,7 @@ Mikolov et. al., 2013, Linguistic regularities in continuous space word represen
 
 Bengio et. al., 2003, A neural probabilistic language model
 
-Bolukbasi et. al., 2016. Man is to computer programmer as woman is to homemaker? Debiasing word embeddings
+[(Debiasing word embeddings) Man is to computer programmer as woman is to homemaker?](https://papers.nips.cc/paper/6228-man-is-to-computer-programmer-as-woman-is-to-homemaker-debiasing-word-embeddings.pdf)
 
 Sutskever et al., 2014. Sequence to sequence learning with neural networks
 
@@ -221,7 +223,7 @@ Sedhain, Suvash, et al. AutoRec: Autoencoders meet collaborative filtering
 
 # Readings
 
-[Demystifying Deep Convolutional Neural Networks](http://scs.ryerson.ca/~aharley/neural-networks/)
+[The Unreasonable Effectiveness of Recurrent Neural Networks](karpathy.github.io/2015/05/21/rnn-effectiveness/)
 
 http://mccormickml.com/2018/06/15/applying-word2vec-to-recommenders-and-advertising/
 
