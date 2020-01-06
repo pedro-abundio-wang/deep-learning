@@ -65,9 +65,9 @@ nvidia-smi
 
 [(ResNet) Deep residual networks for image recognition](https://arxiv.org/abs/1512.03385)
 
-[Going Deeper with Convolutions](https://arxiv.org/abs/1409.4842)
+[(Inception Network) Going Deeper with Convolutions](https://arxiv.org/abs/1409.4842)
 
-[Very deep convolutional networks for large-scale image recognition](https://arxiv.org/abs/1409.1556)
+[(VGG-16) Very deep convolutional networks for large-scale image recognition](https://arxiv.org/abs/1409.1556)
 
 [Visualizing and understanding convolutional networks](https://arxiv.org/abs/1311.2901)
 
@@ -85,6 +85,10 @@ Understanding Neural Networks Through Deep Visualization
 
 DenseNet: Densely Connected Convolutional Networks
 
+## CNN Readings
+
+[A guide to receptive field arithmetic for Convolutional Neural Networks](https://medium.com/@nikasa1889/a-guide-to-receptive-field-arithmetic-for-convolutional-neural-networks-e0f514068807)
+
 ### Object Detection
 
 #### YOLO
@@ -97,23 +101,33 @@ YOLOv3: An Incremental Improvement
 
 [OverFeat: Integrated recognition, localization and detection using convolutional networks](https://arxiv.org/abs/1312.6229)
 
+#### YOLO Readings
+
+[Real-time Object Detection with YOLO, YOLOv2 and now YOLOv3](https://medium.com/@jonathan_hui/real-time-object-detection-with-yolo-yolov2-28b1b93e2088)
+
+https://github.com/allanzelener/YAD2K/
+
+https://github.com/thtrieu/darkflow/
+
+https://pjreddie.com/darknet/yolo/
+
 #### R-CNN
+
+[(R-CNN) Rich feature hierarchies for accurate object detection and semantic segmentation](https://arxiv.org/abs/1311.2524)
 
 [Fast R-CNN](https://arxiv.org/abs/1504.08083)
 
 [Faster R-CNN: Towards real-time object detection with region proposal networks](https://arxiv.org/abs/1506.01497)
 
-[Mask R-CNN](https://arxiv.org/abs/1703.06870)
-
 [R-FCN: Object Detection via Region-based Fully Convolutional Networks ](https://arxiv.org/abs/1605.06409)
+
+[Mask R-CNN](https://arxiv.org/abs/1703.06870)
 
 #### Semantic Segmentation
 
-[Rich feature hierarchies for accurate object detection and semantic segmentation](https://arxiv.org/abs/1311.2524)
-
 Fully Convolutional Networks for Semantic Segmentation
 
-#### SSD
+#### SSD MultiBox
 
 [SSD: Single Shot MultiBox Detector](https://arxiv.org/abs/1512.02325)
 
@@ -123,13 +137,19 @@ Fully Convolutional Networks for Semantic Segmentation
 
 [DeepFace: Closing the gap to human-level performance in face verification](https://research.fb.com/wp-content/uploads/2016/11/deepface-closing-the-gap-to-human-level-performance-in-face-verification.pdf)
 
+[Deep Face Reading](https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Taigman_DeepFace_Closing_the_2014_CVPR_paper.html)
+
 [DeepFace Reading](https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Taigman_DeepFace_Closing_the_2014_CVPR_paper.html)
 
 #### Open Source
 
-FaceNet: https://github.com/davidsandberg/facenet
+[FaceNet](https://github.com/davidsandberg/facenet)
 
-OpenFace: https://github.com/iwantooxxoox/Keras-OpenFace
+[Openface](https://cmusatyalab.github.io/openface/)
+
+[Keras-OpenFace](https://github.com/iwantooxxoox/Keras-OpenFace)
+
+[DeepFace](https://github.com/RiweiChen/DeepFace)
 
 ### Art Generation
 
@@ -231,6 +251,12 @@ Koren, Yehuda, Robert Bell, and Chris Volinsky：Matrix factorization techniques
 
 Sedhain, Suvash, et al. AutoRec: Autoencoders meet collaborative filtering
 
+## Data Augmentation
+
+[Data Augmentation](http://www.deeplearningessentials.science/dataAugmentation/)
+
+[Fancy PCA (Data Augmentation) with Scikit-Image](https://deshanadesai.github.io/notes/Fancy-PCA-with-Scikit-Image)
+
 # Readings
 
 [The Unreasonable Effectiveness of Recurrent Neural Networks](karpathy.github.io/2015/05/21/rnn-effectiveness/)
@@ -240,3 +266,7 @@ http://mccormickml.com/2018/06/15/applying-word2vec-to-recommenders-and-advertis
 Bjorck N, Gomes C P, Selman B, et al. Understanding batch normalization[C]//Advances in Neural Information Processing Systems. 2018: 7705-7716.
 
 Santurkar S, Tsipras D, Ilyas A, et al. How does batch normalization help optimization?[C]//Advances in Neural Information Processing Systems. 2018: 2488-2498.
+
+[Understanding AlexNet](https://www.learnopencv.com/understanding-alexnet/)
+
+[Difference between Local Response Normalization and Batch Normalization](https://towardsdatascience.com/difference-between-local-response-normalization-and-batch-normalization-272308c034ac)

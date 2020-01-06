@@ -161,7 +161,7 @@
   - Input image: a<sup>[0]</sup>.shape = 6x6x3
   - 2 Filters: W<sup>[1]</sup>.shape = 3x3x3
   - Result image: W<sup>[1]</sup>a<sup>[0]</sup>.shape = 4x4x2
-  - Add b (bias) with 2x1 will get us: 4x4x2 image (W<sup>[1]</sup>a<sup>[0]</sup> + b)
+  - Add bias with 2x1 will get us: 4x4x2 image (W<sup>[1]</sup>a<sup>[0]</sup> + b)
   - Apply RELU will get us: 4x4x2 image a1 = RELU(W<sup>[1]</sup>a<sup>[0]</sup> + b)
   - Hint number of parameters here are: (3x3x3x2) + 2 = 56
 - The last example forms a layer in the CNN.
@@ -285,9 +285,9 @@ bias:    (1, 1, 1, nc[l])
 ### Why convolutions?
 
 - The main advantages of Convs are:
-  - Parameter sharing.
+  - **Parameter sharing**.
     - A feature detector (such as a vertical edge detector) that's useful in one part of the image is probably useful in another part of the image.
-  - sparsity of connections.
+  - **Sparsity of connections**.
     - In each layer, each output value depends only on a small number of inputs.
 
 ## Deep convolutional models
@@ -315,7 +315,6 @@ bias:    (1, 1, 1, nc[l])
   - The dimensions of the image decreases as the number of channels increases.
   - Conv ==> Pool ==> Conv ==> Pool ==> FC ==> FC ==> softmax this type of arrangement is quite common.
   - The activation function used in the paper was Sigmoid and Tanh. Modern implementation uses RELU in most of the cases.
-  - [LeCun et al., 1998. Gradient-based learning applied to document recognition](http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf)
 - **AlexNet**
   - Named after Alex Krizhevsky who was the first author of this paper. The other authors includes Geoffrey Hinton.
   - The goal for the model was the ImageNet challenge which classifies images into 1000 classes. Here are the drawing of the model:
@@ -328,10 +327,7 @@ bias:    (1, 1, 1, nc[l])
   - The original paper contains Multiple GPUs and **Local Response normalization (RN)**.
     - Multiple GPUs were used because the GPUs were not so fast back then.
     - Researchers proved that Local Response normalization doesn't help much so for now don't bother yourself for understanding or implementing it.
-  - This paper convinced the computer vision researchers that deep learning is so important.
-  - [Krizhevsky et al., 2012. ImageNet classification with deep convolutional neural networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
-  - [Understanding AlexNet](https://www.learnopencv.com/understanding-alexnet/)
-  - [Difference between Local Response Normalization and Batch Normalization](https://towardsdatascience.com/difference-between-local-response-normalization-and-batch-normalization-272308c034ac)
+  - The paper convinced the computer vision researchers that deep learning is so important.
 - **VGG-16**
   - A modification for AlexNet.
   - Instead of having a lot of hyperparameters lets have some simpler network.
@@ -349,7 +345,6 @@ bias:    (1, 1, 1, nc[l])
   - Pooling was the only one who is responsible for shrinking the dimensions.
   - There are another version called **VGG-19** which is a bigger version. But most people uses the VGG-16 instead of the VGG-19 because it does the same.
   - VGG paper is attractive it tries to make some rules regarding using CNNs.
-  - [Simonyan & Zisserman 2015. Very deep convolutional networks for large-scale image recognition](https://arxiv.org/abs/1409.1556)
 
 ### Residual Networks (ResNets)
 
@@ -361,7 +356,6 @@ bias:    (1, 1, 1, nc[l])
   - ![](Images/03.png)
   - They add a shortcut/skip connection before the second activation.
   - The authors of this block find that you can train a deeper NNs using stacking this block.
-  - [He et al., 2015. Deep residual networks for image recognition](https://arxiv.org/abs/1512.03385)
 - **Residual Network**
   - Are a NN that consists of some Residual blocks.
   - ![](Images/09.png)
@@ -478,7 +472,6 @@ bias:    (1, 1, 1, nc[l])
 - Some times a Max-Pool block is used before the inception module to reduce the dimensions of the inputs.
 - There are a 3 Sofmax branches at different positions to push the network toward its goal. and helps to ensure that the intermediate features are good enough to the network to learn and it turns out that softmax0 and sofmax1 gives regularization effect.
 - Since the development of the Inception module, the authors and the others have built another versions of this network. Like inception v2, v3, and v4. Also there is a network that has used the inception module and the ResNet together.
-- [Szegedy et al., 2014, Going Deeper with Convolutions](https://arxiv.org/abs/1409.4842)
 
 ### Using Open-Source Implementation
 
@@ -495,18 +488,18 @@ bias:    (1, 1, 1, nc[l])
 - If you are using a specific NN architecture that has been trained before, you can use this pretrained parameters/weights instead of random initialization to solve your problem.
 - It can help you boost the performance of the NN.
 - The pretrained models might have trained on a large datasets like ImageNet, Ms COCO, or pascal and took a lot of time to learn those parameters/weights with optimized hyperparameters. This can save you a lot of time.
-- Lets see an example:
+- Example:
   - Lets say you have a cat classification problem which contains 3 classes Tigger, Misty and neither.
   - You don't have much a lot of data to train a NN on these images.
   - Andrew recommends to go online and download a good NN with its weights, remove the softmax activation layer and put your own one and make the network learn only the new layer while other layer weights are fixed/frozen.
   - Frameworks have options to make the parameters frozen in some layers using trainable = 0 or freeze = 0
   - One of the tricks that can speed up your training, is to run the pretrained NN without final softmax layer and get an intermediate representation of your images and save them to disk. And then use these representation to a shallow NN network. This can save you the time needed to run an image through all the layers.
     - Its like converting your images into vectors.
-- Another example:
+- Example:
   - What if in the last example you have a lot of pictures for your cats.
   - One thing you can do is to freeze few layers from the beginning of the pretrained network and learn the other weights in the network.
   - Some other idea is to throw away the layers that aren't frozen and put your own layers there.
-- Another example:
+- Example:
   - If you have enough data, you can fine tune all the layers in your pretrained network but don't random initialize the parameters, leave the learned parameters as it is and learn from there.
 
 ### Data Augmentation
@@ -529,8 +522,6 @@ bias:    (1, 1, 1, nc[l])
 - Implementing distortions during training:
   - You can use a different CPU thread to make you a distorted mini batches while you are training your NN.
 - Data Augmentation has also some hyperparameters. A good place to start is to find an open source data augmentation implementation and then use it or fine tune these hyperparameters.
-- [Data Augmentation](http://www.deeplearningessentials.science/dataAugmentation/)
-- [Fancy PCA (Data Augmentation) with Scikit-Image](https://deshanadesai.github.io/notes/Fancy-PCA-with-Scikit-Image)
 
 ### State of Computer Vision
 
@@ -543,9 +534,8 @@ bias:    (1, 1, 1, nc[l])
 - Because we haven't got that much data in a lot of computer vision problems, it relies a lot on hand engineering.
 - We will see in the next chapter that because the object detection has less data, a more complex NN architectures will be presented.
 - Tips for doing well on benchmarks/winning competitions:
-  - Ensembling.
-    - [Ensemble Learning Methods for Deep Learning Neural Networks](https://machinelearningmastery.com/ensemble-methods-for-deep-learning-neural-networks/)
-  - Multi-crop at test time.(10 crops)
+  - [Ensemble Learning Methods for Deep Learning Neural Networks](https://machinelearningmastery.com/ensemble-methods-for-deep-learning-neural-networks/)
+  - Multi-crop at test time (10 crops)
 - Use open source code
   - Use architectures of networks published in the literature.
   - Use open source implementations if possible.
@@ -683,8 +673,7 @@ bias:    (1, 1, 1, nc[l])
 ### Bounding Box Predictions
 
 - A better algorithm than the one described in the last section is the **YOLO algorithm**.
-- [Real-time Object Detection with YOLO, YOLOv2 and now YOLOv3](https://medium.com/@jonathan_hui/real-time-object-detection-with-yolo-yolov2-28b1b93e2088)
-- Yolo Algorithm:
+  - Yolo Algorithm:
   - ![](Images/24.png)
   - 1. Lets say we have an image of 100 X 100
   - 2. Place a  3 x 3 grid on the image. For more smother results you should use 19 x 19 for the 100 x 100
@@ -700,7 +689,7 @@ bias:    (1, 1, 1, nc[l])
 ### Intersection Over Union
 
 - Intersection Over Union is a function used to evaluate the object detection algorithm.
-- It computes size of intersection and divide it by the union. More generally, *IoU* *is a measure of the overlap between two bounding boxes*.
+- It computes size of intersection and divide it by the union. More generally, **IoU** is a measure of the overlap between two bounding boxes.
 - For example:
   - ![](Images/25.png)
   - The red is the labeled output and the purple is the predicted output.
@@ -767,17 +756,12 @@ bias:    (1, 1, 1, nc[l])
   - Then get the best probability followed by the IOU filtering:
     - ![](Images/33.png)
 - YOLO are not good at detecting smaller object.
-- [YOLO9000 Better, faster, stronger](https://arxiv.org/abs/1612.08242)
-- You can find implementations for YOLO here:
-    - https://github.com/allanzelener/YAD2K/
-    - https://github.com/thtrieu/darkflow/
-    - https://pjreddie.com/darknet/yolo/
 
 ### Region Proposals (R-CNN)
 
 - R-CNN is an algorithm that also makes an object detection.
 - Yolo tells that its faster:
-  - > Our model has several advantages over classifier-based systems. It looks at the whole image at test time so its predictions are informed by global context in the image. It also makes predictions with a single network evaluation unlike systems like R-CNN which require thousands for a single image. This makes it extremely fast, more than 1000x faster than R-CNN and 100x faster than Fast R-CNN. See our paper for more details on the full system.
+- Our model has several advantages over classifier-based systems. It looks at the whole image at test time so its predictions are informed by global context in the image. It also makes predictions with a single network evaluation unlike systems like R-CNN which require thousands for a single image. This makes it extremely fast, more than 1000x faster than R-CNN and 100x faster than Fast R-CNN. See our paper for more details on the full system.
 - But one of the downsides of YOLO that it process a lot of areas where no objects are present.
 - **R-CNN** stands for regions with Conv Nets.
 - R-CNN tries to pick a few windows and run a Conv net (your confident classifier) on top of them.
@@ -786,37 +770,28 @@ bias:    (1, 1, 1, nc[l])
 - If for example the segmentation algorithm produces 2000 blob then we should run our classifier/CNN on top of these blobs.
 - There has been a lot of work regarding R-CNN tries to make it faster:
   - R-CNN:
-    - Propose regions. Classify proposed regions one at a time. Output label + bounding box.
-    - Downside is that its slow.
-    - [Girshik et. al, 2013. Rich feature hierarchies for accurate object detection and semantic segmentation](https://arxiv.org/abs/1311.2524)
+    - Propose regions. Classify proposed regions one at a time. Output label + bounding box. Downside is that its slow.
   - Fast R-CNN:
     - Propose regions. Use convolution implementation of sliding windows to classify all the proposed regions.
-    - [Girshik, 2015. Fast R-CNN](https://arxiv.org/abs/1504.08083)
   - Faster R-CNN:
     - Use convolutional network to propose regions.
-    - [Ren et. al, 2016. Faster R-CNN: Towards real-time object detection with region proposal networks](https://arxiv.org/abs/1506.01497)
   - Mask R-CNN:
-    - https://arxiv.org/abs/1703.06870
 - Most of the implementation of faster R-CNN are still slower than YOLO.
 - Andrew Ng thinks that the idea behind YOLO is better than R-CNN because you are able to do all the things in just one time instead of two times.
 - Other algorithms that uses one shot to get the output includes **SSD** and **MultiBox**.
-  - [Wei Liu, et. al 2015 SSD: Single Shot MultiBox Detector](https://arxiv.org/abs/1512.02325)
 - **R-FCN** is similar to Faster R-CNN but more efficient.
-  - [Jifeng Dai, et. al 2016 R-FCN: Object Detection via Region-based Fully Convolutional Networks](https://arxiv.org/abs/1605.06409)
 
 ## Special applications: Face recognition & Neural style transfer
-
-> Discover how CNNs can be applied to multiple fields, including art generation and face recognition. Implement your own algorithm to generate art and recognize faces!
 
 ### Face Recognition
 
 #### What is face recognition?
 
 - Face recognition system identifies a person's face. It can work on both images or videos.
-- **<u>Liveness detection</u>** within a video face recognition system prevents the network from identifying a face in an image. It can be learned by supervised deep learning using a dataset for live human and sequence learning.
+- **Liveness detection** within a video face recognition system prevents the network from identifying a face in an image. It can be learned by supervised deep learning using a dataset for live human and sequence learning.
 - Face verification vs. face recognition:
   - Verification:
-    - Input: image, name/ID. (1 : 1)
+    - Input: image, name/ID. (1:1)
     - Output: whether the input image is that of the claimed person.
     - "is this the claimed person?"
   - Recognition:
@@ -844,9 +819,8 @@ bias:    (1, 1, 1, nc[l])
 - Siamese network architecture are as the following:
   - ![](Images/35.png)
   - We make 2 identical conv nets which encodes an input image into a vector. In the above image the vector shape is (128, )
-  - The loss function will be d(x1, x2) = || f(x1) - f(x2) ||^2
+  - The loss function will be d(x1, x2) = || f(x1) - f(x2) ||<sup>2</sup>
   - If X1, X2 are the same person, we want d to be low. If they are different persons, we want d to be high.
-  - [Taigman et. al., 2014. DeepFace closing the gap to human level performance](https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Taigman_DeepFace_Closing_the_2014_CVPR_paper.html)
 
 #### Triplet Loss
 
@@ -879,7 +853,6 @@ bias:    (1, 1, 1, nc[l])
     - d(A, P) + alpha <= d (A, N)
     - This can be achieved by for example same poses!
     - Find more at the paper.
-- Details are in this paper [Schroff et al.,2015, FaceNet: A unified embedding for face recognition and clustering](https://arxiv.org/abs/1503.03832)
 - Commercial recognition systems are trained on a large datasets like 10/100 million images.
 - There are a lot of pretrained models and parameters online for face recognition.
 
@@ -892,15 +865,10 @@ bias:    (1, 1, 1, nc[l])
   - The subtraction is the Manhattan distance between f(x(i)) and f(x(j))
   - Some other similarities can be Euclidean.
   - The NN here is Siamese means the top and bottom convs has the same parameters.
-- The paper for this work: [Taigman et. al., 2014. DeepFace closing the gap to human level performance](https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Taigman_DeepFace_Closing_the_2014_CVPR_paper.html)
 - A good performance/deployment trick:
   - Pre-compute all the images that you are using as a comparison to the vector f(x(j))
   - When a new image that needs to be compared, get its vector f(x(i)) then put it with all the pre computed vectors and pass it to the sigmoid function.
 - This version works quite as well as the triplet loss function.
-- Available implementations for face recognition using deep learning includes:
-  - [Openface](https://cmusatyalab.github.io/openface/)
-  - [FaceNet](https://github.com/davidsandberg/facenet)
-  - [DeepFace](https://github.com/RiweiChen/DeepFace)
 
 ### Neural Style Transfer
 
@@ -924,10 +892,8 @@ bias:    (1, 1, 1, nc[l])
 - You will find out that each layer are learning more complex representations.
   - ![](Images/39.png)
 - The first layer was created using the weights of the first layer. Other images are generated using the receptive field in the image that triggered the neuron to be max.
-- [Zeiler and Fergus., 2013, Visualizing and understanding convolutional networks](https://arxiv.org/abs/1311.2901)
 - A good explanation on how to get **receptive field** given a layer:
   - ![](Images/receptiveField.png)
-  - [A guide to receptive field arithmetic for Convolutional Neural Networks](https://medium.com/@nikasa1889/a-guide-to-receptive-field-arithmetic-for-convolutional-neural-networks-e0f514068807)
 
 #### Cost Function
 
@@ -957,7 +923,7 @@ bias:    (1, 1, 1, nc[l])
 - Use pre-trained ConvNet. (E.g., VGG network)
 - Let a(c)[l] and a(G)[l] be the activation of layer l on the images.
 - If a(c)[l] and a(G)[l] are similar then they will have the same content
-  - J(C, G) at a layer l = 1/2 || a(c)[l] - a(G)[l] ||<sup>2</sup>
+  - J(C, G) at a layer loss = 1/2 || a(c)[l] - a(G)[l] ||<sup>2</sup>
 
 #### Style Cost Function
 
