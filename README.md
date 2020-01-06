@@ -135,6 +135,16 @@ OpenFace: https://github.com/iwantooxxoox/Keras-OpenFace
 
 [A Neural Algorithm of Artistic Style](https://arxiv.org/abs/1508.06576)
 
+[Perceptual Losses for Real-Time Style Transfer and Super-Resolution](https://arxiv.org/pdf/1603.08155.pdf)
+
+[A learned representation for artistic style](https://arxiv.org/pdf/1610.07629.pdf)
+
+[Demystifying Neural Style Transfer](https://arxiv.org/abs/1701.01036)
+
+[Exploring the structure of a real-time, arbitrary neural artistic stylization network](https://arxiv.org/pdf/1705.06830.pdf)
+
+[Neural Artistic Style: a Comprehensive Look](https://medium.com/artists-and-machine-intelligence/neural-artistic-style-transfer-a-comprehensive-look-f54d8649c199)
+
 #### Readings
 
 [Harish Narayanan, Convolutional neural networks for artistic style transfer](https://harishnarayanan.org/writing/artistic-style-transfer/)

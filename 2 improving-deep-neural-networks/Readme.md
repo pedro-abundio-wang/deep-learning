@@ -345,6 +345,8 @@ for i in len(theta):
 
 ## Optimization algorithms
 
+[Optimization Algorithms Visualize](https://rawgit.com/danielkunin/Deeplearning-Visualizations/master/optimization/index.html)
+
 ### Mini-batch gradient descent
 
 - Training NN with a large data is slow. So to find an optimization algorithm that runs faster is a good idea.
