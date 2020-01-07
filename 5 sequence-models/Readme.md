@@ -13,7 +13,6 @@
    * [Long Short Term Memory (LSTM)](#long-short-term-memory-lstm)
    * [Bidirectional RNN](#bidirectional-rnn)
    * [Deep RNNs](#deep-rnns)
-   * [Back propagation with RNNs](#back-propagation-with-rnns)
 * [Natural Language Processing &amp; Word Embeddings](#natural-language-processing--word-embeddings)
    * [Introduction to Word Embeddings](#introduction-to-word-embeddings)
       * [Word Representation](#word-representation)
@@ -160,7 +159,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 
 ### Different types of RNNs
 - So far we have seen only one RNN architecture in which T<sub>x</sub> equals T<sub>Y</sub>. In some other problems, they may not equal so we need different architectures.
-- The ideas in this section was inspired by Andrej Karpathy [blog](http://karpathy.github.io/2015/05/21/rnn-effectiveness/). Mainly this image has all types:   
+- Mainly this image has all types:   
   ![](Images/09.jpg)
 - The architecture we have described before is called **Many to Many**.
 - In sentiment analysis problem, X is a text while Y is an integer that rangers from 1 to 5. The RNN architecture for that is **Many to One** as in Andrej Karpathy image.   
@@ -172,7 +171,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
   ![](Images/12.png)
   - There are an encoder and a decoder parts in this architecture. The encoder encodes the input sequence into one matrix and feed it to the decoder to generate the outputs. Encoder and decoder have different weight matrices.
 - Summary of RNN types:
-   ![](Images/12_different_types_of_rnn.png)
+  ![](Images/12_different_types_of_rnn.png)
 - There is another architecture which is the **attention** architecture which we will talk about in chapter 3.
 
 ### Language model and sequence generation
@@ -213,7 +212,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
   5. We keep doing 3 & 4 steps for a fixed length or until we get the `<EOS>` token.
   6. You can reject any `<UNK>` token if you mind finding it in your output.
 - So far we have to build a word-level language model. It's also possible to implement a **character-level** language model.
-- In the character-level language model, the vocabulary will contain `[a-zA-Z0-9]`, punctuation, special characters and possibly <EOS> token.
+- In the character-level language model, the vocabulary will contain `[a-zA-Z0-9]`, punctuation, special characters and possibly `<EOS>` token.
 - Character-level language model has some pros and cons compared to the word-level language model
   - Pros:
     1. There will be no `<UNK>` token - it can create any word.
@@ -224,77 +223,53 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - The trend Andrew has seen in NLP is that for the most part, a word-level language model is still used, but as computers get faster there are more and more applications where people are, at least in some special cases, starting to look at more character-level models. Also, they are used in specialized applications where you might need to deal with unknown words or other vocabulary words a lot. Or they are also used in more specialized applications where you have a more specialized vocabulary.
 
 ### Vanishing gradients with RNNs
+
 - One of the problems with naive RNNs that they run into **vanishing gradient** problem.
-
 - An RNN that process a sequence data with the size of 10,000 time steps, has 10,000 deep layers which is very hard to optimize.
-
 - Let's take an example. Suppose we are working with language modeling problem and there are two sequences that model tries to learn:
-
   - "The **cat**, which already ate ..., **was** full"
   - "The **cats**, which already ate ..., **were** full"
   - Dots represent many words in between.
-
 - What we need to learn here that "was" came with "cat" and that "were" came with "cats". The naive RNN is not very good at capturing very long-term dependencies like this.
-
 - As we have discussed in Deep neural networks, deeper networks are getting into the vanishing gradient problem. That also happens with RNNs with a long sequence size.   
-  ![](Images/16.png)   
-  - For computing the word "was", we need to compute the gradient for everything behind. Multiplying fractions tends to vanish the gradient, while multiplication of large number tends to explode it.
+![](Images/16.png)   
+- For computing the word "was", we need to compute the gradient for everything behind. Multiplying fractions tends to vanish the gradient, while multiplication of large number tends to explode it.
   - Therefore some of your weights may not be updated properly.
-
 - In the problem we descried it means that its hard for the network to memorize "was" word all over back to "cat". So in this case, the network won't identify the singular/plural words so that it gives it the right grammar form of verb was/were.
-
 - The conclusion is that RNNs aren't good in **long-term dependencies**.
-
-- > In theory, RNNs are absolutely capable of handling such “long-term dependencies.” A human could carefully pick parameters for them to solve toy problems of this form. Sadly, in practice, RNNs don’t seem to be able to learn them. http://colah.github.io/posts/2015-08-Understanding-LSTMs/
-
-- _Vanishing gradients_ problem tends to be the bigger problem with RNNs than the _exploding gradients_ problem. We will discuss how to solve it in next sections.
-
-- Exploding gradients can be easily seen when your weight values become `NaN`. So one of the ways solve exploding gradient is to apply **gradient clipping** means if your gradient is more than some threshold - re-scale some of your gradient vector so that is not too big. So there are cliped according to some maximum value.
-
-  ![](Images/26.png)
-
-- **Extra**:
-  - Solutions for the Exploding gradient problem:
-    - Truncated backpropagation.
-      - Not to update all the weights in the way back.
-      - Not optimal. You won't update all the weights.
-    - Gradient clipping.
-  - Solution for the Vanishing gradient problem:
-    - Weight initialization.
-      - Like He initialization.
-    - Echo state networks.
-    - Use LSTM/GRU networks.
-      - Most popular.
-      - We will discuss it next.
+- In theory, RNNs are absolutely capable of handling such “long-term dependencies.” A human could carefully pick parameters for them to solve toy problems of this form. Sadly, in practice, RNNs don’t seem to be able to learn them.
+- Vanishing gradients problem tends to be the bigger problem with RNNs than the exploding gradients problem.
+- Exploding gradients can be easily seen when your weight values become `NaN`. So one of the ways solve exploding gradient is to apply **gradient clipping** means if your gradient is more than some threshold
+- re-scale some of your gradient vector so that is not too big. So there are cliped according to some maximum value.
+![](Images/26.png)
+- Solutions for the Exploding gradient problem:
+  - Truncated backpropagation.
+    - Not to update all the weights in the way back.
+    - Not optimal. You won't update all the weights.
+  - Gradient clipping.
+- Solution for the Vanishing gradient problem:
+  - Weight initialization. Like He initialization.
+  - Echo state networks.
+  - Use LSTM/GRU networks. Most popular.
 
 ### Gated Recurrent Unit (GRU)
+
 - GRU is an RNN type that can help solve the vanishing gradient problem and can remember the long-term dependencies.
-
 - The basic RNN unit can be visualized to be like this:
-
 - ![](Images/04-a.png)
 - ![](Images/04.png)
-
 - We will represent the GRU with a similar drawings.
-
 - Each layer in **GRUs**  has a new variable `C` which is the memory cell. It can tell to whether memorize something or not.
-
 - In GRUs, C<sup>\<t></sup> = a<sup>\<t></sup>
-
 - Equations of the GRUs:   
   - ![](Images/18.png)
   - The update gate is between 0 and 1
     - To understand GRUs imagine that the update gate is either 0 or 1 most of the time.
   - So we update the memory cell based on the update cell and the previous cell.
-
 - Lets take the cat sentence example and apply it to understand this equations:
-
   - Sentence: "The **cat**, which already ate ........................, **was** full"
-
   - We will suppose that U is 0 or 1 and is a bit that tells us if a singular word needs to be memorized.
-
   - Splitting the words and get values of C and U at each place:
-
     - | Word    | Update gate(U)             | Cell memory (C) |
       | ------- | -------------------------- | --------------- |
       | The     | 0                          | val             |
@@ -306,7 +281,6 @@ The goal is given this representation for x to learn a mapping using a sequence 
       | full    | ..                         | ..              |
 - Drawing for the GRUs   
   ![](Images/19.png)
-  - Drawings like in [Understanding-LSTMs](http://colah.github.io/posts/2015-08-Understanding-LSTMs/) is so popular and makes it easier to understand GRUs and LSTMs. But it's better to look at the equations.
 - Because the update gate U is usually a small number like 0.00001, GRUs doesn't suffer the vanishing gradient problem.
   - In the equation this makes C<sup>\<t></sup> = C<sup>\<t-1></sup> in a lot of cases.
 - Shapes:
@@ -326,10 +300,9 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - LSTM - the other type of RNN that can enable you to account for long-term dependencies. It's more powerful and general than GRU.
 - In LSTM , C<sup>\<t></sup> != a<sup>\<t></sup>
 - Here are the equations of an LSTM unit:   
-  ![](Images/21.png)
+- ![](Images/21.png)
 - In GRU we have an update gate `U`, a relevance gate `r`, and a candidate cell variables C<sup>\~\<t></sup> while in LSTM we have an update gate `U` (sometimes it's called input gate I), a forget gate `F`, an output gate `O`, and a candidate cell variables C<sup>\~\<t></sup>
-- Drawings (inspired by http://colah.github.io/posts/2015-08-Understanding-LSTMs/):    
-  ![](Images/22.png)
+- ![](Images/22.png)
 - Some variants on LSTM includes:
   - LSTM with **peephole connections**.
     - The normal LSTM with C<sup>\<t-1></sup> included with every gate.
@@ -357,15 +330,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - In feed-forward deep nets, there could be 100 or even 200 layers. In deep RNNs stacking 3 layers is already considered deep and expensive to train.
 - In some cases you might see some feed-forward network layers connected after recurrent cell.
 
-
-### Back propagation with RNNs
-- > In modern deep learning frameworks, you only have to implement the forward pass, and the framework takes care of the backward pass, so most deep learning engineers do not need to bother with the details of the backward pass. If however you are an expert in calculus and want to see the details of backprop in RNNs, you can work through this optional portion of the notebook.
-
-- If you want the details of the back propagation with programming notes look at the notebook.
-
 ## Natural Language Processing & Word Embeddings
-
-> Natural language processing with deep learning is an important combination. Using word vector representations and embedding layers you can train recurrent neural networks with outstanding performances in a wide variety of industries. Examples of applications are sentiment analysis, named entity recognition and machine translation.
 
 ### Introduction to Word Embeddings
 
@@ -446,13 +411,13 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - We can use this equation to calculate the similarities between word embeddings and on the analogy problem where `u` = e<sub>w</sub> and `v` = e<sub>king</sub> - e<sub>man</sub> + e<sub>woman</sub>
 
 #### Embedding matrix
-- When you implement an algorithm to learn a word embedding, what you end up learning is a **<u>embedding matrix</u>**.
+- When you implement an algorithm to learn a word embedding, what you end up learning is a **embedding matrix**.
 - Let's take an example:
-  - Suppose we are using 10,000 words as our vocabulary (plus <UNK> token).
+  - Suppose we are using 10,000 words as our vocabulary (plus `<UNK>` token).
   - The algorithm should create a matrix `E` of the shape (300, 10000) in case we are extracting 300 features.   
   - If O<sub>6257</sub> is the one hot encoding of the word **orange** of shape (10000, 1), then   
-    _np.dot(`E`,O<sub>6257</sub>) = e<sub>6257</sub>_ which shape is (300, 1).
-  - Generally _np.dot(`E`, O<sub>j</sub>) = e<sub>j</sub>_
+    np.dot(E, O<sub>6257</sub>) = e<sub>6257</sub> which shape is (300, 1).
+  - Generally np.dot(E, O<sub>j</sub>) = e<sub>j</sub>
 - In the next sections, you will see that we first initialize `E` randomly and then try to learn all the parameters of this matrix.
 - In practice it's not efficient to use a dot multiplication when you are trying to extract the embeddings of a specific word, instead, we will use slicing to slice a specific column. In Keras there is an embedding layer that extracts this column with no multiplication.
 
@@ -462,7 +427,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - Let's start learning some algorithms that can learn word embeddings.
 - At the start, word embeddings algorithms were complex but then they got simpler and simpler.
 - We will start by learning the complex examples to make more intuition.
-- **<u>Neural language model</u>**:
+- **Neural language model**:
   - Let's start with an example:   
     ![](Images/37.png)
   - We want to build a language model so that we can predict the next word.
@@ -496,7 +461,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
   - For example, we have the sentence: "I want a glass of orange juice to go along with my cereal"
   - We will choose **context** and **target**.
   - The target is chosen randomly based on a window with a specific size.
-
+  -
     | Context | Target | How far |
     | ------- | ------ | ------- |
     | orange  | juice  | +1      |
@@ -539,8 +504,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
   | orange  | book  | 0      |
   | orange  | the   | 0      |
   | orange  | of    | 0      |
-
-We get positive example by using the same skip-grams technique, with a fixed window that goes around.
+- We get positive example by using the same skip-grams technique, with a fixed window that goes around.
 - To generate a negative example, we pick a word randomly from the vocabulary.
 - Notice, that we got word "of" as a negative example although it appeared in the same sentence.
 - So the steps to generate the samples are:
@@ -573,8 +537,7 @@ We get positive example by using the same skip-grams technique, with a fixed win
   - Giving not too much weight for stop words like "is", "the", and "this" which occur many times.
   - Giving not too little weight for infrequent words.
 - **Theta** and **e** are symmetric which helps getting the final word embedding.
-
-- _Conclusions on word embeddings:_
+- Conclusions on word embeddings:
   - If this is your first try, you should try to download a pre-trained model that has been made and actually works best.
   - If you have enough data, you can try to implement one of the available algorithms.
   - Because word embeddings are very computationally expensive to train, most ML practitioners will load a pre-trained set of embeddings.
@@ -588,7 +551,7 @@ We get positive example by using the same skip-grams technique, with a fixed win
 - One of the challenges with it, is that you might not have a huge labeled training data for it, but using word embeddings can help getting rid of this.
 - The common dataset sizes varies from 10,000 to 100,000 words.
 - A simple sentiment classification model would be like this:   
-  ![](Images/46.png)
+  ![](Images/emojifierv1.png)
   - The embedding matrix may have been trained on say 100 billion words.
   - Number of features in word embedding is 300.
   - We can use **sum** or **average** given all the words then pass it to a softmax classifier. That makes this classifier works for short or long sentences.
@@ -639,8 +602,6 @@ We get positive example by using the same skip-grams technique, with a fixed win
 
 ## Sequence models & Attention mechanism
 
-> Sequence models can be augmented using an attention mechanism. This algorithm will help your model understand where it should focus its attention given a sequence of inputs. This week, you will also learn about speech recognition and how to deal with audio data.
-
 ### Various sequence to sequence architectures
 
 #### Basic Models
@@ -652,9 +613,6 @@ We get positive example by using the same skip-grams technique, with a fixed win
   - The encoder is RNN - LSTM or GRU are included - and takes the input sequence and then outputs a vector that should represent the whole input.
   - After that the decoder network, also RNN, takes the sequence built by the encoder and outputs the new sequence.   
   ![](Images/53.png)
-  - These ideas are from the following papers:
-    - [Sutskever et al., 2014. Sequence to sequence learning with neural networks](https://arxiv.org/abs/1409.3215)
-    - [Cho et al., 2014. Learning phrase representations using RNN encoder-decoder for statistical machine translation](https://arxiv.org/abs/1406.1078)
 - An architecture similar to the mentioned above works for image captioning problem:
   - In this problem X is an image, while Y is a sentence (caption).
   - The model architecture image:   

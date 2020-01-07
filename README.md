@@ -105,6 +105,10 @@ DenseNet: Densely Connected Convolutional Networks
 
 ### Object Detection
 
+#### Sliding Windows
+
+[OverFeat: Integrated recognition, localization and detection using convolutional networks](https://arxiv.org/abs/1312.6229)
+
 #### YOLO
 
 [You Only Look Once: Unified real-time object detection](https://arxiv.org/abs/1506.02640)
@@ -112,8 +116,6 @@ DenseNet: Densely Connected Convolutional Networks
 [YOLO9000: Better, Faster, Stronger](https://arxiv.org/abs/1612.08242)
 
 YOLOv3: An Incremental Improvement
-
-[OverFeat: Integrated recognition, localization and detection using convolutional networks](https://arxiv.org/abs/1312.6229)
 
 #### YOLO Readings
 
@@ -201,9 +203,9 @@ Bengio et. al., 2003, A neural probabilistic language model
 
 [(Debiasing word embeddings) Man is to computer programmer as woman is to homemaker?](https://papers.nips.cc/paper/6228-man-is-to-computer-programmer-as-woman-is-to-homemaker-debiasing-word-embeddings.pdf)
 
-Sutskever et al., 2014. Sequence to sequence learning with neural networks
+[Sequence to sequence learning with neural networks](https://arxiv.org/abs/1409.3215)
 
-Cho et al., 2014. Learning phrase representations using RNN encoder-decoder for statistical machine translation
+[Learning phrase representations using RNN encoder-decoder for statistical machine translation](https://arxiv.org/abs/1406.1078)
 
 Mao et. al., 2014. Deep captioning with multimodal recurrent neural networks
 
@@ -272,6 +274,8 @@ Sedhain, Suvash, et al. AutoRec: Autoencoders meet collaborative filtering
 [Fancy PCA (Data Augmentation) with Scikit-Image](https://deshanadesai.github.io/notes/Fancy-PCA-with-Scikit-Image)
 
 # Readings
+
+http://colah.github.io/posts/2015-08-Understanding-LSTMs/
 
 https://rawgit.com/danielkunin/Deeplearning-Visualizations/master/index.html
 

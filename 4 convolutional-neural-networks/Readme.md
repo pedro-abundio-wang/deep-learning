@@ -763,7 +763,7 @@ bias:    (1, 1, 1, nc[l])
 - Yolo tells that its faster:
 - Our model has several advantages over classifier-based systems. It looks at the whole image at test time so its predictions are informed by global context in the image. It also makes predictions with a single network evaluation unlike systems like R-CNN which require thousands for a single image. This makes it extremely fast, more than 1000x faster than R-CNN and 100x faster than Fast R-CNN. See our paper for more details on the full system.
 - But one of the downsides of YOLO that it process a lot of areas where no objects are present.
-- **R-CNN** stands for regions with Conv Nets.
+- **R-CNN** stands for regions with conv nets.
 - R-CNN tries to pick a few windows and run a Conv net (your confident classifier) on top of them.
 - The algorithm R-CNN uses to pick windows is called a segmentation algorithm. Outputs something like this:
   - ![](Images/34.png)
@@ -891,9 +891,6 @@ bias:    (1, 1, 1, nc[l])
   - It turns out that layer 1 are learning the low level representations like colors and edges.
 - You will find out that each layer are learning more complex representations.
   - ![](Images/39.png)
-- The first layer was created using the weights of the first layer. Other images are generated using the receptive field in the image that triggered the neuron to be max.
-- A good explanation on how to get **receptive field** given a layer:
-  - ![](Images/receptiveField.png)
 
 #### Cost Function
 
@@ -972,7 +969,7 @@ bias:    (1, 1, 1, nc[l])
 
 - So far we have used the Conv nets for images which are 2D.
 - Conv nets can work with 1D and 3D data as well.
-- An example of 1D convolution:
+- 1D convolution:
   - Input shape (14, 1)
   - Applying 16 filters with F = 5 , S = 1
   - Output shape will be 10 X 16
@@ -983,7 +980,7 @@ bias:    (1, 1, 1, nc[l])
 - In most of the applications that uses 1D data we use Recurrent Neural Network RNN.
 - 3D data also are available in some applications like CT scan:
   - ![](Images/44.png)
-- Example of 3D convolution:
+- 3D convolution:
   - Input shape (14, 14,14, 1)
   - Applying 16 filters with F = 5 , S = 1
   - Output shape (10, 10, 10, 16)
@@ -1009,10 +1006,10 @@ bias:    (1, 1, 1, nc[l])
     - Different activations include: relu, tanh, sigmoid, and softmax.
 - To train and test a model in Keras there are four steps:
   - Create the model.
-  - Compile the model by calling model.compile(optimizer = "...", loss = "...", metrics = ["accuracy"])
-  - Train the model on train data by calling model.fit(x = ..., y = ..., epochs = ..., batch_size = ...)
+  - Compile the model by calling model.compile(optimizer, loss, metrics = ["accuracy"])
+  - Train the model on train data by calling model.fit(x, y, epochs, batch_size)
     - You can add a validation set while training too.
-  - Test the model on test data by calling model.evaluate(x = ..., y = ...)
+  - Test the model on test data by calling model.evaluate(x, y)
 - Summarize of step in Keras: Create->Compile->Fit/Train->Evaluate/Test
 - model.summary() gives a lot of useful informations regarding your model including each layers inputs, outputs, and number of parameters at each layer.
 - To choose the Keras backend you should go to $HOME/.keras/keras.json and change the file to the desired backend like Theano or Tensorflow or whatever backend you want.
