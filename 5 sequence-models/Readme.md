@@ -150,6 +150,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
   ![](Images/05.png)
 
 ### Backpropagation through time
+
 - Let's see how backpropagation works with the RNN architecture.
 - Usually deep learning frameworks do backpropagation automatically for you. But it's useful to know how it works in RNNs.
 <div align="center">
@@ -158,6 +159,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - The backpropagation here is called **backpropagation through time** because we pass activation from one sequence element to another like backwards in time.
 
 ### Different types of RNNs
+
 - So far we have seen only one RNN architecture in which T<sub>x</sub> equals T<sub>Y</sub>. In some other problems, they may not equal so we need different architectures.
 - Mainly this image has all types:   
   ![](Images/09.jpg)
@@ -175,6 +177,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - There is another architecture which is the **attention** architecture which we will talk about in chapter 3.
 
 ### Language model and sequence generation
+
 - RNNs do very well in language model problems. In this section, we will build a language model using RNNs.
 - **What is a language model**
   - Let's say we are solving a speech recognition problem and someone says a sentence that can be interpreted into to two sentences:
@@ -200,6 +203,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
       - This is simply feeding the sentence into the RNN and multiplying the probabilities (outputs).
 
 ### Sampling novel sequences
+
 - After a sequence model is trained on a language model, to check what the model has learned you can apply it to sample novel sequence.
 - Lets see the steps of how we can sample a novel sequence from a trained sequence language model:
   1. Given this model:   
@@ -297,6 +301,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - So why we use these architectures, why don't we change them, how we know they will work, why not add another gate, why not use the simpler GRU instead of the full GRU; well researchers has experimented over years all the various types of these architectures with many many different versions and also addressing the vanishing gradient problem. They have found that full GRUs are one of the best RNN architectures  to be used for many different problems. You can make your design but put in mind that GRUs and LSTMs are standards.
 
 ### Long Short Term Memory (LSTM)
+
 - LSTM - the other type of RNN that can enable you to account for long-term dependencies. It's more powerful and general than GRU.
 - In LSTM , C<sup>\<t></sup> != a<sup>\<t></sup>
 - Here are the equations of an LSTM unit:   
@@ -309,6 +314,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - There isn't a universal superior between LSTM and it's variants. One of the advantages of GRU is that it's simpler and can be used to build much bigger network but the LSTM is more powerful and general.
 
 ### Bidirectional RNN
+
 - There are still some ideas to let you build much more powerful sequence models. One of them is bidirectional RNNs and another is Deep RNNs.
 - As we saw before, here is an example of the Name entity recognition task:  
   ![](Images/23.png)
@@ -324,6 +330,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - The disadvantage of BiRNNs that you need the entire sequence before you can process it. For example, in live speech recognition if you use BiRNNs you will need to wait for the person who speaks to stop to take the entire sequence and then make your predictions.
 
 ### Deep RNNs
+
 - In a lot of cases the standard one layer RNNs will solve your problem. But in some problems its useful to stack some RNN layers to make a deeper network.
 - For example, a deep RNN with 3 layers would look like this:  
   ![](Images/25.png)
@@ -335,6 +342,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 ### Introduction to Word Embeddings
 
 #### Word Representation
+
 - NLP has been revolutionized by deep learning and especially by RNNs and deep RNNs.
 - Word embeddings is a way of representing words. It lets your algorithm automatically understand the analogies between words like "king" and "queen".
 - So far we have defined our language by a vocabulary. Then represented our words with a one-hot vector that represents the word in the vocabulary.
@@ -361,6 +369,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - The **word embeddings** came from that we need to embed a unique vector inside a n-dimensional space.
 
 #### Using word embeddings
+
 - Let's see how we can take the feature representation we have extracted from each word and apply it in the Named entity recognition problem.
 - Given this example (from named entity recognition):   
   ![](Images/30.png)
@@ -384,6 +393,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - In the word embeddings task, we are learning a representation for each word in our vocabulary (unlike in image encoding where we have to map each new image to some n-dimensional vector). We will discuss the algorithm in next sections.
 
 #### Properties of word embeddings
+
 - One of the most fascinating properties of word embeddings is that they can also help with analogy reasoning. While analogy reasoning may not be by itself the most important NLP application, but it might help convey a sense of what these word embeddings can do.
 - Analogies example:
   - Given this word embeddings table:   
@@ -411,6 +421,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - We can use this equation to calculate the similarities between word embeddings and on the analogy problem where `u` = e<sub>w</sub> and `v` = e<sub>king</sub> - e<sub>man</sub> + e<sub>woman</sub>
 
 #### Embedding matrix
+
 - When you implement an algorithm to learn a word embedding, what you end up learning is a **embedding matrix**.
 - Let's take an example:
   - Suppose we are using 10,000 words as our vocabulary (plus `<UNK>` token).
@@ -424,6 +435,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 ### Learning Word Embeddings: Word2vec & GloVe
 
 #### Learning word embeddings
+
 - Let's start learning some algorithms that can learn word embeddings.
 - At the start, word embeddings algorithms were complex but then they got simpler and simpler.
 - We will start by learning the complex examples to make more intuition.
@@ -457,18 +469,17 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - To summarize, the language modeling problem poses a machines learning problem where you input the context (like the last four words) and predict some target words. And posing that problem allows you to learn good word embeddings.
 
 #### Word2Vec
+
 - Before presenting Word2Vec, lets talk about **skip-grams**:
   - For example, we have the sentence: "I want a glass of orange juice to go along with my cereal"
   - We will choose **context** and **target**.
   - The target is chosen randomly based on a window with a specific size.
-  -
-    | Context | Target | How far |
-    | ------- | ------ | ------- |
-    | orange  | juice  | +1      |
-    | orange  | glass  | -2      |
-    | orange  | my     | +6      |    
-
-    We have converted the problem into a supervised problem.
+    - | Context | Target | How far |
+      | ------- | ------ | ------- |
+      | orange  | juice  | +1      |
+      | orange  | glass  | -2      |
+      | orange  | my     | +6      |
+  - We have converted the problem into a supervised problem.
   - This is not an easy learning problem because learning within -10/+10 words (10 - an example) is hard.
   - We want to learn this to get our word embeddings model.
 - Word2Vec model:
@@ -493,17 +504,18 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - word2vec paper includes ideas of learning word embeddings. One is skip-gram model and another is CBoW (continuous bag-of-words).
 
 #### Negative Sampling
+
 - Negative sampling allows you to do something similar to the skip-gram model, but with a much more efficient learning algorithm. We will create a different learning problem.
 - Given this example:
   - "I want a glass of orange juice to go along with my cereal"
 - The sampling will look like this:
-- | Context | Word  | target |
-  | ------- | ----- | ------ |
-  | orange  | juice | 1      |
-  | orange  | king  | 0      |
-  | orange  | book  | 0      |
-  | orange  | the   | 0      |
-  | orange  | of    | 0      |
+  - | Context | Word  | target |
+    | ------- | ----- | ------ |
+    | orange  | juice | 1      |
+    | orange  | king  | 0      |
+    | orange  | book  | 0      |
+    | orange  | the   | 0      |
+    | orange  | of    | 0      |
 - We get positive example by using the same skip-grams technique, with a fixed window that goes around.
 - To generate a negative example, we pick a word randomly from the vocabulary.
 - Notice, that we got word "of" as a negative example although it appeared in the same sentence.
@@ -523,6 +535,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
   ![](Images/43.png)
 
 #### GloVe word vectors
+
 - GloVe is another algorithm for learning the word embedding. It's the simplest of them.
 - This is not used as much as word2vec or skip-gram models, but it has some enthusiasts because of its simplicity.
 - GloVe stands for Global vectors for word representation.
@@ -546,6 +559,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 ### Applications using Word Embeddings
 
 #### Sentiment Classification
+
 - As we have discussed before, Sentiment classification is the process of finding if a text has a positive or a negative review. Its so useful in NLP and is used in so many applications. An example would be:   
   ![](Images/45.png)
 - One of the challenges with it, is that you might not have a huge labeled training data for it, but using word embeddings can help getting rid of this.
@@ -562,6 +576,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
   - Also, it will generalize better even if words weren't in your dataset. For example you have the sentence "Completely **<u>absent</u>** of good taste, good service, and good ambience", then even if the word "absent" is not in your label training set, if it was in your 1 billion or 100 billion word corpus used to train the word embeddings, it might still get this right and generalize much better even to words that were in the training set used to train the word embeddings but not necessarily in the label training set that you had for specifically the sentiment classification problem.
 
 #### Debiasing word embeddings
+
 - We want to make sure that our word embeddings are free from undesirable forms of bias, such as gender bias, ethnicity bias and so on.
 - Horrifying results on the trained word embeddings in the context of Analogies:
   - Man : Computer_programmer as Woman : **Homemaker**
@@ -599,12 +614,12 @@ The goal is given this representation for x to learn a mapping using a sequence 
        - To do that, we move grandfather and grandmother to a point where they will be in the middle of the non-bias axis.
        - There are some words you need to do this for in your steps. Number of these words is relatively small.
 
-
 ## Sequence models & Attention mechanism
 
 ### Various sequence to sequence architectures
 
 #### Basic Models
+
 - In this section we will learn about sequence to sequence - _Many to Many_ - models which are useful in various applications including machine translation and speech recognition.
 - Let's start with the basic model:
   - Given this machine translation problem in which X is a French sequence and Y is an English sequence.   
@@ -624,6 +639,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
     - [Karpathy and Li, 2015. Deep visual-semantic alignments for generating image descriptions](https://cs.stanford.edu/people/karpathy/cvpr2015.pdf)
 
 #### Picking the most likely sentence
+
 - There are some similarities between the language model we have learned previously, and the machine translation model we have just discussed, but there are some differences as well.
 - The language model we have learned is very similar to the decoder part of the machine translation model, except for a<sup>\<0></sup>   
   ![](Images/55.png)
@@ -648,6 +664,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - So what is better than greedy approach, is to get an approximate solution, that will try to maximize the output (the last equation above).
 
 #### Beam Search
+
 - Beam search is the most widely used algorithm to get the best output sequence. It's a heuristic search algorithm.
 - To illustrate the algorithm we will stick with the example from the previous section. We need Y = "Jane is visiting Africa in September."
 - The algorithm has a parameter `B`  which is the beam width. Lets take `B = 3` which means the algorithm will get 3 outputs at a time.
@@ -658,6 +675,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - If `B = 1` this will become the greedy search.
 
 #### Refinements to Beam Search
+
 - In the previous section, we have discussed the basic beam search. In this section, we will try to do some refinements to it.
 - The first thing is **Length optimization**
   - In beam search we are trying to optimize:   
@@ -682,6 +700,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
   - Unlike exact search algorithms like BFS (Breadth First Search) or  DFS (Depth First Search), Beam Search runs faster but is not guaranteed to find the exact solution.
 
 #### Error analysis in beam search
+
 - We have talked before on **Error analysis** in _"Structuring Machine Learning Projects"_ course. We will apply these concepts to improve our beam search algorithm.
 - We will use error analysis to figure out if the `B` hyperparameter of the beam search is the problem (it doesn't get an optimal solution) or in our RNN part.
 - Let's take an example:
@@ -703,6 +722,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
   - Get counts and decide what to work on next.
 
 #### BLEU Score
+
 - One of the challenges of machine translation, is that given a sentence in a language there are one or more possible good translation in another language. So how do we evaluate our results?
 - The way we do this is by using **BLEU score**. BLEU stands for _bilingual evaluation understudy_.
 - The intuition is: as long as the machine-generated translation is pretty close to any of the references provided by humans, then it will get a high BLEU score.
@@ -725,17 +745,15 @@ The goal is given this representation for x to learn a mapping using a sequence 
   - Y2 = "There is a cat on the mat."
   - Suppose that the machine outputs: "the cat the cat on the mat."
   - The bigrams in the machine output:
-
-    | Pairs      | Count | Count clip |
-    | ---------- | ----- | ---------- |
-    | the cat    | 2     | 1 (Y1)     |
-    | cat the    | 1     | 0          |
-    | cat on     | 1     | 1 (Y2)     |
-    | on the     | 1     | 1 (Y1)     |
-    | the mat    | 1     | 1 (Y1)     |
-    | **Totals** | 6     | 4          |
-
-    Modified precision = sum(Count clip) / sum(Count) = 4/6
+    - | Pairs      | Count | Count clip |
+      | ---------- | ----- | ---------- |
+      | the cat    | 2     | 1 (Y1)     |
+      | cat the    | 1     | 0          |
+      | cat on     | 1     | 1 (Y2)     |
+      | on the     | 1     | 1 (Y1)     |
+      | the mat    | 1     | 1 (Y1)     |
+      | **Totals** | 6     | 4          |
+- Modified precision = sum(Count clip) / sum(Count) = 4/6
 - So here are the equations for modified precision for the n-grams case:   
   ![](Images/60.png)
 - Let's put this together to formalize the BLEU score:
@@ -748,6 +766,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - It is used in a variety of systems like machine translation and image captioning.
 
 #### Attention Model Intuition
+
 - So far we were using sequence to sequence models with an encoder and decoders. There is a technique called _attention_ which makes these models even better.
 - The attention idea has been one of the most influential ideas in deep learning.
 - The problem of long sequences:
@@ -776,6 +795,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
     ![](Images/67.jpg)
 
 #### Attention Model
+
 - Lets formalize the intuition from the last section into the exact details on how this can be implemented.
 - First we will have an bidirectional RNN (most common is LSTMs) that encodes French language:   
   ![](Images/68.png)
@@ -801,6 +821,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 ### Speech recognition - Audio data
 
 #### Speech recognition
+
 - One of the most exciting developments using sequence-to-sequence models has been the rise of very accurate speech recognition.
 - Let's define the speech recognition problem:
   - X: audio clip
@@ -838,6 +859,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - Using both attention model and CTC cost can help you to build an accurate speech recognition system.
 
 #### Trigger Word Detection
+
 - With the rise of deep learning speech recognition, there are a lot of devices that can be waked up by saying some words with your voice. These systems are called trigger word detection systems.
 - For example, Alexa - a smart device made by Amazon - can answer your call "Alexa, what time is it?" and then Alexa will respond to you.
 - Trigger word detection systems include:  
