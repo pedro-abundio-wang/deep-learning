@@ -41,7 +41,7 @@ nvidia-smi
 
 # Papers
 
-## Algorithms
+## Optimization Algorithms
 
 [(Batch Normalization) Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/abs/1502.03167)
 
@@ -49,13 +49,27 @@ nvidia-smi
 
 [(ADAM) A METHOD FOR STOCHASTIC OPTIMIZATION](https://arxiv.org/abs/1412.6980)
 
+[(Regularization) a simple weight decay can improve generalization](https://papers.nips.cc/paper/563-a-simple-weight-decay-can-improve-generalization.pdf)
+
 [(Dropout) A Simple Way to Prevent Neural Networks from Overfitting](http://jmlr.org/papers/v15/srivastava14a.html)
 
 [Practical Recommendations for Gradient-Based Training of Deep Architectures](https://arxiv.org/abs/1206.5533)
 
 [(Xavier Initialization) Understanding the difficulty of training deep feedforward neural networks](http://proceedings.mlr.press/v9/glorot10a.html)
 
+[(He Initialization) Delving Deep into Rectifiers](https://arxiv.org/pdf/1502.01852.pdf)
+
 [Averaging Weights Leads to Wider Optima and Better Generalization](https://arxiv.org/abs/1803.05407)
+
+[(BatchSize) On large-batch training for deep learning: generalization gap and sharp minima](https://arxiv.org/pdf/1609.04836.pdf)
+
+[Don't Decay the Learning Rate, Increase the Batch Size](https://arxiv.org/pdf/1711.00489.pdf)
+
+[Improving Generalization Performance by Switching from Adam to SGD](https://arxiv.org/pdf/1712.07628.pdf)
+
+[Train longer generalize better](https://papers.nips.cc/paper/6770-train-longer-generalize-better-closing-the-generalization-gap-in-large-batch-training-of-neural-networks.pdf)
+
+[Accurate, large minibatch SGD](https://arxiv.org/pdf/1706.02677.pdf)
 
 ## CNN
 
@@ -258,6 +272,8 @@ Sedhain, Suvash, et al. AutoRec: Autoencoders meet collaborative filtering
 [Fancy PCA (Data Augmentation) with Scikit-Image](https://deshanadesai.github.io/notes/Fancy-PCA-with-Scikit-Image)
 
 # Readings
+
+https://rawgit.com/danielkunin/Deeplearning-Visualizations/master/index.html
 
 [The Unreasonable Effectiveness of Recurrent Neural Networks](karpathy.github.io/2015/05/21/rnn-effectiveness/)
 
