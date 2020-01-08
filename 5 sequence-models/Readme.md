@@ -169,7 +169,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - A **One to Many** architecture application would be music generation.  
   ![](Images/11.png)
   - Note that starting the second layer we are feeding the generated output back to the network.
-- There are another interesting architecture in **Many To Many**. Applications like machine translation inputs and outputs sequences have different lengths in most of the cases. So an alternative _Many To Many_ architecture that fits the translation would be as follows:   
+- There are another interesting architecture in **Many To Many**. Applications like machine translation inputs and outputs sequences have different lengths in most of the cases. So an alternative Many-To-Many architecture that fits the translation would be as follows:   
   ![](Images/12.png)
   - There are an encoder and a decoder parts in this architecture. The encoder encodes the input sequence into one matrix and feed it to the decoder to generate the outputs. Encoder and decoder have different weight matrices.
 - Summary of RNN types:
@@ -374,8 +374,8 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - Given this example (from named entity recognition):   
   ![](Images/30.png)
 - **Sally Johnson** is a person's name.
-- After training on this sentence the model should find out that the sentence "**Robert Lin** is an *apple* farmer" contains Robert Lin as a name, as apple and orange have near representations.
-- Now if you have tested your model with this sentence "**Mahmoud Badry** is a *durian* cultivator" the network should learn the name even if it hasn't seen the word *durian* before (during training). That's the power of word representations.
+- After training on this sentence the model should find out that the sentence "**Robert Lin** is an apple farmer" contains Robert Lin as a name, as apple and orange have near representations.
+- Now if you have tested your model with this sentence "**Mahmoud Badry** is a durian cultivator" the network should learn the name even if it hasn't seen the word durian before (during training). That's the power of word representations.
 - The algorithms that are used to learn **word embeddings** can examine billions of words of unlabeled text - for example, 100 billion words and learn the representation from them.
 - Transfer learning and word embeddings:
   1. Learn word embeddings from large text corpus (1-100 billion of words).
@@ -465,7 +465,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
        - This is the idea of **skip grams** model.
        - The idea is much simpler and works remarkably well.
        - We will talk about this in the next section.
-- Researchers found that if you really want to build a _language model_, it's natural to use the last few words as a context. But if your main goal is really to learn a _word embedding_, then you can use all of these other contexts and they will result in very meaningful work embeddings as well.
+- Researchers found that if you really want to build a language model, it's natural to use the last few words as a context. But if your main goal is really to learn a word embedding, then you can use all of these other contexts and they will result in very meaningful work embeddings as well.
 - To summarize, the language modeling problem poses a machines learning problem where you input the context (like the last four words) and predict some target words. And posing that problem allows you to learn good word embeddings.
 
 #### Word2Vec
@@ -530,7 +530,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
   ![](Images/41.png)
   - So we are like having 10,000 binary classification problems, and we only train k+1 classifier of them in each iteration.
 - How to select negative samples:
-  - We can sample according to empirical frequencies in words corpus which means according to how often different words appears. But the problem with that is that we will have more frequent words like _the, of, and..._
+  - We can sample according to empirical frequencies in words corpus which means according to how often different words appears. But the problem with that is that we will have more frequent words like: the, of, and...
   - The best is to sample with this equation (according to authors):   
   ![](Images/43.png)
 
@@ -569,7 +569,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
   - The embedding matrix may have been trained on say 100 billion words.
   - Number of features in word embedding is 300.
   - We can use **sum** or **average** given all the words then pass it to a softmax classifier. That makes this classifier works for short or long sentences.
-- One of the problems with this simple model is that it ignores words order. For example "Completely lacking in **good** taste, **good** service, and **good** ambience" has the word _good_ 3 times but its a negative review.
+- One of the problems with this simple model is that it ignores words order. For example "Completely lacking in **good** taste, **good** service, and **good** ambience" has the word good 3 times but its a negative review.
 - A better model uses an RNN for solving this problem:   
   ![](Images/47.png)
   - And so if you train this algorithm, you end up with a pretty decent sentiment classification algorithm.
@@ -585,9 +585,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - Learning algorithms by general are making important decisions and it mustn't be biased.
 - Andrew thinks we actually have better ideas for quickly reducing the bias in AI than for quickly reducing the bias in the human race, although it still needs a lot of work to be done.
 - Addressing bias in word embeddings steps:
-  - Idea from the paper: https://arxiv.org/abs/1607.06520
   - Given these learned embeddings:   
-    ![](Images/48.png)
   - We need to solve the **gender bias** here. The steps we will discuss can help solve any bias problem but we are focusing here on gender bias.
   - Here are the steps:
     1. Identify the direction:
@@ -596,21 +594,14 @@ The goal is given this representation for x to learn a mapping using a sequence 
          - e<sub>male</sub> - e<sub>female</sub>
          - ....
        - Choose some k differences and average them.
-       - This will help you find this:   
-         ![](Images/49.png)
-       - By that we have found the bias direction which is 1D vector and the non-bias vector which is 299D vector.
+       - This will help you find that we have found the bias direction which is 1D vector and the non-bias vector which is 299D vector.
     2. Neutralize: For every word that is not definitional, project to get rid of bias.
-       - Babysitter and doctor need to be neutral so we project them on non-bias axis with the direction of the bias:   
-         ![](Images/50.png)
+        - Babysitter and doctor need to be neutral so we project them on non-bias axis with the direction of the bias:   
          - After that they will be equal in the term of gender.
-         - To do this the authors of the paper trained a classifier to tell the words that need to be neutralized or not.
+         - To do this the authors of the paper trained a classifier to tell the words that need to be neutralized or not.
     3. Equalize pairs
-       - We want each pair to have difference only in gender. Like:
-         - Grandfather - Grandmother
-         - He - She
-         - Boy - Girl
+       - We want each pair to have difference only in gender. Like: (Grandfather, Grandmother) (He, She) (Boy, Girl)
        - We want to do this because the distance between grandfather and babysitter is bigger than babysitter and grandmother:   
-         ![](Images/51.png)
        - To do that, we move grandfather and grandmother to a point where they will be in the middle of the non-bias axis.
        - There are some words you need to do this for in your steps. Number of these words is relatively small.
 
@@ -620,7 +611,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 
 #### Basic Models
 
-- In this section we will learn about sequence to sequence - _Many to Many_ - models which are useful in various applications including machine translation and speech recognition.
+- In this section we will learn about sequence to sequence (Many-to-Many) models which are useful in various applications including machine translation and speech recognition.
 - Let's start with the basic model:
   - Given this machine translation problem in which X is a French sequence and Y is an English sequence.   
     ![](Images/52.png)
@@ -633,10 +624,6 @@ The goal is given this representation for x to learn a mapping using a sequence 
   - The model architecture image:   
     ![](Images/54.jpeg)
   - The architecture uses a pretrained CNN (like AlexNet) as an encoder for the image, and the decoder is an RNN.
-  - Ideas are from the following papers (they share similar ideas):
-    - [Maoet et. al., 2014. Deep captioning with multimodal recurrent neural networks](https://arxiv.org/abs/1412.6632)
-    - [Vinyals et. al., 2014. Show and tell: Neural image caption generator](https://arxiv.org/abs/1411.4555)
-    - [Karpathy and Li, 2015. Deep visual-semantic alignments for generating image descriptions](https://cs.stanford.edu/people/karpathy/cvpr2015.pdf)
 
 #### Picking the most likely sentence
 
@@ -669,7 +656,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - To illustrate the algorithm we will stick with the example from the previous section. We need Y = "Jane is visiting Africa in September."
 - The algorithm has a parameter `B`  which is the beam width. Lets take `B = 3` which means the algorithm will get 3 outputs at a time.
 - For the first step you will get ["in", "jane", "september"] words that are the best candidates.
-- Then for each word in the first output, get B next (second) words and select top best B combinations where the best are those what give the highest value of multiplying both probabilities - P(y<sup>\<1></sup>|x) * P(y<sup>\<2></sup>|x,y<sup>\<1></sup>). Se we will have then ["in september", "jane is", "jane visit"]. Notice, that we automatically discard _september_ as a first word.
+- Then for each word in the first output, get B next (second) words and select top best B combinations where the best are those what give the highest value of multiplying both probabilities - P(y<sup>\<1></sup>|x) * P(y<sup>\<2></sup>|x,y<sup>\<1></sup>). Se we will have then ["in september", "jane is", "jane visit"]. Notice, that we automatically discard september as a first word.
 - Repeat the same process and get the best B words for ["september", "is", "visit"]  and so on.
 - In this algorithm, keep only B instances of your network.
 - If `B = 1` this will become the greedy search.
@@ -701,7 +688,6 @@ The goal is given this representation for x to learn a mapping using a sequence 
 
 #### Error analysis in beam search
 
-- We have talked before on **Error analysis** in _"Structuring Machine Learning Projects"_ course. We will apply these concepts to improve our beam search algorithm.
 - We will use error analysis to figure out if the `B` hyperparameter of the beam search is the problem (it doesn't get an optimal solution) or in our RNN part.
 - Let's take an example:
   - Initial info:
@@ -724,14 +710,14 @@ The goal is given this representation for x to learn a mapping using a sequence 
 #### BLEU Score
 
 - One of the challenges of machine translation, is that given a sentence in a language there are one or more possible good translation in another language. So how do we evaluate our results?
-- The way we do this is by using **BLEU score**. BLEU stands for _bilingual evaluation understudy_.
+- The way we do this is by using **BLEU score**. BLEU stands for bilingual evaluation understudy.
 - The intuition is: as long as the machine-generated translation is pretty close to any of the references provided by humans, then it will get a high BLEU score.
 - Let's take an example:
   - X = "Le chat est sur le tapis."
   - Y1 = "The cat is on the mat." (human reference 1)
   - Y2 = "There is a cat on the mat." (human reference 2)
   - Suppose that the machine outputs: "the the the the the the the."
-  - One way to evaluate the machine output is to look at each word in the output and check if it is in the references. This is called _precision_:
+  - One way to evaluate the machine output is to look at each word in the output and check if it is in the references. This is called precision:
     - precision = 7/7  because "the" appeared in Y1 or Y2
   - This is not a useful measure!
   - We can use a modified precision in which we are looking for the reference with the maximum number of a particular word and set the maximum appearing of this word to this number. So:
@@ -767,7 +753,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 
 #### Attention Model Intuition
 
-- So far we were using sequence to sequence models with an encoder and decoders. There is a technique called _attention_ which makes these models even better.
+- So far we were using sequence to sequence models with an encoder and decoders. There is a technique called attention which makes these models even better.
 - The attention idea has been one of the most influential ideas in deep learning.
 - The problem of long sequences:
   - Given this model, inputs, and outputs.   
@@ -836,12 +822,12 @@ The goal is given this representation for x to learn a mapping using a sequence 
     ![](Images/76.png)
     - The horizontal axis is time while the vertical is frequencies. Intensity of different colors shows the amount of energy - how loud is the sound for different frequencies (a human ear does a very similar preprocessing step).
   - A spectrogram is computed by sliding a window over the raw audio signal, and calculates the most active frequencies in each window using a Fourier transformation.
-  - In the past days, speech recognition systems were built using _phonemes_ that are a hand engineered basic units of sound.  Linguists used to hypothesize that writing down audio in terms of these basic units of sound called _phonemes_ would be the best way to do speech recognition.
+  - In the past days, speech recognition systems were built using phonemes that are a hand engineered basic units of sound.  Linguists used to hypothesize that writing down audio in terms of these basic units of sound called phonemes would be the best way to do speech recognition.
   - End-to-end deep learning found that phonemes was no longer needed. One of the things that made this possible is the large audio datasets.
   - Research papers have around 300 - 3000 hours of training data while the best commercial systems are now trained on over 100,000 hours of audio.
 - You can build an accurate speech recognition system using the attention model that we have descried in the previous section:   
   ![](Images/77.png)
-- One of the methods that seem to work well is _CTC cost_ which stands for "Connectionist temporal classification"
+- One of the methods that seem to work well is CTC cost which stands for "Connectionist temporal classification"
   - To explain this let's say that Y = "the quick brown fox"
   - We are going to use an RNN with input, output structure:   
     ![](Images/78.png)
@@ -886,7 +872,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - The model is built with keras layers.
 - The attention model.   
   ![](Images/83.png)
-  - There are two separate LSTMs in this model. Because the one at the bottom of the picture is a Bi-directional LSTM and comes *before* the attention mechanism, we will call it *pre-attention* Bi-LSTM. The LSTM at the top of the diagram comes *after* the attention mechanism, so we will call it the *post-attention* LSTM. The pre-attention Bi-LSTM goes through T<sub>x</sub> time steps; the post-attention LSTM goes through T<sub>y</sub> time steps.
+  - There are two separate LSTMs in this model. Because the one at the bottom of the picture is a Bi-directional LSTM and comes before the attention mechanism, we will call it pre-attention Bi-LSTM. The LSTM at the top of the diagram comes after the attention mechanism, so we will call it the post-attention LSTM. The pre-attention Bi-LSTM goes through T<sub>x</sub> time steps; the post-attention LSTM goes through T<sub>y</sub> time steps.
   - The post-attention LSTM passes s<sup>`<t>`</sup>, c<sup>`<t>`</sup> from one time step to the next. In the lecture videos, we were using only a basic RNN for the post-activation sequence model, so the state captured by the RNN output activations s<sup>`<t>`</sup>. But since we are using an LSTM here, the LSTM has both the output activation s<sup>`<t>`</sup> and the hidden cell state c<sup>`<t>`</sup>. However, unlike previous text generation examples (such as Dinosaurus in week 1), in this model the post-activation LSTM at time `t` does will not take the specific generated y<sup>`<t-1>`</sup> as input; it only takes s<sup>`<t>`</sup> and c<sup>`<t>`</sup> as input. We have designed the model this way, because (unlike language generation where adjacent characters are highly correlated) there isn't as strong a dependency between the previous character and the next character in a YYYY-MM-DD date.
 - What one "Attention" step does to calculate the attention variables &alpha;<sup>`<t, t>`</sup>, which are used to compute the context variable context<sup>`<t>`</sup> for each timestep in the output (t=1, ..., T<sub>y</sub>).
   ![](Images/84.png)

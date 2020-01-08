@@ -191,17 +191,17 @@ Fully Convolutional Networks for Semantic Segmentation
 
 ## RNN
 
-Cho et al., 2014. On the properties of neural machine translation: Encoder-decoder approaches
+On the properties of neural machine translation: Encoder-decoder approaches
 
-Chung et al., 2014. Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling
+Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling
 
-Hochreiter & Schmidhuber 1997. Long short-term memory
+Long short-term memory
 
-van der Maaten and Hinton., 2008. Visualizing data using t-SNE
+Visualizing data using t-SNE
 
-Mikolov et. al., 2013, Linguistic regularities in continuous space word representations
+Linguistic regularities in continuous space word representations
 
-Bengio et. al., 2003, A neural probabilistic language model
+A neural probabilistic language model
 
 [(Debiasing word embeddings) Man is to computer programmer as woman is to homemaker?](https://papers.nips.cc/paper/6228-man-is-to-computer-programmer-as-woman-is-to-homemaker-debiasing-word-embeddings.pdf)
 
@@ -209,19 +209,19 @@ Bengio et. al., 2003, A neural probabilistic language model
 
 [Learning phrase representations using RNN encoder-decoder for statistical machine translation](https://arxiv.org/abs/1406.1078)
 
-Mao et. al., 2014. Deep captioning with multimodal recurrent neural networks
+[Deep captioning with multimodal recurrent neural networks](https://arxiv.org/abs/1412.6632)
 
-Vinyals et. al., 2014. Show and tell: Neural image caption generator
+[Show and tell: Neural image caption generator](https://arxiv.org/abs/1411.4555)
 
-Karpathy and Li, 2015. Deep visual-semantic alignments for generating image descriptions
+[Deep visual-semantic alignments for generating image descriptions](https://cs.stanford.edu/people/karpathy/cvpr2015.pdf)
 
-Papineni et. al., 2002. Bleu: A method for automatic evaluation of machine translation
+Bleu: A method for automatic evaluation of machine translation
 
-Bahdanau et. al., 2014. Neural machine translation by jointly learning to align and translate
+Neural machine translation by jointly learning to align and translate
 
-Xu et. al., 2015. Show, attend and tell: Neural image caption generation with visual attention
+Show, attend and tell: Neural image caption generation with visual attention
 
-Graves et al., 2006. Connectionist Temporal Classification: Labeling unsegmented sequence data with recurrent neural networks
+Connectionist Temporal Classification: Labeling unsegmented sequence data with recurrent neural networks
 
 Multiple Object Recognition with Visual Attention
 
