@@ -43,6 +43,8 @@ nvidia-smi
 
 ## Optimization Algorithms
 
+[Learning Compact Neural Networks with Regularization](https://arxiv.org/pdf/1802.01223.pdf)
+
 [(Batch Normalization) Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/abs/1502.03167)
 
 [(RMSProp) Equilibrated adaptive learning rates for non-convex optimization](https://arxiv.org/abs/1502.04390)
@@ -274,6 +276,8 @@ Sedhain, Suvash, et al. AutoRec: Autoencoders meet collaborative filtering
 [Fancy PCA (Data Augmentation) with Scikit-Image](https://deshanadesai.github.io/notes/Fancy-PCA-with-Scikit-Image)
 
 # Readings
+
+[The Bayesian interpretation of weight decay](https://www.coursera.org/learn/neural-networks/lecture/n6TUy/the-bayesian-interpretation-of-weight-decay-11-min)
 
 http://colah.github.io/posts/2015-08-Understanding-LSTMs/
 
