@@ -41,39 +41,55 @@ nvidia-smi
 
 # Papers
 
-## Optimization Algorithms
+## Optimization
 
-[Learning Compact Neural Networks with Regularization](https://arxiv.org/pdf/1802.01223.pdf)
+[Practical Recommendations for Gradient-Based Training of Deep Architectures](https://arxiv.org/abs/1206.5533)
 
-[(Batch Normalization) Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/abs/1502.03167)
+[Averaging Weights Leads to Wider Optima and Better Generalization](https://arxiv.org/abs/1803.05407)
+
+[Train longer generalize better](https://papers.nips.cc/paper/6770-train-longer-generalize-better-closing-the-generalization-gap-in-large-batch-training-of-neural-networks.pdf)
+
+[Random Search for Hyper-Parameter Optimization](http://www.jmlr.org/papers/volume13/bergstra12a/bergstra12a.pdf)
+
+## BatchSize
+
+[(BatchSize) On Large-Batch Training for Deep Learning: Generalization Gap and Sharp Minima](https://arxiv.org/pdf/1609.04836.pdf)
+
+[Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour](https://arxiv.org/pdf/1706.02677.pdf)
+
+[Don't Decay the Learning Rate, Increase the Batch Size](https://arxiv.org/pdf/1711.00489.pdf)
+
+## Gradient Algorithms
 
 [(RMSProp) Equilibrated adaptive learning rates for non-convex optimization](https://arxiv.org/abs/1502.04390)
 
 [(ADAM) A METHOD FOR STOCHASTIC OPTIMIZATION](https://arxiv.org/abs/1412.6980)
 
-[(Regularization) a simple weight decay can improve generalization](https://papers.nips.cc/paper/563-a-simple-weight-decay-can-improve-generalization.pdf)
+[Improving Generalization Performance by Switching from Adam to SGD](https://arxiv.org/pdf/1712.07628.pdf)
 
-[(Dropout) A Simple Way to Prevent Neural Networks from Overfitting](http://jmlr.org/papers/v15/srivastava14a.html)
-
-[Practical Recommendations for Gradient-Based Training of Deep Architectures](https://arxiv.org/abs/1206.5533)
+## Initialization
 
 [(Xavier Initialization) Understanding the difficulty of training deep feedforward neural networks](http://proceedings.mlr.press/v9/glorot10a.html)
 
 [(He Initialization) Delving Deep into Rectifiers](https://arxiv.org/pdf/1502.01852.pdf)
 
-[Averaging Weights Leads to Wider Optima and Better Generalization](https://arxiv.org/abs/1803.05407)
+## Regularization
 
-[(BatchSize) On large-batch training for deep learning: generalization gap and sharp minima](https://arxiv.org/pdf/1609.04836.pdf)
+[(Regularization) a simple weight decay can improve generalization](https://papers.nips.cc/paper/563-a-simple-weight-decay-can-improve-generalization.pdf)
 
-[Don't Decay the Learning Rate, Increase the Batch Size](https://arxiv.org/pdf/1711.00489.pdf)
+[(Dropout) A Simple Way to Prevent Neural Networks from Overfitting](http://jmlr.org/papers/v15/srivastava14a.html)
 
-[Improving Generalization Performance by Switching from Adam to SGD](https://arxiv.org/pdf/1712.07628.pdf)
+[Learning Compact Neural Networks with Regularization](https://arxiv.org/pdf/1802.01223.pdf)
 
-[Train longer generalize better](https://papers.nips.cc/paper/6770-train-longer-generalize-better-closing-the-generalization-gap-in-large-batch-training-of-neural-networks.pdf)
+## Normalization
 
-[Accurate, large minibatch SGD](https://arxiv.org/pdf/1706.02677.pdf)
+[(Batch Normalization) Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/abs/1502.03167)
 
 ## CNN
+
+### Basic CNN
+
+#### Classic networks
 
 [(LeNet-5) Gradient-based learning applied to document recognition](http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf)
 
@@ -85,23 +101,25 @@ nvidia-smi
 
 [(VGG-16) Very deep convolutional networks for large-scale image recognition](https://arxiv.org/abs/1409.1556)
 
-[Visualizing and understanding convolutional networks](https://arxiv.org/abs/1311.2901)
+[Network In Network](https://arxiv.org/abs/1312.4400)
 
-[Network in network](https://arxiv.org/abs/1312.4400)
+[Densely Connected Convolutional Networks](https://arxiv.org/abs/1608.06993)
 
-A guide to convolution arithmetic for deep learning
+#### CNN Visualizing and Understanding
 
-Is the deconvolution layer the same as a convolutional layer?
+[Visualizing and Understanding Convolutional Networks](https://arxiv.org/abs/1311.2901)
 
-Deep Inside Convolutional Networks: Visualizing Image Classification Models and Saliency Maps
+[Understanding Neural Networks Through Deep Visualization](https://arxiv.org/abs/1506.06579)
 
-Understanding Neural Networks Through Deep Visualization
+[Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps](https://arxiv.org/abs/1312.6034)
+
+[Is the deconvolution layer the same as a convolutional layer?](https://arxiv.org/abs/1609.07009)
+
+[A guide to convolution arithmetic for deep learning](https://arxiv.org/abs/1603.07285)
 
 [Learning Deep Features for Discriminative Localization](http://cnnlocalization.csail.mit.edu/Zhou_Learning_Deep_Features_CVPR_2016_paper.pdf)
 
-DenseNet: Densely Connected Convolutional Networks
-
-## CNN Readings
+#### CNN Readings
 
 [A guide to receptive field arithmetic for Convolutional Neural Networks](https://medium.com/@nikasa1889/a-guide-to-receptive-field-arithmetic-for-convolutional-neural-networks-e0f514068807)
 
@@ -229,35 +247,35 @@ DRAW: A Recurrent Neural Network For Image Generation
 
 ## Deep Reinforcement Learning
 
-Silver, Schrittwieser, Simonyan et al. (2017): Mastering the game of Go without human knowledge
+Mastering the game of Go without human knowledge
 
-Mnih, Kavukcuoglu, Silver et al. (2015): Human Level Control through Deep Reinforcement Learning
+Human Level Control through Deep Reinforcement Learning
 
 Francisco S. Melo: Convergence of Q-learning: a simple proof
 
 [Video credits to Two minute papers: Google DeepMind's Deep Q-learning playing Atari Breakout](https://www.youtube.com/watch?v=V1eYniJ0Rnk)
 
-Mnih, Kavukcuoglu, Silver et al. (2015): Human Level Control through Deep Reinforcement Learning
+Human Level Control through Deep Reinforcement Learning
 
 [Credits: DeepMind, DQN Breakout](https://www.youtube.com/watch?v=TmPfTpjtdgg)
 
-Ho et al. (2016): Generative Adversarial Imitation Learning
+Generative Adversarial Imitation Learning
 
-Schulman et al. (2017): Trust Region Policy Optimization
+Trust Region Policy Optimization
 
-Schulman et al. (2017): Proximal Policy Optimization
+Proximal Policy Optimization
 
-Bansal et al. (2017): Emergent Complexity via multi-agent competition
+Emergent Complexity via multi-agent competition
 
 OpenAI Blog: Competitive self-play
 
 [alphago-zero-learning-scratch](https://deepmind.com/blog/alphago-zero-learning-scratch/)
 
-Silver, Schrittwieser, Simonyan et al. (2017): Mastering the game of Go without human knowledge
+Mastering the game of Go without human knowledge
 
-Finn et al. (2017): Model-Agnostic Meta-Learning for Fast Adaptation of Deep Networks
+Model-Agnostic Meta-Learning for Fast Adaptation of Deep Networks
 
-Bellemare et al. (2017):Unifying Count-Based Exploration and Intrinsic Motivation
+Unifying Count-Based Exploration and Intrinsic Motivation
 
 [Human-level control through deep reinforcement learning](https://web.stanford.edu/class/psych209/Readings/MnihEtAlHassibis15NatureControlDeepRL.pdf)
 
