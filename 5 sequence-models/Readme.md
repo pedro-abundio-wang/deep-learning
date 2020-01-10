@@ -13,7 +13,6 @@
    * [Long Short Term Memory (LSTM)](#long-short-term-memory-lstm)
    * [Bidirectional RNN](#bidirectional-rnn)
    * [Deep RNNs](#deep-rnns)
-   * [Back propagation with RNNs](#back-propagation-with-rnns)
 * [Natural Language Processing &amp; Word Embeddings](#natural-language-processing--word-embeddings)
    * [Introduction to Word Embeddings](#introduction-to-word-embeddings)
       * [Word Representation](#word-representation)
@@ -151,6 +150,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
   ![](Images/05.png)
 
 ### Backpropagation through time
+
 - Let's see how backpropagation works with the RNN architecture.
 - Usually deep learning frameworks do backpropagation automatically for you. But it's useful to know how it works in RNNs.
 <div align="center">
@@ -159,8 +159,9 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - The backpropagation here is called **backpropagation through time** because we pass activation from one sequence element to another like backwards in time.
 
 ### Different types of RNNs
+
 - So far we have seen only one RNN architecture in which T<sub>x</sub> equals T<sub>Y</sub>. In some other problems, they may not equal so we need different architectures.
-- The ideas in this section was inspired by Andrej Karpathy [blog](http://karpathy.github.io/2015/05/21/rnn-effectiveness/). Mainly this image has all types:   
+- Mainly this image has all types:   
   ![](Images/09.jpg)
 - The architecture we have described before is called **Many to Many**.
 - In sentiment analysis problem, X is a text while Y is an integer that rangers from 1 to 5. The RNN architecture for that is **Many to One** as in Andrej Karpathy image.   
@@ -168,14 +169,15 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - A **One to Many** architecture application would be music generation.  
   ![](Images/11.png)
   - Note that starting the second layer we are feeding the generated output back to the network.
-- There are another interesting architecture in **Many To Many**. Applications like machine translation inputs and outputs sequences have different lengths in most of the cases. So an alternative _Many To Many_ architecture that fits the translation would be as follows:   
+- There are another interesting architecture in **Many To Many**. Applications like machine translation inputs and outputs sequences have different lengths in most of the cases. So an alternative Many-To-Many architecture that fits the translation would be as follows:   
   ![](Images/12.png)
   - There are an encoder and a decoder parts in this architecture. The encoder encodes the input sequence into one matrix and feed it to the decoder to generate the outputs. Encoder and decoder have different weight matrices.
 - Summary of RNN types:
-   ![](Images/12_different_types_of_rnn.png)
+  ![](Images/12_different_types_of_rnn.png)
 - There is another architecture which is the **attention** architecture which we will talk about in chapter 3.
 
 ### Language model and sequence generation
+
 - RNNs do very well in language model problems. In this section, we will build a language model using RNNs.
 - **What is a language model**
   - Let's say we are solving a speech recognition problem and someone says a sentence that can be interpreted into to two sentences:
@@ -201,6 +203,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
       - This is simply feeding the sentence into the RNN and multiplying the probabilities (outputs).
 
 ### Sampling novel sequences
+
 - After a sequence model is trained on a language model, to check what the model has learned you can apply it to sample novel sequence.
 - Lets see the steps of how we can sample a novel sequence from a trained sequence language model:
   1. Given this model:   
@@ -213,7 +216,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
   5. We keep doing 3 & 4 steps for a fixed length or until we get the `<EOS>` token.
   6. You can reject any `<UNK>` token if you mind finding it in your output.
 - So far we have to build a word-level language model. It's also possible to implement a **character-level** language model.
-- In the character-level language model, the vocabulary will contain `[a-zA-Z0-9]`, punctuation, special characters and possibly <EOS> token.
+- In the character-level language model, the vocabulary will contain `[a-zA-Z0-9]`, punctuation, special characters and possibly `<EOS>` token.
 - Character-level language model has some pros and cons compared to the word-level language model
   - Pros:
     1. There will be no `<UNK>` token - it can create any word.
@@ -224,77 +227,53 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - The trend Andrew has seen in NLP is that for the most part, a word-level language model is still used, but as computers get faster there are more and more applications where people are, at least in some special cases, starting to look at more character-level models. Also, they are used in specialized applications where you might need to deal with unknown words or other vocabulary words a lot. Or they are also used in more specialized applications where you have a more specialized vocabulary.
 
 ### Vanishing gradients with RNNs
+
 - One of the problems with naive RNNs that they run into **vanishing gradient** problem.
-
 - An RNN that process a sequence data with the size of 10,000 time steps, has 10,000 deep layers which is very hard to optimize.
-
 - Let's take an example. Suppose we are working with language modeling problem and there are two sequences that model tries to learn:
-
   - "The **cat**, which already ate ..., **was** full"
   - "The **cats**, which already ate ..., **were** full"
   - Dots represent many words in between.
-
 - What we need to learn here that "was" came with "cat" and that "were" came with "cats". The naive RNN is not very good at capturing very long-term dependencies like this.
-
 - As we have discussed in Deep neural networks, deeper networks are getting into the vanishing gradient problem. That also happens with RNNs with a long sequence size.   
-  ![](Images/16.png)   
-  - For computing the word "was", we need to compute the gradient for everything behind. Multiplying fractions tends to vanish the gradient, while multiplication of large number tends to explode it.
+![](Images/16.png)   
+- For computing the word "was", we need to compute the gradient for everything behind. Multiplying fractions tends to vanish the gradient, while multiplication of large number tends to explode it.
   - Therefore some of your weights may not be updated properly.
-
 - In the problem we descried it means that its hard for the network to memorize "was" word all over back to "cat". So in this case, the network won't identify the singular/plural words so that it gives it the right grammar form of verb was/were.
-
 - The conclusion is that RNNs aren't good in **long-term dependencies**.
-
-- > In theory, RNNs are absolutely capable of handling such “long-term dependencies.” A human could carefully pick parameters for them to solve toy problems of this form. Sadly, in practice, RNNs don’t seem to be able to learn them. http://colah.github.io/posts/2015-08-Understanding-LSTMs/
-
-- _Vanishing gradients_ problem tends to be the bigger problem with RNNs than the _exploding gradients_ problem. We will discuss how to solve it in next sections.
-
-- Exploding gradients can be easily seen when your weight values become `NaN`. So one of the ways solve exploding gradient is to apply **gradient clipping** means if your gradient is more than some threshold - re-scale some of your gradient vector so that is not too big. So there are cliped according to some maximum value.
-
-  ![](Images/26.png)
-
-- **Extra**:
-  - Solutions for the Exploding gradient problem:
-    - Truncated backpropagation.
-      - Not to update all the weights in the way back.
-      - Not optimal. You won't update all the weights.
-    - Gradient clipping.
-  - Solution for the Vanishing gradient problem:
-    - Weight initialization.
-      - Like He initialization.
-    - Echo state networks.
-    - Use LSTM/GRU networks.
-      - Most popular.
-      - We will discuss it next.
+- In theory, RNNs are absolutely capable of handling such “long-term dependencies.” A human could carefully pick parameters for them to solve toy problems of this form. Sadly, in practice, RNNs don’t seem to be able to learn them.
+- Vanishing gradients problem tends to be the bigger problem with RNNs than the exploding gradients problem.
+- Exploding gradients can be easily seen when your weight values become `NaN`. So one of the ways solve exploding gradient is to apply **gradient clipping** means if your gradient is more than some threshold
+- re-scale some of your gradient vector so that is not too big. So there are cliped according to some maximum value.
+![](Images/26.png)
+- Solutions for the Exploding gradient problem:
+  - Truncated backpropagation.
+    - Not to update all the weights in the way back.
+    - Not optimal. You won't update all the weights.
+  - Gradient clipping.
+- Solution for the Vanishing gradient problem:
+  - Weight initialization. Like He initialization.
+  - Echo state networks.
+  - Use LSTM/GRU networks. Most popular.
 
 ### Gated Recurrent Unit (GRU)
+
 - GRU is an RNN type that can help solve the vanishing gradient problem and can remember the long-term dependencies.
-
 - The basic RNN unit can be visualized to be like this:
-
 - ![](Images/04-a.png)
 - ![](Images/04.png)
-
 - We will represent the GRU with a similar drawings.
-
 - Each layer in **GRUs**  has a new variable `C` which is the memory cell. It can tell to whether memorize something or not.
-
 - In GRUs, C<sup>\<t></sup> = a<sup>\<t></sup>
-
 - Equations of the GRUs:   
   - ![](Images/18.png)
   - The update gate is between 0 and 1
     - To understand GRUs imagine that the update gate is either 0 or 1 most of the time.
   - So we update the memory cell based on the update cell and the previous cell.
-
 - Lets take the cat sentence example and apply it to understand this equations:
-
   - Sentence: "The **cat**, which already ate ........................, **was** full"
-
   - We will suppose that U is 0 or 1 and is a bit that tells us if a singular word needs to be memorized.
-
   - Splitting the words and get values of C and U at each place:
-
     - | Word    | Update gate(U)             | Cell memory (C) |
       | ------- | -------------------------- | --------------- |
       | The     | 0                          | val             |
@@ -306,7 +285,6 @@ The goal is given this representation for x to learn a mapping using a sequence 
       | full    | ..                         | ..              |
 - Drawing for the GRUs   
   ![](Images/19.png)
-  - Drawings like in [Understanding-LSTMs](http://colah.github.io/posts/2015-08-Understanding-LSTMs/) is so popular and makes it easier to understand GRUs and LSTMs. But it's better to look at the equations.
 - Because the update gate U is usually a small number like 0.00001, GRUs doesn't suffer the vanishing gradient problem.
   - In the equation this makes C<sup>\<t></sup> = C<sup>\<t-1></sup> in a lot of cases.
 - Shapes:
@@ -323,19 +301,20 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - So why we use these architectures, why don't we change them, how we know they will work, why not add another gate, why not use the simpler GRU instead of the full GRU; well researchers has experimented over years all the various types of these architectures with many many different versions and also addressing the vanishing gradient problem. They have found that full GRUs are one of the best RNN architectures  to be used for many different problems. You can make your design but put in mind that GRUs and LSTMs are standards.
 
 ### Long Short Term Memory (LSTM)
+
 - LSTM - the other type of RNN that can enable you to account for long-term dependencies. It's more powerful and general than GRU.
 - In LSTM , C<sup>\<t></sup> != a<sup>\<t></sup>
 - Here are the equations of an LSTM unit:   
-  ![](Images/21.png)
+- ![](Images/21.png)
 - In GRU we have an update gate `U`, a relevance gate `r`, and a candidate cell variables C<sup>\~\<t></sup> while in LSTM we have an update gate `U` (sometimes it's called input gate I), a forget gate `F`, an output gate `O`, and a candidate cell variables C<sup>\~\<t></sup>
-- Drawings (inspired by http://colah.github.io/posts/2015-08-Understanding-LSTMs/):    
-  ![](Images/22.png)
+- ![](Images/22.png)
 - Some variants on LSTM includes:
   - LSTM with **peephole connections**.
     - The normal LSTM with C<sup>\<t-1></sup> included with every gate.
 - There isn't a universal superior between LSTM and it's variants. One of the advantages of GRU is that it's simpler and can be used to build much bigger network but the LSTM is more powerful and general.
 
 ### Bidirectional RNN
+
 - There are still some ideas to let you build much more powerful sequence models. One of them is bidirectional RNNs and another is Deep RNNs.
 - As we saw before, here is an example of the Name entity recognition task:  
   ![](Images/23.png)
@@ -351,25 +330,19 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - The disadvantage of BiRNNs that you need the entire sequence before you can process it. For example, in live speech recognition if you use BiRNNs you will need to wait for the person who speaks to stop to take the entire sequence and then make your predictions.
 
 ### Deep RNNs
+
 - In a lot of cases the standard one layer RNNs will solve your problem. But in some problems its useful to stack some RNN layers to make a deeper network.
 - For example, a deep RNN with 3 layers would look like this:  
   ![](Images/25.png)
 - In feed-forward deep nets, there could be 100 or even 200 layers. In deep RNNs stacking 3 layers is already considered deep and expensive to train.
 - In some cases you might see some feed-forward network layers connected after recurrent cell.
 
-
-### Back propagation with RNNs
-- > In modern deep learning frameworks, you only have to implement the forward pass, and the framework takes care of the backward pass, so most deep learning engineers do not need to bother with the details of the backward pass. If however you are an expert in calculus and want to see the details of backprop in RNNs, you can work through this optional portion of the notebook.
-
-- If you want the details of the back propagation with programming notes look at the notebook.
-
 ## Natural Language Processing & Word Embeddings
-
-> Natural language processing with deep learning is an important combination. Using word vector representations and embedding layers you can train recurrent neural networks with outstanding performances in a wide variety of industries. Examples of applications are sentiment analysis, named entity recognition and machine translation.
 
 ### Introduction to Word Embeddings
 
 #### Word Representation
+
 - NLP has been revolutionized by deep learning and especially by RNNs and deep RNNs.
 - Word embeddings is a way of representing words. It lets your algorithm automatically understand the analogies between words like "king" and "queen".
 - So far we have defined our language by a vocabulary. Then represented our words with a one-hot vector that represents the word in the vocabulary.
@@ -396,12 +369,13 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - The **word embeddings** came from that we need to embed a unique vector inside a n-dimensional space.
 
 #### Using word embeddings
+
 - Let's see how we can take the feature representation we have extracted from each word and apply it in the Named entity recognition problem.
 - Given this example (from named entity recognition):   
   ![](Images/30.png)
 - **Sally Johnson** is a person's name.
-- After training on this sentence the model should find out that the sentence "**Robert Lin** is an *apple* farmer" contains Robert Lin as a name, as apple and orange have near representations.
-- Now if you have tested your model with this sentence "**Mahmoud Badry** is a *durian* cultivator" the network should learn the name even if it hasn't seen the word *durian* before (during training). That's the power of word representations.
+- After training on this sentence the model should find out that the sentence "**Robert Lin** is an apple farmer" contains Robert Lin as a name, as apple and orange have near representations.
+- Now if you have tested your model with this sentence "**Mahmoud Badry** is a durian cultivator" the network should learn the name even if it hasn't seen the word durian before (during training). That's the power of word representations.
 - The algorithms that are used to learn **word embeddings** can examine billions of words of unlabeled text - for example, 100 billion words and learn the representation from them.
 - Transfer learning and word embeddings:
   1. Learn word embeddings from large text corpus (1-100 billion of words).
@@ -419,6 +393,7 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - In the word embeddings task, we are learning a representation for each word in our vocabulary (unlike in image encoding where we have to map each new image to some n-dimensional vector). We will discuss the algorithm in next sections.
 
 #### Properties of word embeddings
+
 - One of the most fascinating properties of word embeddings is that they can also help with analogy reasoning. While analogy reasoning may not be by itself the most important NLP application, but it might help convey a sense of what these word embeddings can do.
 - Analogies example:
   - Given this word embeddings table:   
@@ -446,23 +421,25 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - We can use this equation to calculate the similarities between word embeddings and on the analogy problem where `u` = e<sub>w</sub> and `v` = e<sub>king</sub> - e<sub>man</sub> + e<sub>woman</sub>
 
 #### Embedding matrix
-- When you implement an algorithm to learn a word embedding, what you end up learning is a **<u>embedding matrix</u>**.
+
+- When you implement an algorithm to learn a word embedding, what you end up learning is a **embedding matrix**.
 - Let's take an example:
-  - Suppose we are using 10,000 words as our vocabulary (plus <UNK> token).
+  - Suppose we are using 10,000 words as our vocabulary (plus `<UNK>` token).
   - The algorithm should create a matrix `E` of the shape (300, 10000) in case we are extracting 300 features.   
   - If O<sub>6257</sub> is the one hot encoding of the word **orange** of shape (10000, 1), then   
-    _np.dot(`E`,O<sub>6257</sub>) = e<sub>6257</sub>_ which shape is (300, 1).
-  - Generally _np.dot(`E`, O<sub>j</sub>) = e<sub>j</sub>_
+    np.dot(E, O<sub>6257</sub>) = e<sub>6257</sub> which shape is (300, 1).
+  - Generally np.dot(E, O<sub>j</sub>) = e<sub>j</sub>
 - In the next sections, you will see that we first initialize `E` randomly and then try to learn all the parameters of this matrix.
 - In practice it's not efficient to use a dot multiplication when you are trying to extract the embeddings of a specific word, instead, we will use slicing to slice a specific column. In Keras there is an embedding layer that extracts this column with no multiplication.
 
 ### Learning Word Embeddings: Word2vec & GloVe
 
 #### Learning word embeddings
+
 - Let's start learning some algorithms that can learn word embeddings.
 - At the start, word embeddings algorithms were complex but then they got simpler and simpler.
 - We will start by learning the complex examples to make more intuition.
-- **<u>Neural language model</u>**:
+- **Neural language model**:
   - Let's start with an example:   
     ![](Images/37.png)
   - We want to build a language model so that we can predict the next word.
@@ -488,22 +465,21 @@ The goal is given this representation for x to learn a mapping using a sequence 
        - This is the idea of **skip grams** model.
        - The idea is much simpler and works remarkably well.
        - We will talk about this in the next section.
-- Researchers found that if you really want to build a _language model_, it's natural to use the last few words as a context. But if your main goal is really to learn a _word embedding_, then you can use all of these other contexts and they will result in very meaningful work embeddings as well.
+- Researchers found that if you really want to build a language model, it's natural to use the last few words as a context. But if your main goal is really to learn a word embedding, then you can use all of these other contexts and they will result in very meaningful work embeddings as well.
 - To summarize, the language modeling problem poses a machines learning problem where you input the context (like the last four words) and predict some target words. And posing that problem allows you to learn good word embeddings.
 
 #### Word2Vec
+
 - Before presenting Word2Vec, lets talk about **skip-grams**:
   - For example, we have the sentence: "I want a glass of orange juice to go along with my cereal"
   - We will choose **context** and **target**.
   - The target is chosen randomly based on a window with a specific size.
-
-    | Context | Target | How far |
-    | ------- | ------ | ------- |
-    | orange  | juice  | +1      |
-    | orange  | glass  | -2      |
-    | orange  | my     | +6      |    
-
-    We have converted the problem into a supervised problem.
+    - | Context | Target | How far |
+      | ------- | ------ | ------- |
+      | orange  | juice  | +1      |
+      | orange  | glass  | -2      |
+      | orange  | my     | +6      |
+  - We have converted the problem into a supervised problem.
   - This is not an easy learning problem because learning within -10/+10 words (10 - an example) is hard.
   - We want to learn this to get our word embeddings model.
 - Word2Vec model:
@@ -528,19 +504,19 @@ The goal is given this representation for x to learn a mapping using a sequence 
 - word2vec paper includes ideas of learning word embeddings. One is skip-gram model and another is CBoW (continuous bag-of-words).
 
 #### Negative Sampling
+
 - Negative sampling allows you to do something similar to the skip-gram model, but with a much more efficient learning algorithm. We will create a different learning problem.
 - Given this example:
   - "I want a glass of orange juice to go along with my cereal"
 - The sampling will look like this:
-- | Context | Word  | target |
-  | ------- | ----- | ------ |
-  | orange  | juice | 1      |
-  | orange  | king  | 0      |
-  | orange  | book  | 0      |
-  | orange  | the   | 0      |
-  | orange  | of    | 0      |
-
-We get positive example by using the same skip-grams technique, with a fixed window that goes around.
+  - | Context | Word  | target |
+    | ------- | ----- | ------ |
+    | orange  | juice | 1      |
+    | orange  | king  | 0      |
+    | orange  | book  | 0      |
+    | orange  | the   | 0      |
+    | orange  | of    | 0      |
+- We get positive example by using the same skip-grams technique, with a fixed window that goes around.
 - To generate a negative example, we pick a word randomly from the vocabulary.
 - Notice, that we got word "of" as a negative example although it appeared in the same sentence.
 - So the steps to generate the samples are:
@@ -554,11 +530,12 @@ We get positive example by using the same skip-grams technique, with a fixed win
   ![](Images/41.png)
   - So we are like having 10,000 binary classification problems, and we only train k+1 classifier of them in each iteration.
 - How to select negative samples:
-  - We can sample according to empirical frequencies in words corpus which means according to how often different words appears. But the problem with that is that we will have more frequent words like _the, of, and..._
+  - We can sample according to empirical frequencies in words corpus which means according to how often different words appears. But the problem with that is that we will have more frequent words like: the, of, and...
   - The best is to sample with this equation (according to authors):   
   ![](Images/43.png)
 
 #### GloVe word vectors
+
 - GloVe is another algorithm for learning the word embedding. It's the simplest of them.
 - This is not used as much as word2vec or skip-gram models, but it has some enthusiasts because of its simplicity.
 - GloVe stands for Global vectors for word representation.
@@ -573,8 +550,7 @@ We get positive example by using the same skip-grams technique, with a fixed win
   - Giving not too much weight for stop words like "is", "the", and "this" which occur many times.
   - Giving not too little weight for infrequent words.
 - **Theta** and **e** are symmetric which helps getting the final word embedding.
-
-- _Conclusions on word embeddings:_
+- Conclusions on word embeddings:
   - If this is your first try, you should try to download a pre-trained model that has been made and actually works best.
   - If you have enough data, you can try to implement one of the available algorithms.
   - Because word embeddings are very computationally expensive to train, most ML practitioners will load a pre-trained set of embeddings.
@@ -583,22 +559,24 @@ We get positive example by using the same skip-grams technique, with a fixed win
 ### Applications using Word Embeddings
 
 #### Sentiment Classification
+
 - As we have discussed before, Sentiment classification is the process of finding if a text has a positive or a negative review. Its so useful in NLP and is used in so many applications. An example would be:   
   ![](Images/45.png)
 - One of the challenges with it, is that you might not have a huge labeled training data for it, but using word embeddings can help getting rid of this.
 - The common dataset sizes varies from 10,000 to 100,000 words.
 - A simple sentiment classification model would be like this:   
-  ![](Images/46.png)
+  ![](Images/emojifierv1.png)
   - The embedding matrix may have been trained on say 100 billion words.
   - Number of features in word embedding is 300.
   - We can use **sum** or **average** given all the words then pass it to a softmax classifier. That makes this classifier works for short or long sentences.
-- One of the problems with this simple model is that it ignores words order. For example "Completely lacking in **good** taste, **good** service, and **good** ambience" has the word _good_ 3 times but its a negative review.
+- One of the problems with this simple model is that it ignores words order. For example "Completely lacking in **good** taste, **good** service, and **good** ambience" has the word good 3 times but its a negative review.
 - A better model uses an RNN for solving this problem:   
   ![](Images/47.png)
   - And so if you train this algorithm, you end up with a pretty decent sentiment classification algorithm.
   - Also, it will generalize better even if words weren't in your dataset. For example you have the sentence "Completely **<u>absent</u>** of good taste, good service, and good ambience", then even if the word "absent" is not in your label training set, if it was in your 1 billion or 100 billion word corpus used to train the word embeddings, it might still get this right and generalize much better even to words that were in the training set used to train the word embeddings but not necessarily in the label training set that you had for specifically the sentiment classification problem.
 
 #### Debiasing word embeddings
+
 - We want to make sure that our word embeddings are free from undesirable forms of bias, such as gender bias, ethnicity bias and so on.
 - Horrifying results on the trained word embeddings in the context of Analogies:
   - Man : Computer_programmer as Woman : **Homemaker**
@@ -607,9 +585,7 @@ We get positive example by using the same skip-grams technique, with a fixed win
 - Learning algorithms by general are making important decisions and it mustn't be biased.
 - Andrew thinks we actually have better ideas for quickly reducing the bias in AI than for quickly reducing the bias in the human race, although it still needs a lot of work to be done.
 - Addressing bias in word embeddings steps:
-  - Idea from the paper: https://arxiv.org/abs/1607.06520
   - Given these learned embeddings:   
-    ![](Images/48.png)
   - We need to solve the **gender bias** here. The steps we will discuss can help solve any bias problem but we are focusing here on gender bias.
   - Here are the steps:
     1. Identify the direction:
@@ -618,33 +594,24 @@ We get positive example by using the same skip-grams technique, with a fixed win
          - e<sub>male</sub> - e<sub>female</sub>
          - ....
        - Choose some k differences and average them.
-       - This will help you find this:   
-         ![](Images/49.png)
-       - By that we have found the bias direction which is 1D vector and the non-bias vector which is 299D vector.
+       - This will help you find that we have found the bias direction which is 1D vector and the non-bias vector which is 299D vector.
     2. Neutralize: For every word that is not definitional, project to get rid of bias.
-       - Babysitter and doctor need to be neutral so we project them on non-bias axis with the direction of the bias:   
-         ![](Images/50.png)
+        - Babysitter and doctor need to be neutral so we project them on non-bias axis with the direction of the bias:   
          - After that they will be equal in the term of gender.
-         - To do this the authors of the paper trained a classifier to tell the words that need to be neutralized or not.
+         - To do this the authors of the paper trained a classifier to tell the words that need to be neutralized or not.
     3. Equalize pairs
-       - We want each pair to have difference only in gender. Like:
-         - Grandfather - Grandmother
-         - He - She
-         - Boy - Girl
+       - We want each pair to have difference only in gender. Like: (Grandfather, Grandmother) (He, She) (Boy, Girl)
        - We want to do this because the distance between grandfather and babysitter is bigger than babysitter and grandmother:   
-         ![](Images/51.png)
        - To do that, we move grandfather and grandmother to a point where they will be in the middle of the non-bias axis.
        - There are some words you need to do this for in your steps. Number of these words is relatively small.
 
-
 ## Sequence models & Attention mechanism
-
-> Sequence models can be augmented using an attention mechanism. This algorithm will help your model understand where it should focus its attention given a sequence of inputs. This week, you will also learn about speech recognition and how to deal with audio data.
 
 ### Various sequence to sequence architectures
 
 #### Basic Models
-- In this section we will learn about sequence to sequence - _Many to Many_ - models which are useful in various applications including machine translation and speech recognition.
+
+- In this section we will learn about sequence to sequence (Many-to-Many) models which are useful in various applications including machine translation and speech recognition.
 - Let's start with the basic model:
   - Given this machine translation problem in which X is a French sequence and Y is an English sequence.   
     ![](Images/52.png)
@@ -652,20 +619,14 @@ We get positive example by using the same skip-grams technique, with a fixed win
   - The encoder is RNN - LSTM or GRU are included - and takes the input sequence and then outputs a vector that should represent the whole input.
   - After that the decoder network, also RNN, takes the sequence built by the encoder and outputs the new sequence.   
   ![](Images/53.png)
-  - These ideas are from the following papers:
-    - [Sutskever et al., 2014. Sequence to sequence learning with neural networks](https://arxiv.org/abs/1409.3215)
-    - [Cho et al., 2014. Learning phrase representations using RNN encoder-decoder for statistical machine translation](https://arxiv.org/abs/1406.1078)
 - An architecture similar to the mentioned above works for image captioning problem:
   - In this problem X is an image, while Y is a sentence (caption).
   - The model architecture image:   
     ![](Images/54.jpeg)
   - The architecture uses a pretrained CNN (like AlexNet) as an encoder for the image, and the decoder is an RNN.
-  - Ideas are from the following papers (they share similar ideas):
-    - [Maoet et. al., 2014. Deep captioning with multimodal recurrent neural networks](https://arxiv.org/abs/1412.6632)
-    - [Vinyals et. al., 2014. Show and tell: Neural image caption generator](https://arxiv.org/abs/1411.4555)
-    - [Karpathy and Li, 2015. Deep visual-semantic alignments for generating image descriptions](https://cs.stanford.edu/people/karpathy/cvpr2015.pdf)
 
 #### Picking the most likely sentence
+
 - There are some similarities between the language model we have learned previously, and the machine translation model we have just discussed, but there are some differences as well.
 - The language model we have learned is very similar to the decoder part of the machine translation model, except for a<sup>\<0></sup>   
   ![](Images/55.png)
@@ -690,16 +651,18 @@ We get positive example by using the same skip-grams technique, with a fixed win
 - So what is better than greedy approach, is to get an approximate solution, that will try to maximize the output (the last equation above).
 
 #### Beam Search
+
 - Beam search is the most widely used algorithm to get the best output sequence. It's a heuristic search algorithm.
 - To illustrate the algorithm we will stick with the example from the previous section. We need Y = "Jane is visiting Africa in September."
 - The algorithm has a parameter `B`  which is the beam width. Lets take `B = 3` which means the algorithm will get 3 outputs at a time.
 - For the first step you will get ["in", "jane", "september"] words that are the best candidates.
-- Then for each word in the first output, get B next (second) words and select top best B combinations where the best are those what give the highest value of multiplying both probabilities - P(y<sup>\<1></sup>|x) * P(y<sup>\<2></sup>|x,y<sup>\<1></sup>). Se we will have then ["in september", "jane is", "jane visit"]. Notice, that we automatically discard _september_ as a first word.
+- Then for each word in the first output, get B next (second) words and select top best B combinations where the best are those what give the highest value of multiplying both probabilities - P(y<sup>\<1></sup>|x) * P(y<sup>\<2></sup>|x,y<sup>\<1></sup>). Se we will have then ["in september", "jane is", "jane visit"]. Notice, that we automatically discard september as a first word.
 - Repeat the same process and get the best B words for ["september", "is", "visit"]  and so on.
 - In this algorithm, keep only B instances of your network.
 - If `B = 1` this will become the greedy search.
 
 #### Refinements to Beam Search
+
 - In the previous section, we have discussed the basic beam search. In this section, we will try to do some refinements to it.
 - The first thing is **Length optimization**
   - In beam search we are trying to optimize:   
@@ -724,7 +687,7 @@ We get positive example by using the same skip-grams technique, with a fixed win
   - Unlike exact search algorithms like BFS (Breadth First Search) or  DFS (Depth First Search), Beam Search runs faster but is not guaranteed to find the exact solution.
 
 #### Error analysis in beam search
-- We have talked before on **Error analysis** in _"Structuring Machine Learning Projects"_ course. We will apply these concepts to improve our beam search algorithm.
+
 - We will use error analysis to figure out if the `B` hyperparameter of the beam search is the problem (it doesn't get an optimal solution) or in our RNN part.
 - Let's take an example:
   - Initial info:
@@ -745,15 +708,16 @@ We get positive example by using the same skip-grams technique, with a fixed win
   - Get counts and decide what to work on next.
 
 #### BLEU Score
+
 - One of the challenges of machine translation, is that given a sentence in a language there are one or more possible good translation in another language. So how do we evaluate our results?
-- The way we do this is by using **BLEU score**. BLEU stands for _bilingual evaluation understudy_.
+- The way we do this is by using **BLEU score**. BLEU stands for bilingual evaluation understudy.
 - The intuition is: as long as the machine-generated translation is pretty close to any of the references provided by humans, then it will get a high BLEU score.
 - Let's take an example:
   - X = "Le chat est sur le tapis."
   - Y1 = "The cat is on the mat." (human reference 1)
   - Y2 = "There is a cat on the mat." (human reference 2)
   - Suppose that the machine outputs: "the the the the the the the."
-  - One way to evaluate the machine output is to look at each word in the output and check if it is in the references. This is called _precision_:
+  - One way to evaluate the machine output is to look at each word in the output and check if it is in the references. This is called precision:
     - precision = 7/7  because "the" appeared in Y1 or Y2
   - This is not a useful measure!
   - We can use a modified precision in which we are looking for the reference with the maximum number of a particular word and set the maximum appearing of this word to this number. So:
@@ -767,17 +731,15 @@ We get positive example by using the same skip-grams technique, with a fixed win
   - Y2 = "There is a cat on the mat."
   - Suppose that the machine outputs: "the cat the cat on the mat."
   - The bigrams in the machine output:
-
-    | Pairs      | Count | Count clip |
-    | ---------- | ----- | ---------- |
-    | the cat    | 2     | 1 (Y1)     |
-    | cat the    | 1     | 0          |
-    | cat on     | 1     | 1 (Y2)     |
-    | on the     | 1     | 1 (Y1)     |
-    | the mat    | 1     | 1 (Y1)     |
-    | **Totals** | 6     | 4          |
-
-    Modified precision = sum(Count clip) / sum(Count) = 4/6
+    - | Pairs      | Count | Count clip |
+      | ---------- | ----- | ---------- |
+      | the cat    | 2     | 1 (Y1)     |
+      | cat the    | 1     | 0          |
+      | cat on     | 1     | 1 (Y2)     |
+      | on the     | 1     | 1 (Y1)     |
+      | the mat    | 1     | 1 (Y1)     |
+      | **Totals** | 6     | 4          |
+- Modified precision = sum(Count clip) / sum(Count) = 4/6
 - So here are the equations for modified precision for the n-grams case:   
   ![](Images/60.png)
 - Let's put this together to formalize the BLEU score:
@@ -790,7 +752,8 @@ We get positive example by using the same skip-grams technique, with a fixed win
 - It is used in a variety of systems like machine translation and image captioning.
 
 #### Attention Model Intuition
-- So far we were using sequence to sequence models with an encoder and decoders. There is a technique called _attention_ which makes these models even better.
+
+- So far we were using sequence to sequence models with an encoder and decoders. There is a technique called attention which makes these models even better.
 - The attention idea has been one of the most influential ideas in deep learning.
 - The problem of long sequences:
   - Given this model, inputs, and outputs.   
@@ -818,6 +781,7 @@ We get positive example by using the same skip-grams technique, with a fixed win
     ![](Images/67.jpg)
 
 #### Attention Model
+
 - Lets formalize the intuition from the last section into the exact details on how this can be implemented.
 - First we will have an bidirectional RNN (most common is LSTMs) that encodes French language:   
   ![](Images/68.png)
@@ -843,6 +807,7 @@ We get positive example by using the same skip-grams technique, with a fixed win
 ### Speech recognition - Audio data
 
 #### Speech recognition
+
 - One of the most exciting developments using sequence-to-sequence models has been the rise of very accurate speech recognition.
 - Let's define the speech recognition problem:
   - X: audio clip
@@ -857,12 +822,12 @@ We get positive example by using the same skip-grams technique, with a fixed win
     ![](Images/76.png)
     - The horizontal axis is time while the vertical is frequencies. Intensity of different colors shows the amount of energy - how loud is the sound for different frequencies (a human ear does a very similar preprocessing step).
   - A spectrogram is computed by sliding a window over the raw audio signal, and calculates the most active frequencies in each window using a Fourier transformation.
-  - In the past days, speech recognition systems were built using _phonemes_ that are a hand engineered basic units of sound.  Linguists used to hypothesize that writing down audio in terms of these basic units of sound called _phonemes_ would be the best way to do speech recognition.
+  - In the past days, speech recognition systems were built using phonemes that are a hand engineered basic units of sound.  Linguists used to hypothesize that writing down audio in terms of these basic units of sound called phonemes would be the best way to do speech recognition.
   - End-to-end deep learning found that phonemes was no longer needed. One of the things that made this possible is the large audio datasets.
   - Research papers have around 300 - 3000 hours of training data while the best commercial systems are now trained on over 100,000 hours of audio.
 - You can build an accurate speech recognition system using the attention model that we have descried in the previous section:   
   ![](Images/77.png)
-- One of the methods that seem to work well is _CTC cost_ which stands for "Connectionist temporal classification"
+- One of the methods that seem to work well is CTC cost which stands for "Connectionist temporal classification"
   - To explain this let's say that Y = "the quick brown fox"
   - We are going to use an RNN with input, output structure:   
     ![](Images/78.png)
@@ -880,6 +845,7 @@ We get positive example by using the same skip-grams technique, with a fixed win
 - Using both attention model and CTC cost can help you to build an accurate speech recognition system.
 
 #### Trigger Word Detection
+
 - With the rise of deep learning speech recognition, there are a lot of devices that can be waked up by saying some words with your voice. These systems are called trigger word detection systems.
 - For example, Alexa - a smart device made by Amazon - can answer your call "Alexa, what time is it?" and then Alexa will respond to you.
 - Trigger word detection systems include:  
@@ -906,7 +872,7 @@ We get positive example by using the same skip-grams technique, with a fixed win
 - The model is built with keras layers.
 - The attention model.   
   ![](Images/83.png)
-  - There are two separate LSTMs in this model. Because the one at the bottom of the picture is a Bi-directional LSTM and comes *before* the attention mechanism, we will call it *pre-attention* Bi-LSTM. The LSTM at the top of the diagram comes *after* the attention mechanism, so we will call it the *post-attention* LSTM. The pre-attention Bi-LSTM goes through T<sub>x</sub> time steps; the post-attention LSTM goes through T<sub>y</sub> time steps.
+  - There are two separate LSTMs in this model. Because the one at the bottom of the picture is a Bi-directional LSTM and comes before the attention mechanism, we will call it pre-attention Bi-LSTM. The LSTM at the top of the diagram comes after the attention mechanism, so we will call it the post-attention LSTM. The pre-attention Bi-LSTM goes through T<sub>x</sub> time steps; the post-attention LSTM goes through T<sub>y</sub> time steps.
   - The post-attention LSTM passes s<sup>`<t>`</sup>, c<sup>`<t>`</sup> from one time step to the next. In the lecture videos, we were using only a basic RNN for the post-activation sequence model, so the state captured by the RNN output activations s<sup>`<t>`</sup>. But since we are using an LSTM here, the LSTM has both the output activation s<sup>`<t>`</sup> and the hidden cell state c<sup>`<t>`</sup>. However, unlike previous text generation examples (such as Dinosaurus in week 1), in this model the post-activation LSTM at time `t` does will not take the specific generated y<sup>`<t-1>`</sup> as input; it only takes s<sup>`<t>`</sup> and c<sup>`<t>`</sup> as input. We have designed the model this way, because (unlike language generation where adjacent characters are highly correlated) there isn't as strong a dependency between the previous character and the next character in a YYYY-MM-DD date.
 - What one "Attention" step does to calculate the attention variables &alpha;<sup>`<t, t>`</sup>, which are used to compute the context variable context<sup>`<t>`</sup> for each timestep in the output (t=1, ..., T<sub>y</sub>).
   ![](Images/84.png)

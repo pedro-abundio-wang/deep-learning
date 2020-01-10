@@ -41,7 +41,9 @@ nvidia-smi
 
 # Papers
 
-## Algorithms
+## Optimization Algorithms
+
+[Learning Compact Neural Networks with Regularization](https://arxiv.org/pdf/1802.01223.pdf)
 
 [(Batch Normalization) Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/abs/1502.03167)
 
@@ -49,13 +51,27 @@ nvidia-smi
 
 [(ADAM) A METHOD FOR STOCHASTIC OPTIMIZATION](https://arxiv.org/abs/1412.6980)
 
+[(Regularization) a simple weight decay can improve generalization](https://papers.nips.cc/paper/563-a-simple-weight-decay-can-improve-generalization.pdf)
+
 [(Dropout) A Simple Way to Prevent Neural Networks from Overfitting](http://jmlr.org/papers/v15/srivastava14a.html)
 
 [Practical Recommendations for Gradient-Based Training of Deep Architectures](https://arxiv.org/abs/1206.5533)
 
 [(Xavier Initialization) Understanding the difficulty of training deep feedforward neural networks](http://proceedings.mlr.press/v9/glorot10a.html)
 
+[(He Initialization) Delving Deep into Rectifiers](https://arxiv.org/pdf/1502.01852.pdf)
+
 [Averaging Weights Leads to Wider Optima and Better Generalization](https://arxiv.org/abs/1803.05407)
+
+[(BatchSize) On large-batch training for deep learning: generalization gap and sharp minima](https://arxiv.org/pdf/1609.04836.pdf)
+
+[Don't Decay the Learning Rate, Increase the Batch Size](https://arxiv.org/pdf/1711.00489.pdf)
+
+[Improving Generalization Performance by Switching from Adam to SGD](https://arxiv.org/pdf/1712.07628.pdf)
+
+[Train longer generalize better](https://papers.nips.cc/paper/6770-train-longer-generalize-better-closing-the-generalization-gap-in-large-batch-training-of-neural-networks.pdf)
+
+[Accurate, large minibatch SGD](https://arxiv.org/pdf/1706.02677.pdf)
 
 ## CNN
 
@@ -65,9 +81,9 @@ nvidia-smi
 
 [(ResNet) Deep residual networks for image recognition](https://arxiv.org/abs/1512.03385)
 
-[Going Deeper with Convolutions](https://arxiv.org/abs/1409.4842)
+[(Inception Network) Going Deeper with Convolutions](https://arxiv.org/abs/1409.4842)
 
-[Very deep convolutional networks for large-scale image recognition](https://arxiv.org/abs/1409.1556)
+[(VGG-16) Very deep convolutional networks for large-scale image recognition](https://arxiv.org/abs/1409.1556)
 
 [Visualizing and understanding convolutional networks](https://arxiv.org/abs/1311.2901)
 
@@ -85,7 +101,15 @@ Understanding Neural Networks Through Deep Visualization
 
 DenseNet: Densely Connected Convolutional Networks
 
+## CNN Readings
+
+[A guide to receptive field arithmetic for Convolutional Neural Networks](https://medium.com/@nikasa1889/a-guide-to-receptive-field-arithmetic-for-convolutional-neural-networks-e0f514068807)
+
 ### Object Detection
+
+#### Sliding Windows
+
+[OverFeat: Integrated recognition, localization and detection using convolutional networks](https://arxiv.org/abs/1312.6229)
 
 #### YOLO
 
@@ -95,25 +119,33 @@ DenseNet: Densely Connected Convolutional Networks
 
 YOLOv3: An Incremental Improvement
 
-[OverFeat: Integrated recognition, localization and detection using convolutional networks](https://arxiv.org/abs/1312.6229)
+#### YOLO Readings
+
+[Real-time Object Detection with YOLO, YOLOv2 and now YOLOv3](https://medium.com/@jonathan_hui/real-time-object-detection-with-yolo-yolov2-28b1b93e2088)
+
+https://github.com/allanzelener/YAD2K/
+
+https://github.com/thtrieu/darkflow/
+
+https://pjreddie.com/darknet/yolo/
 
 #### R-CNN
+
+[(R-CNN) Rich feature hierarchies for accurate object detection and semantic segmentation](https://arxiv.org/abs/1311.2524)
 
 [Fast R-CNN](https://arxiv.org/abs/1504.08083)
 
 [Faster R-CNN: Towards real-time object detection with region proposal networks](https://arxiv.org/abs/1506.01497)
 
-[Mask R-CNN](https://arxiv.org/abs/1703.06870)
-
 [R-FCN: Object Detection via Region-based Fully Convolutional Networks ](https://arxiv.org/abs/1605.06409)
+
+[Mask R-CNN](https://arxiv.org/abs/1703.06870)
 
 #### Semantic Segmentation
 
-[Rich feature hierarchies for accurate object detection and semantic segmentation](https://arxiv.org/abs/1311.2524)
-
 Fully Convolutional Networks for Semantic Segmentation
 
-#### SSD
+#### SSD MultiBox
 
 [SSD: Single Shot MultiBox Detector](https://arxiv.org/abs/1512.02325)
 
@@ -123,17 +155,33 @@ Fully Convolutional Networks for Semantic Segmentation
 
 [DeepFace: Closing the gap to human-level performance in face verification](https://research.fb.com/wp-content/uploads/2016/11/deepface-closing-the-gap-to-human-level-performance-in-face-verification.pdf)
 
+[Deep Face Reading](https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Taigman_DeepFace_Closing_the_2014_CVPR_paper.html)
+
 [DeepFace Reading](https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Taigman_DeepFace_Closing_the_2014_CVPR_paper.html)
 
 #### Open Source
 
-FaceNet: https://github.com/davidsandberg/facenet
+[FaceNet](https://github.com/davidsandberg/facenet)
 
-OpenFace: https://github.com/iwantooxxoox/Keras-OpenFace
+[Openface](https://cmusatyalab.github.io/openface/)
+
+[Keras-OpenFace](https://github.com/iwantooxxoox/Keras-OpenFace)
+
+[DeepFace](https://github.com/RiweiChen/DeepFace)
 
 ### Art Generation
 
 [A Neural Algorithm of Artistic Style](https://arxiv.org/abs/1508.06576)
+
+[Perceptual Losses for Real-Time Style Transfer and Super-Resolution](https://arxiv.org/pdf/1603.08155.pdf)
+
+[A learned representation for artistic style](https://arxiv.org/pdf/1610.07629.pdf)
+
+[Demystifying Neural Style Transfer](https://arxiv.org/abs/1701.01036)
+
+[Exploring the structure of a real-time, arbitrary neural artistic stylization network](https://arxiv.org/pdf/1705.06830.pdf)
+
+[Neural Artistic Style: a Comprehensive Look](https://medium.com/artists-and-machine-intelligence/neural-artistic-style-transfer-a-comprehensive-look-f54d8649c199)
 
 #### Readings
 
@@ -143,37 +191,37 @@ OpenFace: https://github.com/iwantooxxoox/Keras-OpenFace
 
 ## RNN
 
-Cho et al., 2014. On the properties of neural machine translation: Encoder-decoder approaches
+On the properties of neural machine translation: Encoder-decoder approaches
 
-Chung et al., 2014. Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling
+Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling
 
-Hochreiter & Schmidhuber 1997. Long short-term memory
+Long short-term memory
 
-van der Maaten and Hinton., 2008. Visualizing data using t-SNE
+Visualizing data using t-SNE
 
-Mikolov et. al., 2013, Linguistic regularities in continuous space word representations
+Linguistic regularities in continuous space word representations
 
-Bengio et. al., 2003, A neural probabilistic language model
+A neural probabilistic language model
 
 [(Debiasing word embeddings) Man is to computer programmer as woman is to homemaker?](https://papers.nips.cc/paper/6228-man-is-to-computer-programmer-as-woman-is-to-homemaker-debiasing-word-embeddings.pdf)
 
-Sutskever et al., 2014. Sequence to sequence learning with neural networks
+[Sequence to sequence learning with neural networks](https://arxiv.org/abs/1409.3215)
 
-Cho et al., 2014. Learning phrase representations using RNN encoder-decoder for statistical machine translation
+[Learning phrase representations using RNN encoder-decoder for statistical machine translation](https://arxiv.org/abs/1406.1078)
 
-Mao et. al., 2014. Deep captioning with multimodal recurrent neural networks
+[Deep captioning with multimodal recurrent neural networks](https://arxiv.org/abs/1412.6632)
 
-Vinyals et. al., 2014. Show and tell: Neural image caption generator
+[Show and tell: Neural image caption generator](https://arxiv.org/abs/1411.4555)
 
-Karpathy and Li, 2015. Deep visual-semantic alignments for generating image descriptions
+[Deep visual-semantic alignments for generating image descriptions](https://cs.stanford.edu/people/karpathy/cvpr2015.pdf)
 
-Papineni et. al., 2002. Bleu: A method for automatic evaluation of machine translation
+Bleu: A method for automatic evaluation of machine translation
 
-Bahdanau et. al., 2014. Neural machine translation by jointly learning to align and translate
+Neural machine translation by jointly learning to align and translate
 
-Xu et. al., 2015. Show, attend and tell: Neural image caption generation with visual attention
+Show, attend and tell: Neural image caption generation with visual attention
 
-Graves et al., 2006. Connectionist Temporal Classification: Labeling unsegmented sequence data with recurrent neural networks
+Connectionist Temporal Classification: Labeling unsegmented sequence data with recurrent neural networks
 
 Multiple Object Recognition with Visual Attention
 
@@ -221,7 +269,19 @@ Koren, Yehuda, Robert Bell, and Chris Volinsky：Matrix factorization techniques
 
 Sedhain, Suvash, et al. AutoRec: Autoencoders meet collaborative filtering
 
+## Data Augmentation
+
+[Data Augmentation](http://www.deeplearningessentials.science/dataAugmentation/)
+
+[Fancy PCA (Data Augmentation) with Scikit-Image](https://deshanadesai.github.io/notes/Fancy-PCA-with-Scikit-Image)
+
 # Readings
+
+[The Bayesian interpretation of weight decay](https://www.coursera.org/learn/neural-networks/lecture/n6TUy/the-bayesian-interpretation-of-weight-decay-11-min)
+
+http://colah.github.io/posts/2015-08-Understanding-LSTMs/
+
+https://rawgit.com/danielkunin/Deeplearning-Visualizations/master/index.html
 
 [The Unreasonable Effectiveness of Recurrent Neural Networks](karpathy.github.io/2015/05/21/rnn-effectiveness/)
 
@@ -230,3 +290,7 @@ http://mccormickml.com/2018/06/15/applying-word2vec-to-recommenders-and-advertis
 Bjorck N, Gomes C P, Selman B, et al. Understanding batch normalization[C]//Advances in Neural Information Processing Systems. 2018: 7705-7716.
 
 Santurkar S, Tsipras D, Ilyas A, et al. How does batch normalization help optimization?[C]//Advances in Neural Information Processing Systems. 2018: 2488-2498.
+
+[Understanding AlexNet](https://www.learnopencv.com/understanding-alexnet/)
+
+[Difference between Local Response Normalization and Batch Normalization](https://towardsdatascience.com/difference-between-local-response-normalization-and-batch-normalization-272308c034ac)

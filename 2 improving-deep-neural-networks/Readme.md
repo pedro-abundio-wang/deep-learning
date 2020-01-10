@@ -299,9 +299,11 @@ al = al / keep_prob
 - So it turns out that we need the variance which equals 1/n<sub>x</sub> to be the range of w
 - So lets say when we initialize w like this:
 ```python
-np.random.randn(shape) * np.sqrt(1/n[l-1])
-np.random.randn(shape) * np.sqrt(2/n[l-1])          # He Initialization
-np.random.randn(shape) * np.sqrt(2/(n[l-1] + n[l])) # Xavier Initialization
+np.random.randn(shape) * np.sqrt(1/n[l-1])          # Xavier Initialization - tanh forward - weights
+np.random.randn(shape) * np.sqrt(1/n[l])            # Xavier Initialization - tanh backward - gradients
+np.random.randn(shape) * np.sqrt(2/(n[l-1] + n[l])) # Xavier Initialization - tanh harmonic mean
+
+np.random.randn(shape) * np.sqrt(2/n[l-1])          # He Initialization - RELU
 ```
 - This is one of the best way of partially solution to vanishing / exploding gradients (ReLU + Weight Initialization with variance) which will help gradients not to vanish / explode too quickly
 
@@ -344,6 +346,8 @@ for i in len(theta):
 - Run gradient checking at random initialization and train the network for a while maybe there's a bug which can be seen when w and b become larger (further from 0) and can't be seen on the first iteration (when w and b are very small).
 
 ## Optimization algorithms
+
+[Optimization Algorithms Visualize](https://rawgit.com/danielkunin/Deeplearning-Visualizations/master/optimization/index.html)
 
 ### Mini-batch gradient descent
 
