@@ -233,7 +233,7 @@ A neural probabilistic language model
 
 [Deep visual-semantic alignments for generating image descriptions](https://cs.stanford.edu/people/karpathy/cvpr2015.pdf)
 
-Bleu: A method for automatic evaluation of machine translation
+[Bleu: A method for automatic evaluation of machine translation]
 
 Neural machine translation by jointly learning to align and translate
 

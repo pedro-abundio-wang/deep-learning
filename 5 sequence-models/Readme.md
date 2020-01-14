@@ -654,12 +654,12 @@ The goal is given this representation for x to learn a mapping using a sequence 
 
 - Beam search is the most widely used algorithm to get the best output sequence. It's a heuristic search algorithm.
 - To illustrate the algorithm we will stick with the example from the previous section. We need Y = "Jane is visiting Africa in September."
-- The algorithm has a parameter `B`  which is the beam width. Lets take `B = 3` which means the algorithm will get 3 outputs at a time.
+- The algorithm has a parameter B which is the beam width. Lets take B = 3 which means the algorithm will get 3 outputs at a time.
 - For the first step you will get ["in", "jane", "september"] words that are the best candidates.
 - Then for each word in the first output, get B next (second) words and select top best B combinations where the best are those what give the highest value of multiplying both probabilities - P(y<sup>\<1></sup>|x) * P(y<sup>\<2></sup>|x,y<sup>\<1></sup>). Se we will have then ["in september", "jane is", "jane visit"]. Notice, that we automatically discard september as a first word.
 - Repeat the same process and get the best B words for ["september", "is", "visit"]  and so on.
 - In this algorithm, keep only B instances of your network.
-- If `B = 1` this will become the greedy search.
+- If B = 1 this will become the greedy search.
 
 #### Refinements to Beam Search
 
@@ -680,10 +680,10 @@ The goal is given this representation for x to learn a mapping using a sequence 
     - If alpha = 0 - no sequence length normalization.
     - If alpha = 1 - full sequence length normalization.
     - In practice alpha = 0.7 is a good thing (somewhere in between two extremes).
-- The second thing is how can we choose best `B`?
+- The second thing is how can we choose best B?
   - The larger B - the larger possibilities, the better are the results. But it will be more computationally expensive.
-  - In practice, you might see in the production setting `B=10`
-  - `B=100`, `B=1000` are uncommon (sometimes used in research settings)
+  - In practice, you might see in the production setting B=10
+  - B=100, B=1000 are uncommon (sometimes used in research settings)
   - Unlike exact search algorithms like BFS (Breadth First Search) or  DFS (Depth First Search), Beam Search runs faster but is not guaranteed to find the exact solution.
 
 #### Error analysis in beam search
@@ -701,11 +701,6 @@ The goal is given this representation for x to learn a mapping using a sequence 
       - Conclusion: Beam search is at fault.
     - Case 2 (P(y<sup>*</sup> | X)  <= P(y&#770; | X)):
       - Conclusion: RNN model is at fault.
-- The error analysis process is as following:
-  - You choose N error examples and make the following table:   
-    ![](Images/59.png)
-  - `B` for beam search, `R` is for the RNN.
-  - Get counts and decide what to work on next.
 
 #### BLEU Score
 
