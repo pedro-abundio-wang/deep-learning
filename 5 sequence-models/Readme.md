@@ -2,7 +2,7 @@
 
 * [Recurrent Neural Networks](#recurrent-neural-networks)
    * [Why sequence models](#why-sequence-models)
-   * [Named Entity Recognition Notation](#Named-Entity-Recognition-Notation)
+   * [Notation](#Notation)
    * [Recurrent Neural Network Model](#recurrent-neural-network-model)
    * [Backpropagation through time](#backpropagation-through-time)
    * [Different types of RNNs](#different-types-of-rnns)
@@ -62,7 +62,7 @@ Sequence Models RNN have greatly transformed learning on sequences data.
   - Y: integer rating from one to five
 - DNA sequence analysis (**sequence to sequence**):
   - X: DNA sequence
-  - Y: DNA Labels
+  - Y: Protein labels
 - Machine translation (**sequence to sequence**):
   - X: text sequence (in one language)
   - Y: text sequence (in other language)
@@ -75,31 +75,31 @@ Sequence Models RNN have greatly transformed learning on sequences data.
 
 All of these problems with different input and output (sequence or not) can be addressed as supervised learning with label data X, Y as the training set.
 
-### Named Entity Recognition Notation
+### Notation
 
 ![](Images/87.png)
 
 - Named entity recognition:
   - X: "Harry Potter and Hermoine Granger invented a new spell."
-  - Y:   1   1   0   1   1   0   0   0   0
+  - Y: 1 1 0 1 1 0 0 0 0
   - 1 means its a name, while 0 means its not a name.
-- We will index the first element of x by x<sup><1></sup>, the second x<sup><2></sup> and so on.
+- We will index the first element of X by x<sup><1></sup>, the second x<sup><2></sup> and so on.
   - x<sup><1></sup> = Harry
   - x<sup><2></sup> = Potter
-- Similarly, we will index the first element of y by y<sup><1></sup>, the second y<sup><2></sup> and so on.
+- Similarly, we will index the first element of Y by y<sup><1></sup>, the second y<sup><2></sup> and so on.
   - y<sup><1></sup> = 1
   - y<sup><2></sup> = 1
 - T<sub>x</sub> is the size of the input sequence and T<sub>y</sub> is the size of the output sequence.
   - T<sub>x</sub> = T<sub>y</sub> = 9 although they can be different in other problems.
-- x<sup>(i)\<t></sup> is the element t of the sequence of input vector i. Similarly y<sup>(i)\<t></sup> means the t-th element in the output sequence of the i training example.
-- T<sub>x</sub><sup>(i)</sup> the input sequence length for training example i. It can be different across the examples. Similarly for T<sub>y</sub><sup>(i)</sup> will be the length of the output sequence in the i-th training example.
-
-**Representing words**
+- x<sup>(i)\<t></sup> is the element t of the inputs sequence of the i training example.
+- y<sup>(i)\<t></sup> is the element t of the output sequence of the i training example.
+- T<sub>x</sub><sup>(i)</sup> the inputs sequence length for training example i. It can be different across the examples.
+- T<sub>y</sub><sup>(i)</sup> the output sequence length for training example i. It can be different across the examples.
 
 One of the challenges of **NLP(natural language processing)** is how can we represent a word?
 
 - We need a **vocabulary** list that contains all the words in our target sets.
-  - [a ... And   ... Harry ... Potter ... Zulu]
+  - [a ... and ... harry ... potter ... zulu]
   - Each word will have a unique index that it can be represented with. The sorting here is in alphabetical order.
   - Vocabulary sizes in modern applications are from 30,000 to 50,000. 100,000 is not uncommon. Some of the bigger companies use even a million.
   - To build vocabulary list, you can read all the texts you have and get m words with the most occurrence, or search online for m most occurrent words.
