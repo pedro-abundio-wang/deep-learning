@@ -6,8 +6,6 @@
 <meta name="viewport" content="width=device-width, minimum-scale=1.0">
 <title>Lecture 9</title>
 
-	<meta name="description" content="Add short description.">
-
 
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,400i,500,500i,700,700i|Noto+Sans:400,400i,700,700i|Source+Code+Pro&amp;subset=latin-ext">
@@ -81,8 +79,6 @@
 									<h1 class="hero-subheader__title">Lecture 9</h1>
 								
 								
-									<p class="hero-subheader__desc">Add short description.</p>
-								
 								
 								
 							</div><!-- /.align-inner -->
@@ -150,7 +146,7 @@ If you want to know more about Go, you can read the corresponding Wikipedia <a h
 </ul>
 
 <p>There are three major problems that would make this system unlikely to perform well on this task:
-1) The input space is huge. There are $3^{11 \time 11}$ different configurations of the board. The dataset can only cover a very small fraction of the possible inputs, it is unlikely that the algorithm will generalize well to unseen situations.
+1) The input space is huge. There are <script type="math/tex">3^{11 \time 11}</script> different configurations of the board. The dataset can only cover a very small fraction of the possible inputs, it is unlikely that the algorithm will generalize well to unseen situations.
 2) The model can only be as good as the professional player that made the labels. Here the labels are not the ground truth i.e. the best next moves. Our model cannot achieve super-human performances.
 3) Only short term understanding. The model only plan one move ahead, it does not have any long term strategy. The issue is that an action that may not seem as the best move according to the previous one-step model might actually increase the probability of winning.</p>
 
@@ -193,26 +189,26 @@ If you want to know more about Go, you can read the corresponding Wikipedia <a h
 
 <p><strong>How to evaluate a series of action?</strong> 
 A straight-forward approach would just be to sum the rewards collected along the way. A more general approach is to compute the discounted return. 
-The <strong>discounted return</strong> $R$ is the discounted sum of the rewards collected along the way (see formula below).
-$R = \sum \limits_{t=0}^{\infty } \gamma^t r_t = r_0 + \gamma r_1 + \gamma^2 r_2 + \cdots$
-$0 \leq \gamma \leq 1$ is called the discount factor.</p>
+The <strong>discounted return</strong> <script type="math/tex">R</script> is the discounted sum of the rewards collected along the way (see formula below).
+<script type="math/tex">R = \sum \limits_{t=0}^{\infty } \gamma^t r_t = r_0 + \gamma r_1 + \gamma^2 r_2 + \cdots</script>
+<script type="math/tex">0 \leq \gamma \leq 1</script> is called the discount factor.</p>
 
 <p>Why to we need to discount return? In real life, you are less confident about reaching long term goals. For example, a robot consumes some of its energy at each step. It is better for him to get rewards early than later when it may not have any energy left anymore.</p>
 
-<p>The choice of the discount factor $\gamma$ is an hyperparameter of your problem. Changing $\gamma$ changes the optimal strategy.</p>
+<p>The choice of the discount factor <script type="math/tex">\gamma</script> is an hyperparameter of your problem. Changing <script type="math/tex">\gamma</script> changes the optimal strategy.</p>
 
-<p><strong>A strategy is defined by a policy</strong>. A policy is simply a function that tells you what action to take in a given state. Policy $\pi : s -&gt; a$. <strong>The policy that achieves the best return is called the optimal policy</strong> $^\pi^*$.</p>
+<p><strong>A strategy is defined by a policy</strong>. A policy is simply a function that tells you what action to take in a given state. Policy <script type="math/tex">\pi : s -> a</script>. <strong>The policy that achieves the best return is called the optimal policy</strong> <script type="math/tex">^\pi^*</script>.</p>
 
 <p>What do we need to learn the optimal policy?
-We define what is called a <strong>Q-table</strong>. The Q-table is a matrix where element $Q^*(s,a)$ is the best return you can get if you take action $a$ in state $s$ and then act optimally.</p>
+We define what is called a <strong>Q-table</strong>. The Q-table is a matrix where element <script type="math/tex">Q^*(s,a)</script> is the best return you can get if you take action <script type="math/tex">a</script> in state <script type="math/tex">s</script> and then act optimally.</p>
 
-<p>If you know this Q-table, then the problem is solved. If you are in a given state $s$, you can just take the action $a$ that maximizes your return: $\pi^<em>(s) = a = \arg \max_{a’} Q^</em>(s, a’)$.</p>
+<p>If you know this Q-table, then the problem is solved. If you are in a given state <script type="math/tex">s</script>, you can just take the action <script type="math/tex">a</script> that maximizes your return: <script type="math/tex">\pi^*(s) = a = \arg \max_{a'} Q^*(s, a')</script>.</p>
 
-<p>How to compute this Q-table? The corresponding optimal $Q^<em>$ function must satisfy the <strong>Bellman equation</strong>:
-$Q^</em>(s,a) = r + \gamma \max_{a’} Q^*(s’, a’)$
-Where $s’$ is the next state if you take action $a’$ in state $s$.</p>
+<p>How to compute this Q-table? The corresponding optimal <script type="math/tex">Q^*</script> function must satisfy the <strong>Bellman equation</strong>:
+<script type="math/tex">Q^*(s,a) = r + \gamma \max_{a'} Q^*(s', a')</script>
+Where <script type="math/tex">s'</script> is the next state if you take action <script type="math/tex">a'</script> in state <script type="math/tex">s</script>.</p>
 
-<p>The table below is the optimal Q-table for our problem with a discount factor $\gamma = 0.9$.
+<p>The table below is the optimal Q-table for our problem with a discount factor <script type="math/tex">\gamma = 0.9</script>.
 | state \ action | left | right|</p>
 
 <table>

@@ -244,7 +244,7 @@
 <ol>
   <li><strong>Loss:</strong> Objective function takes the following form.
  <script type="math/tex">L = {||Enc(A) - Enc(P)||_2}^2 - {||Enc(A) - Enc(N)||_2}^2 + \alpha</script>
- Note that a constant, $\alpha$, is added to the loss function in order to make sure the model avoids using zero function as encoding.</li>
+ Note that a constant, <script type="math/tex">\alpha</script>, is added to the loss function in order to make sure the model avoids using zero function as encoding.</li>
 </ol>
 
 <p>Our final model is as below.</p>
@@ -298,8 +298,8 @@
 <ol>
   <li><strong>Loss:</strong> Objective function should take the following form:
  <script type="math/tex">L = {||Content_C - Content_G||_2}^2 - {||Style_S - Style_G||_2}^2</script>, 
- where $G$ represents the target image, $C$ denotes content image, and $S$ denotes style image.
- Note that here, we are not learning parameters by minimizing $L$. We are learning an image!</li>
+ where <script type="math/tex">G</script> represents the target image, <script type="math/tex">C</script> denotes content image, and <script type="math/tex">S</script> denotes style image.
+ Note that here, we are not learning parameters by minimizing <script type="math/tex">L</script>. We are learning an image!</li>
 </ol>
 
 <table class="image">
