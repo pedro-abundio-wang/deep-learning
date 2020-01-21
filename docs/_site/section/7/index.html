@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+<title>Section 7 (Week 8)</title>
+
+	<meta name="description" content="Hyperparameter Tuning and Tensorboard">
+
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,400i,500,500i,700,700i|Noto+Sans:400,400i,700,700i|Source+Code+Pro&amp;subset=latin-ext">
+<link rel="stylesheet" href="/doks-theme/assets/css/style.css">
+<script type="text/javascript" async
+  src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+	</head>
+	<body class="blue" data-spy="scroll" data-target=".js-scrollspy">
+		
+	<div class="offcanvas visible-xs">
+		<ul class="offcanvas__nav">
+			
+				<li><a href="/papers">Papers</a></li>
+			
+				<li><a href="/projects">Projects</a></li>
+			
+				<li><a href="/sections">Sections</a></li>
+			
+				<li><a href="/lectures">Lectures</a></li>
+			
+				<li><a href="/blogs">Blogs</a></li>
+			
+		</ul><!-- /.offcanvas__nav -->
+	</div><!-- /.offcanvas -->
+
+
+
+	<header class="site-header">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					
+						<a href="/" class="site-header__logo">
+							Deep Learning
+						</a><!-- /.site-header__logo -->
+					
+					
+						<ul class="site-header__nav hidden-xs">
+							
+								<li><a href="/papers">Papers</a></li>
+							
+								<li><a href="/projects">Projects</a></li>
+							
+								<li><a href="/sections">Sections</a></li>
+							
+								<li><a href="/lectures">Lectures</a></li>
+							
+								<li><a href="/blogs">Blogs</a></li>
+							
+						</ul><!-- /.site-header__nav -->
+						<button class="offcanvas-toggle visible-xs">
+							<span></span>
+							<span></span>
+							<span></span>
+						</button><!-- /.offcanvas-toggle -->
+					
+				</div><!-- /.col -->
+			</div><!-- /.row -->
+		</div><!-- /.container -->
+	</header><!-- /.site-header -->
+
+
+		<div class="hero-subheader">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-7">
+						<div class="align-container" data-mh>
+							<div class="align-inner">
+								
+									<h1 class="hero-subheader__title">Section 7 (Week 8)</h1>
+								
+								
+									<p class="hero-subheader__desc">Hyperparameter Tuning and Tensorboard</p>
+								
+								
+								
+							</div><!-- /.align-inner -->
+						</div><!-- /.align-container -->
+					</div><!-- /.col -->
+				</div><!-- /.row -->
+			</div><!-- /.container -->
+		</div><!-- /.hero-subheader -->
+		<div class="section">
+			<div class="container">
+				<div class="row">
+					
+					<div class="col-md-7">
+						<div class="content">
+							<h1 id="hyperparameter-tuning">Hyperparameter Tuning</h1>
+
+<p>Lots of hyperparameters are involved in the design of a deep neural network. Finding the best set of hyperparameters is an optimization task in of itself! In most cases, the space of possible hyperparameters is far too large for us to try all of them. Here are some strategies for solving this problem.</p>
+
+<h3 id="random-search-and-grid-search">Random Search and Grid Search</h3>
+
+<p>Consider the following function <script type="math/tex">f(x,y) = g(x) + h(y)</script> over parameters <script type="math/tex">x,y</script> and the maximization problem:</p>
+
+<script type="math/tex; mode=display">\max_{x,y} f(x,y).</script>
+
+<p>Assume we only have access to <script type="math/tex">f(x,y)</script> through an <em>oracle</em> (i.e. we can evaluate <script type="math/tex">f</script> at a certain point <script type="math/tex">(x,y)</script>, but we do not know the functional form of <script type="math/tex">f</script>).  <strong>How could we find the optimal values of <script type="math/tex">x</script> and <script type="math/tex">y</script>?</strong></p>
+
+<ul>
+  <li>A natural idea would be to choose a range for the values of <script type="math/tex">x</script> and <script type="math/tex">y</script>  and sample a grid of points in this range.</li>
+  <li>We could also evaluate a numerical gradient in the hyperparameter space.  The challenge with this method is that unlike an iteration of model training, each evaluation of hyperparameters is very costly and long, making it infeasible to try many combinations of hyperparameters.</li>
+</ul>
+
+<p>Now assume we know that</p>
+
+<script type="math/tex; mode=display">f(x,y) = g(x) + h(y) \approx g(x).</script>
+
+<p><strong>Would grid search still be a good strategy?</strong></p>
+
+<ul>
+  <li>The function $f$ mostly depends on <script type="math/tex">x</script>. Thus, a grid search strategy will waste a lot of iterations testing different values of <script type="math/tex">y</script>.  If we have a finite number of evaluations of <script type="math/tex">(x,y)</script>, a better strategy would be randomly sampling  <script type="math/tex">x</script> and <script type="math/tex">y</script> in a certain range, that way each sample tests a different value of each hyperparameter.</li>
+</ul>
+
+<table class="image">
+<caption align="bottom"><small>An illustration of how random search can improve on grid search of hyperparameters.  'This failure of grid search is the rule rather than the exception in high dimensional hyperparameter optimization.' (Bergstra &amp; Bengio, 2011). (<a href="http://www.jmlr.org/papers/volume13/bergstra12a/bergstra12a.pdf">source</a>)</small></caption> 
+<tr><td><img src="/doks-theme/assets/images/section/7/random-grid.png" style="" /></td></tr>
+</table>
+
+<p><strong>What are weaknesses and assumptions of random search?</strong></p>
+
+<ul>
+  <li>Random search assumes that the hyperparameters are uncorrelated. Ideally, we would sample hyperparameters from a joint distribution that takes into account this understanding. Additionally, it doesn’t use the results of previous iterations to inform how we choose parameter values for future iterations. This is the motivation behind Bayesian optimization.</li>
+</ul>
+
+<h3 id="bayesian-optimization">Bayesian Optimization</h3>
+
+<p>Bayesian inference is a form of statistical inference that uses Bayes’ Theorem to incorporate prior knowledge when performing estimation.  Bayes’ Theorem is a simple, yet extremely powerful, formula relating conditional and joint distributions of random variables. Let <script type="math/tex">X</script> be the random variable representing the quality of our model and <script type="math/tex">\theta</script> the random variable representing our hyperparameters. Then Bayes’ Rule relates the distributions <script type="math/tex">p(\theta \mid X)</script> (posterior), <script type="math/tex">p(X\mid\theta)</script> (likelihood), <script type="math/tex">p(\theta)</script> (prior) and <script type="math/tex">p(X)</script> (marginal) as:</p>
+
+<script type="math/tex; mode=display">p(\theta\mid M) = \frac{p(M \mid \theta)p(\theta)}{p(M)}</script>
+
+<p><strong>How could we use Bayes’ Rule to improve random search?</strong></p>
+
+<ul>
+  <li>By using a prior on our hyperparameters, we can incorporate prior knowledge into our optimizer. By sampling from the posterior distribution instead of a uniform distribution, we can incorporate the results of our previous samples to improve our search process.</li>
+</ul>
+
+<p>Let’s reconsider the optimization problem of finding the maximum of <script type="math/tex">f(x,y)</script>.  A Bayesian optimization strategy would:</p>
+
+<ol>
+  <li>Initialize a prior on the parameters <script type="math/tex">x</script> and <script type="math/tex">y</script>.</li>
+  <li>Sample an point <script type="math/tex">(x,y)</script> to evaluate <script type="math/tex">f</script> with.</li>
+  <li>Use the result of <script type="math/tex">f(x,y)</script> to update the posterior on <script type="math/tex">x,y</script>.</li>
+  <li>Repeat 2 and 3.</li>
+</ol>
+
+<p>The goal is to guess the function, even if we cannot know its true form. By adding a new data point at each iteration, the algorithm can guess the function more accurately, and more intelligently choose the next point to evaluate to improve its guess. A Gaussian process is used to infer the function from samples of its inputs and outputs. It also provides a distribution over the possible functions given the observed data.</p>
+
+<p>Let’s consider an example: say we want to find the minimum of some function whose expression is unknown. The function has one input and one output, and we’ve taken four different samples (the blue points).</p>
+
+<table class="image">
+<caption align="bottom"><small>A Gaussian process distribution, given four sampled data points in blue. (<a href="https://www.quora.com/How-does-Bayesian-optimization-work">source</a>)</small></caption> 
+<tr><td><img src="/doks-theme/assets/images/section/8/bayes.png" style="" /></td></tr>
+</table>
+
+<p>The Gaussian process provides a distribution of continuous functions that fit these points, which is represented in green. The darker the shade, the more likely the true function is within that region. The green line is the mean guess of the “true” function, and each band of green is a half standard deviation of the Gaussian process distribution.</p>
+
+<p>Now, given this useful guess, what point should we evaluate next? We have two possible options:</p>
+
+<ul>
+  <li><strong>Exploitation:</strong> Evaluate a point that, based on our current model of likely functions, will yield a low output value. For instance, 1.0 could be an option in the above graph.</li>
+  <li><strong>Exploration:</strong> Get a datapoint on an area we’re most unsure about. In the graph above, we could focus on the zone between .65 and .75, rather than between .15 and .25, since we have a pretty good idea as to what’s going on in the latter zone. That way, we will will be able to reduce the variance of future guesses.</li>
+</ul>
+
+<p>Balancing these two is the <em>exploration-exploitation</em> trade-off. We choose between the two strategies using an acquisition function.</p>
+
+<table class="image">
+<caption align="bottom"><small>With each iteration 'the algorithm balances its needs of exploration and exploitation' (Nogueira). (<a href="https://github.com/fmfn/BayesianOptimization">source</a>)</small></caption> 
+<tr><td><img src="/doks-theme/assets/images/section/7/bayesopt.gif" style="" /></td></tr>
+</table>
+
+<p>If you’re interested in learning more or trying out the optimizer, here is a good <a href="https://github.com/fmfn/BayesianOptimization">Python code base</a> for using Bayesian Optimization with Gaussian processes.</p>
+
+<h1 id="tensorboard">TensorBoard</h1>
+
+<p>TensorBoard is a great way to track neural network training, debug your neural network, and debug your network <em>as it trains</em>!</p>
+
+<table class="image">
+<caption align="bottom"><small>TensorBoard. (<a href="https://www.tensorflow.org/guide/summaries_and_tensorboard">source</a>)</small></caption> 
+<tr><td><img src="/doks-theme/assets/images/section/8/tboard.png" style="" /></td></tr>
+</table>
+
+<p>TensorBoard was built for TensorFlow, but can also be used with PyTorch using the TensorBoardX library.</p>
+
+<p>Let’s walk through the AWS TensorBoard code and see it in action.</p>
+
+<p>Instructions <a href="https://docs.aws.amazon.com/dlami/latest/devguide/tutorial-tensorboard.html">here</a>. Make sure to perform steps 5 and 6 (opening a port in your AWS security settings, and setting up an SSH tunnel to your machine).</p>
+
+
+						</div><!-- /.content -->
+					</div><!-- /.col -->
+					<div class="col-md-4 col-md-offset-1">
+						<div class="sections-list-wrapper">
+							<div class="sections-list js-sections js-affix js-scrollspy hidden-xs hidden-sm"></div><!-- /.sections-list -->
+						</div>
+					</div><!-- /.col -->
+					
+				</div><!-- /.row -->
+			</div><!-- /.container -->
+		</div><!-- /.section -->
+		
+		<div class="js-footer-area">
+			
+			
+	<footer class="site-footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6">
+					
+					
+						<!-- <hr> -->
+						<p class="site-footer__copyright">Copyright &copy; 2019. - Pedro Abundio Wang <br>All rights reserved.</p>
+					
+				</div><!-- /.col -->
+				
+			</div><!-- /.row -->
+		</div><!-- /.container -->
+	</footer><!-- /.site-footer -->
+
+
+<script src="/doks-theme/assets/js/vendor/jquery.min.js"></script>
+<script type="text/javascript" src="/doks-theme/assets/js/vendor/bootstrap/affix.min.js"></script>
+<script type="text/javascript" src="/doks-theme/assets/js/vendor/bootstrap/scrollspy.min.js"></script>
+<script type="text/javascript" src="/doks-theme/assets/js/vendor/matchHeight.min.js"></script>
+<script type="text/javascript" src="/doks-theme/assets/js/scripts.min.js"></script>
+
+		</div><!-- /.js-footer-area -->
+	</body>
+</html>
