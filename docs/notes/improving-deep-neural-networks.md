@@ -29,9 +29,7 @@ page_nav:
 - So the idea is you go through the loop: Idea ==> Code ==> Experiment.
 - You have to go through the loop many times to figure out your hyperparameters.
 
-<div align="center">
-  <img src="Images/01.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/01.png" %}
 
 - Your data will be split into three parts:
   - **Training set** — Which you run your learning algorithm on.
@@ -42,9 +40,7 @@ page_nav:
   - If size of the dataset is 100 to 100,000 ==> 60%/20%/20% or 70%/30%
   - If size of the dataset is 100,000 to INF ==> 98%/1%/1% or 99.5%/0.25%/0.25%
 
-  <div align="center">
-    <img src="Images/02.png">
-  </div>
+{% include image.html image="notes/improving-deep-neural-networks/02.png" %}
 
 - Make sure the dev and test set are coming from the same distribution.
   - For example if cat training pictures is from the web and the dev/test pictures are from users cell phone they will mismatch. It is better to make sure that dev and test set are from the same distribution.
@@ -52,23 +48,17 @@ page_nav:
 
 ### Bias vs Variance
 
-<div align="center">
-  <img src="Images/18.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/18.png" %}
 
 - If your model is underfitting (linear regression of non linear data) it has a "high bias"
 - If your model is overfitting then it has a "high variance"
 - if your model will be alright then you balance the Bias / Variance
 
-<div align="center">
-  <img src="Images/17.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/17.png" %}
 
-![](Images/04.png)
+{% include image.html image="notes/improving-deep-neural-networks/04.png" %}
 
-<div align="center">
-  <img src="Images/19.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/19.png" %}
 
 ### Basic Recipe for Machine Learning
 
@@ -89,35 +79,25 @@ page_nav:
 
 **L1 vector / matrix norm**
 
-<div align="center">
-  <img src="Images/10.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/10.png" %}
 
 **L2 vector / matrix norm**
 
-<div align="center">
-  <img src="Images/11.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/11.png" %}
 
 **Regularization for logistic regression**
 
 The normal cost function that we want to minimize is
 
-<div align="center">
-  <img src="Images/12.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/12.png" %}
 
 The L1 regularization version:
 
-<div align="center">
-  <img src="Images/13.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/13.png" %}
 
 The L2 regularization version:
 
-<div align="center">
-  <img src="Images/14.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/14.png" %}
 
 𝜆 here is the **regularization parameter** (hyperparameter)
 
@@ -125,33 +105,23 @@ The L2 regularization version:
 
 - The normal cost function that we want to minimize is:
 
-<div align="center">
-  <img src="Images/15.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/15.png" %}
 
 - The L2 regularization version:
 
-<div align="center">
-  <img src="Images/16.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/16.png" %}
 
 - To do back propagation without regularization:
 
-<div align="center">
-  <img src="Images/20.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/20.png" %}
 
 - To do back propagation with regularization:
 
-<div align="center">
-  <img src="Images/21.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/21.png" %}
 
 - So plugging it in weight update step, the first term causes the **weight decay** in proportion to its size:
 
-<div align="center">
-  <img src="Images/22.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/22.png" %}
 
 - In practice this penalizes large weights and effectively limits the freedom in your model.
 
@@ -163,9 +133,7 @@ The L2 regularization version:
 
 ### Dropout Regularization
 
-<div align="center">
-  <img src="Images/05.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/05.png" %}
 
 - The dropout regularization eliminates some neurons/weights on each iteration based on a probability.
 - A most common technique to implement dropout is called **Inverted dropout**.
@@ -199,7 +167,7 @@ al = al / keep_prob
 
 **Data Augmentation**:
 
-![](Images/06.png)
+{% include image.html image="notes/improving-deep-neural-networks/06.png" %}
 
 - You can flip all your pictures horizontally this will give you more data instances.
 - You could also apply a random position and rotation to an image to get more data.
@@ -208,9 +176,7 @@ al = al / keep_prob
 
 **Early Stopping**:
 
-<div align="center">
-  <img src="Images/23.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/23.png" %}
 
 - In this technique we plot the training set and the dev set cost together for each iteration. At some iteration the dev set cost will stop decreasing and will start increasing.
 - We will pick the point at which the training set error and dev set error are best (lowest training cost with lowest dev cost).
@@ -220,18 +186,16 @@ al = al / keep_prob
 
 ### Normalizing inputs
 
-![](Images/07.png)
+{% include image.html image="notes/improving-deep-neural-networks/07.png" %}
 
 - If you normalize your inputs this will speed up the training process a lot.
 - Normalization are going on these steps:
 
-<div align="center">
-  <img src="Images/24.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/24.png" %}
 
 - These steps should be applied to training, dev, and testing sets.
 
-![](Images/08.png)
+{% include image.html image="notes/improving-deep-neural-networks/08.png" %}
 
 - If we don't normalize the inputs, our cost function will be deep and its shape will be inconsistent then optimizing it will take a long time.
 - But if we normalize it the opposite will occur. The shape of the cost function will be consistent (look more symmetric like circle in 2D example) - the optimization will be faster.
@@ -240,34 +204,26 @@ al = al / keep_prob
 
 - To understand the problem, suppose that we have a deep neural network with number of layers L, and all the activation functions are linear and each b = 0, if we have 2 hidden units per layer and x<sub>1</sub> = x<sub>2</sub> = 1, we result in
 
-![](Images/09.png)
+{% include image.html image="notes/improving-deep-neural-networks/09.png" %}
 
-  - Then:
+- Then:
 
-  <div align="center">
-    <img src="Images/25.png">
-  </div>
+{% include image.html image="notes/improving-deep-neural-networks/25.png" %}
 
-  - it will be very large, L layer dimension because of different dimensions in the output layer
+- it will be very large, L layer dimension because of different dimensions in the output layer
 
-  <div align="center">
-    <img src="Images/26.png">
-  </div>
+{% include image.html image="notes/improving-deep-neural-networks/26.png" %}
 
-  - it will be very small, L layer dimension because of different dimensions in the output layer
+- it will be very small, L layer dimension because of different dimensions in the output layer
 
-  <div align="center">
-    <img src="Images/27.png">
-  </div>
+{% include image.html image="notes/improving-deep-neural-networks/27.png" %}
 
 - The example explains that the activations and similarly derivatives will be decreased/increased exponentially as a function of number of layers. The vanishing / exploding gradients occurs when your derivatives become very small or very big.
 - So If W > I (Identity matrix) the activation and gradients will explode. However, it turns out that exploding gradient is not that problematic, because:
   - The problem is easy to notice and diagnose, because the derivative would become NaN very quickly and crash the program.
   - There are some easy hacks that can effectively prevent exploding gradient. One of them is called **gradient clipping**, which simply throttles 𝜃, scale gradient during backprop, and it turns out to work well.
 
-  <div align="center">
-    <img src="Images/28.png">
-  </div>
+{% include image.html image="notes/improving-deep-neural-networks/28.png" %}
 
 - And If W < I (Identity matrix) the activation and gradients will vanish.
   - There is a partial solution that doesn't completely solve this problem but it helps a lot - careful choice of how you **initialize the weights**.
@@ -294,13 +250,9 @@ np.random.randn(shape) * np.sqrt(2/n[l-1])          # He Initialization - RELU
 - There is an technique called **gradient checking** which tells you if your implementation of backpropagation is correct.
 - There's a numerical way to calculate the derivative:
 
-<div align="center">
-  <img src="Images/30.jpg">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/30.png" %}
 
-<div align="center">
-  <img src="Images/29.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/29.png" %}
 
 ### Gradient checking
 
@@ -356,13 +308,9 @@ for t = 1:num_of_batches
 - The code inside an **epoch** should be vectorized.
 - Mini-batch gradient descent works much faster in the large datasets.
 
-<div align="center">
-  <img src="Images/kiank_sgd.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/kiank_sgd.png" %}
 
-<div align="center">
-  <img src="Images/kiank_minibatch.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/kiank_minibatch.png" %}
 
 ### Understanding mini-batch gradient descent
 
@@ -384,9 +332,7 @@ for t = 1:num_of_batches
     - make progress without waiting to process the entire training set
   - doesn't always exactly converge (oscelates in a very small region, but you can reduce learning rate)
 
-<div align="center">
-  <img src="Images/31.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/31.png" %}
 
 - Guidelines for choosing mini-batch size:
   - If small training set (< 2000 examples) - use batch gradient descent.
@@ -398,9 +344,7 @@ for t = 1:num_of_batches
 - There are optimization algorithms that are better than **gradient descent**, but you should first learn about Exponentially weighted averages.
 - If we have data like the temperature of day through the year it could be like this:
 
-<div align="center">
-  <img src="Images/32.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/32.png" %}
 
 - This data is small in winter and big in summer. If we plot this data we will find it some noisy.
 - Now lets compute the Exponentially weighted averages:
@@ -424,32 +368,22 @@ v(t) = β * v(t-1) + (1 - β) * θ(t)
   - β = 0.9 will average last 10 entries
   - β = 0.98 will average last 50 entries
 
-<div align="center">
-  <img src="Images/33.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/33.png" %}
 
   - β = 0.5 will average last 2 entries
 
-<div align="center">
-  <img src="Images/34.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/34.png" %}
 
 - Best β average for our case is between 0.9 and 0.98
 - The reason why exponentially weighted averages are useful for further optimizing gradient descent algorithm is that it can give different weights to recent data points (θ) based on value of β. If β is high (around 0.9), it smoothens out the averages of skewed data points (oscillations w.r.t. gradient descent). So this reduces oscillations in gradient descent and hence makes faster and smoother path towerds minima.
 
 ### Understanding exponentially weighted averages
 
-<div align="center">
-  <img src="Images/35.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/35.png" %}
 
-<div align="center">
-  <img src="Images/36.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/36.png" %}
 
-<div align="center">
-  <img src="Images/37.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/37.png" %}
 
 - when β = 0.9 ==> 0.9<sup>10</sup> about 1/e
 - when β = 0.98 ==> 0.98<sup>50</sup> about 1/e
@@ -466,9 +400,7 @@ Repeat
 
 ### Bias correction in exponentially weighted averages
 
-<div align="center">
-  <img src="Images/38.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/38.png" %}
 
 - The bias correction helps make the exponentially weighted averages more accurate.
 - Because v(0) = 0, the bias of the weighted averages is shifted and the accuracy suffers at the start.
@@ -498,9 +430,7 @@ v(2) = (0.09 * θ(1)+ 0.1 * θ(2)) / (1 - 0.9^2)
 - The momentum algorithm almost always works faster than standard gradient descent.
 - The simple idea is to calculate the exponentially weighted averages for your gradients and then update your weights with the new values.
 
-<div align="center">
-  <img src="Images/39.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/39.png" %}
 
 - Momentum helps the cost function to go to the minimum point in a more fast and consistent way.
 - β is another hyperparameter. β = 0.9 is very common and works very well in most cases.
@@ -577,9 +507,7 @@ on iteration t:
   - Plateau is a region where the derivative is close to zero for a long time.
   - This is where algorithms like momentum, RMSprop or Adam can help.
 
-<div align="center">
-  <img src="Images/40.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/40.png" %}
 
 ## Hyperparameter tuning, Batch Normalization and Programming Frameworks
 
@@ -599,9 +527,7 @@ on iteration t:
   - When you find some hyperparameters values that give you a better performance - zoom into a smaller region around these values and sample more densely within this space.
 - These methods can be automated.
 
-<div align="center">
-  <img src="Images/41.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/41.png" %}
 
 ### Using an appropriate scale to pick hyperparameters
 
@@ -645,9 +571,7 @@ on iteration t:
 - There are some debates in the deep learning literature about whether you should normalize values before the activation function Z<sup>[l]</sup> or after applying the activation function A<sup>[l]</sup>. In practice, normalizing Z<sup>[l]</sup> is done much more often.
 - Algorithm:
 
-<div align="center">
-  <img src="Images/43.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/43.png" %}
 
   - Forcing the inputs to a distribution with zero mean and variance of 1.
   - To make inputs belong to other distribution (with other mean and variance).
@@ -658,7 +582,7 @@ on iteration t:
 ### Fitting Batch Normalization into a neural network
 
 - Using batch norm in 3 hidden layers NN:
-![](Images/bn.png)
+{% include image.html image="notes/improving-deep-neural-networks/bn.png" %}
 - Our NN parameters will be:
   - W<sup>[1]</sup>, b<sup>[1]</sup>, ..., W<sup>[L]</sup>, b<sup>[L]</sup>, β<sup>[1]</sup>, γ<sup>[1]</sup>, ..., β<sup>[L]</sup>, γ<sup>[L]</sup>
   - β<sup>[1]</sup>, γ<sup>[1]</sup>, ..., β<sup>[L]</sup>, γ<sup>[L]</sup> are updated using any optimization algorithms (like SGD, RMSprop, Adam)
@@ -680,9 +604,7 @@ Z_tilde[l] = gamma[l] * Z_norm[l] + beta[l]
 - The first reason is the same reason as why we normalize X.
 - The second reason is that batch normalization reduces the problem of input values changing (shifting).
 
-<div align="center">
-  <img src="Images/42.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/42.png" %}
 
 - Batch normalization does some regularization:
   - Each mini batch is scaled by the mean/variance computed on just that mini-batch.
@@ -705,13 +627,9 @@ Z_tilde[l] = gamma[l] * Z_norm[l] + beta[l]
 
 - softmax regression that is used for multiclass classification/regression.
 
-<div align="center">
-  <img src="Images/44.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/44.png" %}
 
-<div align="center">
-  <img src="Images/45.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/45.png" %}
 
   - To represent a none vector y = [1 0 0 0]
   - To represent a dog vector y = [0 1 0 0]
@@ -723,9 +641,7 @@ Z_tilde[l] = gamma[l] * Z_norm[l] + beta[l]
 - Each of C values in the output layer will contain a probability of the example to belong to each of the classes.
 - In the last layer we will have to activate the Softmax activation function instead of the sigmoid activation.
 
-<div align="center">
-  <img src="Images/46.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/46.png" %}
 
 ### Training a Softmax classifier
 
@@ -734,21 +650,15 @@ Z_tilde[l] = gamma[l] * Z_norm[l] + beta[l]
 - Softmax is a generalization of logistic activation function to C classes. If C = 2 softmax reduces to logistic regression.
 - The loss function used with softmax:
 
-<div align="center">
-  <img src="Images/47.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/47.png" %}
 
 - The cost function used with softmax:
 
-<div align="center">
-  <img src="Images/48.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/48.png" %}
 
 - Back propagation with softmax:
 
-<div align="center">
-  <img src="Images/49.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/49.png" %}
 
 ### Deep learning frameworks
 
@@ -758,9 +668,7 @@ Z_tilde[l] = gamma[l] * Z_norm[l] + beta[l]
 - Programming frameworks can not only shorten your coding time but sometimes also perform
 optimizations that speed up your code.
 
-<div align="center">
-  <img src="Images/50.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/50.png" %}
 
 ### TensorFlow
 
@@ -768,24 +676,18 @@ optimizations that speed up your code.
   - Example function: J(w) = w<sup>2</sup> - 10w + 25
   - The result should be w = 5 as the function is (w-5)<sup>2</sup> = 0
 
-  <div align="center">
-    <img src="Images/52.png">
-  </div>
+{% include image.html image="notes/improving-deep-neural-networks/52.png" %}
 
   - we feed the inputs to the algorithm through coefficients:
 
-  <div align="center">
-    <img src="Images/51.png">
-  </div>
+{% include image.html image="notes/improving-deep-neural-networks/51.png" %}
 
 - In TensorFlow you implement only the forward propagation and TensorFlow will do the backpropagation by itself.
 - In TensorFlow a placeholder is a variable you can assign a value to later.
 - If you are using a mini-batch training you should change the feed_dict={x: coefficients} to the current mini-batch data.
 - Almost all TensorFlow programs use this:
 
-<div align="center">
-  <img src="Images/53.png">
-</div>
+{% include image.html image="notes/improving-deep-neural-networks/53.png" %}
 
 - In deep learning frameworks there are a lot of things that you can do with one line of code like changing the optimizer.
 - Writing and running programs in TensorFlow has the following steps:

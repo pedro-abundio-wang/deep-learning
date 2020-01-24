@@ -127,9 +127,7 @@ The **Precision** of a cat classifier is the fraction of images in the dev (or t
 
 In contrast, Precision and Recall is not a single-number evaluation metric: It gives two numbers for assessing your classifier. Having multiple-number evaluation metrics makes it harder to compare algorithms. Suppose your algorithms perform as follows:
 
-<div align="center">
-  <img src="Images/02.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/02.png" %}
 
 Here, neither classifier is obviously superior, so it doesn’t immediately guide you toward picking one.
 
@@ -137,9 +135,7 @@ During development, your team will try a lot of ideas about algorithm architectu
 
 If you really care about both Precision and Recall, I recommend using one of the standard ways to combine them into a single number. One could take the average of precision and recall, to end up with a single number. Alternatively, you can compute the **F1 score**, which is a modified way of computing their average, and works better than simply taking the mean. F1 score is the **harmonic mean** between Precision and Recall, and is calculated as 2/((1/Precision)+(1/Recall)).
 
-<div align="center">
-  <img src="Images/03.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/03.png" %}
 
 Having a single-number evaluation metric speeds up your ability to make a decision when you are selecting among a large number of classifiers. It gives a clear preference ranking among all of them, and therefore a clear direction for progress.
 
@@ -151,9 +147,7 @@ Here’s another way to combine multiple evaluation metrics.
 
 Suppose you care about both the accuracy and the running time of a learning algorithm. You need to choose from these three classifiers:
 
-<div align="center">
-  <img src="Images/04.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/04.png" %}
 
 It seems unnatural to derive a single metric by putting accuracy and running time into a single formula, such as: Accuracy - 0.5*RunningTime
 
@@ -173,9 +167,7 @@ It is very difficult to know in advance what approach will work best for a new p
   - Implement the idea in **code**.
   - Carry out an ​**experiment**​ which tells me how well the idea worked. (Usually my first few ideas don’t work!) Based on these learnings, go back to generate more ideas, and keep on iterating.
 
-<div align="center">
-  <img src="Images/07.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/07.png" %}
 
 This is an iterative process. The faster you can go round this loop, the faster you will make progress. This is why having dev/test sets and a metric are important: Each time you try an idea, measuring your idea’s performance on the dev set lets you quickly decide if you’re heading in the right direction.
 
@@ -212,13 +204,9 @@ Suppose that for your cat application, your metric is classification accuracy. T
 
 Here, the metric is failing to identify the fact that Algorithm B is in fact better than Algorithm A for your product. So, you can no longer trust the metric to pick the best algorithm. It is time to change evaluation metrics. You can change the metric to heavily penalize letting through pornographic images. I would strongly recommend picking a new metric and using the new metric to explicitly define a new goal for the team, rather than proceeding for too long without a trusted metric and reverting to manually choosing among classifiers.
 
-<div align="center">
-  <img src="Images/63.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/63.png" %}
 
-<div align="center">
-  <img src="Images/64.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/64.png" %}
 
 when x<sup>(i)</sup> is porn w<sup>(i)</sup> = 10, or x<sup>(i)</sup> is not porn w<sup>(i)</sup> = 1
 
@@ -261,9 +249,7 @@ Your team has several ideas for improving the cat detector:
 
 You can efficiently evaluate all of these ideas in parallel. I usually create a spreadsheet and fill it out while looking through ~100 misclassified dev set images. I also jot down comments that might help me remember specific examples. To illustrate this process, let’s look at a spreadsheet you might produce with a small dev set of four examples:
 
-<div align="center">
-  <img src="Images/11.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/11.png" %}
 
 Image above has both the Great Cat and the Blurry columns checked. Furthermore, because it is possible for one example to be associated with multiple categories, the percentages at the bottom may not add up to 100%.
 
@@ -275,9 +261,7 @@ Error analysis is an iterative process. Don’t worry if you start off with no c
 
 Suppose you finish carrying out error analysis on 100 misclassified dev set examples and get the following:
 
-<div align="center">
-  <img src="Images/12.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/12.png" %}
 
 You now know that working on a project to address the Dog mistakes can eliminate 8% of the errors at most. Working on Great Cat or Blurry image errors could help eliminate more errors. Therefore, you might pick one of the two latter categories to focus on. If your team has enough people to pursue multiple directions in parallel, you can also ask some engineers to work on Great Cats and others to work on Blurry images.
 
@@ -287,9 +271,7 @@ Error analysis does not produce a rigid mathematical formula that tells you what
 
 During error analysis, you might notice that some examples in your dev set are mislabeled. When I say “mislabeled” here, I mean that the pictures were already mislabeled by a human labeler even before the algorithm encountered it. I.e., the class label in an example ​(x,y) ​ has an incorrect value for y. For example, perhaps some pictures that are not cats are mislabeled as containing a cat, and vice versa. If you suspect the fraction of mislabeled images is significant, add a category to keep track of the fraction of examples mislabeled:
 
-<div align="center">
-  <img src="Images/14.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/14.png" %}
 
 Should you correct the labels in your dev set? Remember that the goal of the dev set is to help you quickly evaluate algorithms so that you can tell if Algorithm A or B is better. If the fraction of the dev set that is mislabeled impedes your ability to make these judgments, then it is worth spending time to fix the mislabeled dev set labels.
 
@@ -491,9 +473,7 @@ In addition to the techniques described earlier to address high bias, I sometime
 
 Suppose you are building a speech recognition system for an app and have collected a training set of audio clips from volunteers. If your system is not doing well on the training set, you might consider listening to a set of ~100 examples that the algorithm is doing poorly on to understand the major categories of training set errors. Similar to the dev set error analysis, you can count the errors in different categories:
 
-<div align="center">
-  <img src="Images/15.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/15.png" %}
 
 You might realize that your algorithm is having a particularly hard time with training examples that have a lot of background noise. Thus, you might focus on techniques that allow it to better fit training examples with background noise.
 
@@ -516,23 +496,17 @@ If your learning algorithm suffers from high variance, you might try the followi
 
 A learning curve plots your dev set error against the number of training examples. To plot it, you would run your algorithm using different training set sizes. For example, if you have 1,000 examples, you might train separate copies of the algorithm on 100, 200, 300, ..., 1000 examples. Then you could plot how dev set error varies with the training set size. As the training set size increases, the dev set error should decrease.
 
-<div align="center">
-  <img src="Images/16.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/16.png" %}
 
 We will often have some “desired error rate” that we hope our learning algorithm will eventually achieve. If we hope for human-level performance, then the human error rate could be the “desired error rate.” Add the desired level of performance to your learning curve:
 
-<div align="center">
-  <img src="Images/17.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/17.png" %}
 
 You can visually extrapolate the red “dev error” curve to guess how much closer you could get to the desired level of performance by adding more data. In the above, it looks plausible that doubling the training set size might allow you to reach the desired performance.
 
 But if the dev error curve has “plateaued” (i.e. flattened out), then you can immediately tell that adding more data won’t get you to your goal:
 
-<div align="center">
-  <img src="Images/18.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/18.png" %}
 
 Looking at the learning curve might therefore help you avoid spending months collecting twice as much training data, only to realize it does not help.
 
@@ -550,9 +524,7 @@ Finally, suppose your training set has 10,000 examples. In this case, it becomes
 
 Let’s add a plot of training error to our earlier figures:
 
-<div align="center">
-  <img src="Images/19.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/19.png" %}
 
 You can see that the blue “training error” curve increases with the size of the training set. Furthermore, your algorithm usually does better on the training set than on the dev set; thus the red dev error curve usually lies strictly above the blue training error curve.
 
@@ -560,17 +532,13 @@ You can see that the blue “training error” curve increases with the size of 
 
 Suppose your dev error curve looks like this:
 
-<div align="center">
-  <img src="Images/20.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/20.png" %}
 
 We previously said that, if your dev error curve plateaus, you are unlikely to achieve the desired performance just by adding data. But it is hard to know exactly what an extrapolation of the red dev error curve will look like. If the dev set was small, you would be even less certain because the curves could be noisy.
 
 Suppose we add the training error curve to this plot and get the following:
 
-<div align="center">
-  <img src="Images/21.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/21.png" %}
 
 Now, you can be absolutely sure that adding more data will not, by itself, be sufficient. Why is that?
 
@@ -587,9 +555,7 @@ Previously, we were measuring training and dev set error only at the rightmost p
 
 Consider this learning curve:
 
-<div align="center">
-  <img src="Images/22.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/22.png" %}
 
 Does this plot indicate high bias, high variance, or both?
 
@@ -597,9 +563,7 @@ The blue training error curve is relatively low, and the red dev error curve is 
 
 Now, consider this:
 
-<div align="center">
-  <img src="Images/23.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/23.png" %}
 
 This time, the training error is large, as it is much higher than the desired level of performance. The dev error is also much larger than the training error. Thus, you have significant bias and significant variance. You will have to find a way to reduce both bias and variance in your algorithm.
 
@@ -643,9 +607,7 @@ I find that having a reasonable and achievable target error rate helps accelerat
 
 Suppose you are working on a medical imaging application that automatically makes diagnoses from x-ray images. A typical person with no previous medical background besides some basic training achieves 15% error on this task. A junior doctor achieves 10% error. An experienced doctor achieves 5% error. And a small team of doctors that discuss and debate each image achieves 2% error. Which one of these error rates defines “human-level performance”?
 
-<div align="center">
-  <img src="Images/68.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/68.png" %}
 
 In this case, I would use 2% as the human-level performance proxy for our optimal error rate. You can also set 2% as the desired performance level.
 
@@ -671,9 +633,7 @@ For the subset of data with rapidly spoken speech:
 
 More generally, so long as there are dev set examples where humans are right and your algorithm is wrong, then many of the techniques described will apply. This is true even if, averaged over the entire dev/test set, your performance is already surpassing human-level performance.
 
-<div align="center">
-  <img src="Images/69.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/69.png" %}
 
 There are many important machine learning applications where machines surpass human level performance. For example, machines are better at predicting movie ratings, how long it takes for a delivery car to drive somewhere, or whether to approve loan applications. Only a subset of techniques apply once humans have a hard time identifying examples that the algorithm is clearly getting wrong. Consequently, progress is usually slower on problems where machines already surpass human-level performance, while progress is faster when machines are still trying to catch up to humans.
 
@@ -744,15 +704,11 @@ If you don’t have huge computational resources, you could give the internet im
 
 For example, suppose your optimization objective is squared error. Thus, our learning algorithm tries to optimize:
 
-<div align="center">
-  <img src="Images/25.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/25.png" %}
 
 The first sum above is over the 5,000 mobile images, and the second sum is over the 200,000 internet images. You can instead optimize with an additional parameter 𝛽:
 
-<div align="center">
-  <img src="Images/26.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/26.png" %}
 
 If you set 𝛽=1/40, the algorithm would give equal weight to the 5,000 mobile images and the 200,000 internet images. You can also set the parameter 𝛽 to other values, perhaps by tuning to the dev set.
 
@@ -817,9 +773,7 @@ This algorithm suffers from high avoidable bias and from data mismatch. It does 
 
 It might be easier to understand how the different types of errors relate to each other by drawing them as entries in a table:
 
-<div align="center">
-  <img src="Images/27.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/27.png" %}
 
 Continuing with the example of the cat image detector, you can see that there are two different distributions of data on the x-axis. On the y-axis, we have three types of error: human level error, error on examples the algorithm has trained on, and error on examples the algorithm has not trained on.
 
@@ -877,15 +831,11 @@ The problem of recognizing positive vs. negative opinions is called “sentiment
 
 We can visualize your “pipeline” of two components as follows:
 
-<div align="center">
-  <img src="Images/28.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/28.png" %}
 
 There has been a recent trend toward replacing pipeline systems with a single learning algorithm. An **end-to-end learning algorithm** for this task would simply take as input the raw, original text “This is a great mop!”, and try to directly recognize the sentiment:
 
-<div align="center">
-  <img src="Images/29.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/29.png" %}
 
 Neural networks are commonly used in end-to-end learning systems. The term “end-to-end” refers to the fact that we are asking the learning algorithm to go directly from the input to the desired output. I.e., the learning algorithm directly connects the “input end” of the system to the “output end”.
 
@@ -895,9 +845,7 @@ In problems where data is abundant, end-to-end systems have been remarkably succ
 
 Suppose you want to build a speech recognition system. You might build a system with three components:
 
-<div align="center">
-  <img src="Images/30.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/30.png" %}
 
 The components work as follows:
 
@@ -907,15 +855,11 @@ The components work as follows:
 
 In contrast, an end-to-end system might input an audio clip, and try to directly output the transcript:
 
-<div align="center">
-  <img src="Images/31.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/31.png" %}
 
 So far, we have only described machine learning “pipelines” that are completely linear: the output is sequentially passed from one staged to the next. Pipelines can be more complex. Here is a simple architecture for an autonomous car
 
-<div align="center">
-  <img src="Images/32.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/32.png" %}
 
 It has three components: One detects other cars using the camera images; one detects pedestrians; then a final component plans a path for our own car that avoids the cars and pedestrians.
 
@@ -923,9 +867,7 @@ Not every component in a pipeline has to be learned. For example, the literature
 
 In contrast, and end-to-end approach might try to take in the sensor inputs and directly output the steering direction:
 
-<div align="center">
-  <img src="Images/33.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/33.png" %}
 
 Even though end-to-end learning has seen many successes, it is not always the best approach. For example, end-to-end speech recognition works well. But I’m skeptical about end-to-end learning for autonomous driving.
 
@@ -933,9 +875,7 @@ Even though end-to-end learning has seen many successes, it is not always the be
 
 Consider the same speech pipeline from our earlier example:
 
-<div align="center">
-  <img src="Images/34.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/34.png" %}
 
 Many parts of this pipeline were “hand-engineered”:
 
@@ -951,9 +891,7 @@ Having more hand-engineered components generally allows a speech system to learn
 
 Now, consider the end-to-end system:
 
-<div align="center">
-  <img src="Images/35.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/35.png" %}
 
 This system lacks the hand-engineered knowledge. Thus, when the training set is small, it might do worse than the hand-engineered pipeline.
 
@@ -971,17 +909,13 @@ When building a non-end-to-end pipeline system, what are good candidates for the
 
 For example, consider this autonomous driving architecture:
 
-<div align="center">
-  <img src="Images/36.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/36.png" %}
 
 You can use machine learning to detect cars and pedestrians. Further, it is not hard to obtain data for these: There are numerous computer vision datasets with large numbers of labeled cars and pedestrians. You can also use crowdsourcing (such as Amazon Mechanical Turk) to obtain even larger datasets. It is thus relatively easy to obtain training data to build a car detector and a pedestrian detector.
 
 In contrast, consider a pure end-to-end approach:
 
-<div align="center">
-  <img src="Images/37.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/37.png" %}
 
 To train this system, we would need a large dataset of (Image, Steering Direction) pairs. It is very time-consuming and expensive to have people drive cars around and record their steering direction to collect such data. You need a fleet of specially-instrumented cars, and a huge amount of driving to cover a wide range of possible scenarios. This makes an end-to-end system difficult to train. It is much easier to obtain a large dataset of labeled car or pedestrian images.
 
@@ -993,9 +927,7 @@ Until more end-to-end data becomes available, I believe the non-end-to-end appro
 
 Other than data availability, you should also consider a second factor when picking components of a pipeline: How simple are the tasks solved by the individual components? You should try to choose pipeline components that are individually easy to build or learn. But what does it mean for a component to be “easy” to learn?
 
-<div align="center">
-  <img src="Images/38.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/38.png" %}
 
 Consider these machine learning tasks, listed in order of increasing difficulty:
 
@@ -1011,41 +943,29 @@ Machine learning does not yet have a good formal definition of what makes a task
 
 If you are able to take a complex task, and break it down into simpler sub-tasks, then by coding in the steps of the sub-tasks explicitly, you are giving the algorithm prior knowledge that can help it learn a task more efficiently.
 
-<div align="center">
-  <img src="Images/39.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/39.png" %}
 
 Suppose you are building a Siamese cat detector. This is the pure end-to-end architecture:
 
-<div align="center">
-  <img src="Images/40.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/40.png" %}
 
 In contrast, you can alternatively use a pipeline with two steps:
 
-<div align="center">
-  <img src="Images/41.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/41.png" %}
 
 The first step (cat detector) detects all the cats in the image.
 
-<div align="center">
-  <img src="Images/42.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/42.png" %}
 
 The second step then passes cropped images of each of the detected cats (one at a time) to a cat species classifier, and finally outputs 1 if any of the cats detected is a Siamese cat.
 
-<div align="center">
-  <img src="Images/43.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/43.png" %}
 
 Compared to training a purely end-to-end classifier using just labels 0/1, each of the two components in the pipeline--the cat detector and the cat breed classifier--seem much easier to learn and will require significantly less data.
 
 As one final example, let’s revisit the autonomous driving pipeline.
 
-<div align="center">
-  <img src="Images/44.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/44.png" %}
 
 By using this pipeline, you are telling the algorithm that there are 3 key steps to driving: (1) Detect other cars, (2) Detect pedestrians, and (3) Plan a path for your car. Further, each of these is a relatively simpler function--and can thus be learned with less data--than the purely end-to-end approach.
 
@@ -1055,23 +975,17 @@ In summary, when deciding what should be the components of a pipeline, try to bu
 
 An image classification algorithm will input an image x , and output an integer indicating the object category. Can an algorithm instead output an entire sentence describing the image?
 
-<div align="center">
-  <img src="Images/45.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/45.png" %}
 
 Traditional applications of supervised learning learned a function h : X → Y , where the output y was usually an integer or a real number. For example:
 
-<div align="center">
-  <img src="Images/46.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/46.png" %}
 
 One of the most exciting developments in end-to-end deep learning is that it is letting us directly learn y that are much more complex than a number. In the image-captioning example above, you can have a neural network input an image (x) and directly output a caption (y).
 
 Here are more examples:
 
-<div align="center">
-  <img src="Images/47.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/47.png" %}
 
 This is an accelerating trend in deep learning: When you have the right (input,output) labeled pairs, you can sometimes learn end-to-end even when the output is a sentence, an image, audio, or other outputs that are richer than a single number.
 
@@ -1083,37 +997,27 @@ Suppose your system is built using a complex machine learning pipeline, and you 
 
 Let’s use our Siamese cat classifier example:
 
-<div align="center">
-  <img src="Images/48.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/48.png" %}
 
 The first part, the cat detector, detects cats and crops them out of the image. The second part, the cat breed classifier, decides if it is a Siamese cat. It is possible to spend years working on improving either of these two pipeline components. How do you decide which component(s) to focus on?
 
 By carrying out **error analysis by parts**, you can try to attribute each mistake the algorithm makes to one (or sometimes both) of the two parts of the pipeline. For example, the algorithm misclassifies this image as not containing a Siamese cat (y=0) even though the correct label is y=1.
 
-<div align="center">
-  <img src="Images/49.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/49.png" %}
 
 Let’s manually examine what the two steps of the algorithm did. Suppose the Siamese cat detector had detected a cat as follows:
 
-<div align="center">
-  <img src="Images/50.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/50.png" %}
 
 This means that the cat breed classifier is given the following image:
 
-<div align="center">
-  <img src="Images/51.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/51.png" %}
 
 The cat breed classifier then correctly classifies this image as not containing a Siamese cat. Thus, the cat breed classifier is blameless: It was given of a pile of rocks and outputted a very reasonable label y=0. Indeed, a human classifying the cropped image above would also have predicted y=0. Thus, you can clearly attribute this error to the cat detector.
 
 If, on the other hand, the cat detector had outputted the following bounding box:
 
-<div align="center">
-  <img src="Images/52.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/52.png" %}
 
 then you would conclude that the cat detector had done its job, and that it was the cat breed classifier that is at fault.
 
@@ -1127,21 +1031,15 @@ Our description of how you attribute error to one part of the pipeline has been 
 
 Let’s continue to use this example:
 
-<div align="center">
-  <img src="Images/53.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/53.png" %}
 
 Suppose the cat detector outputted this bounding box:
 
-<div align="center">
-  <img src="Images/54.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/54.png" %}
 
 The cat breed classifier is thus given this cropped image, whereupon it incorrectly outputs y=0, or that there is no cat in the picture.
 
-<div align="center">
-  <img src="Images/55.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/55.png" %}
 
 The cat detector did its job poorly. However, a highly skilled human could arguably still recognize the Siamese cat from the poorly cropped image. So do we attribute this error to the cat detector, or the cat breed classifier, or both? It is ambiguous.
 
@@ -1149,9 +1047,7 @@ If the number of ambiguous cases like these is small, you can make whatever deci
 
 - Replace the cat detector output with a hand-labeled bounding box.
 
-<div align="center">
-  <img src="Images/56.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/56.png" %}
 
 - Run the corresponding cropped image through the cat breed classifier. If the cat breed classifier still misclassifies it, attribute the error to the cat breed classifier. Otherwise, attribute the error to the cat detector.
 
@@ -1166,9 +1062,7 @@ By carrying out this analysis on the misclassified dev set images, you can now u
 
 Here are the general steps for error attribution. Suppose the pipeline has three steps A, B and C, where A feeds directly into B, and B feeds directly into C.
 
-<div align="center">
-  <img src="Images/57.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/57.png" %}
 
 For each mistake the system makes on the dev set:
 
@@ -1178,9 +1072,7 @@ For each mistake the system makes on the dev set:
 
 Let’s look at a more complex example:
 
-<div align="center">
-  <img src="Images/58.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/58.png" %}
 
 Your self-driving car uses this pipeline. How do you use error analysis by parts to decide which component(s) to focus on?
 
@@ -1208,9 +1100,7 @@ But the results of this analysis would still be valid and give good guidance for
 
 Let’s return to the self-driving application, where a car detection algorithm outputs the location (and perhaps velocity) of the nearby cars, a pedestrian detection algorithm outputs the location of the nearby pedestrians, and these two outputs are finally used to plan a path for the car.
 
-<div align="center">
-  <img src="Images/59.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/59.png" %}
 
 To debug this pipeline, rather than rigorously following the procedure you could more informally ask:
 
@@ -1228,9 +1118,7 @@ This is another advantage of working on problems that humans can solve--you have
 
 What if each individual component of your ML pipeline is performing at human-level performance or near-human-level performance, but the overall pipeline falls far short of human-level? This usually means that the pipeline is flawed and needs to be redesigned. Error analysis can also help you understand if you need to redesign your pipeline.
 
-<div align="center">
-  <img src="Images/60.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/60.png" %}
 
 We posed the question of whether each of the three components’ performance is at human level. Suppose the answer to all three questions is yes. That is:
 
@@ -1246,9 +1134,7 @@ For example, suppose you realize that a human driver also needs to know the loca
 
 In the self-driving example above, in theory one could solve this problem by also feeding the raw camera image into the planning component. However, this would violate the design principle of “Task simplicity”, because the path planning module now needs to input a raw image and has a very complex task to solve. That’s why adding a Detect lane markings component is a better choice - it helps get the important and previously missing information about lane markings to the path planning module, but you avoid making any particular module overly complex to build/train.
 
-<div align="center">
-  <img src="Images/61.png">
-</div>
+{% include image.html image="notes/machine-learning-strategy/61.png" %}
 
 Ultimately, if you don’t think your pipeline as a whole will achieve human-level performance, even if every individual component has human-level performance (remember that you are comparing to a human who is given the same input as the component), then the pipeline is flawed and should be redesigned.
 
@@ -1270,12 +1156,8 @@ Ultimately, if you don’t think your pipeline as a whole will achieve human-lev
   - You want to build an object recognition system that detects pedestrians, cars, stop signs, and traffic lights (image has multiple labels).
   - Y shape will be `(4,m)` because we have 4 classes and each one is a binary one.
   - Then
-  <div align="center">
-    <img src="Images/65.png">
-  </div>
-  <div align="center">
-    <img src="Images/66.png">
-  </div>
+{% include image.html image="notes/machine-learning-strategy/65.png" %}
+{% include image.html image="notes/machine-learning-strategy/66.png" %}
 - In the last example you could have trained 4 neural networks separately but if some of the earlier features in neural network can be shared between these different types of objects, then you find that training one neural network to do four things results in better performance than training 4 completely separate neural networks to do the four tasks separately.
 - Multi-task learning will also work if y isn't complete for some labels. For example:
   ```
@@ -1284,9 +1166,7 @@ Ultimately, if you don’t think your pipeline as a whole will achieve human-lev
       [? 1 ? ...]
   ```
   - And in this case it will do good with the missing data, just the loss function will be different:   
-  <div align="center">
-    <img src="Images/67.png">
-  </div>
+{% include image.html image="notes/machine-learning-strategy/67.png" %}
 - Multi-task learning makes sense:
   - Training on a set of tasks that could benefit from having shared lower-level features.
   - Usually amount of data you have for each task is quite similar.
