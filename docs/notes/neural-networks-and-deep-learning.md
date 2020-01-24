@@ -193,57 +193,57 @@ The cost function $$J(w,b)$$ is then some surface above these horizontal axes $$
 
 ### Gradient Descent
 
-Gradient Descent is an algorithm that tries to minimize the cost function 𝐽(𝑤,𝑏) and to find optimal values for 𝑤 and 𝑏.
+Gradient Descent is an algorithm that tries to minimize the cost function $$J(w,b)$$ and to find optimal values for $$w$$ and $$b$$.
 
-For the purpose of illustration we will use 𝐽(𝑤), function that we want to minimize, as a function of one variable. To make this easier to draw, we are going to ignore 𝑏 for now, just to make this a one-dimensional plot instead of a high-dimensional plot.
+For the purpose of illustration we will use $$𝐽(w)$$, function that we want to minimize, as a function of one variable. To make this easier to draw, we are going to ignore $$b$$ for now, just to make this a one-dimensional plot instead of a high-dimensional plot.
 
-Gradient Descent starts at an initial parameter and begins to take values in the steepest downhill direction. Function 𝐽(𝑤,𝑏) is convex, so no matter where we initialize, we should get to the same point or roughly the same point.
+Gradient Descent starts at an initial parameter and begins to take values in the steepest downhill direction. Function $$J(w,b)$$ is convex, so no matter where we initialize, we should get to the same point or roughly the same point.
 
 After a single step, it ends up a little bit down and closer to a global otpimum because it is trying to take a step downhill in the direction of steepest descent or quickly down low as possible.
 
 After a fixed number of iterations of Gradient Descent, hopefully, will converge to the global optimum or get close to the global optimum.
 
-The **learning rate** 𝛼 controls how big step we take on each iteration of Gradient Descent.
+The **learning rate** $$\alpha$$ controls how big step we take on each iteration of Gradient Descent.
 
 {% include image.html image="notes/neural-networks-and-deep-learning/31.jpeg" %}
 
-If the derivative is positive, 𝑤 gets updated as 𝑤 minus a learning rate 𝛼 times the derivative 𝑑𝑤.
+If the derivative is positive, $$w$$ gets updated as $$w$$ minus a learning rate $$\alpha$$ times the derivative $$dw$$.
 
-We know that the derivative is positive, so we end up subtracting from 𝑤 and taking a step to the left. Here, Gradient Descent would make your algorithm slowly decrease the parameter if you have started off with this large value of 𝑤.
+We know that the derivative is positive, so we end up subtracting from $$w$$ and taking a step to the left. Here, Gradient Descent would make your algorithm slowly decrease the parameter if you have started off with this large value of $$w$$.
 
-Next, when the derivative is negative (left side of the convex function),  the Gradient Descent update would subtract 𝛼 times a negative number, and so we end up slowly increasing 𝑤 and we are making 𝑤 bigger and bigger with each successive iteration of Gradient Descent.
+Next, when the derivative is negative (left side of the convex function),  the Gradient Descent update would subtract $$\alpha$$ times a negative number, and so we end up slowly increasing $$w$$ and we are making $$w$$ bigger and bigger with each successive iteration of Gradient Descent.
 
-So, whether you initialize 𝑤 on the left or on the right, Gradient Descent would move you towards this global minimum.
+So, whether you initialize $$w$$ on the left or on the right, Gradient Descent would move you towards this global minimum.
 
 {% include image.html image="notes/neural-networks-and-deep-learning/32.png" %}
 
 ### Computation graph
 
-Let’s say that we’re trying to compute a function 𝐽, which is a function of three variables 𝑎, 𝑏, and 𝑐 and let’s say that function 𝐽 is 3(𝑎 + 𝑏𝑐).
+Let’s say that we’re trying to compute a function $$J$$, which is a function of three variables $$a$$, $$b$$, and $$c$$ and let’s say that function $$J$$ is $$3(a + bc)$$.
 
 {% include image.html image="notes/neural-networks-and-deep-learning/40.png" %}
 
 Computation of this function has actually three distinct steps:
 
-  - Compute 𝑏𝑐 and store it in the variable 𝑢, so 𝑢 = 𝑏𝑐
-  - Compute 𝑣 = 𝑎 + 𝑢,
-  - Output 𝐽 is 3𝑣.
+- Compute $$bc$$ and store it in the variable $$u$$, so $$u = bc$$
+- Compute $$v = a + u$$
+- Output $$J$$ is $$3v$$
 
 Let’s summarize:
 
 {% include image.html image="notes/neural-networks-and-deep-learning/41.png" %}
 
-In this simple example we see that, through a left-to-right pass, you can compute the value of 𝐽.
+In this simple example we see that, through a left-to-right pass, you can compute the value of $$J$$.
 
 ### Derivatives with a Computation Graph
 
-How to figure out derivative calculations of the function 𝐽.
+How to figure out derivative calculations of the function $$J$$.
 
-Now we want using a computation graph to compute the derivative of 𝐽 with respect to 𝑣. Let’s get back to our picture, but with concrete parameters.
+Now we want using a computation graph to compute the derivative of $$J$$ with respect to $$v$$. Let’s get back to our picture, but with concrete parameters.
 
 {% include image.html image="notes/neural-networks-and-deep-learning/42.png" %}
 
-First, let’s see the final change of value 𝐽 if we change 𝑣 value a little bit:
+First, let’s see the final change of value $$J$$ if we change $$v$$ value a little bit:
 
 {% include image.html image="notes/neural-networks-and-deep-learning/43.png" %}
 
@@ -251,23 +251,23 @@ We can get the same result if we know calculus:
 
 {% include image.html image="notes/neural-networks-and-deep-learning/44.png" %}
 
-We emphasize that calculation of d𝐽/d𝑣 is one step of a back propagation. The following picture depicts **forward propagation** as well as **backward propagation**:
+We emphasize that calculation of $$dJ/dv$$ is one step of a back propagation. The following picture depicts **forward propagation** as well as **backward propagation**:
 
 {% include image.html image="notes/neural-networks-and-deep-learning/45.png" %}
 
-Next, what is d𝐽/d𝑎. If we increase 𝑎 from 5 to 5.001, 𝑣 will increase to 11.001 and 𝐽 will increase to 33.003. So, the increase to 𝐽 is the three times the increase to 𝑎 so that means this derivative is equal to 3.
+Next, what is $$dJ/da$$. If we increase $$a$$ from 5 to 5.001, $$v$$ will increase to 11.001 and $$J$$ will increase to 33.003. So, the increase to $$J$$ is the three times the increase to $$a$$ so that means this derivative is equal to 3.
 
 {% include image.html image="notes/neural-networks-and-deep-learning/46.png" %}
 
-One way to break this down is to say that if we change 𝑎, that would change 𝑣 and through changing 𝑣 that would change 𝐽. By increasing 𝑎, how much 𝐽 changed is also determined by d𝑣/d𝑎. This is called a **chain rule** in calculus:
+One way to break this down is to say that if we change $$a$$, that would change $$v$$ and through changing $$v$$ that would change $$J$$. By increasing $$a$$, how much $$J$$ changed is also determined by $$dv/da$$. This is called a **chain rule** in calculus:
 
 {% include image.html image="notes/neural-networks-and-deep-learning/49.png" %}
 
-Now, let’s calculate derivative d𝐽/d𝑢.
+Now, let’s calculate derivative $$dJ/du$$.
 
 {% include image.html image="notes/neural-networks-and-deep-learning/47.png" %}
 
-Finally, we have to find the most important values: value of d𝐽/d𝑏 and d𝐽/d𝑐. Let’s calculate them:
+Finally, we have to find the most important values: value of $$dJ/db$$ and $$dJ/dc$$. Let’s calculate them:
 
 {% include image.html image="notes/neural-networks-and-deep-learning/48.png" %}
 
