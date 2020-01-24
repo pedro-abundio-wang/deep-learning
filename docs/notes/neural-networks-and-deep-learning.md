@@ -154,11 +154,11 @@ When we implement logistic regression, our job is to try to learn parameters $$w
 
 ### Logistic regression cost function
 
-First, to train parameters 𝑤 and 𝑏 of a logistic regression model we need to define a **cost function**.
+First, to train parameters $$w$$ and $$b$$ of a logistic regression model we need to define a **cost function**.
 
-Given a training set of 𝑚 training examples, we want to find parameters 𝑤 and 𝑏, so that 𝑦̂ is as close to 𝑦 (ground truth).
+Given a training set of $$m$$ training examples, we want to find parameters $$w$$ and $$b$$, so that $$\hat{y}$$ is as close to $$y$$ (ground truth).
 
-Here, we will use (𝑖) superscript to index different training examples.
+Here, we will use $$(i)$$ superscript to index different training examples.
 
 Henceforth, we will use **loss (error) function** to measure how well our algorithm is doing. The loss function is applied only to a single training sample, and commonly used loss function is a **squared error**:
 
@@ -180,16 +180,16 @@ To understand why this is a good choice, let’s see these two cases:
 
 {% include image.html image="notes/neural-networks-and-deep-learning/29.png" %}
 
-A cost function measures how well our parameters 𝑤 and 𝑏 are doing on the entire training set :
+A cost function measures how well our parameters $$w$$ and $$b$$ are doing on the entire training set :
 
 {% include image.html image="notes/neural-networks-and-deep-learning/30.png" %}
 
-  - Cost function 𝐽 is defined as an average of a sum of loss functions of all training examples.
-  - Cost function is a function of parameters 𝑤 and 𝑏.
+- Cost function $$J$$ is defined as an average of a sum of loss functions of all training examples.
+- Cost function is a function of parameters $$w$$ and $$b$$.
 
-In cost function diagram, the horizontal axes represent our spatial parameters, 𝑤 and 𝑏. In practice, 𝑤 can be of a much higher dimension, but for the purposes of plotting, we will illustrate 𝑤 and 𝑏 as scalars.
+In cost function diagram, the horizontal axes represent our spatial parameters, $$w$$ and $$b$$. In practice, $$w$$ can be of a much higher dimension, but for the purposes of plotting, we will illustrate $$w$$ and $$b$$ as scalars.
 
-The cost function 𝐽(𝑤,𝑏) is then some surface above these horizontal axes 𝑤 and 𝑏. So, the height of the surface represents the value of 𝐽(𝑤,𝑏) at a certain point. Our goal will be to minimize function 𝐽, and to find parameters 𝑤 and 𝑏.
+The cost function $$J(w,b)$$ is then some surface above these horizontal axes $$w$$ and $$b$$. So, the height of the surface represents the value of $$J(w,b)$$ at a certain point. Our goal will be to minimize function $$J$$, and to find parameters $$w$$ and $$b$$.
 
 ### Gradient Descent
 

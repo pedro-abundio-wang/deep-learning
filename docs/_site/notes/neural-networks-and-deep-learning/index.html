@@ -283,11 +283,11 @@
 
 <h3 id="logistic-regression-cost-function">Logistic regression cost function</h3>
 
-<p>First, to train parameters 𝑤 and 𝑏 of a logistic regression model we need to define a <strong>cost function</strong>.</p>
+<p>First, to train parameters <script type="math/tex">w</script> and <script type="math/tex">b</script> of a logistic regression model we need to define a <strong>cost function</strong>.</p>
 
-<p>Given a training set of 𝑚 training examples, we want to find parameters 𝑤 and 𝑏, so that 𝑦̂ is as close to 𝑦 (ground truth).</p>
+<p>Given a training set of <script type="math/tex">m</script> training examples, we want to find parameters <script type="math/tex">w</script> and <script type="math/tex">b</script>, so that <script type="math/tex">\hat{y}</script> is as close to <script type="math/tex">y</script> (ground truth).</p>
 
-<p>Here, we will use (𝑖) superscript to index different training examples.</p>
+<p>Here, we will use <script type="math/tex">(i)</script> superscript to index different training examples.</p>
 
 <p>Henceforth, we will use <strong>loss (error) function</strong> to measure how well our algorithm is doing. The loss function is applied only to a single training sample, and commonly used loss function is a <strong>squared error</strong>:</p>
 
@@ -321,7 +321,7 @@
 <tr><td><img src="/doks-theme/assets/images/notes/neural-networks-and-deep-learning/29.png" style="" /></td></tr>
 </table>
 
-<p>A cost function measures how well our parameters 𝑤 and 𝑏 are doing on the entire training set :</p>
+<p>A cost function measures how well our parameters <script type="math/tex">w</script> and <script type="math/tex">b</script> are doing on the entire training set :</p>
 
 <table class="image">
 
@@ -329,13 +329,13 @@
 </table>
 
 <ul>
-  <li>Cost function 𝐽 is defined as an average of a sum of loss functions of all training examples.</li>
-  <li>Cost function is a function of parameters 𝑤 and 𝑏.</li>
+  <li>Cost function <script type="math/tex">J</script> is defined as an average of a sum of loss functions of all training examples.</li>
+  <li>Cost function is a function of parameters <script type="math/tex">w</script> and <script type="math/tex">b</script>.</li>
 </ul>
 
-<p>In cost function diagram, the horizontal axes represent our spatial parameters, 𝑤 and 𝑏. In practice, 𝑤 can be of a much higher dimension, but for the purposes of plotting, we will illustrate 𝑤 and 𝑏 as scalars.</p>
+<p>In cost function diagram, the horizontal axes represent our spatial parameters, <script type="math/tex">w</script> and <script type="math/tex">b</script>. In practice, <script type="math/tex">w</script> can be of a much higher dimension, but for the purposes of plotting, we will illustrate <script type="math/tex">w</script> and <script type="math/tex">b</script> as scalars.</p>
 
-<p>The cost function 𝐽(𝑤,𝑏) is then some surface above these horizontal axes 𝑤 and 𝑏. So, the height of the surface represents the value of 𝐽(𝑤,𝑏) at a certain point. Our goal will be to minimize function 𝐽, and to find parameters 𝑤 and 𝑏.</p>
+<p>The cost function <script type="math/tex">J(w,b)</script> is then some surface above these horizontal axes <script type="math/tex">w</script> and <script type="math/tex">b</script>. So, the height of the surface represents the value of <script type="math/tex">J(w,b)</script> at a certain point. Our goal will be to minimize function <script type="math/tex">J</script>, and to find parameters <script type="math/tex">w</script> and <script type="math/tex">b</script>.</p>
 
 <h3 id="gradient-descent">Gradient Descent</h3>
 
