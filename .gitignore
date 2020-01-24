@@ -99,7 +99,7 @@ venv.bak/
 .ropeproject
 
 # mkdocs documentation
-/site
+_site
 .sass-cache/
 
 # mypy
