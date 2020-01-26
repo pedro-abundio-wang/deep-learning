@@ -31,8 +31,6 @@ Let’s start with the house price prediction example. Suppose that you have a d
 
 We will put a straight line through these data points. Since we know that our prices cannot be negative, we end up with a horizontal line that passes through 0.
 
-{% include image.html image="notes/neural-networks-and-deep-learning/13.png" %}
-
 The blue line is the function for predicting the price of the house as a function of its size. You can think of this function as a very simple neural network. The input to the neural network is the size of a house, denoted by $$x$$, which goes into a single neuron and then outputs the predicted price, which we denote by $$y$$.
 
 {% include image.html image="notes/neural-networks-and-deep-learning/14.png" %}
@@ -129,7 +127,11 @@ Notation that we will follow is shown in the table below:
 
 **Logistic regression** is a supervised learning algorithm that we can use when labels are either 0 or 1 and this is the so-called **Binary Classification Problem**. An input feature vector $$x$$ may correspond to an image that we want to recognize as either a cat picture (1) or a non-cat picture (0). That is, we want an algorithm to output the prediction which is an estimate of $$y$$:
 
-{% include image.html image="notes/neural-networks-and-deep-learning/24.png" %}
+$$ \hat{y} = P(y=1|x) $$
+
+$$ x \in R^{n_x} $$
+
+$$ Parameters: w \in R^{n_x}, b \in R $$
 
 More formally, we want $$\hat{y}$$ to be the chance that $$\hat{y}$$ is equal to 1, given the input features $$x$$. In other words, if $$x$$ is a picture, we want $$y$$ to tell us what is the chance that this is a cat picture.
 
@@ -544,7 +546,7 @@ Parameters 𝑤<sup>[2]</sup> and 𝑏<sup>[2]</sup> are associeted with the sec
   - 𝑤<sup>[2]</sup> is (1,4) matrix
   - 𝑏<sup>[2]</sup> is a real number
 
-### Computing a Neural Network's Output
+### Computing Neural Network Output
 
 Computing an output of a Neural Network is like computing an output in Logistic Regression, but repeating it multiple times. We have said that circle in Logistic Regression, or one node in Neural Network, represents two steps of calculations. We have also said that Logistic Regression is the simplest Neural Network.
 
@@ -570,7 +572,7 @@ Calculating all these equations with 𝑓𝑜𝑟 loop is highly inefficient so 
 
 So we can define these matrices:
 
-![](Images/96.png)
+{% include image.html image="notes/neural-networks-and-deep-learning/96.png" %}
 
 To compute the output of a Neural Network we need the following four equations. For the first layer of a Neural network we need these equations:
 
@@ -694,7 +696,7 @@ There is one more function, and it is modification of ReLU function. It is a  Le
 
 {% include image.html image="notes/neural-networks-and-deep-learning/124.png" %}
 
-### Why do you need non-linear activation functions?
+### Why Non-linear Activation Functions
 
 For this shallow Neural Network:
 
@@ -868,7 +870,7 @@ Even more complex neural network, which we can call **deep neural** network, is 
 
 When counting layers in a neural network we count hidden layers as well as the output layer, **but we don’t count an input layer**.
 
-{% include image.html image="notes/neural-networks-and-deep-learning/154.png" %}
+{% include image.html image="notes/neural-networks-and-deep-learning/154.jpg" %}
 
 Here is the notation overview that we will use to describe deep neural networks:
 
@@ -916,7 +918,7 @@ From equations we have written, we can see that generalized equations for layer 
 
 {% include image.html image="notes/neural-networks-and-deep-learning/159.png" %}
 
-### Why deep representations?
+### Why deep representations
 
 We’ve heard that neural networks work really well for a lot of problems. However, neural networks doesn’t need only to be big. Neural Networks also need to be deep or to have a lot hidden layers.
 

@@ -236,6 +236,7 @@ al = al / keep_prob
 - So if n<sub>x</sub> is large we want w to be smaller to not explode the cost.
 - So it turns out that we need the variance which equals 1/n<sub>x</sub> to be the range of w
 - So lets say when we initialize w like this:
+
 ```python
 np.random.randn(shape) * np.sqrt(1/n[l-1])          # Xavier Initialization - tanh forward - weights
 np.random.randn(shape) * np.sqrt(1/n[l])            # Xavier Initialization - tanh backward - gradients
@@ -243,6 +244,7 @@ np.random.randn(shape) * np.sqrt(2/(n[l-1] + n[l])) # Xavier Initialization - ta
 
 np.random.randn(shape) * np.sqrt(2/n[l-1])          # He Initialization - RELU
 ```
+
 - This is one of the best way of partially solution to vanishing / exploding gradients (ReLU + Weight Initialization with variance) which will help gradients not to vanish / explode too quickly
 
 ### Numerical approximation of gradients
