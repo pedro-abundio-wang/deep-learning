@@ -23,7 +23,7 @@ page_nav:
 
 ## Introduction to deep learning
 
-### What is a Neural Network
+### What is Neural Network
 
 Let’s start with the house price prediction example. Suppose that you have a dataset with six houses and we know the price and the size of these houses. We want to fit a function to predict the price of these houses with respect to its size.
 
@@ -237,7 +237,7 @@ Let’s summarize:
 
 In this simple example we see that, through a left-to-right pass, you can compute the value of $$J$$.
 
-### Derivatives with a Computation Graph
+### Derivatives with Computation Graph
 
 How to figure out derivative calculations of the function $$J$$.
 
