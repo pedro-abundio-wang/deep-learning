@@ -289,30 +289,28 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
 - In feed-forward deep nets, there could be 100 or even 200 layers. In deep RNNs stacking three layers is already considered deep and expensive to train.
 - In some cases you might see some feed-forward network layers connected after recurrent cell.
 
-## Natural Language Processing & Word Embeddings
+## Natural Language Processing
 
-### Introduction to Word Embeddings
-
-#### Word Representation
+### Word Representation
 
 - NLP has been revolutionized by deep learning and especially by RNNs and deep RNNs.
 - Word embeddings is a way of representing words. It lets your algorithm automatically understand the analogies between words like "king" and "queen".
 - So far we have defined our language by a vocabulary. Then represented our words with a one-hot vector that represents the word in the vocabulary.
   - An image example would be:   
-    {% include image.html image="notes/sequence-models/27.png" %}
-  - We will use the annotation **O** <sub>idx</sub> for any word that is represented with one-hot like in the image.
+{% include image.html image="notes/sequence-models/27.png" %}
+  - We will use the annotation $$O_{idx}$$ for any word that is represented with one-hot like in the image.
   - One of the weaknesses of this representation is that it treats a word as a thing that itself and it doesn't allow an algorithm to generalize across words.
     - For example: "I want a glass of **orange** ______", a model should predict the next word as **juice**.
     - A similar example "I want a glass of **apple** ______", a model won't easily predict **juice** here if it wasn't trained on it. And if so the two examples aren't related although orange and apple are similar.
   - Inner product between any one-hot encoding vector is zero. Also, the distances between them are the same.
 - So, instead of a one-hot presentation, won't it be nice if we can learn a featurized representation with each of these words: man, woman, king, queen, apple, and orange?   
-  {% include image.html image="notes/sequence-models/28.jpg" %}
+{% include image.html image="notes/sequence-models/28.jpg" %}
   - Each word will have a, for example, 300 features with a type of float point number.
   - Each word column will be a 300-dimensional vector which will be the representation.
   - We will use the notation **e**<sub>5391</sub> to describe **man** word features vector.
   - Now, if we return to the examples we described again:
-    -  "I want a glass of **orange** ______"
-    -  I want a glass of **apple** ______
+    - "I want a glass of **orange** ______"
+    - "I want a glass of **apple** ______"
   - Orange and apple now share a lot of similar features which makes it easier for an algorithm to generalize between them.
   - We call this representation **Word embeddings**.
 - To visualize word embeddings we use a t-SNE algorithm to reduce the features to 2 dimensions which makes it easy to visualize:    
@@ -320,7 +318,7 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
   - You will get a sense that more related words are closer to each other.
 - The **word embeddings** came from that we need to embed a unique vector inside a n-dimensional space.
 
-#### Using word embeddings
+### Using word embeddings
 
 - Let's see how we can take the feature representation we have extracted from each word and apply it in the Named entity recognition problem.
 - Given this example (from named entity recognition):   
@@ -344,7 +342,7 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
   - Words **encoding** and **embeddings** have a similar meaning here.
 - In the word embeddings task, we are learning a representation for each word in our vocabulary (unlike in image encoding where we have to map each new image to some n-dimensional vector). We will discuss the algorithm in next sections.
 
-#### Properties of word embeddings
+### Properties of word embeddings
 
 - One of the most fascinating properties of word embeddings is that they can also help with analogy reasoning. While analogy reasoning may not be by itself the most important NLP application, but it might help convey a sense of what these word embeddings can do.
 - Analogies example:
@@ -372,7 +370,7 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
 - You can also use Euclidean distance as a similarity function (but it rather measures a dissimilarity, so you should take it with negative sign).
 - We can use this equation to calculate the similarities between word embeddings and on the analogy problem where `u` = e<sub>w</sub> and `v` = e<sub>king</sub> - e<sub>man</sub> + e<sub>woman</sub>
 
-#### Embedding matrix
+### Embedding matrix
 
 - When you implement an algorithm to learn a word embedding, what you end up learning is a **embedding matrix**.
 - Let's take an example:
@@ -384,9 +382,7 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
 - In the next sections, you will see that we first initialize `E` randomly and then try to learn all the parameters of this matrix.
 - In practice it's not efficient to use a dot multiplication when you are trying to extract the embeddings of a specific word, instead, we will use slicing to slice a specific column. In Keras there is an embedding layer that extracts this column with no multiplication.
 
-### Learning Word Embeddings: Word2vec & GloVe
-
-#### Learning word embeddings
+### Learning word embeddings
 
 - Let's start learning some algorithms that can learn word embeddings.
 - At the start, word embeddings algorithms were complex but then they got simpler and simpler.
@@ -420,7 +416,7 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
 - Researchers found that if you really want to build a language model, it's natural to use the last few words as a context. But if your main goal is really to learn a word embedding, then you can use all of these other contexts and they will result in very meaningful work embeddings as well.
 - To summarize, the language modeling problem poses a machines learning problem where you input the context (like the last four words) and predict some target words. And posing that problem allows you to learn good word embeddings.
 
-#### Word2Vec
+### Word2Vec
 
 - Before presenting Word2Vec, lets talk about **skip-grams**:
   - For example, we have the sentence: "I want a glass of orange juice to go along with my cereal"
@@ -455,7 +451,7 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
   - In practice, we don't take the context uniformly random, instead there are some heuristics to balance the common words and the non-common words.
 - word2vec paper includes ideas of learning word embeddings. One is skip-gram model and another is CBoW (continuous bag-of-words).
 
-#### Negative Sampling
+### Negative Sampling
 
 - Negative sampling allows you to do something similar to the skip-gram model, but with a much more efficient learning algorithm. We will create a different learning problem.
 - Given this example:
@@ -486,7 +482,7 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
   - The best is to sample with this equation (according to authors):   
   {% include image.html image="notes/sequence-models/43.png" %}
 
-#### GloVe word vectors
+### GloVe word vectors
 
 - GloVe is another algorithm for learning the word embedding. It's the simplest of them.
 - This is not used as much as word2vec or skip-gram models, but it has some enthusiasts because of its simplicity.
@@ -508,9 +504,7 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
   - Because word embeddings are very computationally expensive to train, most ML practitioners will load a pre-trained set of embeddings.
   - A final note that you can't guarantee that the axis used to represent the features will be well-aligned with what might be easily humanly interpretable axis like gender, royal, age.
 
-### Applications using Word Embeddings
-
-#### Sentiment Classification
+### Sentiment Classification
 
 - As we have discussed before, Sentiment classification is the process of finding if a text has a positive or a negative review. Its so useful in NLP and is used in so many applications. An example would be:   
   {% include image.html image="notes/sequence-models/45.png" %}
@@ -527,7 +521,7 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
   - And so if you train this algorithm, you end up with a pretty decent sentiment classification algorithm.
   - Also, it will generalize better even if words weren't in your dataset. For example you have the sentence "Completely **<u>absent</u>** of good taste, good service, and good ambience", then even if the word "absent" is not in your label training set, if it was in your 1 billion or 100 billion word corpus used to train the word embeddings, it might still get this right and generalize much better even to words that were in the training set used to train the word embeddings but not necessarily in the label training set that you had for specifically the sentiment classification problem.
 
-#### Debiasing word embeddings
+### Debiasing word embeddings
 
 - We want to make sure that our word embeddings are free from undesirable forms of bias, such as gender bias, ethnicity bias and so on.
 - Horrifying results on the trained word embeddings in the context of Analogies:
@@ -557,27 +551,25 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
        - To do that, we move grandfather and grandmother to a point where they will be in the middle of the non-bias axis.
        - There are some words you need to do this for in your steps. Number of these words is relatively small.
 
-## Sequence models & Attention mechanism
+## Sequence models
 
-### Various sequence to sequence architectures
-
-#### Basic Models
+### Basic Models
 
 - In this section we will learn about sequence to sequence (Many-to-Many) models which are useful in various applications including machine translation and speech recognition.
 - Let's start with the basic model:
   - Given this machine translation problem in which X is a French sequence and Y is an English sequence.   
-    {% include image.html image="notes/sequence-models/52.png" %}
+{% include image.html image="notes/sequence-models/52.png" %}
   - Our architecture will include **encoder** and **decoder**.
   - The encoder is RNN - LSTM or GRU are included - and takes the input sequence and then outputs a vector that should represent the whole input.
   - After that the decoder network, also RNN, takes the sequence built by the encoder and outputs the new sequence.   
-  {% include image.html image="notes/sequence-models/53.png" %}
+{% include image.html image="notes/sequence-models/53.png" %}
 - An architecture similar to the mentioned above works for image captioning problem:
   - In this problem X is an image, while Y is a sentence (caption).
   - The model architecture image:
-    {% include image.html image="notes/sequence-models/54.jpeg" %}
+{% include image.html image="notes/sequence-models/54.jpeg" %}
   - The architecture uses a pretrained CNN (like AlexNet) as an encoder for the image, and the decoder is an RNN.
 
-#### Picking the most likely sentence
+### Picking the most likely sentence
 
 - There are some similarities between the language model we have learned previously, and the machine translation model we have just discussed, but there are some differences as well.
 - The language model we have learned is very similar to the decoder part of the machine translation model, except for a<sup>\<0></sup>   
@@ -602,7 +594,7 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
     - Suppose that when you are choosing with greedy approach, the first two words were "Jane is", the word that may come after that will be "going" as "going" is the most common word that comes after "<Noun> is" so the result may look like this: "Jane is going to be visiting Africa in September.". And that isn't the best/optimal solution.
 - So what is better than greedy approach, is to get an approximate solution, that will try to maximize the output (the last equation above).
 
-#### Beam Search
+### Beam Search
 
 - Beam search is the most widely used algorithm to get the best output sequence. It's a heuristic search algorithm.
 - To illustrate the algorithm we will stick with the example from the previous section. We need Y = "Jane is visiting Africa in September."
@@ -613,7 +605,7 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
 - In this algorithm, keep only B instances of your network.
 - If B = 1 this will become the greedy search.
 
-#### Refinements to Beam Search
+### Refinements to Beam Search
 
 - In the previous section, we have discussed the basic beam search. In this section, we will try to do some refinements to it.
 - The first thing is **Length optimization**
@@ -638,7 +630,7 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
   - B=100, B=1000 are uncommon (sometimes used in research settings)
   - Unlike exact search algorithms like BFS (Breadth First Search) or  DFS (Depth First Search), Beam Search runs faster but is not guaranteed to find the exact solution.
 
-#### Error analysis in beam search
+### Error analysis in beam search
 
 - We will use error analysis to figure out if the `B` hyperparameter of the beam search is the problem (it doesn't get an optimal solution) or in our RNN part.
 - Let's take an example:
@@ -654,7 +646,7 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
     - Case 2 (P(y<sup>*</sup> | X)  <= P(y&#770; | X)):
       - Conclusion: RNN model is at fault.
 
-#### BLEU Score
+### BLEU Score
 
 - One of the challenges of machine translation, is that given a sentence in a language there are one or more possible good translation in another language. So how do we evaluate our results?
 - The way we do this is by using **BLEU score**. BLEU stands for bilingual evaluation understudy.
@@ -698,7 +690,7 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
 - BLEU score has several open source implementations.
 - It is used in a variety of systems like machine translation and image captioning.
 
-#### Attention Model Intuition
+### Attention Model Intuition
 
 - So far we were using sequence to sequence models with an encoder and decoders. There is a technique called attention which makes these models even better.
 - The attention idea has been one of the most influential ideas in deep learning.
@@ -726,7 +718,7 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
   - And so to generate any word there will be a set of attention weights that controls which words we are looking at right now.
     {% include image.html image="notes/sequence-models/67.jpg" %}
 
-#### Attention Model
+### Attention Model
 
 - Lets formalize the intuition from the last section into the exact details on how this can be implemented.
 - First we will have an bidirectional RNN (most common is LSTMs) that encodes French language:   
@@ -750,9 +742,7 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
 - One fun way to see how attention works is by visualizing the attention weights:   
   {% include image.html image="notes/sequence-models/74.png" %}
 
-### Speech recognition - Audio data
-
-#### Speech recognition
+### Speech recognition
 
 - One of the most exciting developments using sequence-to-sequence models has been the rise of very accurate speech recognition.
 - Let's define the speech recognition problem:
@@ -790,7 +780,7 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
     - This paper's ideas were also used by Baidu's DeepSpeech.
 - Using both attention model and CTC cost can help you to build an accurate speech recognition system.
 
-#### Trigger Word Detection
+### Trigger Word Detection
 
 - With the rise of deep learning speech recognition, there are a lot of devices that can be waked up by saying some words with your voice. These systems are called trigger word detection systems.
 - For example, Alexa - a smart device made by Amazon - can answer your call "Alexa, what time is it?" and then Alexa will respond to you.
