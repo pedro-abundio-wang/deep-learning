@@ -165,9 +165,9 @@ Fully Convolutional Networks for Semantic Segmentation
 
 ## RNN
 
-On the properties of neural machine translation: Encoder-decoder approaches
+[GRU] On the properties of neural machine translation: Encoder-decoder approaches
 
-Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling
+[GRU] Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling
 
 Long short-term memory
 

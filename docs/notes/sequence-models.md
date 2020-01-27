@@ -157,6 +157,11 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
   - **Pair** and **pear** sounds exactly the same, so how would a speech recognition application choose from the two.
   - That's where the language model comes in. It gives a probability for the two sentences and the application decides the best based on this probability.
 - The job of a language model is to give a probability of any given sequence of words.
+- To use this model:
+  - For predicting the chance of **next word**, we feed the sentence to the RNN and then get the final $${\hat{y}}^{<t>}$$ one-hot vector and sort it by maximum probability.
+  - For taking the **probability of a sentence**, we compute this:
+    $$p(y^{<1>} y^{<2>} y^{<3>}) = p(y^{<1>})p(y^{<2>}|y^{<1>})p(y^{<3>}|y^{<1>}y^{<2>})$$
+    - This is simply feeding the sentence into the RNN and multiplying the probabilities (outputs).
 - **How to build language models with RNNs?**
   - The first thing is to get a **training set**: a large corpus of target language text.
   - Then tokenize this training set by getting the vocabulary and then one-hot each word.
@@ -165,37 +170,30 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
   - In training time we will use this:   
 {% include image.html image="notes/sequence-models/13.jpeg" %}
   - The loss function is defined by cross-entropy loss:
-  $$L(Y, \hat{Y}) = \sum_{i} L(y_i, \hat{y}_i) = - \sum_{i} \sum_{t} y_{i}^{<t>} log \hat{y}_i^{<t>}$$
+  $$L = \sum_{t} L(y^{<t>}, \hat{y}^{<t>}) = - \sum_{t} \sum_{i} y_{i}^{<t>} log \hat{y}_i^{<t>}$$
   - $$i$$ is for all elements in the corpus, $$t$$ is for all timesteps.
-- To use this model:
-  - For predicting the chance of **next word**, we feed the sentence to the RNN and then get the final $${\hat{y}}^{<t>}$$ one-hot vector and sort it by maximum probability.
-  - For taking the **probability of a sentence**, we compute this:
-    - $$p(y^{<1>} y^{<2>} y^{<3>}) = p(y^{<1>}) p(y^{<2>}|y^{<1>}) p(y^{<3>}|y^{<1>},y^{<2>})$$
-    - This is simply feeding the sentence into the RNN and multiplying the probabilities (outputs).
 
 ### Sampling novel sequences
 
 - After a sequence model is trained on a language model, to check what the model has learned you can apply it to sample novel sequence.
-- Lets see the steps of how we can sample a novel sequence from a trained sequence language model:
-  1. Given this model:   
-    {% include image.html image="notes/sequence-models/15.png" %}
-  2. We first pass a<sup><0></sup> = zeros vector, and x<sup><1></sup> = zeros vector.
-  3. Then we choose a prediction randomly from distribution obtained by y&#770;<sup><1></sup>. For example it could be "The".
-     - In numpy this can be implemented using: `numpy.random.choice(...)`
-     - This is the line where you get a random beginning of the sentence each time you sample run a novel sequence.
-  4. We pass the last predicted word with the calculated  a<sup><1></sup>
-  5. We keep doing 3 & 4 steps for a fixed length or until we get the `<EOS>` token.
-  6. You can reject any `<UNK>` token if you mind finding it in your output.
-- So far we have to build a word-level language model. It's also possible to implement a **character-level** language model.
+- Lets see the steps of how we can sample a novel sequence from a trained sequence language model, given the following model:   
+{% include image.html image="notes/sequence-models/15.png" %}
+  - We first pass $$a^{<0>}$$ = zeros vector, and $$x^{<1>}$$ = zeros vector.
+  - Then we choose a prediction randomly from distribution obtained by $$\hat{y}^{<1>}$$. For example it could be "The".
+    - In numpy this can be implemented using: `numpy.random.choice(...)`
+    - This is the line where you get a random beginning of the sentence each time you sample run a novel sequence.
+  - We pass the last predicted word and keep doing those steps for a fixed length or until we get the `<EOS>` token.
+  - You can reject any `<UNK>` token if you mind finding it in your output.
+- So far we have to build a **word-level** language model. It's also possible to implement a **character-level** language model.
 - In the character-level language model, the vocabulary will contain `[a-zA-Z0-9]`, punctuation, special characters and possibly `<EOS>` token.
 - Character-level language model has some pros and cons compared to the word-level language model
   - Pros:
-    1. There will be no `<UNK>` token - it can create any word.
+    - There will be no `<UNK>` token - it can create any word.
   - Cons:
-    1. The main disadvantage is that you end up with much longer sequences.
-    2. Character-level language models are not as good as word-level language models at capturing long range dependencies between how the the earlier parts of the sentence also affect the later part of the sentence.
-    3. Also more computationally expensive and harder to train.
-- The trend Andrew has seen in NLP is that for the most part, a word-level language model is still used, but as computers get faster there are more and more applications where people are, at least in some special cases, starting to look at more character-level models. Also, they are used in specialized applications where you might need to deal with unknown words or other vocabulary words a lot. Or they are also used in more specialized applications where you have a more specialized vocabulary.
+    - The main disadvantage is that you end up with much longer sequences.
+    - Character-level language models are not as good as word-level language models at capturing long range dependencies between how the the earlier parts of the sentence also affect the later part of the sentence.
+    - Also more computationally expensive and harder to train.
+- The trend has seen in NLP is that for the most part, a word-level language model is still used, but as computers get faster there are more and more applications where people are, at least in some special cases, starting to look at more character-level models. Also, they are used in specialized applications where you might need to deal with unknown words or other vocabulary words a lot. Or they are also used in more specialized applications where you have a more specialized vocabulary.
 
 ### Vanishing gradients with RNNs
 
@@ -204,7 +202,6 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
 - Let's take an example. Suppose we are working with language modeling problem and there are two sequences that model tries to learn:
   - "The **cat**, which already ate ..., **was** full"
   - "The **cats**, which already ate ..., **were** full"
-  - Dots represent many words in between.
 - What we need to learn here that "was" came with "cat" and that "were" came with "cats". The naive RNN is not very good at capturing very long-term dependencies like this.
 - As we have discussed in Deep neural networks, deeper networks are getting into the vanishing gradient problem. That also happens with RNNs with a long sequence size.   
 {% include image.html image="notes/sequence-models/16.png" %}
@@ -214,88 +211,72 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
 - The conclusion is that RNNs aren't good in **long-term dependencies**.
 - In theory, RNNs are absolutely capable of handling such “long-term dependencies.” A human could carefully pick parameters for them to solve toy problems of this form. Sadly, in practice, RNNs don’t seem to be able to learn them.
 - Vanishing gradients problem tends to be the bigger problem with RNNs than the exploding gradients problem.
-- Exploding gradients can be easily seen when your weight values become `NaN`. So one of the ways solve exploding gradient is to apply **gradient clipping** means if your gradient is more than some threshold
+- Exploding gradients can be easily seen when your weight values become `NaN`. So one of the ways solve **exploding gradient** is to apply **gradient clipping** means if your gradient is more than some threshold
 - re-scale some of your gradient vector so that is not too big. So there are cliped according to some maximum value.
 {% include image.html image="notes/sequence-models/26.png" %}
 - Solutions for the Exploding gradient problem:
-  - Truncated backpropagation.
-    - Not to update all the weights in the way back.
-    - Not optimal. You won't update all the weights.
   - Gradient clipping.
 - Solution for the Vanishing gradient problem:
-  - Weight initialization. Like He initialization.
-  - Echo state networks.
-  - Use LSTM/GRU networks. Most popular.
+  - Weight initialization (He initialization)
+  - Use LSTM/GRU networks.
 
 ### Gated Recurrent Unit (GRU)
 
-- GRU is an RNN type that can help solve the vanishing gradient problem and can remember the long-term dependencies.
+- GRU is an RNN type that can help solve the **vanishing gradient problem** and can remember the **long-term dependencies**.
 - The basic RNN unit can be visualized to be like this:
 {% include image.html image="notes/sequence-models/04-a.png" %}
 {% include image.html image="notes/sequence-models/04.png" %}
 - We will represent the GRU with a similar drawings.
-- Each layer in **GRUs**  has a new variable `C` which is the memory cell. It can tell to whether memorize something or not.
-- In GRUs, C<sup>\<t></sup> = a<sup>\<t></sup>
-- Equations of the GRUs:   
-  - {% include image.html image="notes/sequence-models/18.png" %}
+- Each layer in **GRUs** has a variable `C` which is the memory cell. It can tell to whether memorize something or not.
+- In GRUs, $$c^{<t>} = a^{<t>}$$
+- Equations of the GRUs:
+{% include image.html image="notes/sequence-models/18.png" %}
   - The update gate is between 0 and 1
     - To understand GRUs imagine that the update gate is either 0 or 1 most of the time.
   - So we update the memory cell based on the update cell and the previous cell.
 - Lets take the cat sentence example and apply it to understand this equations:
-  - Sentence: "The **cat**, which already ate ........................, **was** full"
-  - We will suppose that U is 0 or 1 and is a bit that tells us if a singular word needs to be memorized.
-  - Splitting the words and get values of C and U at each place:
-    - | Word    | Update gate(U)             | Cell memory (C) |
-      | ------- | -------------------------- | --------------- |
-      | The     | 0                          | val             |
-      | cat     | 1                          | new_val         |
-      | which   | 0                          | new_val         |
-      | already | 0                          | new_val         |
-      | ...     | 0                          | new_val         |
-      | was     | 1 (I don't need it anymore)| newer_val       |
-      | full    | ..                         | ..              |
-- Drawing for the GRUs   
-  {% include image.html image="notes/sequence-models/19.png" %}
-- Because the update gate U is usually a small number like 0.00001, GRUs doesn't suffer the vanishing gradient problem.
-  - In the equation this makes C<sup>\<t></sup> = C<sup>\<t-1></sup> in a lot of cases.
+  - Sentence: "The **cat**, which already ate ..., **was** full"
+  - We will suppose that `U` is 0 or 1 and is a bit that tells us if a singular word needs to be memorized.
+- Drawing for the GRUs
+{% include image.html image="notes/sequence-models/19.png" %}
+- Because the update gate `U` is usually a small number like 0.00001, GRUs doesn't suffer the vanishing gradient problem.
+  - In the equation this makes $$c^{<t>} = c^{<t-1>}$$ in a lot of cases.
 - Shapes:
-  - a<sup>\<t></sup> shape is (NoOfHiddenNeurons, 1)
-  - c<sup>\<t></sup> is the same as a<sup>\<t></sup>
-  - c<sup>~\<t></sup> is the same as a<sup>\<t></sup>
-  - u<sup>\<t></sup> is also the same dimensions of a<sup>\<t></sup>
+  - $$a^{<t>}$$ shape is (NoOfHiddenNeurons, 1)
+  - $$c^{<t>}$$ is the same as $$a^{<t>}$$
+  - $$\tilde{c}^{<t>}$$ is the same as $$a^{<t>}$$
+  - $$u^{<t>}$$ is also the same dimensions of $$a^{<t>}$$
 - The multiplication in the equations are element wise multiplication.
-- What has been descried so far is the Simplified GRU unit. Let's now describe the full one:
-  - The full GRU contains a new gate that is used with to calculate the candidate C. The gate tells you how relevant is C<sup>\<t-1></sup> to C<sup>\<t></sup>
-  - Equations:   
-    {% include image.html image="notes/sequence-models/20.png" %}
+- What has been descried so far is the **Simplified GRU Unit**. Let's now describe the full one:
+  - The full GRU contains a new gate that is used with to calculate the candidate `C`. The gate tells you how relevant is $$c^{<t-1>}$$ to $$c^{<t>}$$
+  - Equations:
+{% include image.html image="notes/sequence-models/20.png" %}
   - Shapes are the same
-- So why we use these architectures, why don't we change them, how we know they will work, why not add another gate, why not use the simpler GRU instead of the full GRU; well researchers has experimented over years all the various types of these architectures with many many different versions and also addressing the vanishing gradient problem. They have found that full GRUs are one of the best RNN architectures  to be used for many different problems. You can make your design but put in mind that GRUs and LSTMs are standards.
+- So why we use these architectures, why don't we change them, how we know they will work, why not add another gate, why not use the simpler GRU instead of the full GRU. Well researchers has experimented over years all the various types of these architectures with many many different versions and also addressing the vanishing gradient problem. They have found that full GRUs are one of the best RNN architectures  to be used for many different problems. You can make your design but put in mind that GRUs and LSTMs are standards.
 
 ### Long Short Term Memory (LSTM)
 
-- LSTM - the other type of RNN that can enable you to account for long-term dependencies. It's more powerful and general than GRU.
-- In LSTM , C<sup>\<t></sup> != a<sup>\<t></sup>
+- Another type of RNN that can enable you to account for long-term dependencies. It's more powerful and general than GRU.
+- In LSTM , $$c^{<t>} \neq a^{<t>}$$
 - Here are the equations of an LSTM unit:   
-- {% include image.html image="notes/sequence-models/21.png" %}
-- In GRU we have an update gate `U`, a relevance gate `r`, and a candidate cell variables C<sup>\~\<t></sup> while in LSTM we have an update gate `U` (sometimes it's called input gate I), a forget gate `F`, an output gate `O`, and a candidate cell variables C<sup>\~\<t></sup>
-- {% include image.html image="notes/sequence-models/22.png" %}
-- Some variants on LSTM includes:
-  - LSTM with **peephole connections**.
-    - The normal LSTM with C<sup>\<t-1></sup> included with every gate.
+{% include image.html image="notes/sequence-models/21.png" %}
+- In GRU we have an update gate `U`, a relevance gate `R`, and a candidate cell variables $$\tilde{c}^{<t>}$$ while in LSTM we have an update gate `U`, a forget gate `F`, an output gate `O`, and a candidate cell variables $$\tilde{c}^{<t>}$$
+{% include image.html image="notes/sequence-models/22.png" %}
+- Variants on LSTM includes: LSTM with **peephole connections**.
+  - The normal LSTM with $$c^{<t-1>}$$ included with every gate.
 - There isn't a universal superior between LSTM and it's variants. One of the advantages of GRU is that it's simpler and can be used to build much bigger network but the LSTM is more powerful and general.
 
 ### Bidirectional RNN
 
 - There are still some ideas to let you build much more powerful sequence models. One of them is bidirectional RNNs and another is Deep RNNs.
 - As we saw before, here is an example of the Name entity recognition task:  
-  {% include image.html image="notes/sequence-models/23.png" %}
+{% include image.html image="notes/sequence-models/23.png" %}
 - The name **Teddy** cannot be learned from **He** and **said**, but can be learned from **bears**.
-- BiRNNs fixes this issue.
-- Here is BRNNs architecture:   
-  {% include image.html image="notes/sequence-models/24.png" %}
+- BiRNNs fixes this issue. Here is BRNNs architecture:   
+{% include image.html image="notes/sequence-models/24.png" %}
 - Note, that BiRNN is an **acyclic graph**.
-- Part of the forward propagation goes from left to right, and part - from right to left. It learns from both sides.
-- To make predictions we use y&#770;<sup>\<t></sup> by using the two activations that come from left and right.
+- Part of the forward propagation goes from left to right, and part from right to left. It learns from both sides.
+- To make predictions we use $$\hat{y}^{<t>}$$ by using the two activations that come from left and right.
 - The blocks here can be any RNN block including the basic RNNs, LSTMs, or GRUs.
 - For a lot of NLP or text processing problems, a BiRNN with LSTM appears to be commonly used.
 - The disadvantage of BiRNNs that you need the entire sequence before you can process it. For example, in live speech recognition if you use BiRNNs you will need to wait for the person who speaks to stop to take the entire sequence and then make your predictions.
@@ -303,9 +284,9 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
 ### Deep RNNs
 
 - In a lot of cases the standard one layer RNNs will solve your problem. But in some problems its useful to stack some RNN layers to make a deeper network.
-- For example, a deep RNN with 3 layers would look like this:  
-  {% include image.html image="notes/sequence-models/25.png" %}
-- In feed-forward deep nets, there could be 100 or even 200 layers. In deep RNNs stacking 3 layers is already considered deep and expensive to train.
+- For example, a deep RNN with three layers would look like this:  
+{% include image.html image="notes/sequence-models/25.png" %}
+- In feed-forward deep nets, there could be 100 or even 200 layers. In deep RNNs stacking three layers is already considered deep and expensive to train.
 - In some cases you might see some feed-forward network layers connected after recurrent cell.
 
 ## Natural Language Processing & Word Embeddings
