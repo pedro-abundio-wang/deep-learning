@@ -549,7 +549,7 @@ corresponds to the following computation graph:
 
 {% include image.html image="notes/neural-networks-and-deep-learning/87.png" %}
 
-We have a feature vector 𝑥, parameters 𝑤 and 𝑏 as the inputs to the computation graph. That allows us to compute 𝑧 which is then used to compute 𝑎 and we use 𝑎 interchangeably with the output 𝑦̂. Finally, we can compute a loss function. A circle we draw in a Logistic Regression model, we will call a node in the Neural Networks representation. The output of every node in a Neural Network is calculated in two steps: the first compute 𝑧 value and the second computes an 𝑎 value as we can see in the picture below:
+We have a feature vector $$x$$, parameters $$w$$ and $$b$$ as the inputs to the computation graph. That allows us to compute $$z$$ which is then used to compute $$a$$ and we use $$a$$ interchangeably with the output $$\hat{y}$$. Finally, we can compute a loss function. A circle we draw in a Logistic Regression model, we will call a node in the Neural Networks representation. The output of every node in a Neural Network is calculated in two steps: the first compute $$z$$ value and the second computes an $$a$$ value as we can see in the picture below:
 
 {% include image.html image="notes/neural-networks-and-deep-learning/88.png" %}
 
@@ -557,13 +557,13 @@ A neural network is shown in the picture below. We can see we can form a neural 
 
 {% include image.html image="notes/neural-networks-and-deep-learning/89.png" %}
 
-The first stack of nodes we will call Layer 1, and the second we will call Layer 2. We have two types of calculations in every node in the Layer 1, as well as in the Layer 2 ( which consists of just one node).  We will use a superscript square bracket with a number of particular layer to refer to an activation function or a node that belongs to that layer. So, a superscript [1] refers to the quantities associated with the first stack of nodes, called Layer 1. The same is with a superscript [2] which refers to the second layer. Remember also that 𝑥<sup>(𝑖)</sup> refers to an individual training example.
+The first stack of nodes we will call Layer 1, and the second we will call Layer 2. We have two types of calculations in every node in the Layer 1, as well as in the Layer 2 ( which consists of just one node). We will use a superscript square bracket with a number of particular layer to refer to an activation function or a node that belongs to that layer. So, a superscript [1] refers to the quantities associated with the first stack of nodes, called Layer 1. The same is with a superscript [2] which refers to the second layer. Remember also that $$x^{(i)}$$ refers to an individual training example.
 
 The computation graph that corresponds to this Neural Network looks like this:
 
 {% include image.html image="notes/neural-networks-and-deep-learning/89.png" %}
 
-So after computing 𝑧<sup>[1]</sup>, similarly to the logistic regression, there is a computation of 𝑎<sup>[1]</sup> and that’s sigmoid of 𝑧[<sup>[1]</sup>. Next, we compute 𝑧<sup>[2]</sup> using another linear equation and then compute 𝑎<sup>[2]</sup> which is the final output of the neural network. Let’s remind ourselves once more that 𝑎<sup>[2]</sup> = 𝑦̂. The key intuition to take away is that, whereas for Logistic Regression we had 𝑧 followed by 𝑎 calculation, and in this Neural Network we just do it multiple times.
+So after computing $$z^{[1]}$$, similarly to the logistic regression, there is a computation of $$a^{[1]}$$ and that’s sigmoid of $$z^{[1]}$$. Next, we compute $$z^{[2]}$$ using another linear equation and then compute $$a^{[2]}$$ which is the final output of the neural network. Let’s remind ourselves once more that $$a^{[2]} = \hat{y}$$. The key intuition to take away is that, whereas for Logistic Regression we had $$z$$ followed by $$a$$ calculation, and in this Neural Network we just do it multiple times.
 
 In the same way, in a Neural Network we’ll end up doing a backward calculation that looks like this:
 
@@ -571,31 +571,31 @@ In the same way, in a Neural Network we’ll end up doing a backward calculation
 
 ### Neural Network Representation
 
-We will now represent a single layer Neural Network. It is a Neural network with one input layer, one hidden layer and the output layer, which is a single node layer, and it is responsible for generating the predicted value 𝑦̂.
+We will now represent a single layer Neural Network. It is a Neural network with one input layer, one hidden layer and the output layer, which is a single node layer, and it is responsible for generating the predicted value $$\hat{y}$$.
 
 {% include image.html image="notes/neural-networks-and-deep-learning/92.png" %}
 
 We have the following parts of the neural network:
 
-  - 𝑥<sub>1</sub>, 𝑥<sub>2</sub> and 𝑥<sub>3</sub> are inputs of a Neural Network. These elements are scalars and they are stacked vertically. This also represents an input layer.
-  - Variables in a hidden layer are not seen in the input set. Thus, it is called a hidden layer.
-  - The output layer consists of a single neuron only and 𝑦̂ is the output of the neural network.
+- $$x_1$$, $$x_2$$ and $$x_3$$ are inputs of a Neural Network. These elements are scalars and they are stacked vertically. This also represents an input layer.
+- Variables in a hidden layer are not seen in the input set. Thus, it is called a hidden layer.
+- The output layer consists of a single neuron only and $$\hat{y}$$ is the output of the neural network.
 
-In the training set we see what the inputs are and we see what the output should be. But the things in the hidden layer are not seen in the training set, so the name hidden layer just means you don’t see it in the training set. An alternative notation for the values of the input features will be 𝑎<sup>[0]</sup> and the term 𝑎 also stands for activations. Refers to the values that different layers of the neural network are passing on to the subsequent layers.
+In the training set we see what the inputs are and we see what the output should be. But the things in the hidden layer are not seen in the training set, so the name hidden layer just means you don’t see it in the training set. An alternative notation for the values of the input features will be $$a^{[0]}$$ and the term $$a$$ also stands for activations. Refers to the values that different layers of the neural network are passing on to the subsequent layers.
 
-{% include image.html image="notes/neural-networks-and-deep-learning/93.png" %}
+The input layer passes on the value $$x$$ to the hidden layer and we're going to call that the activations of the input layer $$a^{[0]}$$. The next layer, the hidden layer will in turn generate some set of activations which we will denote as $$a^{[1]}$$, so in particular, this first unit or this first node will generate the value $$a_1^{[1]}$$, the second node will generate the value $$a_2^{[1]}$$ and so on.
 
-𝑎<sup>[1]</sup> is a 4 × 1 matrix. 𝑎<sup>[2]</sup> will be a single value scalar and this is the analogous to the output of the sigmoid function in the logistic regression.
+$$a^{[1]}$$ is a 4 × 1 matrix. $$a^{[2]}$$ will be a single value scalar and this is the analogous to the output of the sigmoid function in the logistic regression.
 
-When we count layers in a neural network we do not count an input layer. Therefore, this is a 2-layer neural network. The first hidden layer is associated with parameters 𝑤<sup>[1]</sup> and 𝑏<sup>[1]</sup>. The dimensions of these matrices are:
+When we count layers in a neural network we do not count an input layer. Therefore, this is a 2-layer neural network. The first hidden layer is associated with parameters $$w^{[1]}$$ and $$b^{[1]}$$. The dimensions of these matrices are:
 
-  - 𝑤<sup>[1]</sup> is (4,3) matrix
-  - 𝑏<sup>[1]</sup> is (4,1) matrix
+- $$w^{[1]}$$ is (4,3) matrix
+- $$b^{[1]}$$ is (4,1) matrix
 
-Parameters 𝑤<sup>[2]</sup> and 𝑏<sup>[2]</sup> are associeted with the second layer or actually with the output layer. The dimensions of parameters in the output layer are:
+Parameters $$w^{[2]}$$ and $$b^{[2]}$$ are associeted with the second layer or actually with the output layer. The dimensions of parameters in the output layer are:
 
-  - 𝑤<sup>[2]</sup> is (1,4) matrix
-  - 𝑏<sup>[2]</sup> is a real number
+- $$w^{[2]}$$ is (1,4) matrix
+- $$b^{[2]}$$ is a real number
 
 ### Computing Neural Network Output
 
@@ -617,7 +617,7 @@ Calculations for the third and fourth node look the same. Now, we will put all t
 
 {% include image.html image="notes/neural-networks-and-deep-learning/05-b.png" %}
 
-Calculating all these equations with 𝑓𝑜𝑟 loop is highly inefficient so we will  to vectorize this.
+Calculating all these equations with for loop is highly inefficient so we will to vectorize this.
 
 {% include image.html image="notes/neural-networks-and-deep-learning/05-c.png" %}
 
@@ -629,7 +629,7 @@ To compute the output of a Neural Network we need the following four equations. 
 
 {% include image.html image="notes/neural-networks-and-deep-learning/97.png" %}
 
-Calculating the output of the Neural Network is like calculating a Logistic Regression with parameters 𝑊<sup>[2]</sup> as 𝑤<sup>𝑇</sup> and 𝑏<sup>[2]</sup> as 𝑏.
+Calculating the output of the Neural Network is like calculating a Logistic Regression with parameters $$W^{[2]}$$ as $$w^T$$ and $$b^{[2]}$$ as $$b$$.
 
 {% include image.html image="notes/neural-networks-and-deep-learning/98.png" %}
 
@@ -639,11 +639,11 @@ Logistic Regression Equations
 
 {% include image.html image="notes/neural-networks-and-deep-learning/100.png" %}
 
-These equations tell us how, when given an input feature vector 𝑥, we can generate predictions.
+These equations tell us how, when given an input feature vector $$x$$, we can generate predictions.
 
 {% include image.html image="notes/neural-networks-and-deep-learning/101.png" %}
 
-If we have 𝑚 training examples we need to repeat this proces 𝑚 times. For each training example, or for each feature vector that looks like this:
+If we have $$m$$ training examples we need to repeat this proces $$m$$ times. For each training example, or for each feature vector that looks like this:
 
 {% include image.html image="notes/neural-networks-and-deep-learning/102.png" %}
 
