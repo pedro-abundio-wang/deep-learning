@@ -84,7 +84,7 @@ One of the challenges of **NLP(natural language processing)** is how can we repr
 - Create a **one-hot encoding** sequence for each word in your dataset given the vocabulary you have created.
   - While converting, what if we meet a word thats not in your dictionary? We can add a token in the vocabulary with name `<UNK>` which stands for unknown text and use its index for your one-hot vector.
 
-{% include image.html image="notes/sequence-models/01.png" %}
+{% include image.html image="notes/sequence-models/27.png" %}
 
 The goal is given this representation for $$x$$ to learn a mapping using a sequence model to then target output $$y$$ as a supervised learning problem.
 
@@ -157,18 +157,15 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
   - **Pair** and **pear** sounds exactly the same, so how would a speech recognition application choose from the two.
   - That's where the language model comes in. It gives a probability for the two sentences and the application decides the best based on this probability.
 - The job of a language model is to give a probability of any given sequence of words.
-- To use this model:
-  - For predicting the chance of **next word**, we feed the sentence to the RNN and then get the final $${\hat{y}}^{<t>}$$ one-hot vector and sort it by maximum probability.
-  - For taking the **probability of a sentence**, we compute this:
-    $$p(y^{<1>} y^{<2>} y^{<3>}) = p(y^{<1>})p(y^{<2>}|y^{<1>})p(y^{<3>}|y^{<1>}y^{<2>})$$
-    - This is simply feeding the sentence into the RNN and multiplying the probabilities (outputs).
+- To use this model, for taking the **probability of a sentence**, we compute this:
+  $$p(y^{<1>} y^{<2>} y^{<3>}) = p(y^{<1>})p(y^{<2>}|y^{<1>})p(y^{<3>}|y^{<1>}y^{<2>})$$
+  - This is simply feeding the sentence into the RNN and multiplying the probabilities (outputs).
+{% include image.html image="notes/sequence-models/13.jpeg" %}
 - **How to build language models with RNNs?**
   - The first thing is to get a **training set**: a large corpus of target language text.
   - Then tokenize this training set by getting the vocabulary and then one-hot each word.
   - Put an end of sentence token `<EOS>` with the vocabulary and include it with each converted sentence. Also, use the token `<UNK>` for the unknown words.
 - Given the sentence "Cats average 15 hours of sleep a day. `<EOS>`"
-  - In training time we will use this:   
-{% include image.html image="notes/sequence-models/13.jpeg" %}
   - The loss function is defined by cross-entropy loss:
   $$L = \sum_{t} L(y^{<t>}, \hat{y}^{<t>}) = - \sum_{t} \sum_{i} y_{i}^{<t>} log \hat{y}_i^{<t>}$$
   - $$i$$ is for all elements in the corpus, $$t$$ is for all timesteps.
