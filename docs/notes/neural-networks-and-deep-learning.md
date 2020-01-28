@@ -164,7 +164,7 @@ Here, we will use $$(i)$$ superscript to index different training examples.
 
 Henceforth, we will use **loss (error) function** to measure how well our algorithm is doing. The loss function is applied only to a single training sample, and commonly used loss function is a **squared error**:
 
-{% include image.html image="notes/neural-networks-and-deep-learning/26.png" %}
+$$L(\hat{y}, y) = \frac{1}{2} (\hat{y} - y)^2$$
 
 In logistic regression squared error loss function is not an optimal choice. It results in an optimization problem which is not convex, and the gradient descent algorithm may not work well, it may not converge optimally.
 
@@ -174,13 +174,15 @@ In terms of a surface, the surface is convex if, loosely speaking, it looks like
 
 To be sure that we will get to the global optimum, we will use following loss function:
 
-{% include image.html image="notes/neural-networks-and-deep-learning/28.png" %}
+$$L(\hat{y}, y) = - (y log\hat{y} + (1-y)log(1-\hat{y}))$$
 
 It will give us a convex optimization problem and it is therefore much easier to be optimized.
 
 To understand why this is a good choice, let’s see these two cases:
 
-{% include image.html image="notes/neural-networks-and-deep-learning/29.png" %}
+- if $$y=1$$ then $$L(\hat{y}, y) = -log\hat{y} \to log\hat{y}$$ should be large, so we want $$\hat{y}$$ large (as close as possible to 1)
+
+- if $$y=0$$ then $$L(\hat{y}, y) = -log(1-\hat{y}) \to log(1-\hat{y})$$ should be large, so we want $$\hat{y}$$ small (as close as possible to 0)
 
 A cost function measures how well our parameters $$w$$ and $$b$$ are doing on the entire training set :
 
@@ -197,7 +199,7 @@ The cost function $$J(w,b)$$ is then some surface above these horizontal axes $$
 
 Gradient Descent is an algorithm that tries to minimize the cost function $$J(w,b)$$ and to find optimal values for $$w$$ and $$b$$.
 
-For the purpose of illustration we will use $$𝐽(w)$$, function that we want to minimize, as a function of one variable. To make this easier to draw, we are going to ignore $$b$$ for now, just to make this a one-dimensional plot instead of a high-dimensional plot.
+For the purpose of illustration we will use $$J(w)$$, function that we want to minimize, as a function of one variable. To make this easier to draw, we are going to ignore $$b$$ for now, just to make this a one-dimensional plot instead of a high-dimensional plot.
 
 Gradient Descent starts at an initial parameter and begins to take values in the steepest downhill direction. Function $$J(w,b)$$ is convex, so no matter where we initialize, we should get to the same point or roughly the same point.
 
@@ -213,11 +215,13 @@ If the derivative is positive, $$w$$ gets updated as $$w$$ minus a learning rate
 
 We know that the derivative is positive, so we end up subtracting from $$w$$ and taking a step to the left. Here, Gradient Descent would make your algorithm slowly decrease the parameter if you have started off with this large value of $$w$$.
 
-Next, when the derivative is negative (left side of the convex function),  the Gradient Descent update would subtract $$\alpha$$ times a negative number, and so we end up slowly increasing $$w$$ and we are making $$w$$ bigger and bigger with each successive iteration of Gradient Descent.
+Next, when the derivative is negative (left side of the convex function), the Gradient Descent update would subtract $$\alpha$$ times a negative number, and so we end up slowly increasing $$w$$ and we are making $$w$$ bigger and bigger with each successive iteration of Gradient Descent.
 
 So, whether you initialize $$w$$ on the left or on the right, Gradient Descent would move you towards this global minimum.
 
-{% include image.html image="notes/neural-networks-and-deep-learning/32.png" %}
+$$ w = w -\alpha \frac{dJ(w,b)}{dw} $$
+
+$$ b = b - \alpha \frac{dJ(w,b)}{db} $$
 
 ### Computation graph
 
@@ -233,7 +237,13 @@ Computation of this function has actually three distinct steps:
 
 Let’s summarize:
 
-{% include image.html image="notes/neural-networks-and-deep-learning/41.png" %}
+$$J(a,b,c) = 3(a + bc)$$
+
+$$u = bc$$
+
+$$v = a + u$$
+
+$$J = 3v$$
 
 In this simple example we see that, through a left-to-right pass, you can compute the value of $$J$$.
 
@@ -247,31 +257,27 @@ Now we want using a computation graph to compute the derivative of $$J$$ with re
 
 First, let’s see the final change of value $$J$$ if we change $$v$$ value a little bit:
 
-{% include image.html image="notes/neural-networks-and-deep-learning/43.png" %}
+$$J = 3v$$
 
-We can get the same result if we know calculus:
-
-{% include image.html image="notes/neural-networks-and-deep-learning/44.png" %}
+$$ \frac{dJ}{dv} = 3$$
 
 We emphasize that calculation of $$dJ/dv$$ is one step of a back propagation. The following picture depicts **forward propagation** as well as **backward propagation**:
 
 {% include image.html image="notes/neural-networks-and-deep-learning/45.png" %}
 
-Next, what is $$dJ/da$$. If we increase $$a$$ from 5 to 5.001, $$v$$ will increase to 11.001 and $$J$$ will increase to 33.003. So, the increase to $$J$$ is the three times the increase to $$a$$ so that means this derivative is equal to 3.
+Next, what is $$dJ/da$$. One way to break this down is to say that if we change $$a$$, that would change $$v$$ and through changing $$v$$ that would change $$J$$. By increasing $$a$$, how much $$J$$ changed is also determined by $$dv/da$$. This is called a **chain rule** in calculus:
 
-{% include image.html image="notes/neural-networks-and-deep-learning/46.png" %}
-
-One way to break this down is to say that if we change $$a$$, that would change $$v$$ and through changing $$v$$ that would change $$J$$. By increasing $$a$$, how much $$J$$ changed is also determined by $$dv/da$$. This is called a **chain rule** in calculus:
-
-{% include image.html image="notes/neural-networks-and-deep-learning/49.png" %}
+$$ \frac{dJ}{da} = \frac{dJ}{dv} \frac{dv}{da} = 3 * 1 $$
 
 Now, let’s calculate derivative $$dJ/du$$.
 
-{% include image.html image="notes/neural-networks-and-deep-learning/47.png" %}
+$$ \frac{dJ}{du} = \frac{dJ}{dv} \frac{dv}{du} = 3 * 1 $$
 
 Finally, we have to find the most important values: value of $$dJ/db$$ and $$dJ/dc$$. Let’s calculate them:
 
-{% include image.html image="notes/neural-networks-and-deep-learning/48.png" %}
+$$ \frac{dJ}{db} = \frac{dJ}{du} \frac{du}{db} = 3 * 2 $$
+
+$$ \frac{dJ}{dc} = \frac{dJ}{du} \frac{du}{dc} = 3 * 3 $$
 
 ### Logistic Regression Gradient Descent
 
@@ -290,69 +296,93 @@ The computation graph of a logistic regression looks like the following:
 
 {% include image.html image="notes/neural-networks-and-deep-learning/04.png" %}
 
-In this example, we only have two features 𝑥<sub>1</sub> and 𝑥<sub>2</sub>. In order to compute 𝑧, we will need to input 𝑤<sub>1</sub>, 𝑤<sub>2</sub> and 𝑏 in addition to the feature values 𝑥<sub>1</sub> and 𝑥<sub>2</sub>
+In this example, we have features $$x_1$$ and $$x_2$$. In order to compute $$z$$, we will need to input $$w_1$$, $$w_1$$ and $$b$$ in addition to the feature values $$x_1$$ and $$x_2$$
 
-{% include image.html image="notes/neural-networks-and-deep-learning/33.png" %}
+$$ z = w_1 x_1 + w_2 x_2 + b $$
 
-After that, we can compute our 𝑦̂ (equals sigma of 𝑧)
+After that, we can compute our $$\hat{y}$$ (equals sigma of $$z$$)
 
-{% include image.html image="notes/neural-networks-and-deep-learning/34.png" %}
+$$ \hat{y} = \sigma(z) $$
+
+$$ a = \sigma(z) $$
 
 Finally, we are able to compute our loss function.
 
-{% include image.html image="notes/neural-networks-and-deep-learning/39.png" %}
+$$ L(a,y) = - (yloga + (1-y)log(1-a)) $$
 
-To reduce our loss function (remember right now we are talking only about one data sample) we have to update our 𝑤 and 𝑏 parameters. So, first we have to compute the loss using forward propagation step. After this, we go in the opposite direction (backward propagation step) to compute the derivatives.
+To reduce our loss function (remember right now we are talking only about one data sample) we have to update our $$w$$ and $$b$$ parameters. So, first we have to compute the loss using forward propagation step. After this, we go in the opposite direction (backward propagation step) to compute the derivatives.
 
-{% include image.html image="notes/neural-networks-and-deep-learning/35.png" %}
+$$da = \frac{dL(a,y)}{da}$$
 
-Having computed 𝑑𝑎, we can go backwards and compute 𝑑𝑧:
+$$da = -\frac{y}{a} + \frac{1-y}{1-a}$$
 
-{% include image.html image="notes/neural-networks-and-deep-learning/36.png" %}
+Having computed $$da$$, we can go backwards and compute $$dz$$:
 
-The final step in back propagation is to go back to compute amount of change of our parameters 𝑤 and 𝑏:
+$$dz = \frac{dL(a,y)}{dz}$$
 
-{% include image.html image="notes/neural-networks-and-deep-learning/37.png" %}
+$$dz = \frac{dL(a,y)}{da} \frac{da}{dz}$$
+
+$$\frac{dL(a,y)}{da} = -\frac{y}{a} + \frac{1-y}{1-a}$$
+
+$$\frac{da}{dz} = a(1-a)$$
+
+$$dz = a - y$$
+
+The final step in back propagation is to go back to compute amount of change of our parameters $$w$$ and $$b$$:
+
+$$dw_1 = \frac{dL(a,y)}{dw_1} = x_1 dz$$
+
+$$dw_2 = \frac{dL(a,y)}{dw_w} = x_2 dz$$
+
+$$db = \frac{dL(a,y)}{db} = dz$$
 
 To conclude, if we want to do gradient descent with respect to just this one training example, we would do the following updates
 
-{% include image.html image="notes/neural-networks-and-deep-learning/38.png" %}
+$$w_1 = w_1 - \alpha dw_1$$
+
+$$w_2 = w_2 - \alpha dw_2$$
+
+$$b = b - \alpha db$$
 
 ### Gradient Descent on training set
 
-The cost function is the average of our loss function, when the algorithm outputs 𝑎<sup>(𝑖)</sup> for the pair (𝑥<sup>(𝑖)</sup>,𝑦<sup>(𝑖)</sup>).
+The cost function is the average of our loss function, when the algorithm outputs $$a^{(i)}$$ for the pair $$(x^{(i)},y^{(i)})$$.
 
-{% include image.html image="notes/neural-networks-and-deep-learning/50.png" %}
+$$J(w,b) = \frac{1}{m} \sum_{i=1}^{m} L(a^{(i)},y^{(i)})$$
 
-Here 𝑎<sup>(𝑖)</sup> is the prediction on the 𝑖-th training example which is sigmoid of 𝑧<sup>(𝑖)</sup>, were 𝑧<sup>(𝑖)</sup> = 𝑤<sup>𝑇</sup>𝑥<sup>(𝑖)</sup> + 𝑏
+Here $$a^{(i)}$$ is the prediction on the $$i$$ th training example which is sigmoid of $$z^{(i)}$$, were $$z^{(i)} = w^T x^{(i)} + b$$
 
-{% include image.html image="notes/neural-networks-and-deep-learning/51.png" %}
+$$ a^{(i)} = \hat{y}^{(i)} = \sigma(z^{(i)}) =  \sigma(w^T x^{(i)} + b) $$
 
-The derivative with respect to 𝑤<sub>1</sub> of the overall cost function, is the average of derivatives with respect to 𝑤<sub>1</sub> of the individual loss term,
+The derivative with respect to $$w_1$$ of the overall cost function, is the average of derivatives with respect to $$w_1$$ of the individual loss term,
 
-{% include image.html image="notes/neural-networks-and-deep-learning/53.png" %}
+$$\frac{d}{dw_1} J(w,b) = \frac{1}{m} \sum_{i=1}^{m} \frac{d}{dw_1} L(a^{(i)}, y^{(i)})$$
 
-and to calculate the derivative d𝑤<sub>1</sub> we compute,
+and to calculate the derivative $$dw_1$$ we compute,
 
-{% include image.html image="notes/neural-networks-and-deep-learning/53.png" %}
+$$dw_1 = \frac{d}{dw_1} J(w,b)$$
 
 This gives us the overall gradient that we can use to implement logistic regression.
 
-To implement Logistic Regression, here is what we can do, if 𝑛=2, were 𝑛 is our number of features and 𝑚 is a number of samples.
+To implement Logistic Regression, here is what we can do, if $$n=2$$, were $$n$$ is our number of features and $$m$$ is a number of samples.
 
 {% include image.html image="notes/neural-networks-and-deep-learning/54.png" %}
 
-After leaving the inner for loop, we need to divide 𝐽, d𝑤<sub>1</sub>, d𝑤<sub>2</sub> and 𝑏 by 𝑚, because we are computing their average.
+After leaving the inner for loop, we need to divide $$J$$, $$dw_1$$, $$dw_2$$ and $$b$$ by $$m$$, because we are computing their average.
 
-{% include image.html image="notes/neural-networks-and-deep-learning/55.png" %}
+$$J /= m, dw_1 /= m, dw_2 /= m, db /= m$$
 
-After finishing all these calculations, to implement one step of a gradient descent, we need to update our parameters 𝑤<sub>1</sub>, 𝑤<sub>2</sub>, and 𝑏.
+After finishing all these calculations, to implement one step of a gradient descent, we need to update our parameters $$w_1$$, $$w_2$$, and $$b$$.
 
-{% include image.html image="notes/neural-networks-and-deep-learning/57.png" %}
+$$w_1 = w_1 - \alpha dw_1$$
+
+$$w_2 = w_2 - \alpha dw_2$$
+
+$$b = b - \alpha db$$
 
 It turns out there are two weaknesses with our calculations as we’ve implemented it here.
 
-To implement logistic regression this way, we need to write two for loops (loop over 𝑚 training samples and 𝑛 features).
+To implement logistic regression this way, we need to write two for loops (loop over $$m$$ training samples and $$n$$ features).
 
 When implementing deep learning algorithms, having explicit for loops makes our algorithm run less efficient. Especially on larger datasets, which we must avoid. For this, we use what we call vectorization.
 
@@ -366,61 +396,76 @@ A vectorization is basically the art of getting rid of explicit for loops whenev
 
 ### Vectorizing Logistic Regression
 
-When we are programming Logistic Regression or Neural Networks we should avoid explicit 𝑓𝑜𝑟 loops. It’s not always possible, but when we can, we should use built-in functions or find some other ways to compute it. Vectorizing the implementation of Logistic Regression  makes the code highly efficient. We will see how we can use this technique to compute gradient descent without using even a single 𝑓𝑜𝑟 loop.
+When we are programming Logistic Regression or Neural Networks we should avoid explicit for-loops. It’s not always possible, but when we can, we should use built-in functions or find some other ways to compute it. Vectorizing the implementation of Logistic Regression  makes the code highly efficient. We will see how we can use this technique to compute gradient descent without using even a single for-loop.
 
-Now, we will examine the forward propagation step of logistic regression. If we have 𝑚 training examples, to make a prediction on the first example we need to compute 𝑧 and the activation function 𝑎 as follows:
+Now, we will examine the forward propagation step of logistic regression. If we have $$m$$ training examples, to make a prediction on the first example we need to compute $$z$$ and the activation function $$a$$ as follows:
 
-{% include image.html image="notes/neural-networks-and-deep-learning/60.png" %}
+$$z^{(1)} = w^T x^{(1)} + b$$
+
+$$a^{(1)} = \sigma(z^{(1)})$$
 
 To make prediction on the second training example we need to compute this:
 
-{% include image.html image="notes/neural-networks-and-deep-learning/61.png" %}
+$$z^{(2)} = w^T x^{(2)} + b$$
+
+$$a^{(2)} = \sigma(z^{(2)})$$
 
 The same is with prediction of third training example:
 
-{% include image.html image="notes/neural-networks-and-deep-learning/62.png" %}
+$$z^{(3)} = w^T x^{(3)} + b$$
 
-So if we have 𝑚 training examples we need to do these calculations 𝑚 times. In order to carry out the forward propagation step, which means to compute these predictions for all 𝑚 training examples, there is a way to do this without needing an explicit for loop.
+$$a^{(3)} = \sigma(z^{(3)})$$
 
-We will stack all training examples horizontally in a matrix 𝐗, so that every column in matrix 𝐗 represents one training example:
+So if we have $$m$$ training examples we need to do these calculations 𝑚 times. In order to carry out the forward propagation step, which means to compute these predictions for all $$m$$ training examples, there is a way to do this without needing an explicit for loop.
+
+We will stack all training examples horizontally in a matrix $$X$$, so that every column in matrix $$X$$ represents one training example:
 
 {% include image.html image="notes/neural-networks-and-deep-learning/63.png" %}
 
-Notice that matrix 𝜔 is a 𝑛<sub>𝑥</sub> × 1 matrix (or a column vector), so when we transpose it we get 𝜔<sup>𝑇</sup> which is a 1 × 𝑛<sub>𝑥</sub> matrix (or a row vector) so multiplying  𝜔<sup>𝑇</sup> with 𝐗 we get a 1 × 𝑚 matrix. Then we add a 1 × 𝑚 matrix 𝑏 to obtain 𝐙.
+Notice that matrix $$w$$ is a $$n_x * 1$$ matrix (or a column vector), so when we transpose it we get $$w^T$$ which is a $$1 * n_x$$ matrix (or a row vector) so multiplying $$w^T$$ with $$X$$ we get a $$1 * m$$ matrix. Then we add a $$1 * m$$ matrix $$b$$ to obtain $$Z$$.
 
-We will define matrix 𝐙 by placing all 𝑧<sup>(𝑖)</sup> values in a row vector:
+We will define matrix $$Z$$ by placing all $$z^{(i)}$$ values in a row vector:
 
-{% include image.html image="notes/neural-networks-and-deep-learning/64.png" %}
+$$ Z = [z^{(1)}, z^{(2)}, \dots, z^{(m)}] = w^T X + b = [w^T x^{(1)} + b, w^T x^{(2)} + b, \dots, w^T x^{(m)} + b] $$
 
-In Python, we can easily implement the calculation of a matrix 𝐙:
+We can easily implement the calculation of a matrix $$Z$$:
 
-{% include image.html image="notes/neural-networks-and-deep-learning/65.png" %}
+```python
+Z = np.dot(w.T, X) + b
+```
 
-As we can see 𝑏 is defined as a scalar. When you add this vector to this real number, Python automatically takes this real number 𝑏 and expands it out to the 1 × 𝑚 row vector. This operation is called **broadcasting**.
+As we can see $$b$$ is defined as a scalar. When you add this vector to this real number, Python automatically takes this real number $$b$$ and expands it out to the $$1 * m$$ row vector. This operation is called **broadcasting**.
 
-Matrix 𝐀 is defined as a 1 × 𝑚, wich we also got by stacking horizontaly values 𝑎<sup>(𝑖)</sup> as we did with matrix 𝐙:
+Matrix $$A$$ is defined as a $$1 * m$$, wich we also got by stacking horizontaly values $$a^{(i)}$$ as we did with matrix $$Z$$:
 
-{% include image.html image="notes/neural-networks-and-deep-learning/66.png" %}
+$$ A = [a^{(1)}, a^{(2)}, \dots, a^{(m)}] = \sigma(Z) $$
 
-In Python, we can also calculate matrix 𝐀 with one line of code as follows (if we have defined sigmoid function as above):
+In Python, we can also calculate matrix $$A$$ with one line of code as follows (if we have defined sigmoid function as above):
 
-{% include image.html image="notes/neural-networks-and-deep-learning/67.png" %}
+$$ A = sigmoid(Z) $$
 
-For the gradient computation we had to compute detivative 𝑑𝑧 for every training example:
+For the gradient computation we had to compute detivative $$dz$$ for every training example:
 
-{% include image.html image="notes/neural-networks-and-deep-learning/68.png" %}
+$$ \begin{align*}
+dz^{(1)} &= a^{(1)} - y^{(1)} \\
+dz^{(2)} &= a^{(2)} - y^{(2)} \\
+\vdots \\
+dz^{(m)} &= a^{(m)} - y^{(2)} \\
+\end{align*} $$
 
-In the same way, we have defined previous variables, now we will define matrix 𝐝𝐙, where we will stack all 𝑑𝑧<sup>(𝑖)</sup> variables horizontally, dimension of this matrix 𝐝𝐙 is 1 × 𝑚 or alternativly a 𝑚 dimensional row vector.
+In the same way, we have defined previous variables, now we will define matrix $$dZ$$, where we will stack all $$dz^{(i)}$$ variables horizontally, dimension of this matrix $$dZ$$ is $$1 * m$$ or alternativly a $$m$$ dimensional row vector.
 
-{% include image.html image="notes/neural-networks-and-deep-learning/69.png" %}
+$$ dZ = [dz^{(1)}, dz^{(2)}, \dots, dz^{(m)}] $$
 
-As we know that matrices 𝐀 and 𝐘 are defined as follows:
+As we know that matrices $$A$$ and $$Y$$ are defined as follows:
 
-{% include image.html image="notes/neural-networks-and-deep-learning/70.png" %}
+$$ A = [a^{(1)}, a^{(2)}, \dots, a^{(m)}] $$
 
-We can see that 𝐝𝐙 below, all values in 𝐝𝐙 can be computed at the same time.
+$$ Y = [y^{(1)}, y^{(2)}, \dots, y^{(m)}] $$
 
-{% include image.html image="notes/neural-networks-and-deep-learning/71.png" %}
+We can see that $$dZ$$ below, all values in $$dZ$$ can be computed at the same time.
+
+$$ dZ = A - Y = [a^{(1)} - y^{(1)}, a^{(2)} - y^{(2)}, \dots, a^{(m)} - y^{(m)},] $$
 
 To implement Logistic Regression on code we did this:
 
@@ -428,25 +473,27 @@ To implement Logistic Regression on code we did this:
 
 This code was non-vectorized and highly inefficent so we need to transform it. First, using vectorization, we can transform equations (∗) and (∗∗) into one equation:
 
-{% include image.html image="notes/neural-networks-and-deep-learning/73.png" %}
+$$dw += x^{(i)} dz^{(i)}$$
 
 The cost function is:
 
-{% include image.html image="notes/neural-networks-and-deep-learning/74.png" %}
+$$ J = - \frac{1}{m} \sum_{i=1}^{m} (y^{(i)} loga^{(i)} + (1-y^{(i)})log(1-a^{(i)})) $$
 
 The derivatives are:
 
-{% include image.html image="notes/neural-networks-and-deep-learning/75.png" %}
+$$\frac{dJ}{dw} = dw = \frac{1}{m} X (A-Y)^T$$
 
-To calculate 𝑤 and 𝑏 we will still need following 𝑓𝑜𝑟 loop.
+$$\frac{dJ}{db} = db = \frac{1}{m} \sum_{i=1}^{m} (a^{(i)} - y^{(i)})^T$$
+
+To calculate $$w$$ and $$b$$ we will still need following for loop.
 
 {% include image.html image="notes/neural-networks-and-deep-learning/76.png" %}
 
-We don’t need to loop through entire training set, but still we need to loop through number of iterations and that’s a 𝑓𝑜𝑟 loop that we can’t get rid off.
+We don’t need to loop through entire training set, but still we need to loop through number of iterations and that’s a for loop that we can’t get rid off.
 
 ### Broadcasting in Python
 
-The term broadcasting describes how NumPy treats arrays with different shapes during arithmetic operations. The simplest broadcasting example occurs when an array and a scalar value are combined in an operation. If we have a matrix 𝐀 and scalar value 𝑏 then scalar 𝑏 is being stretched during the arithmetic operation into an array which is the same shape as 𝐀, but that stretch is only conceptual. Numpy uses the original scalar value without making copies, so that broadcasting operations are as memory and computationally efficient as possible.
+The term broadcasting describes how NumPy treats arrays with different shapes during arithmetic operations. The simplest broadcasting example occurs when an array and a scalar value are combined in an operation. If we have a matrix $$A$$ and scalar value $$b$$ then scalar $$b$$ is being stretched during the arithmetic operation into an array which is the same shape as $$A$$, but that stretch is only conceptual. Numpy uses the original scalar value without making copies, so that broadcasting operations are as memory and computationally efficient as possible.
 
 Adding a scalar to a row vector:
 
@@ -466,25 +513,29 @@ Adding a column vector to a matrix:
 
 ### Explanation of Logistic Regression Cost Function
 
-One way to motivate linear regression with the mean squared error loss function is to formally assume that observations arise from noisy observations, where the noise is normally distributed as follows
+The way to motivate logistic regression with the **cross entropy loss function** is to the following
 
-{% include image.html image="notes/neural-networks-and-deep-learning/81.png" %}
+We can now write out the **likelihood estimators** of seeing a particular $$y$$ for a given $$x$$ via
 
-Thus, we can now write out the **likelihood estimators** of seeing a particular 𝑦 for a given 𝑥 via
+$$ \begin{align*}
+P(y=1 \mid x) &= a \\
+P(y=0 \mid x) &= 1 - a \\
+\end{align*} $$
 
-{% include image.html image="notes/neural-networks-and-deep-learning/82.png" %}
+so that
 
-Now, according to the **maximum likelihood principle**, the best values of 𝑏 and 𝑤 are those that maximize the likelihood of the entire dataset:
+$$ P(y \mid x) = (a)^y (1 - a)^{1-y} $$
 
-{% include image.html image="notes/neural-networks-and-deep-learning/83.png" %}
+Now, according to the **maximum likelihood principle**, the best values of $$b$$ and $$w$$ are those that maximize the likelihood of the entire dataset:
+
+$$ \begin{align*}
+P(Y \mid X) &= \prod_{i=1}^{m} P(y^{(i)} \mid x^{(i)}) \\
+&= \prod_{i=1}^{m} (a^{(i)})^{y^{(i)}} (1 - a^{(i)})^{1-y^{(i)}} \\
+\end{align*} $$
 
 Estimators chosen according to the maximum likelihood principle are called **Maximum Likelihood Estimators**. While, maximizing the product of many exponential functions, might look difficult, we can simplify things significantly, without changing the objective, by maximizing the **log** of the likelihood instead.
 
-{% include image.html image="notes/neural-networks-and-deep-learning/84.png" %}
-
-Now we just need one more assumption: that 𝜎 is some fixed constant. Thus we can ignore the first term because it doesn’t depend on 𝑤 or 𝑏. Now the second term is identical to the **squared error** objective, but for the multiplicative constant 1/𝜎<sup>2</sup>. Fortunately, the solution does not depend on 𝜎. It follows that minimizing squared error is equvalent to maximum likelihood estimation of a linear model under the assumption of additive Gaussian noise.
-
-{% include image.html image="notes/neural-networks-and-deep-learning/85.png" %}
+$$ log \text{ } P(Y \mid X) = \sum_{i=1}^{m} \bigg( y^{(i)} log \text{ } a^{(i)} + (1 - y^{(i)}) log(1 - a^{(i)}) \bigg) $$
 
 ## Shallow neural networks
 
