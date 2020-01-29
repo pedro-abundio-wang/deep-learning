@@ -125,7 +125,7 @@ The L2 regularization version:
 
 - In practice this penalizes large weights and effectively limits the freedom in your model.
 
-### Why regularization reduces overfitting?
+### Why regularization reduces overfitting
 
 - From neural network architecture, a lot of W's will be close to zeros which will make the NN simpler. It will just reduce some weights that makes the neural network overfit.
 
@@ -252,7 +252,7 @@ np.random.randn(shape) * np.sqrt(2/n[l-1])          # He Initialization - RELU
 - There is an technique called **gradient checking** which tells you if your implementation of backpropagation is correct.
 - There's a numerical way to calculate the derivative:
 
-{% include image.html image="notes/improving-deep-neural-networks/30.png" %}
+{% include image.html image="notes/improving-deep-neural-networks/30.jpg" %}
 
 {% include image.html image="notes/improving-deep-neural-networks/29.png" %}
 
@@ -261,14 +261,16 @@ np.random.randn(shape) * np.sqrt(2/n[l-1])          # He Initialization - RELU
 - Gradient checking approximates the gradients and is very helpful for finding the errors in your backpropagation implementation but it's slower than gradient descent (so use only for debugging).
 - Gradient checking:
   - First take W<sup>[1]</sup>,b<sup>[1]</sup>,...,W<sup>[L]</sup>,b<sup>[L]</sup> and reshape into one big vector (θ)
-  - The cost function will be J(θ)
+  - The cost function will be $$J(\theta)$$
   - Then take dW<sup>[1]</sup>,db<sup>[1]</sup>,...,dW<sup>[L]</sup>,db<sup>[L]</sup> into one big vector (dθ)
+
 ```python
 eps = 1e-7    # small number
 for i in len(theta):
     d_theta_approx[i] = (J(...,theta[i] + eps,...) -  J(...,theta[i] - eps,...)) / 2*eps
 ```
-- Finally we evaluate this formula (||dθ<sub>approx</sub> - dθ||<sub>2</sub>)/(||dθ<sub>approx</sub>||<sub>2</sub>+||dθ||<sub>2</sub>) and check with eps = 10<sup>-7</sup>:
+
+Finally we evaluate this formula $$(||dθ_{approx} - dθ||)/(||dθ_{approx}|| + ||dθ||)$$ and check with eps = 10<sup>-7</sup>:
   - if it is < 10<sup>-7</sup> - great, very likely the backpropagation implementation is correct
   - if around 10<sup>-5</sup> - can be OK, but need to inspect if there are no particularly big values in dθ<sub>approx</sub> - dθ vector
   - if it is >= 10^-3 - bad, probably there is a bug in backpropagation implementation
@@ -317,7 +319,7 @@ for t = 1:num_of_batches
 ### Understanding mini-batch gradient descent
 
 - In mini-batch algorithm, the cost won't go down with each step as it does in batch algorithm. It could contain some ups and downs but generally it has to go down (unlike the batch gradient descent where cost function descreases on each iteration).
-![](Images/04-_batch_vs_mini_batch_cost.png)
+{% include image.html image="notes/improving-deep-neural-networks/batch_vs_mini_batch_cost.png" %}
 - Mini-batch size:
   - (mini batch size = m) ==> Batch gradient descent
   - (mini batch size = 1) ==> Stochastic gradient descent (SGD)
@@ -511,7 +513,7 @@ on iteration t:
 
 {% include image.html image="notes/improving-deep-neural-networks/40.png" %}
 
-## Hyperparameter tuning, Batch Normalization and Programming Frameworks
+## Hyperparameter tuning and Batch Normalization
 
 ### Tuning process
 

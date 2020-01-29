@@ -180,9 +180,9 @@ It will give us a convex optimization problem and it is therefore much easier to
 
 To understand why this is a good choice, let’s see these two cases:
 
-- if $$y=1$$ then $$L(\hat{y}, y) = -log\hat{y} \to log\hat{y}$$ should be large, so we want $$\hat{y}$$ large (as close as possible to 1)
+if $$y=1$$ then $$L(\hat{y}, y) = -log\hat{y} \to log\hat{y}$$ should be large, so we want $$\hat{y}$$ large (as close as possible to 1)
 
-- if $$y=0$$ then $$L(\hat{y}, y) = -log(1-\hat{y}) \to log(1-\hat{y})$$ should be large, so we want $$\hat{y}$$ small (as close as possible to 0)
+if $$y=0$$ then $$L(\hat{y}, y) = -log(1-\hat{y}) \to log(1-\hat{y})$$ should be large, so we want $$\hat{y}$$ small (as close as possible to 0)
 
 A cost function measures how well our parameters $$w$$ and $$b$$ are doing on the entire training set :
 

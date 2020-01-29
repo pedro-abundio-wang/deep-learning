@@ -45,31 +45,27 @@ page_nav:
 
 ### Edge Detection and Convolution Computation
 
-![](Images/45.png)
+{% include image.html image="notes/convolutionam-neural-networks/45.png" %}
 
 - The convolution operation is one of the fundamentals blocks of a CNN. One of the examples about convolution is the image edge detection operation.
 - Early layers of CNN might detect edges then the middle layers will detect parts of objects and the later layers will put the these parts together to produce an output.
 - In an image we can detect vertical edges, horizontal edges, or full edge detector.
 - Vertical edge detection:
   - An example of convolution operation to detect vertical edges:
-    - ![](Images/01.png)
+{% include image.html image="notes/convolutionam-neural-networks/01.png" %}
   - In the last example a 6x6 matrix convolved with 3x3 filter/kernel gives us a 4x4 matrix.
   - If you make the convolution operation in TensorFlow you will find the function **tf.nn.conv2d**. In keras you will find **Conv2d** function.
   - The vertical edge detection filter will find a 3x3 place in an image where there are a bright region followed by a dark region.
   - If we applied this filter to a white region followed by a dark region, it should find the edges in between the two colors as a positive value. But if we applied the same filter to a dark region followed by a white region it will give us negative values. To solve this we can use the abs function to make it positive.
 - Vertical and Horizontal edge detection
 
-<div align="center">
-  <img src="Images/46.png">
-</div>
+{% include image.html image="notes/convolutionam-neural-networks/46.png" %}
 
 - What we learned in the deep learning is that we don't need to hand craft these numbers, we can treat them as weights and then learn them. It can learn horizontal, vertical, angled, or any edge type automatically rather than getting them by hand.
 
 ### Padding
 
-<div align="center">
-  <img src="Images/47.png">
-</div>
+{% include image.html image="notes/convolutionam-neural-networks/47.png" %}
 
 - In order to to use deep neural networks we really need to use **paddings**.
 - In the last section we saw that a 6x6 matrix convolved with 3x3 filter/kernel gives us a 4x4 matrix.
@@ -88,9 +84,7 @@ page_nav:
 
 ### Strided convolution
 
-<div align="center">
-  <img src="Images/48.jpeg">
-</div>
+{% include image.html image="notes/convolutionam-neural-networks/48.jpeg" %}
 
 - Strided convolution is another piece that are used in CNNs.
 - We will call stride **s**.
@@ -102,9 +96,7 @@ page_nav:
 
 ### Convolutions over volumes
 
-<div align="center">
-  <img src="Images/49.png">
-</div>
+{% include image.html image="notes/convolutionam-neural-networks/49.png" %}
 
 - We see how convolution works with 2D images, now lets see if we want to convolve 3D images (RGB image)
 - We will convolve an image of height, width, number of channels with a filter of a height, width, same number of channels. Hint that the image number channels and the filter number of channels are the same.
@@ -123,9 +115,7 @@ page_nav:
 
 ### One Layer of a Convolutional Network
 
-<div align="center">
-  <img src="Images/50.png">
-</div>
+{% include image.html image="notes/convolutionam-neural-networks/50.png" %}
 
 - First we convolve some filters to a given input and then add a bias to each filter output and then get RELU of the result.
   - In the following padding = 0, stride = 1
@@ -197,7 +187,7 @@ bias:    (1, 1, 1, nc[l])
 
 - Other than the conv layers, CNNs often uses pooling layers to reduce the size of the inputs, speed up computation, and to make some of the features it detects more robust.
 - Max pooling example:
-  - ![](Images/51.png)
+{% include image.html image="notes/convolutionam-neural-networks/51.png" %}
   - This example has f = 2, s = 2, and p = 0 hyperparameters
 - The max pooling is saying, if the feature is detected anywhere in this filter then keep a high number. But the main reason why people are using pooling because its works well in practice and reduce computations.
 - Max pooling has no parameters to learn.
@@ -206,7 +196,7 @@ bias:    (1, 1, 1, nc[l])
   - Max pooling size = 2 and stride = 2
   - Output: 2x2x10
 - Average pooling is taking the averages of the values instead of taking the max values.
-- ![](Images/52.png)
+{% include image.html image="notes/convolutionam-neural-networks/52.png" %}
 - Max pooling is used more often than average pooling in practice.
 - If stride of pooling equals the size, it will then apply the effect of shrinking.
 - Hyperparameters summary
@@ -218,7 +208,7 @@ bias:    (1, 1, 1, nc[l])
 ### Convolutional neural network example
 
 - Now we will deal with a full CNN example. This example is something like the **LeNet-5** that was invented by Yann Lecun.
-- ![](Images/53.png)
+{% include image.html image="notes/convolutionam-neural-networks/53.png" %}
   - Input Image are: a0 = 32x32x3
     - n0 = 32, nc0 = 3
   - First layer (Conv layer):
@@ -251,7 +241,7 @@ bias:    (1, 1, 1, nc[l])
 - Usually the input size decreases over layers while the number of filters increases.
 - A CNN usually consists of one or more convolution (Not just one as the shown) followed by a pooling.
 - Fully connected layers has the most parameters in the network.
-- ![](Images/55.png)
+{% include image.html image="notes/convolutionam-neural-networks/55.png" %}
 
 ### Why convolutions?
 
@@ -280,7 +270,7 @@ bias:    (1, 1, 1, nc[l])
 - In this section we will talk about classic networks which are **LeNet-5**, **AlexNet**, and **VGG**.
 - **LeNet-5**
   - The goal for this model was to identify handwritten digits in a `32x32x1` gray image. Here are the drawing of it:
-  - ![](Images/05.png)
+{% include image.html image="notes/convolutionam-neural-networks/05.png" %}
   - This model was published in 1998. The last layer wasn't using softmax back then.
   - It has 60k parameters.
   - The dimensions of the image decreases as the number of channels increases.
@@ -289,7 +279,7 @@ bias:    (1, 1, 1, nc[l])
 - **AlexNet**
   - Named after Alex Krizhevsky who was the first author of this paper. The other authors includes Geoffrey Hinton.
   - The goal for the model was the ImageNet challenge which classifies images into 1000 classes. Here are the drawing of the model:
-  - ![](Images/06.png)
+{% include image.html image="notes/convolutionam-neural-networks/06.png" %}
   - Summary:
   - Conv => Max-pool => Conv => Max-pool => Conv => Conv => Conv => Max-pool ==> Flatten ==> FC ==> FC ==> Softmax
   - Similar to LeNet-5 but bigger.
@@ -306,8 +296,8 @@ bias:    (1, 1, 1, nc[l])
     - CONV = 3 X 3 filter, s = 1, same  
     - MAX-POOL = 2 X 2 , s = 2
   - Here are the architecture:
-    - ![](Images/07.png)
-    - ![](Images/vgg16.png)
+{% include image.html image="notes/convolutionam-neural-networks/07.png" %}
+{% include image.html image="notes/convolutionam-neural-networks/vgg16.png" %}
   - This network is large even by modern standards. It has around 138 million parameters.
     - Most of the parameters are in the fully connected layers.
   - It has a total memory of 96MB per image for only forward propagation!
@@ -323,15 +313,15 @@ bias:    (1, 1, 1, nc[l])
 - In this section we will learn about skip connection which makes you take the activation from one layer and suddenly feed it to another layer even much deeper in NN which allows you to train large NNs even with layers greater than 100.
 - **Residual block**
   - ResNets are built out of some Residual blocks.
-  - ![](Images/08.png)
-  - ![](Images/03.png)
+{% include image.html image="notes/convolutionam-neural-networks/08.png" %}
+{% include image.html image="notes/convolutionam-neural-networks/03.png" %}
   - They add a shortcut/skip connection before the second activation.
   - The authors of this block find that you can train a deeper NNs using stacking this block.
 - **Residual Network**
   - Are a NN that consists of some Residual blocks.
-  - ![](Images/09.png)
+{% include image.html image="notes/convolutionam-neural-networks/09.png" %}
   - These networks can go deeper without hurting the performance. In the normal NN - Plain networks - the theory tell us that if we go deeper we will get a better solution to our problem, but because of the vanishing and exploding gradients problems the performance of the network suffers as it goes deeper. Thanks to Residual Network we can go deeper as we want now.
-  - ![](Images/10.png)
+{% include image.html image="notes/convolutionam-neural-networks/10.png" %}
   - On the left is the normal NN and on the right are the ResNet. As you can see the performance of ResNet increases as the network goes deeper.
   - In some cases going deeper won't effect the performance and that depends on the problem on your hand.
   - Some people are trying to train 1000 layer now which isn't used in practice.
@@ -361,7 +351,7 @@ bias:    (1, 1, 1, nc[l])
 - Using a skip-connection helps the gradient to backpropagate and thus helps you to train deeper networks
 - Lets take a look at ResNet on images.
   - Here are the architecture of **ResNet-34**:
-  - ![](Images/resNet.jpg)
+{% include image.html image="notes/convolutionam-neural-networks/resNet.jpg" %}  
   - All the 3x3 Conv are same Convs.
   - Keep it simple in design of the network.
   - spatial size/2 => number of filters x2
@@ -369,14 +359,14 @@ bias:    (1, 1, 1, nc[l])
   - The main types of blocks are used in a ResNet, depending mainly on whether the input/output dimensions are same or different. You are going to implement both of them.
   - The dotted lines is the case when the dimensions are different. To solve then they down-sample the input by 2 and then pad zeros to match the two dimensions. There's another trick which is called bottleneck which we will explore later.
 - Useful concept (**Spectrum of Depth**):
-  - ![](Images/12.png)
+{% include image.html image="notes/convolutionam-neural-networks/12.png" %}
 - Residual blocks types:
   - Identity block:
-    - ![](Images/16.png)
+{% include image.html image="notes/convolutionam-neural-networks/16.png" %}
     - Hint the conv is followed by a batch norm BN before RELU. Dimensions here are same.
     - This skip is over 2 layers. The skip connection can jump n connections where n>2
   - The convolutional block:
-    - ![](Images/17.png)
+{% include image.html image="notes/convolutionam-neural-networks/17.png" %}
     - The conv can be bottleneck 1 x 1 conv
 
 ### Network in Network and 1 X 1 convolutions
@@ -405,7 +395,7 @@ bias:    (1, 1, 1, nc[l])
 - When you design a CNN you have to decide all the layers yourself. Will you pick a 3 x 3 Conv or 5 x 5 Conv or maybe a max pooling layer. You have so many choices.
 - What **inception** tells us is, Why not use all of them at once?
 - **Inception module**, naive version:
-  - ![](Images/13.png)
+{% include image.html image="notes/convolutionam-neural-networks/13.png" %}
   - Hint that max-pool are same here.
   - Input to the inception module are 28 x 28 x 192 and the output are 28 x 28 x 256
   - We have done all the Convs and pools we might want and will let the NN learn and decide which it want to use most.
@@ -433,13 +423,13 @@ bias:    (1, 1, 1, nc[l])
 - A 1 x 1 Conv here is called Bottleneck BN.
 - It turns out that the 1 x 1 Conv won't hurt the performance.
 - **Inception module**, dimensions reduction version:
-  - ![](Images/14.png)
+{% include image.html image="notes/convolutionam-neural-networks/14.png" %}
 
 ### Inception network (GoogleNet)
 
 - The inception network consist of concatenated blocks of the Inception module.
 - Here are the full model:
-  - ![](Images/15.png)
+{% include image.html image="notes/convolutionam-neural-networks/15.png" %}
 - Some times a Max-Pool block is used before the inception module to reduce the dimensions of the inputs.
 - There are a 3 Sofmax branches at different positions to push the network toward its goal. and helps to ensure that the intermediate features are good enough to the network to learn and it turns out that softmax0 and sofmax1 gives regularization effect.
 - Since the development of the Inception module, the authors and the others have built another versions of this network. Like inception v2, v3, and v4. Also there is a network that has used the inception module and the ResNet together.
@@ -520,20 +510,20 @@ bias:    (1, 1, 1, nc[l])
 - What are localization and detection?
   - **Image Classification**:
     - Classify an image to a specific class. The whole image represents one class. We don't want to know exactly where are the object. Usually only one object is presented.
-    - ![](Images/Classification.jpg)
+{% include image.html image="notes/convolutionam-neural-networks/Classification.jpg" %}
   - **Classification with localization**:
     - Given an image we want to learn the class of the image and where are the class location in the image. We need to detect a class and a rectangle of where that object is. Usually only one object is presented.
-    - ![](Images/ClassificationLoc.jpg)
+{% include image.html image="notes/convolutionam-neural-networks/ClassificationLoc.jpg" %}
   - **Object detection**:
     - Given an image we want to detect all the object in the image that belong to a specific classes and give their location. An image can contain more than one object with different classes.
-    - ![](Images/ObjectDetection.png)
+{% include image.html image="notes/convolutionam-neural-networks/ObjectDetection.png" %}
   - **Semantic Segmentation**:
     - We want to Label each pixel in the image with a category label. Semantic Segmentation Don't differentiate instances, only care about pixels. It detects no objects just pixels.
     - If there are two objects of the same class is intersected, we won't be able to separate them.
-    - ![](Images/SemanticSegmentation.png)
+{% include image.html image="notes/convolutionam-neural-networks/SemanticSegmentation.png" %}
   - **Instance Segmentation**
     - This is like the full problem. Rather than we want to predict the bounding box, we want to know which pixel label but also distinguish them.
-    - ![](Images/InstanceSegmentation.png)
+{% include image.html image="notes/convolutionam-neural-networks/InstanceSegmentation.png" %}
 - To make image classification we use a Conv Net with a Softmax attached to the end of it.
 - To make classification with localization we use a Conv Net with a softmax attached to the end of it and a four numbers bx, by, bh, and bw to tell you the location of the class in the image. The dataset should contain this four numbers with the class too.
 - Defining the target label Y in classification with localization problem:
@@ -601,14 +591,14 @@ bias:    (1, 1, 1, nc[l])
     ```
 - Hint, in your labeled data, if l1x,l1y is the left corner of left eye, all other l1x,l1y of the other examples has to be the same.
 - Another application is when you need to get the skeleton of the person using different landmarks/points in the person which helps in some applications.
-- ![](Images/sl3.png)
+{% include image.html image="notes/convolutionam-neural-networks/sl3.png" %}
 
 ### Object Detection
 
 - We will use a Conv net to solve the object detection problem using a technique called the sliding windows detection algorithm.
 - For example lets say we are working on Car object detection.
 - The first thing, we will train a Conv net on cropped car images and non car images.
-  - ![](Images/18.png)
+{% include image.html image="notes/convolutionam-neural-networks/18.png" %}
 - After we finish training of this Conv net we will then use it with the sliding windows technique.
 - Sliding windows detection algorithm:
   - Decide a rectangle size.
@@ -624,28 +614,28 @@ bias:    (1, 1, 1, nc[l])
 ### Convolutional Implementation of Sliding Windows
 
 - Turning FC layer into convolutional layers (predict image class from four classes):
-  - ![](Images/19.png)
+{% include image.html image="notes/convolutionam-neural-networks/19.png" %}
   - As you can see in the above image, we turned the FC layer into a Conv layer using a convolution with the width and height of the filter is the same as the width and height of the input.
 - **Convolution implementation of sliding windows**:
   - First lets consider that the Conv net you trained is like this (No FC all is conv layers):
-    - ![](Images/20.png)
+{% include image.html image="notes/convolutionam-neural-networks/20.png" %}
   - Say now we have a 16 x 16 x 3 image that we need to apply the sliding windows in. By the normal implementation that have been mentioned in the section before this, we would run this Conv net four times.
   - The convolution implementation will be as follows:
-    - ![](Images/21.png)
+{% include image.html image="notes/convolutionam-neural-networks/21.png" %}
   - Simply we have feed the image into the same Conv net we have trained.
   - The left cell of the result "The blue one" will represent the the first sliding window of the normal implementation. The other cells will represent the others.
   - Its more efficient because it now shares the computations of the four times needed.
   - Another example would be:
-    - ![](Images/22.png)
+{% include image.html image="notes/convolutionam-neural-networks/22.png" %}
 - The weakness of the algorithm is that the position of the rectangle wont be so accurate. Maybe none of the rectangles is exactly on the object you want to recognize.
-  - ![](Images/23.png)
+{% include image.html image="notes/convolutionam-neural-networks/23.png" %}
   - In red, the rectangle we want and in blue is the required car rectangle.
 
 ### Bounding Box Predictions
 
 - A better algorithm than the one described in the last section is the **YOLO algorithm**.
   - Yolo Algorithm:
-  - ![](Images/24.png)
+{% include image.html image="notes/convolutionam-neural-networks/24.png" %}
   - 1. Lets say we have an image of 100 X 100
   - 2. Place a  3 x 3 grid on the image. For more smother results you should use 19 x 19 for the 100 x 100
   - 3. Apply the classification and localization algorithm we discussed in a previous section to each section of the grid. bx and by will represent the center point of the object in each grid and will be relative to the box so the range is between 0 and 1 while bh and bw will represent the height and width of the object which can be greater than 1.0 but still a floating point value.
@@ -662,7 +652,7 @@ bias:    (1, 1, 1, nc[l])
 - Intersection Over Union is a function used to evaluate the object detection algorithm.
 - It computes size of intersection and divide it by the union. More generally, **IoU** is a measure of the overlap between two bounding boxes.
 - For example:
-  - ![](Images/25.png)
+{% include image.html image="notes/convolutionam-neural-networks/25.png" %}
   - The red is the labeled output and the purple is the predicted output.
   - To compute Intersection Over Union we first compute the union area of the two rectangles which is "the first rectangle + second rectangle" Then compute the intersection area between these two rectangles.
   - Finally IOU = intersection area / Union area
@@ -674,7 +664,7 @@ bias:    (1, 1, 1, nc[l])
 - One of the problems we have addressed in YOLO is that it can detect an object multiple times.
 - Non-max Suppression is a way to make sure that YOLO detects the object just once.
 - For example:
-  - ![](Images/26.png)
+{% include image.html image="notes/convolutionam-neural-networks/26.png" %}
   - Each car has two or more detections with different probabilities. This came from some of the grids that thinks that this is the center point of the object.
 - Non-max suppression algorithm:
   - Lets assume that we are targeting one class as an output class.
@@ -688,14 +678,14 @@ bias:    (1, 1, 1, nc[l])
 ### Anchor Boxes
 
 - In YOLO, a grid only detects one object. What if a grid cell wants to detect multiple object?
-  - ![](Images/27.png)
+{% include image.html image="notes/convolutionam-neural-networks/27.png" %}
   - Car and person grid is same here.
   - In practice this happens rarely.
 - The idea of Anchor boxes helps us solving this issue.
 - If Y = [Pc, bx, by, bh, bw, c1, c2, c3] Then to use two anchor boxes like this:
   - Y = [Pc, bx, by, bh, bw, c1, c2, c3, Pc, bx, by, bh, bw, c1, c2, c3]  We simply have repeated  the one anchor Y.
   - The two anchor boxes you choose should be known as a shape:
-    - ![](Images/28.png)
+{% include image.html image="notes/convolutionam-neural-networks/28.png" %}
 - So Previously, each object in training image is assigned to grid cell that contains that object's midpoint.
 - With two anchor boxes, Each object in training image is assigned to grid cell that contains object's midpoint and anchor box for the grid cell with <u>highest IoU</u>. You have to check where your object should be based on its rectangle closest to which anchor box.
 - You may have two or more anchor boxes but you should know their shapes.
@@ -720,12 +710,12 @@ bias:    (1, 1, 1, nc[l])
 - Train the labeled images on a Conv net. you should receive an output of [HeightOfGrid, WidthOfGrid,16] for our case.
 - To make predictions, run the Conv net on an image and run Non-max suppression algorithm for each class you have in our case there are 3 classes.
   - You could get something like that:
-    - ![](Images/31.png)
+{% include image.html image="notes/convolutionam-neural-networks/31.png" %}
     - Total number of generated boxes are grid_width * grid_height * no_of_anchors = 3 x 3 x 2
   - By removing the low probability predictions you should have:
-    - ![](Images/32.png)
+{% include image.html image="notes/convolutionam-neural-networks/32.png" %}
   - Then get the best probability followed by the IOU filtering:
-    - ![](Images/33.png)
+{% include image.html image="notes/convolutionam-neural-networks/33.png" %}
 - YOLO are not good at detecting smaller object.
 
 ### Region Proposals (R-CNN)
@@ -737,7 +727,7 @@ bias:    (1, 1, 1, nc[l])
 - **R-CNN** stands for regions with conv nets.
 - R-CNN tries to pick a few windows and run a Conv net (your confident classifier) on top of them.
 - The algorithm R-CNN uses to pick windows is called a segmentation algorithm. Outputs something like this:
-  - ![](Images/34.png)
+{% include image.html image="notes/convolutionam-neural-networks/34.png" %}
 - If for example the segmentation algorithm produces 2000 blob then we should run our classifier/CNN on top of these blobs.
 - There has been a lot of work regarding R-CNN tries to make it faster:
   - R-CNN:
@@ -788,7 +778,7 @@ bias:    (1, 1, 1, nc[l])
 
 - We will implement the similarity function using a type of NNs called Siamease Network in which we can pass multiple inputs to the two or more networks with the same architecture and parameters.
 - Siamese network architecture are as the following:
-  - ![](Images/35.png)
+{% include image.html image="notes/convolutionam-neural-networks/35.png" %}
   - We make 2 identical conv nets which encodes an input image into a vector. In the above image the vector shape is (128, )
   - The loss function will be d(x1, x2) = || f(x1) - f(x2) ||<sup>2</sup>
   - If X1, X2 are the same person, we want d to be low. If they are different persons, we want d to be high.
@@ -797,7 +787,7 @@ bias:    (1, 1, 1, nc[l])
 
 - Triplet Loss is one of the loss functions we can use to solve the similarity distance in a Siamese network.
 - Our learning objective in the triplet loss function is to get the distance between an **Anchor** image and a **positive** or a **negative** image.
-  - ![](Images/30.png)
+{% include image.html image="notes/convolutionam-neural-networks/30.png" %}
   - Positive means same person, while negative means different person.
 - The triplet name came from that we are comparing an anchor A with a positive P and a negative N image.
 - Formally we want:
@@ -831,7 +821,7 @@ bias:    (1, 1, 1, nc[l])
 
 - Triplet loss is one way to learn the parameters of a conv net for face recognition there's another way to learn these parameters as a straight binary classification problem.
 - Learning the similarity function another way:
-  - ![](Images/36.png)
+{% include image.html image="notes/convolutionam-neural-networks/36.png" %}
   - The final layer is a sigmoid layer.
   - The subtraction is the Manhattan distance between f(x(i)) and f(x(j))
   - Some other similarities can be Euclidean.
@@ -847,7 +837,7 @@ bias:    (1, 1, 1, nc[l])
 
 - Neural style transfer is one of the application of Conv nets.
 - Neural style transfer takes a content image `C` and a style image `S` and generates the content image `G` with the style of style image.
-- ![](Images/37.png)
+{% include image.html image="notes/convolutionam-neural-networks/37.png" %}
 - In order to implement this you need to look at the features extracted by the Conv net at the shallower and deeper layers.
 - It uses a previously trained convolutional network like VGG, and builds on top of that. The idea of using a network trained on a different task and applying it to a new task is called transfer learning.
 
@@ -855,13 +845,13 @@ bias:    (1, 1, 1, nc[l])
 
 - Visualizing what a deep network is learning:
   - Given this AlexNet like Conv net:
-    - ![](Images/38.png)
+{% include image.html image="notes/convolutionam-neural-networks/38.png" %}
   - Pick a unit in layer l. Find the nine image patches that maximize the unit's activation.
     - Notice that a hidden unit in layer one will see relatively small portion of NN, so if you plotted it, it will match a small image in the shallower layers while it will get larger image in deeper layers.
   - Repeat for other units and layers.
   - It turns out that layer 1 are learning the low level representations like colors and edges.
 - You will find out that each layer are learning more complex representations.
-  - ![](Images/39.png)
+{% include image.html image="notes/convolutionam-neural-networks/39.png" %}
 
 #### Cost Function
 
@@ -878,9 +868,9 @@ bias:    (1, 1, 1, nc[l])
     - G = G - dG  We compute the gradient image and use gradient decent to minimize the cost function.
 - The iterations might be as following image:
   - To Generate this:
-    - ![](Images/40.png)
+{% include image.html image="notes/convolutionam-neural-networks/40.png" %}
   - You will go through this:
-    - ![](Images/41.png)
+{% include image.html image="notes/convolutionam-neural-networks/41.png" %}
 
 #### Content Cost Function
 
@@ -899,7 +889,7 @@ bias:    (1, 1, 1, nc[l])
   - Say you are using layer l's activation to measure **style**.
   - Define style as correlation between **activations** across **channels**.
     - That means given an activation like this:
-      - ![](Images/42.png)
+{% include image.html image="notes/convolutionam-neural-networks/42.png" %}
     - How correlate is the orange channel with the yellow channel?
     - Correlated means if a value appeared in a specific channel a specific value will appear too (Depends on each other).
     - Uncorrelated means if a value appeared in a specific channel doesn't mean that another value will appear (Not depend on each other)
@@ -911,9 +901,9 @@ bias:    (1, 1, 1, nc[l])
     - We call this matrix style matrix or Gram matrix.
     - In this matrix each cell will tell us how correlated is a channel to another channel.
   - To populate the matrix we use these equations to compute style matrix of the style image and the generated image.
-    - ![](Images/43.png)
-    - ![](Images/29.png)
-    - ![](Images/04.png)
+{% include image.html image="notes/convolutionam-neural-networks/43.png" %}
+{% include image.html image="notes/convolutionam-neural-networks/29.png" %}
+{% include image.html image="notes/convolutionam-neural-networks/04.png" %}
     - As it appears its the sum of the multiplication of each member in the matrix.
 - To compute gram matrix efficiently:
   - Reshape activation from H * W * C to HW * C
@@ -950,7 +940,7 @@ bias:    (1, 1, 1, nc[l])
 - 1D data comes from a lot of resources such as waves, sounds, heartbeat signals.
 - In most of the applications that uses 1D data we use Recurrent Neural Network RNN.
 - 3D data also are available in some applications like CT scan:
-  - ![](Images/44.png)
+{% include image.html image="notes/convolutionam-neural-networks/44.png" %}
 - 3D convolution:
   - Input shape (14, 14,14, 1)
   - Applying 16 filters with F = 5 , S = 1
