@@ -361,7 +361,7 @@ The goal is given this representation for $$x$$ to learn a mapping using a seque
   - It turns out that $$e_{queen}$$ is the best solution here that gets the the similar vector.
 - Cosine similarity - the most commonly used similarity function:
 $$sim(u, v) = {uv}/{||u||||v||} = cos(\theta)$$
-{% include image.html image="notes/sequence-models/35.png" %}
+{% include image.html image="notes/sequence-models/cosine_sim.png" %}
   - The top part represents the inner product of $$u$$ and $$v$$ vectors. It will be large if the vectors are very similar.
 - You can also use Euclidean distance as a similarity function (but it rather measures a dissimilarity, so you should take it with negative sign).
 - We can use this equation to calculate the similarities between word embeddings and on the analogy problem where $$u = e_w$$ and $$v = e_{king} - e_{man} + e_{woman}$$
@@ -504,20 +504,21 @@ $$sim(u, v) = {uv}/{||u||||v||} = cos(\theta)$$
 - Addressing bias in word embeddings steps:
   - Given these learned embeddings:   
   - We need to solve the **gender bias** here. The steps we will discuss can help solve any bias problem but we are focusing here on gender bias.
-  - Here are the steps:
-    - Identify the direction:
-      - Calculate the difference between:
-        $$e_{he} - e_{she}, e_{male} - e_{female}, \dots$$
-      - Choose some $$k$$ differences and average them.
-      - This will help you find that we have found the bias direction which is 1D vector and the non-bias vector which is 299D vector.
-    - **Neutralize**: For every word that is not definitional, project to get rid of bias.
-      - Babysitter and doctor need to be neutral so we project them on non-bias axis with the direction of the bias:   
-        - After that they will be equal in the term of gender.
-    - **Equalize pairs**
-      - We want each pair to have difference only in gender. Like: (Grandfather, Grandmother) (He, She) (Boy, Girl)
-      - We want to do this because the distance between grandfather and babysitter is bigger than babysitter and grandmother:   
-      - To do that, we move grandfather and grandmother to a point where they will be in the middle of the non-bias axis.
-      - There are some words you need to do this for in your steps. Number of these words is relatively small.
+  - Identify the direction:
+    - Calculate the difference between:
+      $$e_{he} - e_{she}, e_{male} - e_{female}, \dots$$
+    - Choose some $$k$$ differences and average them.
+    - This will help you find that we have found the bias direction which is 1D vector and the non-bias vector which is 299D vector.
+  - **Neutralize**: For every word that is not definitional, project to get rid of bias.
+    - Babysitter and doctor need to be neutral so we project them on non-bias axis with the direction of the bias:   
+      - After that they will be equal in the term of gender.
+{% include image.html image="notes/sequence-models/neutral.png" %}
+  - **Equalize pairs**
+    - We want each pair to have difference only in gender. Like: (Grandfather, Grandmother) (He, She) (Boy, Girl)
+    - We want to do this because the distance between grandfather and babysitter is bigger than babysitter and grandmother:   
+    - To do that, we move grandfather and grandmother to a point where they will be in the middle of the non-bias axis.
+    - There are some words you need to do this for in your steps. Number of these words is relatively small.
+{% include image.html image="notes/sequence-models/equalize.png" %}
 
 ## Sequence models
 
@@ -753,7 +754,7 @@ $$sim(u, v) = {uv}/{||u||||v||} = cos(\theta)$$
 - With the rise of deep learning speech recognition, there are a lot of devices that can be waked up by saying some words with your voice. These systems are called trigger word detection systems.
 - For example, Alexa - a smart device made by Amazon - can answer your call "Alexa, what time is it?" and then Alexa will respond to you.
 - Trigger word detection systems include:  
-  {% include image.html image="notes/sequence-models/79.png" %}
+{% include image.html image="notes/sequence-models/79.png" %}
 - For now, the trigger word detection literature is still evolving so there actually isn't a single universally agreed on the algorithm for trigger word detection yet. But let's discuss an algorithm that can be used.
 - Let's now build a model that can solve this problem:
   - X: audio clip
@@ -761,12 +762,12 @@ $$sim(u, v) = {uv}/{||u||||v||} = cos(\theta)$$
     - X<sup>\<1></sup>, X<sup>\<2></sup>, ... , X<sup>\<t></sup>
   - Y will be labels 0 or 1. 0 represents the non-trigger word, while 1 is that trigger word that we need to detect.
   - The model architecture can be like this:  
-    {% include image.html image="notes/sequence-models/80.png" %}
+{% include image.html image="notes/sequence-models/80.png" %}
     - The vertical lines in the audio clip represent moment just after the trigger word. The corresponding to this will be 1.
   - One disadvantage of this creates a very imbalanced training set. There will be a lot of zeros and few ones.
   - A hack to solve this is to make an output a few ones for several times or for a fixed period of time before reverting back to zero.  
-    {% include image.html image="notes/sequence-models/81.jpg" %}
-    {% include image.html image="notes/sequence-models/85.png" %}
+{% include image.html image="notes/sequence-models/81.jpg" %}
+{% include image.html image="notes/sequence-models/85.jpg" %}
 
 
 ## Extras
