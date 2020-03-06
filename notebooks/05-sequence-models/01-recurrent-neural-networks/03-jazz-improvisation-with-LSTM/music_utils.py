@@ -18,7 +18,7 @@ def data_processing(corpus, values_indices, m = 60, Tx = 30):
     X = np.zeros((m, Tx, N_values), dtype=np.bool)
     Y = np.zeros((m, Tx, N_values), dtype=np.bool)
     for i in range(m):
-#         for t in range(1, Tx):
+        # for t in range(1, Tx):
         random_idx = np.random.choice(len(corpus) - Tx)
         corp_data = corpus[random_idx:(random_idx + Tx)]
         for j in range(Tx):
@@ -55,7 +55,7 @@ def next_value_processing(model, next_value, x, predict_and_sample, indices_valu
             len(next_value.split(',')) != 2):
             # give up after 1000 tries; random from input's first notes
             if tries >= max_tries:
-                #print('Gave up on first note generation after', max_tries, 'tries')
+                # print('Gave up on first note generation after', max_tries, 'tries')
                 # np.random is exclusive to high
                 rand = np.random.randint(0, len(abstract_grammars))
                 next_value = abstract_grammars[rand].split(' ')[0]

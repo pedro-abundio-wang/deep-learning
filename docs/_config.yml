@@ -20,12 +20,14 @@ doks:
               item_url: '/lectures'
             - item_name: Blogs
               item_url: '/blogs'
+            - item_name: Notes
+              item_url: '/notes'
     footer:
         content:
             logo:
                 text:
                 image:
-            copyright: Copyright &copy; 2019. - Pedro Abundio Wang <br>All rights reserved.
+            copyright: Copyright &copy; 2020. - Pedro Abundio Wang <br>All rights reserved.
         social_list:
     google_analytics: UA-124237072-3
     comments:
@@ -70,4 +72,9 @@ course:
             icon:
             content: Blogs
             url: '/blogs'
+            external_url: false
+        notes:
+            icon:
+            content: Notes
+            url: '/notes'
             external_url: false

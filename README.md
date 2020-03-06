@@ -59,19 +59,19 @@ nvidia-smi
 
 [Network In Network](https://arxiv.org/abs/1312.4400)
 
-[Densely Connected Convolutional Networks](https://arxiv.org/abs/1608.06993)
+[DenseNet: Densely Connected Convolutional Networks](https://arxiv.org/abs/1608.06993)
 
 #### CNN Visualizing and Understanding
 
-[Visualizing and Understanding Convolutional Networks](https://arxiv.org/abs/1311.2901)
-
-[Understanding Neural Networks Through Deep Visualization](https://arxiv.org/abs/1506.06579)
-
-[Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps](https://arxiv.org/abs/1312.6034)
+[A guide to convolution arithmetic for deep learning](https://arxiv.org/abs/1603.07285)
 
 [Is the deconvolution layer the same as a convolutional layer?](https://arxiv.org/abs/1609.07009)
 
-[A guide to convolution arithmetic for deep learning](https://arxiv.org/abs/1603.07285)
+[Visualizing and Understanding Convolutional Networks](https://arxiv.org/abs/1311.2901)
+
+[Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps](https://arxiv.org/abs/1312.6034)
+
+[Understanding Neural Networks Through Deep Visualization](https://arxiv.org/abs/1506.06579)
 
 [Learning Deep Features for Discriminative Localization](http://cnnlocalization.csail.mit.edu/Zhou_Learning_Deep_Features_CVPR_2016_paper.pdf)
 
@@ -165,9 +165,9 @@ Fully Convolutional Networks for Semantic Segmentation
 
 ## RNN
 
-On the properties of neural machine translation: Encoder-decoder approaches
+[GRU] On the properties of neural machine translation: Encoder-decoder approaches
 
-Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling
+[GRU] Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling
 
 Long short-term memory
 
@@ -264,6 +264,8 @@ http://mccormickml.com/2018/06/15/applying-word2vec-to-recommenders-and-advertis
 Bjorck N, Gomes C P, Selman B, et al. Understanding batch normalization[C]//Advances in Neural Information Processing Systems. 2018: 7705-7716.
 
 Santurkar S, Tsipras D, Ilyas A, et al. How does batch normalization help optimization?[C]//Advances in Neural Information Processing Systems. 2018: 2488-2498.
+
+https://github.com/keras-team/keras/blob/master/examples/lstm_text_generation.py
 
 [Understanding AlexNet](https://www.learnopencv.com/understanding-alexnet/)
 
