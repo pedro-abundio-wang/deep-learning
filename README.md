@@ -47,18 +47,6 @@ nvidia-smi
 
 #### Classic networks
 
-[(LeNet-5) Gradient-based learning applied to document recognition](http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf)
-
-[(AlexNet) ImageNet classification with deep convolutional neural networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
-
-[(ResNet) Deep residual networks for image recognition](https://arxiv.org/abs/1512.03385)
-
-[(Inception Network) Going Deeper with Convolutions](https://arxiv.org/abs/1409.4842)
-
-[(VGG-16) Very deep convolutional networks for large-scale image recognition](https://arxiv.org/abs/1409.1556)
-
-[Network In Network](https://arxiv.org/abs/1312.4400)
-
 [DenseNet: Densely Connected Convolutional Networks](https://arxiv.org/abs/1608.06993)
 
 #### CNN Visualizing and Understanding
