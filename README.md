@@ -55,8 +55,6 @@ nvidia-smi
 
 [(Inception Network) Going Deeper with Convolutions](https://arxiv.org/abs/1409.4842)
 
-[(VGG-16) Very deep convolutional networks for large-scale image recognition](https://arxiv.org/abs/1409.1556)
-
 [Network In Network](https://arxiv.org/abs/1312.4400)
 
 [DenseNet: Densely Connected Convolutional Networks](https://arxiv.org/abs/1608.06993)
