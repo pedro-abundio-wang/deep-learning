@@ -275,25 +275,53 @@ bias:    (1, 1, 1, nc[l])
   - It has 60k parameters.
   - The dimensions of the image decreases as the number of channels increases.
   - Conv ==> Pool ==> Conv ==> Pool ==> FC ==> FC ==> softmax this type of arrangement is quite common.
+  - Conv filters were 5x5, applied at stride 1
+  - Subsampling (Pooling) layers were 2x2 applied at stride 2
   - The activation function used in the paper was Sigmoid and Tanh. Modern implementation uses RELU in most of the cases.
 - **AlexNet**
   - Named after Alex Krizhevsky who was the first author of this paper. The other authors includes Geoffrey Hinton.
   - The goal for the model was the ImageNet challenge which classifies images into 1000 classes. Here are the drawing of the model:
 {% include image.html image="notes/convolutionam-neural-networks/06.png" %}
   - Summary:
-  - Conv => Max-pool => Conv => Max-pool => Conv => Conv => Conv => Max-pool ==> Flatten ==> FC ==> FC ==> Softmax
+  - Conv => MaxPool => LRN => Conv => MaxPool => LRN => Conv => Conv => Conv => MaxPool => FC => FC => Softmax
   - Similar to LeNet-5 but bigger.
   - Has 60 Million parameter compared to 60k parameter of LeNet-5.
-  - It used the RELU activation function.
-  - The original paper contains Multiple GPUs and **Local Response normalization (RN)**.
+  - It first used the RELU activation function.
+  - Used Norm layers (not common anymore). The original paper contains Multiple GPUs and **Local Response normalization (LRN)**.
     - Multiple GPUs were used because the GPUs were not so fast back then.
     - Researchers proved that Local Response normalization doesn't help much so for now don't bother yourself for understanding or implementing it.
+	- CONV1, CONV2, CONV4, CONV5: Connections only with feature maps on same GPU
+	- CONV3, FC6, FC7, FC8: Connections with all feature maps in preceding layer, communication across GPUs
+  - heavy data augmentation ( flipping/jittering/cropping/color normalization)
+  - dropout 0.5
+  - batch size 128
+  - SGD Momentum 0.9
+  - Learning rate 1e-2, reduced by 10 manually when val accuracy plateaus
+  - L2 weight decay 5e-4
+  - 7 CNN ensemble: 18.2% -> 15.4%
   - The paper convinced the computer vision researchers that deep learning is so important.
+  ```
+  Full (simplified) AlexNet architecture:
+  [227x227x3] INPUT
+  [55x55x96] CONV1: 96 11x11 filters at stride 4, pad 0
+  [27x27x96] MAX POOL1: 3x3 filters at stride 2
+  [27x27x96] NORM1: Normalization layer
+  [27x27x256] CONV2: 256 5x5 filters at stride 1, pad 2
+  [13x13x256] MAX POOL2: 3x3 filters at stride 2
+  [13x13x256] NORM2: Normalization layer
+  [13x13x384] CONV3: 384 3x3 filters at stride 1, pad 1
+  [13x13x384] CONV4: 384 3x3 filters at stride 1, pad 1
+  [13x13x256] CONV5: 256 3x3 filters at stride 1, pad 1
+  [6x6x256] MAX POOL3: 3x3 filters at stride 2
+  [4096] FC6: 4096 neurons
+  [4096] FC7: 4096 neurons
+  [1000] FC8: 1000 neurons (class scores)
+  ```
 - **VGG-16**
   - A modification for AlexNet.
   - Instead of having a lot of hyperparameters lets have some simpler network.
   - Focus on having only these blocks:
-    - CONV = 3 X 3 filter, s = 1, same  
+    - CONV = 3 X 3 filter, s = 1, p = 1  
     - MAX-POOL = 2 X 2 , s = 2
   - Here are the architecture:
 {% include image.html image="notes/convolutionam-neural-networks/07.png" %}

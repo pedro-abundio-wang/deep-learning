@@ -15,7 +15,7 @@ micro_nav: true
 page_nav:
     next:
         content: Next page
-        url: '/blog/handsigns'
+        url: '/blogs/handsigns'
 ---
 This post follows the [main](/blog/tips) post announcing the CS230 Project Code Examples. Here we explain some details of the PyTorch part of the code from our [github repository](https://github.com/cs230-stanford/cs230-code-examples).
 

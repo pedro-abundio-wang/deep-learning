@@ -1,6 +1,6 @@
 # Temporary GitPage Host setup
 title: Deep Learning
-baseurl: ""
+baseurl: "/deep-learning"
 
 # Theme settings
 doks:
@@ -10,16 +10,16 @@ doks:
             text: Deep Learning
             image: false
         nav:
-            - item_name: Papers
-              item_url: '/papers'
-            - item_name: Projects
-              item_url: '/projects'
-            - item_name: Sections
-              item_url: '/sections'
             - item_name: Lectures
               item_url: '/lectures'
             - item_name: Blogs
               item_url: '/blogs'
+            - item_name: Sections
+              item_url: '/sections'              
+            - item_name: Papers
+              item_url: '/papers'
+            - item_name: Projects
+              item_url: '/projects'
             - item_name: Notes
               item_url: '/notes'
     footer:

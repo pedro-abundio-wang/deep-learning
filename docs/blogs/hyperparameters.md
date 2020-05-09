@@ -15,7 +15,7 @@ micro_nav: true
 page_nav:
     prev:
         content: Previous page
-        url: '/blog/split'
+        url: '/blogs/split'
 ---
 Logging your outputs to a file is a general good practice in any project. An even more important good practice is to handle correctly the multiple hyperparameters that arise in any deep learning project. We need to be able to store them in a file and know the full set of hyperparameters used in any past experiment.
 

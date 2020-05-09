@@ -15,7 +15,7 @@ micro_nav: true
 page_nav:
     next:
         content: Next page
-        url: '/blog/split'
+        url: '/blogs/split'
 ---
 ## **Part I - Image data preprocessing** 
 

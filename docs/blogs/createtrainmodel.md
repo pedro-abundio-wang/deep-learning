@@ -15,7 +15,7 @@ micro_nav: true
 page_nav:
     prev:
         content: Previous page
-        url: '/blog/datapipeline'
+        url: '/blogs/datapipeline'
     next:
         content: 
         url: '#'
