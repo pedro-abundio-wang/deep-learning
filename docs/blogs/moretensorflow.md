@@ -21,20 +21,6 @@ page_nav:
         url: '/blogs/datapipeline'
 ---
 
-This post follows the [main post](/blog/tips) announcing the release of the CS230 code examples. We will explain here the TensorFlow part of the code, in our [github repository](https://github.com/cs230-stanford/cs230-code-examples/tree/master/tensorflow).
-
-```python
-tensorflow/
-    vision/
-    nlp/
-```
-
-This tutorial is among a series explaining how to structure a deep learning project:
-- [installation, get started with the code for the projects](/blog/tips)
-- **this post: (TensorFlow) explain the global structure of the code**
-- [(TensorFlow) how to build the data pipeline](/blog/datapipeline)
-- [(Tensorflow) how to build the model and train it](/blog/createtrainmodel) 
-
 ## **Goals of this tutorial**
 - learn more about TensorFlow
 - learn an example of how to correctly structure a deep learning project in TensorFlow
@@ -48,9 +34,9 @@ For a **simple example on MNIST**, read the [official tutorial](https://www.tens
 
 For a more **detailed tour** of Tensorflow, reading the [programmer’s guide](https://www.tensorflow.org/guide/) is definitely worth the time. You’ll learn more about Tensors, Variables, Graphs and Sessions, as well as the saving mechanism or how to import data.
 
-For a **more advanced use** with concrete examples and code, we recommend reading [the relevant tutorials](https://www.tensorflow.org/tutorials/) for your project. You’ll find good code and explanations, going from [sequence-to-sequence in Tensorflow](https://www.tensorflow.org/tutorials/) to an [introduction to TF layers for convolutionnal Neural Nets](https://www.tensorflow.org/tutorials/estimators/cnn#getting_started).
+For a **more advanced use** with concrete code, we recommend reading [the relevant tutorials](https://www.tensorflow.org/tutorials/) for your project. You’ll find good code and explanations, going from [sequence-to-sequence in Tensorflow](https://www.tensorflow.org/tutorials/) to an [introduction to TF layers for convolutionnal Neural Nets](https://www.tensorflow.org/tutorials/estimators/cnn#getting_started).
 
-You might also be interested in [Stanford’s CS20 class: Tensorflow for Deep Learning Research](http://web.stanford.edu/class/cs20si/) and its [github repo](https://github.com/chiphuyen/stanford-tensorflow-tutorials) containing some cool examples.
+You might also be interested in [Stanford’s CS20 class: Tensorflow for Deep Learning Research](http://web.stanford.edu/class/cs20si/) and its [github repo](https://github.com/chiphuyen/stanford-tensorflow-tutorials).
 
 ## **Structure of the code**
 
@@ -85,11 +71,9 @@ Once you get the high-level idea, depending on your task and dataset, you might 
 - `model/input_fn` to change the process of feeding data to the model.
 - `train.py` and `evaluate.py` to change the story-line (maybe you need to change the filenames, load a vocabulary, etc.)
 
-Once you get something working for your dataset, feel free to edit any part of the code to suit your own needs.
-
 ## **Graph, Session and nodes**
 
-When designing a Model in Tensorflow, there are [basically 2 steps](https://www.tensorflow.org/tutorials/#tensorflow_core_tutorial)
+When designing a Model in Tensorflow, there are [basically steps](https://www.tensorflow.org/tutorials/#tensorflow_core_tutorial)
 
 1. building the computational graph, the nodes and operations and how they are connected to each other
 2. evaluating / running this graph on some data

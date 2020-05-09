@@ -27,19 +27,6 @@ tensorflow/
 
 This post will help you familiarize with the Project Framework, and introduces a series of posts explaining how to structure a deep learning project:
 
-**Tensorflow**
-
-- [introduction to Tensorflow](../tensorflow)
-- [more in Tensorflow](../moretensorflow)
-- [how to build the data pipeline with tf.data](../datapipeline)
-- [how to create and train a model](../createtrainmodel)
-
-**PyTorch**
-
-- [introduction to PyTorch](../pytorch)
-- [Vision- predicting labels from images of hand signs](../handsigns)
-- [NLP- Named Entity Recognition (NER) tagging for sentences](../namedentity)
-
 **Goals of the project framework**
 
 - explain and demonstrate the best practices for structuring a deep learning project
@@ -220,15 +207,11 @@ We can now train an example model with the parameters provided in the configurat
 python train.py --model_dir experiments/base_model
 ```
 
-The console output will look like
-
 Once training is done, we can evaluate on the test set:
 
 ```python
 python evaluate.py --model_dir experiments/base_model
 ```
-
-This was just a quick example, so please refer to the detailed TensorFlow / PyTorch tutorials for an in-depth explanation of the code.
 
 **Hyperparameters search**
 
@@ -260,7 +243,7 @@ experiments/
 
 **Display the results of multiple experiments**
 
-If you want to aggregate the metrics computed in each experiment (the `metrics_eval_best_weights.json` files), simply run
+If you want to aggregate the metrics computed in each experiment (`metrics_eval_best_weights.json`), simply run
 
 ```python
 python synthesize_results.py --parent_dir experiments/learning_rate
@@ -287,7 +270,7 @@ Both framework have their pros and cons:
 - the Deep Learning Specialization teaches you how to use Tensorflow
 - built for large-scale deployment and used by a lot of companies
 - has some very useful tools like Tensorboard for visualization (though you can also use [Tensorboard with PyTorch](https://github.com/lanpa/tensorboardX))
-- but some ramp-up time is needed to understand some of the concepts (session, graph, variable scope, etc.) – (reason why we have code examples that take care of these subtleties)
+- but some ramp-up time is needed to understand some of the concepts (session, graph, variable scope)
 - transparent use of the GPU
 - can be harder to debug
 
@@ -298,7 +281,3 @@ Both framework have their pros and cons:
 - designed for faster prototyping and research
 - transparent use of the GPU
 - easy to debug and customize
-
-Which one will you [choose](https://www.youtube.com/watch?v=zE7PKRjrid4&feature=youtu.be&t=1m26s) ?
-
-
