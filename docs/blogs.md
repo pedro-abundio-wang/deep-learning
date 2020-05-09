@@ -14,6 +14,10 @@ grid_navigation:
       excerpt:
       cta: Read more
       url: 'datapreprocessing'
+    - title: Project Framework
+      excerpt:
+      cta: Read more
+      url: 'tips'
     - title: Introduction to Tensorflow
       excerpt:
       cta: Read more
@@ -22,8 +26,4 @@ grid_navigation:
       excerpt:
       cta: Read more
       url: 'pytorch'
-    - title: Tips for the Final Project
-      excerpt:
-      cta: Read more
-      url: 'tips'
 ---

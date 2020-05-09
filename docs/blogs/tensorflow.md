@@ -19,11 +19,7 @@ page_nav:
         url: '/blogs/moretensorflow'
 ---
 
-In this hands-on session, you will use two files:
-- Tensorflow_tutorial.py (Part I)
-- [CS230 project example code](https://github.com/cs230-stanford/cs230-code-examples) repository on github (Part II)
-
-## Part I - Tensorflow Tutorial
+## Tensorflow Tutorial
 
 The goal of this part is to quickly build a tensorflow code implementing a Neural Network to classify hand digits from the MNIST dataset.
 
@@ -55,34 +51,13 @@ The steps you are going to implement are:
 **Question 8:** As usual in tensorflow, you need to initialize the variables of the graph, create the tensorflow session and run the initializer on the session. Write code to do these steps.
 
 **Question 9:** Implement the optimization loop for 20,000 steps. At every step, have to:
-    - Load the mini-batch of MNIST data (including images and labels)
-    - Create a feed dictionary to assign your placeholders to the data.
-    - Run the session defined above on the correct graph nodes to perform an optimization step and access the desired values of the graph.
-    - Print the cost and iteration number.
+- Load the mini-batch of MNIST data (including images and labels)
+- Create a feed dictionary to assign your placeholders to the data.
+- Run the session defined above on the correct graph nodes to perform an optimization step and access the desired values of the graph.
+- Print the cost and iteration number.
 
 **Question 10:** Using your accuracy metric, compute the accuracy and the value of the cost function both on the train and test set.
 
 Run the code from your terminal using: *“python tensorflow_tutorial.py”* 
 
 **Question 11:** Look at the outputs, accuracy and logs of your model. What improvements could be made? Take time at home to play with your code, and search for ideas online
-
-## Part II - Project Code Examples
-
-The goal of this part is to become more familiar with the [CS230 project example code](https://github.com/cs230-stanford/cs230-code-examples) that the
-teaching staff has provided. It’s meant to help you prototype ideas for your projects.
-
-**Question 1:**  Please start by git cloning the “[cs230-code-examples](https://github.com/cs230-stanford/cs230-code-examples)” repository on your local computer.
-
-This repository contains several project examples:
-    - Tensorflow vision (SIGNS dataset classification)
-    - Tensorflow nlp (Named Entity Recognition)
-    - Pytorch vision (SIGNS dataset classification)
-    - Pytorch nlp (Named Entity Recognition)
-
-**Question 2:** You will start with the Tensorflow vision project example. On your terminal, and inside the cloned repository, navigate to *./tensorflow/vision*. Follow the instructions described in the “Requirements” section of the readme.
-
-**Question 3:** Follow the guidelines described in the “Dowload the SIGNS dataset".
-
-**Question 4:** Follow the guidelines described in the “Quickstart”.
-
-**Question 5:** Read through the code and find what you could modify. All the project examples are structured the same way, we invite you to try the one that matches your needs the best. This project example code has been coded to help you insert your dataset quickly, and start prototyping some results. It is meant to be a helper code for your project and for you to learn in-depth Tensorflow/Pytorch, it is not a starter code.

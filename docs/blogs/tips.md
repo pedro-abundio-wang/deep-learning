@@ -5,71 +5,53 @@ keywords:
 comments: false
 
 # Hero section
-title: Introduction to Project Code Examples
-description: Introduction and installation
+title: Introduction to Project Framework
+description:
 
 # Micro navigation
 micro_nav: true
-
-# Page navigation
-page_nav:
-    next:
-        content: Next page
-        url: '/blogs/aws'
 ---
-We are happy to introduce the project code examples for CS230. All the code used in the tutorial can be found on the corresponding [github repository](https://github.com/cs230-stanford/cs230-code-examples). The code has been well commented and detailed, so we recommend reading it entirely at some point if you want to use it for your project.
 
-The code contains examples for TensorFlow and PyTorch, in vision and NLP. The structure of the repository is the following:
+## **Introduction**
+
+The code contains TensorFlow and PyTorch, in vision and NLP. The structure is the following:
 
 ```python
-README.md
 pytorch/
-    vision/
-    nlp/
-tensorflow/
-    vision/
-    nlp/
+    vision/     -- (SIGNS dataset classification)
+    nlp/        -- (Named Entity Recognition)
+tensorflow/    
+    vision/     -- (SIGNS dataset classification)
+    nlp/        -- (Named Entity Recognition)
 ```
 
-This post will help you familiarize with the Project Code Examples, and introduces a series of posts explaining how to structure a deep learning project:
+This post will help you familiarize with the Project Framework, and introduces a series of posts explaining how to structure a deep learning project:
 
 **Tensorflow**
 
-- [introduction to Tensorflow](/blog/tensorflow)
--[more in Tensorflow](/blog/moretensorflow)
-- [how to build the data pipeline with tf.data](/blog/datapipeline)
-- [how to create and train a model](/blog/createtrainmodel)
+- [introduction to Tensorflow](../tensorflow)
+- [more in Tensorflow](../moretensorflow)
+- [how to build the data pipeline with tf.data](../datapipeline)
+- [how to create and train a model](../createtrainmodel)
 
 **PyTorch**
 
-- [introduction to PyTorch](/blog/pytorch)
-- [Vision- predicting labels from images of hand signs](/blog/handsigns)
-- [NLP- Named Entity Recognition (NER) tagging for sentences](/blog/namedentity)
+- [introduction to PyTorch](../pytorch)
+- [Vision- predicting labels from images of hand signs](../handsigns)
+- [NLP- Named Entity Recognition (NER) tagging for sentences](../namedentity)
 
-**Goals of the code examples**
+**Goals of the project framework**
 
-- through these code examples, explain and demonstrate the best practices for structuring a deep learning project
-- help students kickstart their project with a working codebase
-- in each tensorflow and pytorch, give two examples of projects: one for a vision task, one for a NLP task
+- explain and demonstrate the best practices for structuring a deep learning project
+- in each tensorflow and pytorch, give projects: one for a vision task, one for a NLP task
 
 ## **Installation**
 
-Each of the four examples (TensorFlow / PyTorch + Vision / NLP) is self-contained and can be used independently of the others.
-
-Suppose you want to work with TensorFlow on a project involving computer vision. You can first clone the whole github repository and only keep the `tensorflow/vision` folder:
-
-```python
-git clone https://github.com/cs230-stanford/cs230-code-examples
-cd cs230-code-examples/tensorflow/vision
-```
-
-## **Create your virtual environment**
-
 It is a good practice to have multiple virtual environments to work on different projects. Here we will use `python3` and install the requirements in the file `requirements.txt`.
 
-**Installing Python 3**: To use `python3`, make sure to install version 3.5 or 3.6 on your local machine. If you are on Mac OS X, you can do this using [Homebrew](https://brew.sh/) with `brew install python3`. You can find instructions for Ubuntu [here](https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-local-programming-environment-on-ubuntu-16-04).
+**Installing Python 3**: To use `python3`, make sure to install version 3.5 or 3.6 on your local machine.
 
-**Virtual environment**: If we don’t have it already, install `virtualenv` by typing `sudo pip install virtualenv` (or `pip install --user virtualenv` if you don’t have sudo) in your terminal. Here we create a virtual environment named `.env`. __Navigate inside each example repo and run the following command __ for instance in `tensorflow/nlp`
+**Virtual environment**: If we don’t have it already, install `virtualenv` by typing `sudo pip install virtualenv` (or `pip install --user virtualenv` if you don’t have sudo) in your terminal. Here we create a virtual environment named `.env`. Navigate inside each repo and run the following command, for instance in `tensorflow/nlp`
 
 ```python
 virtualenv -p python3 .env
@@ -79,7 +61,7 @@ pip install -r requirements.txt
 
 Run `deactivate` if you want to leave the virtual environment. Next time you want to work on the project, just re-run `source .env/bin/activate` after navigating to the correct directory.
 
-## **If you have a GPU**
+## **Use GPU**
 
 - for tensorflow, just run `pip install tensorflow-gpu`. When both `tensorflow` and `tensorflow-gpu` are installed, if a GPU is available, `tensorflow` will automatically use it, making it transparent for you to use.
 - for PyTorch, follow the instructions [here](https://pytorch.org).
@@ -88,9 +70,9 @@ Note that your GPU needs to be set up first (drivers, CUDA and CuDNN).
 
 ## **Download the data**
 
-**You’ll find descriptions of the tasks** in tensorflow/vision/README.md, `tensorflow/nlp/README.md` etc.
+**You’ll find descriptions of the tasks** in `tensorflow/vision/README.md`, `tensorflow/nlp/README.md` etc.
 
-**Vision**
+**Computer Vision**
 
 All instructions can be found in the `tensorflow/vision/README.md`.
 
@@ -110,7 +92,7 @@ SIGNS/
 
 The images are named following `{label}_IMG_{id}.jpg` where the label is in `[0, 5]`. The training set contains 1,080 images and the test set contains 120 images.
 
-Once the download is complete, move the dataset into the `data/SIGNS` folder. Run the script python build_dataset.py `which will resize the images to size` (64, 64). `The new resized dataset will be located by default in` data/64x64_SIGNS`.
+Once the download is complete, move the dataset into the `data/SIGNS` folder. Run the script python `build_dataset.py` which will resize the images to size (64, 64). The new resized dataset will be located by default in `data/64x64_SIGNS`.
 
 **Natural Language Processing (NLP)**
 
@@ -118,9 +100,9 @@ All instructions can be found in the `tensorflow/nlp/README.md`.
 
 We provide a small subset of the kaggle dataset (30 sentences) for testing in `data/small` but you are encouraged to download the original version on the [Kaggle](https://www.kaggle.com/abhinavwalia95/entity-annotated-corpus/data) website.
 
-1. **Download the dataset** `ner_dataset.csv` on [Kaggle](https://www.kaggle.com/abhinavwalia95/entity-annotated-corpus/data) and save it under the `nlp/data/kaggle` directory. Make sure you download the simple version `ner_dataset.csv` and NOT the full version `ner.csv`.
+**Download the dataset** `ner_dataset.csv` on [Kaggle](https://www.kaggle.com/abhinavwalia95/entity-annotated-corpus/data) and save it under the `nlp/data/kaggle` directory. Make sure you download the simple version `ner_dataset.csv` and NOT the full version `ner.csv`.
 
-2. **Build the dataset** Run the following script
+**Build the dataset** Run the following script
 
 ```python
 python build_kaggle_dataset.py
@@ -141,9 +123,9 @@ kaggle/
         labels.txt
 ```
 
-Debug If you get some errors, check that you downloaded the right file and saved it in the right directory. If you have issues with encoding, try running the script with python 2.7.
+Debug If you get some errors, check that you downloaded the right file and saved it in the right directory.
 
-3. **Build the vocabulary** For both datasets, `data/small` and `data/kaggle` you need to build the vocabulary, with
+**Build the vocabulary** For both datasets, `data/small` and `data/kaggle` you need to build the vocabulary, with
 
 ```python
 python build_vocab.py --data_dir  data/small
@@ -157,10 +139,10 @@ python build_vocab.py --data_dir data/kaggle
 
 ## **Structure of the code**
 
-The code for each example shares a common structure:
+The code shares a common structure:
 
 ```python
-data/
+data/{dataset_name}
     train/
     dev/
     test/
@@ -178,7 +160,7 @@ Here is each file or directory’s purpose:
 
 - `data/`: will contain all the data of the project (generally not stored on github), with an explicit train/dev/test split
 - `experiments`: contains the different experiments (will be explained in the following section)
-- `model/`: module defining the model and functions used in train or eval. Different for our PyTorch and TensorFlow examples
+- `model/`: module defining the model and functions used in train or eval.
 - `build_dataset.py`: creates or transforms the dataset, build the split into train/dev/test
 - `train.py`: train the model on the input data, and evaluate each epoch on the dev set
 - `search_hyperparams.py`: run `train.py` multiple times with different hyperparameters
