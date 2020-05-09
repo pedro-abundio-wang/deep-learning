@@ -15,7 +15,7 @@ micro_nav: true
 page_nav:
     prev:
         content: Previous page
-        url: '/blog/tips'
+        url: '/blogs/tips'
     next:
         content: 
         url: '#'

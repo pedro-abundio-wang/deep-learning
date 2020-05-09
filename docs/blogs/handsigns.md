@@ -15,10 +15,10 @@ micro_nav: true
 page_nav:
     prev:
         content: Previous page
-        url: '/blog/pytorch'
+        url: '/blogs/pytorch'
     next:
         content: Next page
-        url: '/blog/namedentity'
+        url: '/blogs/namedentity'
 ---
 
 This post follows the [main post](/blog/tips) announcing the CS230 Project Code Examples and the [PyTorch Introduction](/blog/pytorch). In this post, we go through an example from Computer Vision, in which we learn how to load images of hand signs and classify them.

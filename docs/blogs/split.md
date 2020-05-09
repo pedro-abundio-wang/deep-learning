@@ -15,10 +15,10 @@ micro_nav: true
 page_nav:
     prev:
         content: Previous page
-        url: '/blog/datapreprocessing'
+        url: '/blogs/datapreprocessing'
     next:
         content: Next page
-        url: '/blog/hyperparameters'
+        url: '/blogs/hyperparameters'
 ---
 Splitting your data into training, dev and test sets can be disastrous if not done correctly. In this short tutorial, we will explain the best practices when splitting your dataset.
 

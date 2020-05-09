@@ -15,10 +15,10 @@ micro_nav: true
 page_nav:
     prev:
         content: Previous page
-        url: '/blog/tensorflow'
+        url: '/blogs/tensorflow'
     next:
         content: Next page
-        url: '/blog/datapipeline'
+        url: '/blogs/datapipeline'
 ---
 
 This post follows the [main post](/blog/tips) announcing the release of the CS230 code examples. We will explain here the TensorFlow part of the code, in our [github repository](https://github.com/cs230-stanford/cs230-code-examples/tree/master/tensorflow).

@@ -15,10 +15,10 @@ micro_nav: true
 page_nav:
     prev:
         content: Previous page
-        url: '/blog/moretensorflow'
+        url: '/blogs/moretensorflow'
     next:
         content: Next page
-        url: '/blog/createtrainmodel'
+        url: '/blogs/createtrainmodel'
 ---
 
 ## **Motivation**

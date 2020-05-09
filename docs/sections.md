@@ -43,4 +43,8 @@ grid_navigation:
       excerpt: Writing Your Final Report
       cta: Read more
       url: /section/8
+    - title: Section 9 (Week 10)
+      excerpt: Coming Soon
+      cta: Read more
+      url: /section/9
 ---

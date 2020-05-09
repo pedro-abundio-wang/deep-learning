@@ -15,7 +15,7 @@ micro_nav: true
 page_nav:
     next:
         content: Next page
-        url: '/blog/aws'
+        url: '/blogs/aws'
 ---
 We are happy to introduce the project code examples for CS230. All the code used in the tutorial can be found on the corresponding [github repository](https://github.com/cs230-stanford/cs230-code-examples). The code has been well commented and detailed, so we recommend reading it entirely at some point if you want to use it for your project.
 
