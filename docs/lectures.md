@@ -11,58 +11,58 @@ buttons:
 
 # Grid navigation
 grid_navigation:
-    - title: Lecture 1
-      text: Class Introduction and Logistics
+    - title: Class Introduction and Logistics
+      text:
       excerpt:
       cta: Read notes
-      url: '1'
-    - title: Lecture 2
-      text: Deep Learning Intuition
+      url: '01'
+    - title: Deep Learning Intuition
+      text: 
       excerpt:
       cta: Read notes
-      url: '2'
-    - title: Lecture 3
-      text: Full-Cycle Deep Learning Projects
+      url: '02'
+    - title: Full-Cycle Deep Learning Projects
+      text: 
       excerpt:
       cta: Read notes
-      url: '3'
+      url: '03'
     - title: Lecture 4a
       text: Vulnerabilities of Neural Networks
       excerpt:
       cta: Read notes
-      url: '4a'
+      url: '04a'
     - title: Lecture 4b
       text: Adversarial Attacks / GANs
       excerpt:
       cta: Read notes
-      url: '4b'
-    - title: Lecture 5
-      text: AI + Healthcare
+      url: '04b'
+    - title: AI Healthcare
+      text: 
       excerpt:
       cta: Read notes
-      url: '5'
-    - title: Lecture 6
-      text: Deep Learning Project Strategy
+      url: '05'
+    - title: Deep Learning Project Strategy
+      text: 
       excerpt:
       cta: Read notes
-      url: '6'
-    - title: Lecture 7
-      text: Interpretability of Neural Network
+      url: '06'
+    - title: Interpretability of Neural Network
+      text: 
       excerpt:
       cta: Read notes
-      url: '7'
-    - title: Lecture 8
-      text: Career Advice / Reading Papers
+      url: '07'
+    - title: Career Advice / Reading Papers
+      text: 
       excerpt:
       cta: Read notes
-      url: '8'
-    - title: Lecture 9
-      text: Deep Reinforcement Learning
+      url: '08'
+    - title: Deep Reinforcement Learning
+      text: 
       excerpt:
       cta: Read notes
-      url: '9'
-    - title: Lecture 10
-      text: Chatbots / Closing Remarks
+      url: '09'
+    - title: Chatbots / Closing Remarks
+      text: 
       excerpt:
       cta: Read notes
       url: '10'
