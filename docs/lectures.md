@@ -46,19 +46,9 @@ grid_navigation:
       excerpt:
       cta: Read notes
       url: '07'
-    - title: Career Advice / Reading Papers
-      text: 
-      excerpt:
-      cta: Read notes
-      url: '08'
     - title: Deep Reinforcement Learning
       text: 
       excerpt:
       cta: Read notes
       url: '09'
-    - title: Chatbots / Closing Remarks
-      text: 
-      excerpt:
-      cta: Read notes
-      url: '10'
 ---
