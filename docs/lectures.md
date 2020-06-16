@@ -26,16 +26,11 @@ grid_navigation:
       excerpt:
       cta: Read notes
       url: '03'
-    - title: Lecture 4a
-      text: Vulnerabilities of Neural Networks
+    - title: GANs
+      text: Generative Adversarial Networks
       excerpt:
       cta: Read notes
-      url: '04a'
-    - title: Lecture 4b
-      text: Adversarial Attacks / GANs
-      excerpt:
-      cta: Read notes
-      url: '04b'
+      url: '04'
     - title: AI Healthcare
       text: 
       excerpt:
