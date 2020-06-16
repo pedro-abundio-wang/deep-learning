@@ -11,36 +11,36 @@ buttons:
 
 # Grid navigation
 grid_navigation:
-    - title: Section 1 (Week 1)
-      excerpt: Getting Started with Your Project
+    - title: Getting Started with Your Project
+      excerpt: 
       cta: Read more
       url: '1'
-    - title: Section 2 (Week 2)
-      excerpt: Implementation First Steps - Codebases, Baselines, and AWS
+    - title: Implementation First Steps - Codebases, Baselines, and AWS
+      excerpt: 
       cta: Read more
       url: '2'
-    - title: Section 3 (Week 3)
-      excerpt: Understanding Gradient Descent and Backpropagation
+    - title: Understanding Gradient Descent and Backpropagation
+      excerpt: 
       cta: Read more
       url: '3'
-    - title: Section 4 (Week 4)
-      excerpt: Xavier Initialization and Regularization
+    - title: Xavier Initialization and Regularization
+      excerpt: 
       cta: Read more
       url: '4'
-    - title: Section 5 (Week 5)
-      excerpt: TensorFlow and PyTorch
+    - title: TensorFlow and PyTorch
+      excerpt: 
       cta: Read more
       url: '5'
-    - title: Section 6 (Week 7)
-      excerpt: Advanced Evaluation Metrics
+    - title: Advanced Evaluation Metrics
+      excerpt: 
       cta: Read more
       url: '6'
-    - title: Section 7 (Week 8)
-      excerpt: Hyperparameter Tuning and Tensorboard
+    - title: Hyperparameter Tuning and Tensorboard
+      excerpt: 
       cta: Read more
       url: '7'
-    - title: Section 8 (Week 9)
-      excerpt: Writing Your Final Report
+    - title: Writing Your Final Report
+      excerpt: 
       cta: Read more
       url: '8'
 ---
