@@ -17,9 +17,8 @@ page_nav:
         content: Previous page
         url: '/blogs/split'
 ---
-Logging your outputs to a file is a general good practice in any project. An even more important good practice is to handle correctly the multiple hyperparameters that arise in any deep learning project. We need to be able to store them in a file and know the full set of hyperparameters used in any past experiment.
 
-This tutorial is among a series of tutorials explaining how to structure a deep learning project. Please see the full list of posts on the [main page](/blog).
+Logging your outputs to a file is a general good practice in any project. An even more important good practice is to handle correctly the multiple hyperparameters that arise in any deep learning project. We need to be able to store them in a file and know the full set of hyperparameters used in any past experiment.
 
 ## **Logging**
 
@@ -77,7 +76,6 @@ and if your params.json file looks like
 ```python
 {
 "model_version": "baseline",
-
 "learning_rate": 1e-3,
 "batch_size": 32,
 "num_epochs": 10
@@ -104,7 +102,7 @@ which will be quite handy to have different functions and behaviors depending on
 
 ## **Hyperparameter search**
 
-An important part of any machine learning project is hyperparameter tuning, please refer to the Coursera Deep Learning Specialization ([#2](https://www.coursera.org/learn/deep-neural-network) and [#3](https://www.coursera.org/learn/machine-learning-projects)) for more detailed information. In other words, you want to see how your model performs on the development set on different sets of hyperparameters. There are basically 2 ways to implement this:
+An important part of any machine learning project is hyperparameter tuning. In other words, you want to see how your model performs on the development set on different sets of hyperparameters. There are basically 2 ways to implement this:
 
 1. Have a python loop over the different set of hyperparameters and at each iteration of the loop, run the `train_and_evaluate(model_spec, params, ...)` function, like
 

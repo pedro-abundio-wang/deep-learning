@@ -20,16 +20,10 @@ page_nav:
         content: Next page
         url: '/blogs/hyperparameters'
 ---
+
 Splitting your data into training, dev and test sets can be disastrous if not done correctly. In this short tutorial, we will explain the best practices when splitting your dataset.
 
-This post follows part 3 of the class on [“Structuring your Machine Learning Project”](https://www.coursera.org/learn/machine-learning-projects), and adds code examples to the theoretical content.
-
-This tutorial is among a series of tutorials explaining how to structure a deep learning project. Please see the full list of posts on the [main page](/blog).
-
-    
-## **Theory: how to choose the train, train-dev, dev and test sets**
-
-Please refer to the [course content](https://www.coursera.org/learn/machine-learning-projects) for a full overview.
+## Theory: how to choose the train, train-dev, dev and test sets
 
 Setting up the training, development (dev) and test sets has a huge impact on productivity. It is important to choose the dev and test sets from the **same distribution** and it must be taken randomly from all the data.
 
@@ -39,7 +33,7 @@ The size of the dev and test set should be big enough for the dev and test resul
 
 **Guideline**: The dev and test sets should be just big enough to represent accurately the performance of the model
 
-If the training set and dev sets have different distributions, it is good practice to introduce a **train-dev set** that has the same distribution as the training set. This train-dev set will be used to measure how much the model is overfitting. Again, refer to the [course content](https://www.coursera.org/learn/machine-learning-projects) for a full overview.
+If the training set and dev sets have different distributions, it is good practice to introduce a **train-dev set** that has the same distribution as the training set. This train-dev set will be used to measure how much the model is overfitting.
 
 ## **Objectives in practice**
 
@@ -80,8 +74,6 @@ A good practice that is true for every software, but especially in machine learn
 The cleanest way to do it is to have a `build_dataset.py` file that will be called once at the start of the project and will create the split into train, dev and test. Optionally, calling `build_dataset.py` can also download the dataset. We need to make sure that any randomness involved in `build_dataset.py` uses a **fixed seed** so that every call to `python build_dataset.py` will result in the same output.
 
 Never do the split manually (by moving files into different folders one by one), because you wouldn’t be able to reproduce it.
-
-An example `build_dataset.py` file is the one used [here](https://github.com/cs230-stanford/cs230-code-examples/blob/master/tensorflow/vision/build_dataset.py) in the vision example project.
 
 ## **Details of implementation**
 
@@ -142,8 +134,3 @@ test_filenames = filenames[split_2:]
 ```
 
 The call to filenames.sort() makes sure that if you build filenames in a different way, the output is still the same.
-
-**References**
-- [course content](https://www.coursera.org/learn/machine-learning-projects)
-- [CS230 code examples](https://github.com/cs230-stanford/cs230-code-examples)
-

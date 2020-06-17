@@ -20,19 +20,13 @@ page_nav:
         content: 
         url: '#'
 ---
-This post is part of a series of post explaining how to structure a deep learning project in TensorFlow. We will explain here how to easily define a deep learning model in TensorFlow using `tf.layers`, and how to train it. The entire code examples can be found in our github repository.
 
-This tutorial is among a series explaining how to structure a deep learning project:
-- [installation, get started with the code for the projects](/blog/tips)
-- [(TensorFlow only): explain the global structure of the code](/blog/moretensorflow)
-- [(TensorFlow only): how to feed data into the model using `tf.data`](/blog/datapipeline)
-- **this post: how to create the model and train it**
+This post is part of a series of post explaining how to structure a deep learning project in TensorFlow. We will explain here how to easily define a deep learning model in TensorFlow using `tf.layers`, and how to train it. The entire code examples can be found in our github repository.
 
 ## **Goals of this tutorial**
 
 - learn more about TensorFlow
 - learn how to easily build models using `tf.layers`
-- …
 
 ## **Defining the model**
 

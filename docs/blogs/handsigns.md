@@ -21,16 +21,7 @@ page_nav:
         url: '/blogs/namedentity'
 ---
 
-This post follows the [main post](/blog/tips) announcing the CS230 Project Code Examples and the [PyTorch Introduction](/blog/pytorch). In this post, we go through an example from Computer Vision, in which we learn how to load images of hand signs and classify them.
-
-This tutorial is among a series explaining the code examples:
-
-- [getting started: installation, getting started with the code for the projects](/blog/tips)
-- [PyTorch Introduction: global structure of the PyTorch code examples](/blog/pytorch)
-- this post: predicting labels from images of hand signs
-- [NLP: Named Entity Recognition (NER) tagging for sentences](/blog/namedentity)
-
-**Goals of this tutorial**
+## **Goals of this tutorial**
 
 - learn how to use PyTorch to load image data efficiently
 - specify a convolutional neural network
@@ -38,7 +29,7 @@ This tutorial is among a series explaining the code examples:
 
 ## **Problem Setup**
 
-We use images from deeplearning.ai’s SIGNS dataset that you have used in one of [Course 2](https://www.coursera.org/learn/deep-neural-network)’s programming assignment. Each image from this dataset is a picture of a hand making a sign that represents a number between 1 and 6. It is 1080 training images and 120 test images. In our example, we use images scaled down to size `64x64`.
+Each image from this dataset is a picture of a hand making a sign that represents a number between 1 and 6. It is 1080 training images and 120 test images. In our example, we use images scaled down to size `64x64`.
 
 ## **Making a PyTorch Dataset**
 
@@ -117,7 +108,7 @@ Applying transformations on the data loads them as PyTorch Tensors. We wrap them
 
 ## **Convolutional Network Model**
 
-Now that we have figured out how to load our images, let’s have a look at the pièce de résistance- the CNN model. As mentioned in the [previous](/blog/pytorch) post, we first define the components of our model, followed by its functional form. Let’s have a look at the `__init__` function for our model that takes in a `3x64x64` image:
+Now that we have figured out how to load our images, let’s have a look at the pièce de résistance- the CNN model. We first define the components of our model, followed by its functional form. Let’s have a look at the `__init__` function for our model that takes in a `3x64x64` image:
 
 ```python
 import torch.nn as nn
@@ -174,6 +165,3 @@ And that’s it! We use an appropriate loss function (Negative Loss Likelihood, 
 
 - [Data Loading and Processing Tutorial](https://pytorch.org/tutorials/beginner/data_loading_tutorial.html): an official tutorial from the PyTorch website
 - [ImageNet](https://github.com/pytorch/examples/blob/master/imagenet/main.py): Code for training on ImageNet in PyTorch
-
-
-That concludes the description of the PyTorch Vision code example. You can proceed to the [NLP](/blog/namedentity) example to understand how we load data and define models for text.

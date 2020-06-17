@@ -21,15 +21,6 @@ page_nav:
         url: '#'
 ---
 
-This post follows the [main post](/blog/tips) announcing the CS230 Project Code Examples and the [PyTorch Introduction](/blog/pytorch). In this post, we go through an example from Natural Language Processing, in which we learn how to load text data and perform Named Entity Recognition (NER) tagging for each token.
-
-This tutorial is among a series explaining the code examples:
-
-- [getting started: installation, getting started with the code for the projects](/blog/tips)
-- [PyTorch Introduction: global structure of the PyTorch code examples](/blog/pytorch)
-- [Vision: predicting labels from images of hand signs](/blog/handsigns)
-- this post: Named Entity Recognition (NER) tagging for sentences
-
 ## **Goals of this tutorial**
 
 - learn how to use PyTorch to load sequential data
@@ -165,7 +156,7 @@ for _ in range(num_training_steps):
 
 ## **Recurrent Network Model**
 
-Now that we have figured out how to load our sentences and tags, let’s have a look at the Recurrent Neural Network model. As mentioned in the [previous](/blog/pytorch) post, we first define the components of our model, followed by its functional form. Let’s have a look at the `__init__` function for our model that takes in `(batch_size, batch_max_len)` dimensional data:
+Now that we have figured out how to load our sentences and tags, let’s have a look at the Recurrent Neural Network model. We first define the components of our model, followed by its functional form. Let’s have a look at the `__init__` function for our model that takes in `(batch_size, batch_max_len)` dimensional data:
 
 ```python
 import torch.nn as nn
@@ -240,6 +231,3 @@ Remember, you can set a breakpoint using `pdb.set_trace()` at any place in the f
 
 - [Generating Names](https://pytorch.org/tutorials/intermediate/char_rnn_generation_tutorial.html#sphx-glr-intermediate-char-rnn-generation-tutorial-py): a tutorial on character-level RNN
 - [Sequence to Sequence models](https://pytorch.org/tutorials/intermediate/seq2seq_translation_tutorial.html#sphx-glr-intermediate-seq2seq-translation-tutorial-py): a tutorial on translation
-
-
-That concludes the description of the PyTorch NLP code example. If you haven’t, take a look at the [Vision](/blog/handsigns) example to understand how we load data and define models for images

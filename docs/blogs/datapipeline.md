@@ -25,13 +25,6 @@ page_nav:
 
 Building the input pipeline in a machine learning project is always long and painful, and can take more time than building the actual model. In this tutorial we will learn how to use TensorFlow’s Dataset module `tf.data` to build efficient pipelines for images and text.
 
-This tutorial is among a series explaining how to structure a deep learning project:
-This tutorial is among a series explaining how to structure a deep learning project:
-- [installation, get started with the code for the projects](/blog/tips)
-- [(TensorFlow) explain the global structure of the code](/blog/tensorflow)
-- **this post: how to build the data pipeline**
-- [(Tensorflow) how to build the model and train it](/blog/createtrainmodel)
-
 ## **Goals of this tutorial**
 
 - learn how to use `tf.data` and the best practices
@@ -48,7 +41,7 @@ Before explaining how `tf.data` works with a simple example, we’ll share some 
 - [Datasets Quick Start](https://www.tensorflow.org/guide/datasets_for_estimators): gentle introduction to tf.data
 - [Programmer’s guide](https://www.tensorflow.org/guide/datasets): more advanced and detailed guide to the best practices when using Datasets in TensorFlow
 - [Performance guide](https://www.tensorflow.org/guide/performance/overview#input_pipeline_optimization): advanced guide to improve performance of the data pipeline
-- [Official blog post](https://developers.googleblog.com/2017/09/introducing-tensorflow-datasets.html) introducing Datasets and Estimators. We don’t use Estimators in our [code examples](https://github.com/cs230-stanford/cs230-code-examples) so you can safely ignore them for now.
+- [Official blog post](https://developers.googleblog.com/2017/09/introducing-tensorflow-datasets.html) introducing Datasets and Estimators. We don’t use Estimators in our code so you can safely ignore them for now.
 - [Slides from the creator of tf.data](https://docs.google.com/presentation/d/16kHNtQslt-yuJ3w8GIx-eEH6t_AvFeQOchqGRFpAD7U/edit#slide=id.p) explaining the API, best practices (don’t forget to read the speaker notes below the slides)
 - [Origin github issue](https://github.com/tensorflow/tensorflow/issues/7951) for Datasets: a bit of history on the origin of `tf.data`
 - [Stackoverflow](https://stackoverflow.com/questions/tagged/tensorflow-datasets) tag for the Datasets API
@@ -192,14 +185,14 @@ iterator_init_op = iterator.initializer
 inputs = {'images': images, 'labels': labels, 'iterator_init_op': iterator_init_op}
 ```
 
-This dictionary of inputs will be passed to the model function, which we will detail in the [next post](/blog/createtrainmodel).
+This dictionary of inputs will be passed to the model function, which we will detail in the next post.
 
 ## **Building an image data pipeline**
 
 Here is what a Dataset for images might look like. Here we already have a list of `filenames` to jpeg images and a corresponding list of `labels`. We apply the following steps for training:
 
 1. Create the dataset from slices of the filenames and labels
-2. Shuffle the data with a buffer size equal to the length of the dataset. This ensures good shuffling (cf. [this answer](https://stackoverflow.com/questions/46444018/meaning-of-buffer-size-in-dataset-map-dataset-prefetch-and-dataset-shuffle/48096625#48096625))
+2. Shuffle the data with a buffer size equal to the length of the dataset. This ensures good shuffling ([this answer](https://stackoverflow.com/questions/46444018/meaning-of-buffer-size-in-dataset-map-dataset-prefetch-and-dataset-shuffle/48096625#48096625))
 3. Parse the images from filename to the pixel values. Use multiple threads to improve the speed of preprocessing
 4. (Optional for training) Data augmentation for the images. Use multiple threads to improve the speed of preprocessing
 5. Batch the images
@@ -370,7 +363,7 @@ padding_values = (params.id_pad_word,   # sentence padded on the right with id_p
                  params.id_pad_tag)    # labels padded on the right with id_pad_tag
 ```
 
-Note that the padding_values must be in the vocabulary (otherwise we might have a problem later on). That’s why we get the id of the special “<pad>” token in `train.py` with `id_pad_word = words.lookup(tf.constant('<pad>'))`.
+Note that the padding values must be in the vocabulary (otherwise we might have a problem later on). That’s why we get the id of the special `<pad>` token in `train.py` with `id_pad_word = words.lookup(tf.constant('<pad>'))`.
 
 Then, we can just use the tf.data padded_batch method, that takes care of the padding !
 
@@ -469,7 +462,7 @@ When training on a dataset, we often need to repeat it for multiple epochs and w
 
 One big caveat when shuffling is to make sure that the `buffer_size` argument is big enough. The bigger it is, the longer it is going to take to load the data at the beginning. However a low buffer size can be disastrous for training. Here is a good [answer](https://stackoverflow.com/questions/46444018/meaning-of-buffer-size-in-dataset-map-dataset-prefetch-and-dataset-shuffle/48096625#48096625) on stackoverflow detailing an example of why.
 
-The best way to avoid this kind of error might be to split the dataset into train / dev / test in advance and already shuffle the data there (see our other [post](/blog/split)).
+The best way to avoid this kind of error might be to split the dataset into train / dev / test in advance and already shuffle the data there.
 
 
 In general, it is good to have the shuffling and repeat at the beginning of the pipeline. For instance if the input to the dataset is a list of filenames, if we directly shuffle after that the buffer of `tf.data.Dataset.shuffle()` will only contain filenames, which is very light on memory.
