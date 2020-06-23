@@ -128,7 +128,7 @@ logging.info("Starting training for {} epoch(s)".format(params.num_epochs))
 train_and_evaluate(train_model_spec, eval_model_spec, args.model_dir, params, args.restore_from)
 ```
 
-The `train_and_evaluate` function performs a given number of epochs (= full pass on the `train_inputs`). At the end of each epoch, it evaluates the performance on the development set (`dev` or `train-dev` in the course material).
+The `train_and_evaluate` function performs a given number of epochs (= full pass on the `train_inputs`). At the end of each epoch, it evaluates the performance on the development set (`dev` or `train-dev`).
 
 Remember the discussion about different graphs for Training and Evaluation. Here, notice how the `eval_model_spec` is given the `reuse=True` argument. It will make sure that the nodes of the Evaluation graph which must share weights with the Training graph **do** share their weights.
 
