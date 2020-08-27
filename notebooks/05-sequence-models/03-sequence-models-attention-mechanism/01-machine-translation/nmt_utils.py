@@ -13,30 +13,19 @@ fake = Faker()
 random.seed(12345)
 
 # Define format of the data we would like to generate
-FORMATS = ['short',
-           'medium',
+FORMATS = ['medium',
            'long',
            'full',
-           'full',
-           'full',
-           'full',
-           'full',
-           'full',
-           'full',
-           'full',
-           'full',
-           'full',
-           'd MMM YYY', 
+           'd MM YYY',
+           'd MMM YYY',
            'd MMMM YYY',
-           'dd MMM YYY',
            'd MMM, YYY',
            'd MMMM, YYY',
+           'dd.MM.YYY',
+           'dd MMM YYY',
            'dd, MMM YYY',
-           'd MM YY',
-           'd MMMM YYY',
            'MMMM d YYY',
-           'MMMM d, YYY',
-           'dd.MM.YY']
+           'MMMM d, YYY']
 
 # change this if you want it to work with another language
 LOCALES = ['en_US']
@@ -49,7 +38,7 @@ def load_date():
     dt = fake.date_object()
 
     try:
-        human_readable = format_date(dt, format=random.choice(FORMATS),  locale='en_US') # locale=random.choice(LOCALES))
+        human_readable = format_date(dt, format=random.choice(FORMATS), locale='en_US') # locale=random.choice(LOCALES))
         human_readable = human_readable.lower()
         human_readable = human_readable.replace(',','')
         machine_readable = dt.isoformat()
@@ -69,10 +58,9 @@ def load_dataset(m):
     machine_vocab = set()
     dataset = []
     Tx = 30
-    
 
     for i in tqdm(range(m)):
-        h, m, _ = load_date()
+        h, m, dt = load_date()
         if h is not None:
             dataset.append((h, m))
             human_vocab.update(tuple(h))
@@ -89,13 +77,13 @@ def preprocess_data(dataset, human_vocab, machine_vocab, Tx, Ty):
     
     X, Y = zip(*dataset)
     
-    X = np.array([string_to_int(i, Tx, human_vocab) for i in X])
-    Y = [string_to_int(t, Ty, machine_vocab) for t in Y]
+    X = np.array([string_to_int(x, Tx, human_vocab) for x in X])
+    Y = np.array([string_to_int(y, Ty, machine_vocab) for y in Y])
     
     Xoh = np.array(list(map(lambda x: to_categorical(x, num_classes=len(human_vocab)), X)))
-    Yoh = np.array(list(map(lambda x: to_categorical(x, num_classes=len(machine_vocab)), Y)))
+    Yoh = np.array(list(map(lambda y: to_categorical(y, num_classes=len(machine_vocab)), Y)))
 
-    return X, np.array(Y), Xoh, Yoh
+    return X, Y, Xoh, Yoh
 
 def string_to_int(string, length, vocab):
     """
@@ -111,7 +99,7 @@ def string_to_int(string, length, vocab):
     rep -- list of integers (or '<unk>') (size = length) representing the position of the string's character in the vocabulary
     """
     
-    #make lower to standardize
+    # make lower to standardize
     string = string.lower()
     string = string.replace(',','')
     
@@ -123,7 +111,6 @@ def string_to_int(string, length, vocab):
     if len(string) < length:
         rep += [vocab['<pad>']] * (length - len(string))
     
-    #print (rep)
     return rep
 
 
@@ -141,23 +128,6 @@ def int_to_string(ints, inv_vocab):
     
     l = [inv_vocab[i] for i in ints]
     return l
-
-
-EXAMPLES = ['3 May 1979', '5 Apr 09', '20th February 2016', 'Wed 10 Jul 2007']
-
-def run_example(model, input_vocabulary, inv_output_vocabulary, text):
-    encoded = string_to_int(text, TIME_STEPS, input_vocabulary)
-    prediction = model.predict(np.array([encoded]))
-    prediction = np.argmax(prediction[0], axis=-1)
-    return int_to_string(prediction, inv_output_vocabulary)
-
-def run_examples(model, input_vocabulary, inv_output_vocabulary, examples=EXAMPLES):
-    predicted = []
-    for example in examples:
-        predicted.append(''.join(run_example(model, input_vocabulary, inv_output_vocabulary, example)))
-        print('input:', example)
-        print('output:', predicted[-1])
-    return predicted
 
 
 def softmax(x, axis=1):
