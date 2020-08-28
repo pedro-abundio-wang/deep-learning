@@ -173,10 +173,6 @@ def plot_attention_map(model, input_vocabulary, inv_output_vocabulary, text, n_s
         for t_prime in range(Tx):
             attention_map[t][t_prime] = r[t][0,t_prime,0]
 
-    # Normalize attention map
-#     row_max = attention_map.max(axis=1)
-#     attention_map = attention_map / row_max[:, None]
-
     prediction = model.predict([encoded, s0, c0])
     
     predicted_text = []
@@ -203,7 +199,7 @@ def plot_attention_map(model, input_vocabulary, inv_output_vocabulary, text, n_s
     cbaxes = f.add_axes([0.2, 0, 0.6, 0.03])
     cbar = f.colorbar(i, cax=cbaxes, orientation='horizontal')
     cbar.ax.set_xlabel('Alpha value (Probability output of the "softmax")', labelpad=2)
-
+    
     # add labels
     ax.set_yticks(range(output_length))
     ax.set_yticklabels(predicted_text[:output_length])
@@ -217,6 +213,6 @@ def plot_attention_map(model, input_vocabulary, inv_output_vocabulary, text, n_s
     # add grid and legend
     ax.grid()
 
-    #f.show()
+    f.show()
     
     return attention_map
