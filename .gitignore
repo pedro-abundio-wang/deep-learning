@@ -124,6 +124,5 @@ X.zip
 X.npy
 Y.npy
 tr_model.h5
-5 sequence-models/3 sequence-models-attention-mechanism]/2 Trigger word detection/XY_dev
-5 sequence-models/3 sequence-models-attention-mechanism]/2 Trigger word detection/XY_train
+
 
