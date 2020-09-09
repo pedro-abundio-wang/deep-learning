@@ -18,6 +18,32 @@ def load_music_utils():
     return (X, Y, N_tones, indices_tones)
 
 
+def predict_and_sample(inference_model, x_initializer = x_initializer, a_initializer = a_initializer, 
+                       c_initializer = c_initializer):
+    """
+    Predicts the next value of values using the inference model.
+    
+    Arguments:
+    inference_model -- Keras model instance for inference time
+    x_initializer -- numpy array of shape (1, 1, 78), one-hot vector initializing the values generation
+    a_initializer -- numpy array of shape (1, n_a), initializing the hidden state of the LSTM_cell
+    c_initializer -- numpy array of shape (1, n_a), initializing the cell state of the LSTM_cel
+    Ty -- length of the sequence you'd like to generate.
+    
+    Returns:
+    results -- numpy-array of shape (Ty, 78), matrix of one-hot vectors representing the values generated
+    indices -- numpy-array of shape (Ty, 1), matrix of indices representing the values generated
+    """
+    
+    ### START CODE HERE ###
+    pred = inference_model.predict([x_initializer, a_initializer, c_initializer])
+    indices = np.argmax(pred, axis = -1)
+    results = to_categorical(indices, num_classes=78)
+    ### END CODE HERE ###
+    
+    return results, indices
+
+
 def generate_music(inference_model, corpus = corpus, abstract_grammars = abstract_grammars, tones = tones, tones_indices = tones_indices, indices_tones = indices_tones, T_y = 10, max_tries = 1000, diversity = 0.5):
     """
     Generates music using a model trained to learn musical patterns of a jazz soloist. Creates an audio stream
@@ -110,29 +136,3 @@ def generate_music(inference_model, corpus = corpus, abstract_grammars = abstrac
     # play(out_stream)
     
     return out_stream
-
-
-def predict_and_sample(inference_model, x_initializer = x_initializer, a_initializer = a_initializer, 
-                       c_initializer = c_initializer):
-    """
-    Predicts the next value of values using the inference model.
-    
-    Arguments:
-    inference_model -- Keras model instance for inference time
-    x_initializer -- numpy array of shape (1, 1, 78), one-hot vector initializing the values generation
-    a_initializer -- numpy array of shape (1, n_a), initializing the hidden state of the LSTM_cell
-    c_initializer -- numpy array of shape (1, n_a), initializing the cell state of the LSTM_cel
-    Ty -- length of the sequence you'd like to generate.
-    
-    Returns:
-    results -- numpy-array of shape (Ty, 78), matrix of one-hot vectors representing the values generated
-    indices -- numpy-array of shape (Ty, 1), matrix of indices representing the values generated
-    """
-    
-    ### START CODE HERE ###
-    pred = inference_model.predict([x_initializer, a_initializer, c_initializer])
-    indices = np.argmax(pred, axis = -1)
-    results = to_categorical(indices, num_classes=78)
-    ### END CODE HERE ###
-    
-    return results, indices

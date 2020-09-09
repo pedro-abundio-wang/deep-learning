@@ -25,7 +25,6 @@ mp3_bitrate = 128           # Bitrate to save MP3 with in kbps (CBR)
 input_device = 1            # Which recording device to use. On my system Stereo Mix = 1
 
 
-
 # Begins playback of a MIDI file
 def play_music(music_file):
 
@@ -52,9 +51,7 @@ format = pyaudio.paInt16
 audio = pyaudio.PyAudio()
 
 
-
 try:
-
     # Make a list of .mid files in the current directory and all subdirectories
     matches = []
     for root, dirnames, filenames in os.walk("./"):

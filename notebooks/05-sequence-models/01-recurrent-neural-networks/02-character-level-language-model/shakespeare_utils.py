@@ -11,6 +11,7 @@ import random
 import sys
 import io
 
+
 def build_data(text, Tx = 40, stride = 3):
     """
     Create a training set by scanning a window of size Tx over the text corpus, with stride 3.
