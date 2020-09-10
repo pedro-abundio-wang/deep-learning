@@ -9,13 +9,11 @@ express permission.
 
 from __future__ import print_function
 
-from music21 import *
 from collections import defaultdict, OrderedDict
 from itertools import groupby, zip_longest
 
+from music21 import *
 from grammar import *
-
-from grammar import parse_melody
 from music_utils import *
 
 #----------------------------HELPER FUNCTIONS----------------------------------#
@@ -145,12 +143,3 @@ def get_corpus_data(abstract_grammars):
     indices_val = dict((i, v) for i, v in enumerate(values))
 
     return corpus, values, val_indices, indices_val
-
-'''
-def load_music_utils():
-    chord_data, raw_music_data = get_musical_data('data/original_metheny.mid')
-    music_data, values, values_indices, indices_values = get_corpus_data(raw_music_data)
-
-    X, Y = data_processing(music_data, values_indices, Tx = 20, step = 3)
-    return (X, Y)
-'''

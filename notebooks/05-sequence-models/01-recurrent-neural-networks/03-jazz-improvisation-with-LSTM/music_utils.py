@@ -12,15 +12,15 @@ from qa import *
 
 def data_processing(corpus, values_indices, m = 60, Tx = 30):
     # cut the corpus into semi-redundant sequences of Tx values
-    Tx = Tx 
+    Ty = Tx 
     N_values = len(set(corpus))
     np.random.seed(0)
     X = np.zeros((m, Tx, N_values), dtype=np.bool)
-    Y = np.zeros((m, Tx, N_values), dtype=np.bool)
+    Y = np.zeros((m, Ty, N_values), dtype=np.bool)
     for i in range(m):
-        # for t in range(1, Tx):
         random_idx = np.random.choice(len(corpus) - Tx)
         corp_data = corpus[random_idx:(random_idx + Tx)]
+        # for t in range(1, Tx):
         for j in range(Tx):
             idx = values_indices[corp_data[j]]
             if j != 0:

@@ -2,24 +2,16 @@ from music_utils import *
 from preprocess import * 
 from keras.utils import to_categorical
 
-chords, abstract_grammars = get_musical_data('data/original_metheny.mid')
-corpus, tones, tones_indices, indices_tones = get_corpus_data(abstract_grammars)
-N_tones = len(set(corpus))
-n_a = 64
-x_initializer = np.zeros((1, 1, 78))
-a_initializer = np.zeros((1, n_a))
-c_initializer = np.zeros((1, n_a))
-
 def load_music_utils():
     chords, abstract_grammars = get_musical_data('data/original_metheny.mid')
     corpus, tones, tones_indices, indices_tones = get_corpus_data(abstract_grammars)
     N_tones = len(set(corpus))
     X, Y, N_tones = data_processing(corpus, tones_indices, 60, 30)   
-    return (X, Y, N_tones, indices_tones)
+    return (X, Y, N_tones, indices_tones, corpus, abstract_grammars, tones, tones_indices, chords)
 
 
-def predict_and_sample(inference_model, x_initializer = x_initializer, a_initializer = a_initializer, 
-                       c_initializer = c_initializer):
+def predict_and_sample(inference_model, x_initializer, s_initializer, 
+                       c_initializer):
     """
     Predicts the next value of values using the inference model.
     
@@ -36,15 +28,18 @@ def predict_and_sample(inference_model, x_initializer = x_initializer, a_initial
     """
     
     ### START CODE HERE ###
-    pred = inference_model.predict([x_initializer, a_initializer, c_initializer])
-    indices = np.argmax(pred, axis = -1)
-    results = to_categorical(indices, num_classes=78)
+    # Step 1: Use your inference model to predict an output sequence given x_initializer, a_initializer and c_initializer.
+    pred = inference_model.predict([x_initializer, s_initializer, c_initializer])
+    # Step 2: Convert "pred" into an np.array() of indices with the maximum probabilities
+    indices = np.argmax(pred, -1)
+    # Step 3: Convert indices to one-hot vectors, the shape of the results should be (1, )
+    results = to_categorical(indices, num_classes=None)
     ### END CODE HERE ###
     
     return results, indices
 
 
-def generate_music(inference_model, corpus = corpus, abstract_grammars = abstract_grammars, tones = tones, tones_indices = tones_indices, indices_tones = indices_tones, T_y = 10, max_tries = 1000, diversity = 0.5):
+def generate_music(inference_model, corpus, abstract_grammars, tones, tones_indices, indices_tones, chords, x_initializer, s_initializer, c_initializer, T_y = 10, max_tries = 1000, diversity = 0.5):
     """
     Generates music using a model trained to learn musical patterns of a jazz soloist. Creates an audio stream
     to save the music and play it.
@@ -84,7 +79,7 @@ def generate_music(inference_model, corpus = corpus, abstract_grammars = abstrac
             curr_chords.insert((j.offset % 4), j)
         
         # Generate a sequence of tones using the model
-        _, indices = predict_and_sample(inference_model)
+        _, indices = predict_and_sample(inference_model, x_initializer, s_initializer, c_initializer)
         indices = list(indices.squeeze())
         pred = [indices_tones[p] for p in indices]
         
